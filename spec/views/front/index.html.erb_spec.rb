@@ -1,5 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "front/index.html.erb", type: :view do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before do
+    render
+  end
+  
+  it 'has a jumbotron with welcome text' do
+    expect(rendered).to have_text('Treatment Database')
+    expect(rendered).to have_text('Track objects through various stages of the treatment process.')
+  end
 end
