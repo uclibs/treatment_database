@@ -302,6 +302,7 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 5.0)
   selenium-webdriver
+  simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3

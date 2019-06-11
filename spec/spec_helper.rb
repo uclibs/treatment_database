@@ -15,8 +15,18 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'simplecov'
+SimpleCov.start 'rails'
+
+SimpleCov.at_exit do
+  SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
+  SimpleCov.result.format!
+end
+
 require 'coveralls'
 Coveralls.wear!('rails')
+
+require 'byebug'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
