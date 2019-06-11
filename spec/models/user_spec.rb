@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
@@ -7,7 +9,7 @@ RSpec.describe User, type: :model do
   end
 
   it 'is not valid without a display name' do
-    user = User.new(email: "test@example.com", password: 'notapassword')
+    user = User.new(email: 'test@example.com', password: 'notapassword')
     expect(user).to_not be_valid
   end
 
