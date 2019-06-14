@@ -1,0 +1,2 @@
+class ControlledVocabulary < ApplicationRecord
+end

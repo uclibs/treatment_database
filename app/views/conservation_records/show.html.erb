@@ -1,0 +1,171 @@
+<%= link_to '← Return to List', conservation_records_path %>
+<div class="header">
+  <h1><%= @conservation_record.title %></h1>
+  <%= link_to 'Edit Conservation Record', edit_conservation_record_path(@conservation_record) %>
+</div>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Item Detail</a>
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th scope="row">Date Recieved</th>
+          <td><%= @conservation_record.date_recieved_in_preservation_services.strftime("%m/%d/%Y") %></td>
+        </tr>
+        <tr>
+          <th scope="row">Department</th>
+          <td><%= @conservation_record.department %></td>
+        </tr>
+        <tr>
+          <th scope="row">Title</th>
+          <td><%= @conservation_record.title %></td>
+        </tr>
+        <tr>
+          <th scope="row">Author</th>
+          <td><%= @conservation_record.author %></td>
+        </tr>
+        <tr>
+          <th scope="row">Imprint</th>
+          <td><%= @conservation_record.imprint %></td>
+        </tr>
+        <tr>
+          <th scope="row">Call Number</th>
+          <td><%= @conservation_record.call_number %></td>
+        </tr>
+        <tr>
+          <th scope="row">Item Record Number</th>
+          <td><%= @conservation_record.item_record_number %></td>
+        </tr>
+        <tr>
+          <th scope="row">Is Digitized?</th>
+          <td><%= @conservation_record.digitization %></td>
+        </tr>
+      </tbody>
+    </table>
+    <p></p>
+    
+    <div class="header">
+      <h3>In-House Repairs</h3>
+      <button type="button" class="btn btn-primary cta-btn" data-toggle="modal" data-target="#inHouseRepairModal">
+        Add In-House Repairs
+      </button>
+    </div>
+    <% if @in_house_repairs.count == 0 %>
+      <div class="card">
+        <div class="card-body">
+          There are no in-house repairs to show.
+        </div>
+      </div>
+    <% else %>
+      <ul class="list-group">
+        <% @in_house_repairs.each do |repair| %>
+          <li class="list-group-item">
+            <%= generate_in_house_repair_string(repair) %>
+            <%= link_to [repair.conservation_record, repair], method: :delete do %>
+              <button class="btn btn-danger justify-content-right">
+                <%= image_tag "delete.png", class: "delete-icon" %>
+              </button>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <br />
+    <div class="header">
+      <h3>External Repairs</h3>
+      <button type="button" class="btn btn-primary cta-btn" data-toggle="modal" data-target="#externalRepairModal">
+        Add External Repair
+      </button>
+    </div>
+    <% if @external_repairs.count == 0 %>
+      <div class="card">
+        <div class="card-body">
+          There are no external repairs to show.
+        </div>
+      </div>
+    <% else %>
+      <ul class="list-group">
+        <% @external_repairs.each do |repair| %>
+          <li class="list-group-item">
+            <%= generate_external_repair_string(repair) %>
+            <%= link_to [repair.conservation_record, repair], method: :delete do %>
+              <button class="btn btn-danger justify-content-right">
+                <%= image_tag "delete.png", class: "delete-icon" %>
+              </button>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+    
+  </div>
+</div>
+<br />
+
+<div class="modal fade" id="inHouseRepairModal" tabindex="-1" role="dialog" aria-labelledby="inHouseRepairModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">In-House Repair</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(model: [@conservation_record, @conservation_record.in_house_repair_records.build], local:true) do |form| %>
+          <div class="form-group">
+            <label for="RepairedBy">Repaired By</label>
+              <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), prompt: "Select a User") %>
+          </div>
+          <div class="form-group">
+            <label>Repair Type</label>
+            <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), prompt: "Select a Repair" %>
+          </div>
+          <div class="form-group">
+            <label>Minutes Spent</label>
+            <%= form.number_field :minutes_spent, class: "form-control", placeholder: "Minutes" %>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <%= form.submit "Create In-House Repair Record", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="externalRepairModal" tabindex="-1" role="dialog" aria-labelledby="externalRepairModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">External Repair</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(model: [@conservation_record, @conservation_record.external_repair_records.build], local:true) do |form| %>
+          <div class="form-group">
+            <label for="RepairedBy">Repaired By</label>
+              <%= form.select(:performed_by_vendor_id, options_from_collection_for_select(@contract_conservators, "id", "key"), prompt: "Select a Contract Conservator") %>
+          </div>
+          <div class="form-group">
+            <label>Repair Type</label>
+            <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), prompt: "Select a Repair" %>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <%= form.submit "Create External Repair Record", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

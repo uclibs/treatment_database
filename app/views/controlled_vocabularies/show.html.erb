@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Vocabulary:</strong>
+  <%= @controlled_vocabulary.vocabulary %>
+</p>
+
+<p>
+  <strong>Key:</strong>
+  <%= @controlled_vocabulary.key %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @controlled_vocabulary.active %>
+</p>
+
+<%= link_to 'Edit', edit_controlled_vocabulary_path(@controlled_vocabulary) %> |
+<%= link_to 'Back', controlled_vocabularies_path %>
