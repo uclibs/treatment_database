@@ -121,11 +121,11 @@
         <%= form_with(model: [@conservation_record, @conservation_record.in_house_repair_records.build], local:true) do |form| %>
           <div class="form-group">
             <label for="RepairedBy">Repaired By</label>
-              <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), prompt: "Select a User") %>
+              <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name")) %>
           </div>
           <div class="form-group">
             <label>Repair Type</label>
-            <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), prompt: "Select a Repair" %>
+            <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key") %>
           </div>
           <div class="form-group">
             <label>Minutes Spent</label>

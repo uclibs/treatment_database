@@ -1,4 +1,6 @@
 class InHouseRepairRecordsController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     @conservation_record = ConservationRecord.find(params[:conservation_record_id])
     @repair_record = @conservation_record.in_house_repair_records.create(ihrr_params)

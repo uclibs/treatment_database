@@ -1,4 +1,5 @@
 class ConservationRecordsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_conservation_record, only: [:show, :edit, :update, :destroy]
 
   # GET /conservation_records
