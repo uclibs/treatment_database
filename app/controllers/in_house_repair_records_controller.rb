@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InHouseRepairRecordsController < ApplicationController
   before_action :authenticate_user!
 
@@ -13,9 +15,10 @@ class InHouseRepairRecordsController < ApplicationController
     @repair_record.destroy
     redirect_to conservation_record_path(@conservation_record)
   end
- 
+
   private
-    def ihrr_params
-      params.require(:in_house_repair_record).permit(:performed_by_user_id, :repair_type, :minutes_spent)
-    end
+
+  def ihrr_params
+    params.require(:in_house_repair_record).permit(:performed_by_user_id, :repair_type, :minutes_spent)
+  end
 end

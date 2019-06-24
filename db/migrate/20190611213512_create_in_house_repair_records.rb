@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateInHouseRepairRecords < ActiveRecord::Migration[5.2]
   def change
     create_table :in_house_repair_records do |t|

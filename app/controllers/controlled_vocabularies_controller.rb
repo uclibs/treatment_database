@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ControlledVocabulariesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_controlled_vocabulary, only: [:show, :edit, :update, :destroy]
+  before_action :set_controlled_vocabulary, only: %i[show edit update destroy]
 
   # GET /controlled_vocabularies
   # GET /controlled_vocabularies.json
@@ -10,8 +12,7 @@ class ControlledVocabulariesController < ApplicationController
 
   # GET /controlled_vocabularies/1
   # GET /controlled_vocabularies/1.json
-  def show
-  end
+  def show; end
 
   # GET /controlled_vocabularies/new
   def new
@@ -19,8 +20,7 @@ class ControlledVocabulariesController < ApplicationController
   end
 
   # GET /controlled_vocabularies/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /controlled_vocabularies
   # POST /controlled_vocabularies.json
@@ -63,13 +63,14 @@ class ControlledVocabulariesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_controlled_vocabulary
-      @controlled_vocabulary = ControlledVocabulary.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def controlled_vocabulary_params
-      params.require(:controlled_vocabulary).permit(:vocabulary, :key, :active)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_controlled_vocabulary
+    @controlled_vocabulary = ControlledVocabulary.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def controlled_vocabulary_params
+    params.require(:controlled_vocabulary).permit(:vocabulary, :key, :active)
+  end
 end

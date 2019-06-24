@@ -12,32 +12,32 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
     [
       {
         date_recieved_in_preservation_services: Time.now,
-        department: "Department A",
-        title: "Farewell to Arms",
-        author: "Ernest Hemingway",
-        imprint: "Scribner",
-        call_number: "PS3515.E37 F3 1995",
-        item_record_number: "i58811072",
+        department: 'Department A',
+        title: 'Farewell to Arms',
+        author: 'Ernest Hemingway',
+        imprint: 'Scribner',
+        call_number: 'PS3515.E37 F3 1995',
+        item_record_number: 'i58811072',
         digitization: false
       },
       {
         date_recieved_in_preservation_services: Time.now - 1.days,
-        department: "Department B",
-        title: "Ulysses",
-        author: "James Joyce",
-        imprint: "Picador",
-        call_number: "PR6019.O9 U4 1997",
-        item_record_number: "i58811073",
+        department: 'Department B',
+        title: 'Ulysses',
+        author: 'James Joyce',
+        imprint: 'Picador',
+        call_number: 'PR6019.O9 U4 1997',
+        item_record_number: 'i58811073',
         digitization: true
       },
       {
         date_recieved_in_preservation_services: Time.now - 2.days,
-        department: "Department C",
-        title: "The Great Gatsby",
-        author: "F. Scott Fitzgerald",
-        imprint: "Scribner",
-        call_number: "PS3511.I9 G7 2004",
-        item_record_number: "i58811074",
+        department: 'Department C',
+        title: 'The Great Gatsby',
+        author: 'F. Scott Fitzgerald',
+        imprint: 'Scribner',
+        call_number: 'PS3511.I9 G7 2004',
+        item_record_number: 'i58811074',
         digitization: true
       }
     ]
@@ -50,21 +50,21 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
       password: 'notapass',
       password_confirmation: 'notapass'
     },
-    {
-      email: 'jkrowling@example.com',
-      display_name: 'JK Rowling',
-      password: 'notapass',
-      password_confirmation: 'notapass'
-    },
-    {
-      email: 'chuck@chuck.codes',
-      display_name: 'Chuck Greenman',
-      password: 'notapass',
-      password_confirmation: 'notapass'
-    }]
+     {
+       email: 'jkrowling@example.com',
+       display_name: 'JK Rowling',
+       password: 'notapass',
+       password_confirmation: 'notapass'
+     },
+     {
+       email: 'chuck@chuck.codes',
+       display_name: 'Chuck Greenman',
+       password: 'notapass',
+       password_confirmation: 'notapass'
+     }]
   )
 
-  File.readlines("db/types_of_repairs.txt").each do |line|
+  File.readlines('db/types_of_repairs.txt').each do |line|
     ControlledVocabulary.create(
       vocabulary: 'repair_type',
       key: line,
@@ -72,7 +72,7 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
     )
   end
 
-  File.readlines("db/contract_conservators.txt").each do |line|
+  File.readlines('db/contract_conservators.txt').each do |line|
     ControlledVocabulary.create(
       vocabulary: 'contract_conservator',
       key: line,

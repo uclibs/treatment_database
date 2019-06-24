@@ -8,6 +8,6 @@ Rails.application.routes.draw do
   end
   root 'front#index'
   get 'front/index'
-  get 'conservation_records/:id/conservation_worksheet', to: "conservation_records#conservation_worksheet", as: "conservation_worksheet"
+  get 'conservation_records/:id/conservation_worksheet', to: 'conservation_records#conservation_worksheet', as: 'conservation_worksheet'
   devise_for :users
 end
