@@ -1,7 +1,5 @@
 PDFKit.configure do |config|
-  unless Rails.env.development?
-    config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf.sh'
-  end
+  config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf.sh'
 
   config.default_options = {
     :page_size        => 'Letter',
