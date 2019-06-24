@@ -69,12 +69,11 @@ class ConservationRecordsController < ApplicationController
 
   def conservation_worksheet
     @conservation_record = ConservationRecord.find(params[:id])
-    #@base_64_form_image = 'data:image/png;base64,' + Base64.encode64(open("worksheet_form_image.png")) { |io| io.read })
+    @base_64_form_image = 'data:image/png;base64,' + File.open(File.join(Rails.root, "public", "worksheet_form_image.base64")).read
     html = render_to_string "conservation_records/conservation_worksheet", layout: false
-    puts html
     kit = PDFKit.new(html, :page_size => 'Letter')
     pdf = kit.to_file(File.join("tmp/", @conservation_record.title.parameterize.underscore + "_conservation_worksheet.pdf"))
-    send_file pdf, type: "application/pdf", disposition: "inline"
+    send_file pdf, type: "application/pdf", disposition: "attachment"
   end
 
   def download_image(url)

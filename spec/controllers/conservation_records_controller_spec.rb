@@ -45,6 +45,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
     it "returns a success response" do
       ConservationRecord.create! valid_attributes
       get :index, params: {}, session: valid_session
+      puts response
       expect(response).to be_successful
     end
   end
