@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'conservation_records/show', type: :view do
   before(:each) do
     @conservation_record = assign(:conservation_record, ConservationRecord.create!(
-                                                          date_recieved_in_preservation_services: Date.new(),
+                                                          date_recieved_in_preservation_services: Date.new,
                                                           department: 'Department',
                                                           title: 'Title',
                                                           author: 'Author',

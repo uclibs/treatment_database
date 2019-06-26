@@ -33,12 +33,12 @@ RSpec.describe ConservationRecordsController, type: :controller do
   # adjust the attributes here as well.
   let(:valid_attributes) do
     {
-      department: "Department A",
-      title: "An Interesting Book",
-      author: "A Good Writer",
-      imprint: "Dutton",
-      call_number: "P102.3294.3920",
-      item_record_number: "i452",
+      department: 'Department A',
+      title: 'An Interesting Book',
+      author: 'A Good Writer',
+      imprint: 'Dutton',
+      call_number: 'P102.3294.3920',
+      item_record_number: 'i452',
       digitization: true,
       date_recieved_in_preservation_services: Date.new
     }

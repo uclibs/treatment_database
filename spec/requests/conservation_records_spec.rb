@@ -8,7 +8,7 @@ RSpec.describe 'ConservationRecords', type: :request do
     user = create(:user)
     sign_in user
   end
-  
+
   describe 'GET /conservation_records' do
     it 'works! (now wr' do
       get conservation_records_path

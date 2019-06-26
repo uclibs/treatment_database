@@ -31,7 +31,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   # ControlledVocabulary. As you add validations to ControlledVocabulary, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { vocabulary: "repair_type", key: "Wash", active: true }
+    { vocabulary: 'repair_type', key: 'Wash', active: true }
   end
 
   let(:invalid_attributes) do

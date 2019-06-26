@@ -6,7 +6,7 @@ RSpec.describe 'conservation_records/index', type: :view do
   before(:each) do
     assign(:conservation_records, [
              ConservationRecord.create!(
-               date_recieved_in_preservation_services: Date.new(),
+               date_recieved_in_preservation_services: Date.new,
                department: 'Department',
                title: 'Title',
                author: 'Author',
@@ -16,7 +16,7 @@ RSpec.describe 'conservation_records/index', type: :view do
                digitization: false
              ),
              ConservationRecord.create!(
-               date_recieved_in_preservation_services: Date.new(),
+               date_recieved_in_preservation_services: Date.new,
                department: 'Department',
                title: 'Title',
                author: 'Author',

@@ -16,19 +16,7 @@ Style/ClassAndModuleChildren:
 
 # Offense count: 10
 Style/Documentation:
-  Exclude:
-    - 'spec/**/*'
-    - 'test/**/*'
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/front_controller.rb'
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/front_helper.rb'
-    - 'app/mailers/application_mailer.rb'
-    - 'app/models/application_record.rb'
-    - 'app/models/user.rb'
-    - 'config/application.rb'
-    - 'db/migrate/20190604162859_devise_create_users.rb'
-    - 'db/migrate/20190607182134_add_display_name_to_user.rb'
+  Enabled: false
 
 # Offense count: 2
 Style/MixinUsage:
@@ -42,3 +30,5 @@ Style/MixinUsage:
 # URISchemes: http, https
 Metrics/LineLength:
   Max: 154
+  Exclude:
+    - 'db/**/*'
