@@ -3,6 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe 'ControlledVocabularies', type: :request do
+  before do
+    user = create(:user)
+    sign_in user
+  end
+
   describe 'GET /controlled_vocabularies' do
     it 'works! (now write some real specs)' do
       get controlled_vocabularies_path

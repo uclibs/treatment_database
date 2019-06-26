@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ExternalRepairRecordsControllers, type: :controller do
+RSpec.describe ExternalRepairRecordsController, type: :controller do
   it 'has a create method' do
     expect(1).to eq(1)
   end

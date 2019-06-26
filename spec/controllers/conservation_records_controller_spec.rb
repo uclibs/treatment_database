@@ -26,26 +26,41 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe ConservationRecordsController, type: :controller do
+  include Devise::TestHelpers
+
   # This should return the minimal set of attributes required to create a valid
   # ConservationRecord. As you add validations to ConservationRecord, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
+    {
+      department: "Department A",
+      title: "An Interesting Book",
+      author: "A Good Writer",
+      imprint: "Dutton",
+      call_number: "P102.3294.3920",
+      item_record_number: "i452",
+      digitization: true,
+      date_recieved_in_preservation_services: Date.new
+    }
   end
 
   let(:invalid_attributes) do
     skip('Add a hash of attributes invalid for your model')
   end
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # ConservationRecordsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  def sign_in_user(user)
+    sign_in user
+  end
+
+  before do
+    user = create(:user)
+    sign_in_user(user)
+  end
 
   describe 'GET #index' do
     it 'returns a success response' do
       ConservationRecord.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      get :index, params: {}
       puts response
       expect(response).to be_successful
     end
@@ -54,14 +69,14 @@ RSpec.describe ConservationRecordsController, type: :controller do
   describe 'GET #show' do
     it 'returns a success response' do
       conservation_record = ConservationRecord.create! valid_attributes
-      get :show, params: { id: conservation_record.to_param }, session: valid_session
+      get :show, params: { id: conservation_record.to_param }
       expect(response).to be_successful
     end
   end
 
   describe 'GET #new' do
     it 'returns a success response' do
-      get :new, params: {}, session: valid_session
+      get :new
       expect(response).to be_successful
     end
   end
@@ -69,7 +84,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
   describe 'GET #edit' do
     it 'returns a success response' do
       conservation_record = ConservationRecord.create! valid_attributes
-      get :edit, params: { id: conservation_record.to_param }, session: valid_session
+      get :edit, params: { id: conservation_record.to_param }
       expect(response).to be_successful
     end
   end
@@ -78,19 +93,19 @@ RSpec.describe ConservationRecordsController, type: :controller do
     context 'with valid params' do
       it 'creates a new ConservationRecord' do
         expect do
-          post :create, params: { conservation_record: valid_attributes }, session: valid_session
+          post :create, params: { conservation_record: valid_attributes }
         end.to change(ConservationRecord, :count).by(1)
       end
 
       it 'redirects to the created conservation_record' do
-        post :create, params: { conservation_record: valid_attributes }, session: valid_session
+        post :create, params: { conservation_record: valid_attributes }
         expect(response).to redirect_to(ConservationRecord.last)
       end
     end
 
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: { conservation_record: invalid_attributes }, session: valid_session
+        post :create, params: { conservation_record: invalid_attributes }
         expect(response).to be_successful
       end
     end
@@ -104,14 +119,14 @@ RSpec.describe ConservationRecordsController, type: :controller do
 
       it 'updates the requested conservation_record' do
         conservation_record = ConservationRecord.create! valid_attributes
-        put :update, params: { id: conservation_record.to_param, conservation_record: new_attributes }, session: valid_session
+        put :update, params: { id: conservation_record.to_param, conservation_record: new_attributes }
         conservation_record.reload
         skip('Add assertions for updated state')
       end
 
       it 'redirects to the conservation_record' do
         conservation_record = ConservationRecord.create! valid_attributes
-        put :update, params: { id: conservation_record.to_param, conservation_record: valid_attributes }, session: valid_session
+        put :update, params: { id: conservation_record.to_param, conservation_record: valid_attributes }
         expect(response).to redirect_to(conservation_record)
       end
     end
@@ -119,7 +134,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'edit' template)" do
         conservation_record = ConservationRecord.create! valid_attributes
-        put :update, params: { id: conservation_record.to_param, conservation_record: invalid_attributes }, session: valid_session
+        put :update, params: { id: conservation_record.to_param, conservation_record: invalid_attributes }
         expect(response).to be_successful
       end
     end
@@ -129,13 +144,13 @@ RSpec.describe ConservationRecordsController, type: :controller do
     it 'destroys the requested conservation_record' do
       conservation_record = ConservationRecord.create! valid_attributes
       expect do
-        delete :destroy, params: { id: conservation_record.to_param }, session: valid_session
+        delete :destroy, params: { id: conservation_record.to_param }
       end.to change(ConservationRecord, :count).by(-1)
     end
 
     it 'redirects to the conservation_records list' do
       conservation_record = ConservationRecord.create! valid_attributes
-      delete :destroy, params: { id: conservation_record.to_param }, session: valid_session
+      delete :destroy, params: { id: conservation_record.to_param }
       expect(response).to redirect_to(conservation_records_url)
     end
   end

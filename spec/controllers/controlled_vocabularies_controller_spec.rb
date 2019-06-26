@@ -26,11 +26,12 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe ControlledVocabulariesController, type: :controller do
+  include Devise::TestHelpers
   # This should return the minimal set of attributes required to create a valid
   # ControlledVocabulary. As you add validations to ControlledVocabulary, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
+    { vocabulary: "repair_type", key: "Wash", active: true }
   end
 
   let(:invalid_attributes) do
@@ -41,6 +42,15 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   # in order to pass any filters (e.g. authentication) defined in
   # ControlledVocabulariesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+
+  def sign_in_user(user)
+    sign_in user
+  end
+
+  before do
+    user = create(:user)
+    sign_in_user(user)
+  end
 
   describe 'GET #index' do
     it 'returns a success response' do

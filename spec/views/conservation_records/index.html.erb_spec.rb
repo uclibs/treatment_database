@@ -6,6 +6,7 @@ RSpec.describe 'conservation_records/index', type: :view do
   before(:each) do
     assign(:conservation_records, [
              ConservationRecord.create!(
+               date_recieved_in_preservation_services: Date.new(),
                department: 'Department',
                title: 'Title',
                author: 'Author',
@@ -15,6 +16,7 @@ RSpec.describe 'conservation_records/index', type: :view do
                digitization: false
              ),
              ConservationRecord.create!(
+               date_recieved_in_preservation_services: Date.new(),
                department: 'Department',
                title: 'Title',
                author: 'Author',
@@ -28,12 +30,10 @@ RSpec.describe 'conservation_records/index', type: :view do
 
   it 'renders a list of conservation_records' do
     render
-    assert_select 'tr>td', text: 'Department'.to_s, count: 2
-    assert_select 'tr>td', text: 'Title'.to_s, count: 2
-    assert_select 'tr>td', text: 'Author'.to_s, count: 2
-    assert_select 'tr>td', text: 'Imprint'.to_s, count: 2
-    assert_select 'tr>td', text: 'Call Number'.to_s, count: 2
-    assert_select 'tr>td', text: 'Item Record Number'.to_s, count: 2
-    assert_select 'tr>td', text: false.to_s, count: 2
+    assert_select 'td', text: 'Title', count: 2
+    assert_select 'td', text: 'Title', count: 2
+    assert_select 'td', text: 'Author', count: 2
+    assert_select 'td', text: 'Call Number', count: 2
+    assert_select 'td', text: 'Item Record Number', count: 2
   end
 end

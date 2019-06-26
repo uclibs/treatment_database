@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe 'conservation_records/show', type: :view do
   before(:each) do
     @conservation_record = assign(:conservation_record, ConservationRecord.create!(
+                                                          date_recieved_in_preservation_services: Date.new(),
                                                           department: 'Department',
                                                           title: 'Title',
                                                           author: 'Author',
@@ -13,6 +14,12 @@ RSpec.describe 'conservation_records/show', type: :view do
                                                           item_record_number: 'Item Record Number',
                                                           digitization: false
                                                         ))
+    @in_house_repairs = []
+    @external_repairs = []
+
+    @users = []
+    @repair_types = []
+    @contract_conservators = []
   end
 
   it 'shows the table with all metadata' do
