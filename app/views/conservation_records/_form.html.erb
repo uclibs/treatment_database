@@ -1,0 +1,57 @@
+<%= form_with(model: conservation_record, local: true) do |form| %>
+  <% if conservation_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(conservation_record.errors.count, "error") %> prohibited this conservation_record from being saved:</h2>
+
+      <ul>
+      <% conservation_record.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :date_recieved_in_preservation_services %>
+    <%= form.date_select :date_recieved_in_preservation_services %>
+  </div>
+
+  <div class="field">
+    <%= form.label :department %>
+    <%= form.text_field :department %>
+  </div>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :author %>
+    <%= form.text_field :author %>
+  </div>
+
+  <div class="field">
+    <%= form.label :imprint %>
+    <%= form.text_field :imprint %>
+  </div>
+
+  <div class="field">
+    <%= form.label :call_number %>
+    <%= form.text_field :call_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :item_record_number %>
+    <%= form.text_field :item_record_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :digitization %>
+    <%= form.check_box :digitization %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,56 @@
+<style>
+.banner {
+  font-size: 20px;
+}
+
+.section {
+  margin-bottom: 15px;
+}
+
+table {
+  text-align: center;
+}
+</style>
+<div class="pdf">
+  <div class="banner section">
+    <%= @conservation_record.title %> - <%= @conservation_record.department %> - Preservation Lab Book Conservation Worksheet
+  </div>
+  <div class="section">
+    <table width="100%">
+      <tr>
+        <th>Digitization</th>
+        <th>Item Record #</th>
+        <th>Database ID</th>
+        <th>Collection</th>
+        <th>Call Number</th>
+        <th>Date In</th>
+        <th>Date Out</th>
+      </tr>
+      <tr>
+        <td><%= @conservation_record.digitization ? "Yes" : "No" %></td>
+        <td><%= @conservation_record.item_record_number %></td>
+        <td><%= @conservation_record.id %></td>
+        <td><%= @conservation_record.department %></td>
+        <td><%= @conservation_record.call_number %></td>
+        <td><%= @conservation_record.date_recieved_in_preservation_services %></td>
+    </table>
+  </div>
+  <div class="section">
+    <table width="100%">
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Imprint</th>
+      </tr>
+      <tr>
+        <td><%= @conservation_record.title %></td>
+        <td><%= @conservation_record.author %></td>
+        <td><%= @conservation_record.imprint %></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="image section">
+    <img width="100%" src="<%= @base_64_form_image %>" alt="Image of conservation worksheet form." />
+  </div>
+</div>

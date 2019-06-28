@@ -1,0 +1,32 @@
+<div class="header">
+  <h1>Conservation Records</h1>
+  <%= link_to 'Add Conservation Record', new_conservation_record_path %>
+</div>
+
+<p></p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Call number</th>
+      <th>Item record number</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @conservation_records.each do |conservation_record| %>
+      <tr>
+        <td><%= conservation_record.title %></td>
+        <td><%= conservation_record.author %></td>
+        <td><%= conservation_record.call_number %></td>
+        <td><%= conservation_record.item_record_number %></td>
+        <td><%= link_to 'Show', conservation_record %></td>
+        <td><%= link_to 'Edit', edit_conservation_record_path(conservation_record) %></td>
+        <td><%= link_to 'Destroy', conservation_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,32 @@
+<%= form_with(model: controlled_vocabulary, local: true) do |form| %>
+  <% if controlled_vocabulary.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(controlled_vocabulary.errors.count, "error") %> prohibited this controlled_vocabulary from being saved:</h2>
+
+      <ul>
+      <% controlled_vocabulary.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :vocabulary %>
+    <%= form.text_field :vocabulary %>
+  </div>
+
+  <div class="field">
+    <%= form.label :key %>
+    <%= form.text_field :key %>
+  </div>
+
+  <div class="field">
+    <%= form.label :active %>
+    <%= form.check_box :active %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
