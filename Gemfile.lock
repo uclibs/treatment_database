@@ -44,8 +44,6 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
-    archive-zip (0.12.0)
-      io-like (~> 0.3.0)
     arel (9.0.0)
     ast (2.4.0)
     autoprefixer-rails (9.6.0)
@@ -68,11 +66,6 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
-    childprocess (1.0.1)
-      rake (< 13.0)
-    chromedriver-helper (2.1.1)
-      archive-zip (~> 0.10)
-      nokogiri (~> 1.8)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -112,7 +105,6 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
-    io-like (0.3.0)
     jaro_winkler (1.5.2)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
@@ -211,7 +203,6 @@ GEM
       unicode-display_width (>= 1.4.0, < 1.7)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
-    rubyzip (1.2.3)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -232,9 +223,6 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (3.142.3)
-      childprocess (>= 0.5, < 2.0)
-      rubyzip (~> 1.2, >= 1.2.2)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -288,7 +276,6 @@ DEPENDENCIES
   bootstrap (~> 4.3.1)
   byebug
   capybara (>= 2.15)
-  chromedriver-helper
   coffee-rails (~> 4.2)
   coveralls
   devise
@@ -303,7 +290,6 @@ DEPENDENCIES
   rspec-rails (~> 3.8)
   rubocop
   sass-rails (~> 5.0)
-  selenium-webdriver
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
