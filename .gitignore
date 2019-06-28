@@ -32,3 +32,6 @@
 
 # Ignore the coverage folder
 /coverage
+
+# Don't track .DS_Store on MacOS
+.DS_Store
