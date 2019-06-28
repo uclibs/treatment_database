@@ -3,11 +3,20 @@
 require 'rails_helper'
 
 RSpec.describe ExternalRepairRecordsController, type: :controller do
-  it 'has a create method' do
-    expect(1).to eq(1)
+  let(:repair_type) { create(:controlled_vocabulary) }
+  let(:vendor) { create(:controlled_vocabulary) }
+  let(:conservation_record) { create(:conservation_record) }
+
+  it 'creates an external repair record' do
+    repair_count = ExternalRepairRecord.all.count
+    ExternalRepairRecord.create(repair_type: repair_type.id, performed_by_vendor_id: vendor.id, conservation_record: conservation_record)
+    expect(repair_count).to be < ExternalRepairRecord.all.count
   end
 
-  it 'has a destroy method' do
-    expect(1).to eq(1)
+  it 'can destroy an external repair record' do
+    repair_record = ExternalRepairRecord.create(repair_type: repair_type.id, performed_by_vendor_id: vendor.id, conservation_record: conservation_record)
+    repair_count = ExternalRepairRecord.all.count
+    repair_record.destroy
+    expect(repair_count).to be > ExternalRepairRecord.all.count
   end
 end
