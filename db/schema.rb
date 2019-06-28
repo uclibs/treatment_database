@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_27_193616) do
+ActiveRecord::Schema.define(version: 2019_06_13_194319) do
 
   create_table "conservation_records", force: :cascade do |t|
     t.date "date_recieved_in_preservation_services"
-    t.integer "department_id"
+    t.string "department"
     t.string "title"
     t.string "author"
     t.string "imprint"
@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 2019_06_27_193616) do
     t.boolean "digitization"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "conservator_note"
   end
 
   create_table "controlled_vocabularies", force: :cascade do |t|
