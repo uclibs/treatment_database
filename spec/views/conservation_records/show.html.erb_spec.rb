@@ -33,4 +33,9 @@ RSpec.describe 'conservation_records/show', type: :view do
     expect(rendered).to match(/Item Record Number/)
     expect(rendered).to match(/Is Digitized?/)
   end
+
+  it 'has a link to download the conservation worksheet' do
+    render
+    expect(rendered).to have_link('Download Conservation Worksheet')
+  end
 end
