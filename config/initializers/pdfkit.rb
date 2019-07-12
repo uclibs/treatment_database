@@ -5,6 +5,7 @@ PDFKit.configure do |config|
 
   config.default_options = {
     page_size: 'Letter',
-    print_media_type: true
+    print_media_type: true,
+    dpi: 96
   }
 end
