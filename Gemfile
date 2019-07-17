@@ -70,6 +70,7 @@ group :test do
   gem 'capybara', '>= 2.15'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'coveralls'
+  gem 'rails-controller-testing'
   gem 'simplecov', require: false
 end
 

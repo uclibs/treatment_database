@@ -27,6 +27,7 @@ require 'rails_helper'
 
 RSpec.describe ControlledVocabulariesController, type: :controller do
   include Devise::TestHelpers
+  render_views
   # This should return the minimal set of attributes required to create a valid
   # ControlledVocabulary. As you add validations to ControlledVocabulary, be sure to
   # adjust the attributes here as well.
@@ -35,7 +36,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   end
 
   let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
+    { vocabulary: '', key: '', active: true }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -58,6 +59,14 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
+
+    it 'has the correct conent' do
+      ControlledVocabulary.create! valid_attributes
+      get :index, params: {}, session: valid_session
+      expect(response.body).to have_content('Controlled Vocabularies')
+      expect(response.body).to have_content('repair_type')
+      expect(response.body).to have_content('Wash')
+    end
   end
 
   describe 'GET #show' do
@@ -65,6 +74,8 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
       controlled_vocabulary = ControlledVocabulary.create! valid_attributes
       get :show, params: { id: controlled_vocabulary.to_param }, session: valid_session
       expect(response).to be_successful
+      expect(response.body).to have_content('repair_type')
+      expect(response.body).to have_content('Wash')
     end
   end
 
@@ -108,19 +119,22 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   describe 'PUT #update' do
     context 'with valid params' do
       let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
+        { vocabulary: 'something', key: 'else', active: false }
       end
 
       it 'updates the requested controlled_vocabulary' do
         controlled_vocabulary = ControlledVocabulary.create! valid_attributes
         put :update, params: { id: controlled_vocabulary.to_param, controlled_vocabulary: new_attributes }, session: valid_session
         controlled_vocabulary.reload
-        skip('Add assertions for updated state')
+        expect(controlled_vocabulary.vocabulary).to eq('something')
+        expect(controlled_vocabulary.key).to eq('else')
+        expect(controlled_vocabulary.active).to eq(false)
       end
 
       it 'redirects to the controlled_vocabulary' do
         controlled_vocabulary = ControlledVocabulary.create! valid_attributes
         put :update, params: { id: controlled_vocabulary.to_param, controlled_vocabulary: valid_attributes }, session: valid_session
+        expect(flash[:notice]).to eq('Controlled vocabulary was successfully updated.')
         expect(response).to redirect_to(controlled_vocabulary)
       end
     end
@@ -130,6 +144,9 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
         controlled_vocabulary = ControlledVocabulary.create! valid_attributes
         put :update, params: { id: controlled_vocabulary.to_param, controlled_vocabulary: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+        expect(response).to render_template(:edit)
+        expect(response.body).to have_content("Vocabulary can't be blank")
+        expect(response.body).to have_content("Key can't be blank")
       end
     end
   end
