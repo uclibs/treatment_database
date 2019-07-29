@@ -3,6 +3,7 @@
 class ConservationRecordsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_conservation_record, only: %i[show edit update destroy]
+  before_action :set_departments
 
   # GET /conservation_records
   # GET /conservation_records.json
@@ -32,7 +33,6 @@ class ConservationRecordsController < ApplicationController
   # POST /conservation_records.json
   def create
     @conservation_record = ConservationRecord.new(conservation_record_params)
-
     respond_to do |format|
       if @conservation_record.save
         format.html { redirect_to @conservation_record, notice: 'Conservation record was successfully created.' }
@@ -90,6 +90,10 @@ class ConservationRecordsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_conservation_record
     @conservation_record = ConservationRecord.find(params[:id])
+  end
+
+  def set_departments
+    @departments = ControlledVocabulary.where(vocabulary: 'department', active: true)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

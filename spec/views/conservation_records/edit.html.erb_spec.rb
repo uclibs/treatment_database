@@ -13,13 +13,14 @@ RSpec.describe 'conservation_records/edit', type: :view do
                                                           item_record_number: 'MyString',
                                                           digitization: false
                                                         ))
+    @departments = ControlledVocabulary.where(vocabulary: 'department', active: true)
   end
 
   it 'renders the edit conservation_record form' do
     render
 
     assert_select 'form[action=?][method=?]', conservation_record_path(@conservation_record), 'post' do
-      assert_select 'input[name=?]', 'conservation_record[department]'
+      assert_select 'select[name=?]', 'conservation_record[department]'
 
       assert_select 'input[name=?]', 'conservation_record[title]'
 

@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= form.label :department %>
-    <%= form.text_field :department %>
+    <%= form.select(:department, options_from_collection_for_select(@departments, "id", "key"), { prompt: 'Select Department' }) %>
   </div>
 
   <div class="field">

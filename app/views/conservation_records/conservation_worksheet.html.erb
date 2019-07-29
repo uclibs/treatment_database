@@ -33,7 +33,7 @@ table {
 </style>
 <div class="pdf a4">
   <div class="banner section">
-    <%= @conservation_record.title %> - <%= @conservation_record.department %> - Preservation Lab Book Conservation Worksheet
+    <%= @conservation_record.title %> - <%= controlled_vocabulary_lookup(@conservation_record.department) %> - Preservation Lab Book Conservation Worksheet
   </div>
   <div class="section">
     <table width="100%">
@@ -50,7 +50,7 @@ table {
         <td><%= @conservation_record.digitization ? "Yes" : "No" %></td>
         <td><%= @conservation_record.item_record_number %></td>
         <td><%= @conservation_record.id %></td>
-        <td><%= @conservation_record.department %></td>
+        <td><%= controlled_vocabulary_lookup(@conservation_record.department) %></td>
         <td><%= @conservation_record.call_number %></td>
         <td><%= @conservation_record.date_recieved_in_preservation_services %></td>
     </table>

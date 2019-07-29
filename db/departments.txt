@@ -1,0 +1,12 @@
+ARB Library
+Chem-Bio Library
+Classics Library
+CCM Library
+CECH Library
+DAAP Library
+Engineering Library
+Geo-Math-Phys Library
+Winkler Center
+PLCH
+3rd Party Work
+Observatory
