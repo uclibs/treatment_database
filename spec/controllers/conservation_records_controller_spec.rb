@@ -27,6 +27,7 @@ require 'rails_helper'
 
 RSpec.describe ConservationRecordsController, type: :controller do
   include Devise::TestHelpers
+  render_views
 
   # This should return the minimal set of attributes required to create a valid
   # ConservationRecord. As you add validations to ConservationRecord, be sure to
@@ -45,7 +46,16 @@ RSpec.describe ConservationRecordsController, type: :controller do
   end
 
   let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
+    {
+      department: '',
+      title: '',
+      author: '',
+      imprint: '',
+      call_number: '',
+      item_record_number: '',
+      digitization: nil,
+      date_recieved_in_preservation_services: nil
+    }
   end
 
   def sign_in_user(user)
@@ -61,8 +71,14 @@ RSpec.describe ConservationRecordsController, type: :controller do
     it 'returns a success response' do
       ConservationRecord.create! valid_attributes
       get :index, params: {}
-      puts response
       expect(response).to be_successful
+    end
+
+    it 'has the appropriate content' do
+      ConservationRecord.create! valid_attributes
+      get :index, params: {}
+      expect(response.body).to have_content('Conservation Records')
+      expect(response.body).to have_content('An Interesting Book')
     end
   end
 
@@ -114,14 +130,23 @@ RSpec.describe ConservationRecordsController, type: :controller do
   describe 'PUT #update' do
     context 'with valid params' do
       let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
+        {
+          department: 'Department B',
+          title: 'An Unteresting Book',
+          author: 'A Poor Writer',
+          imprint: 'Sribble',
+          call_number: 'P102.3294.3921',
+          item_record_number: 'i453',
+          digitization: false,
+          date_recieved_in_preservation_services: Date.new - 1
+        }
       end
 
       it 'updates the requested conservation_record' do
         conservation_record = ConservationRecord.create! valid_attributes
         put :update, params: { id: conservation_record.to_param, conservation_record: new_attributes }
         conservation_record.reload
-        skip('Add assertions for updated state')
+        expect(conservation_record.department).to eq('Department B')
       end
 
       it 'redirects to the conservation_record' do
@@ -152,6 +177,14 @@ RSpec.describe ConservationRecordsController, type: :controller do
       conservation_record = ConservationRecord.create! valid_attributes
       delete :destroy, params: { id: conservation_record.to_param }
       expect(response).to redirect_to(conservation_records_url)
+    end
+  end
+
+  describe 'conservation_worksheet' do
+    it 'sends a file' do
+      conservation_record = ConservationRecord.create! valid_attributes
+      get :conservation_worksheet, params: { id: conservation_record.id }
+      expect(response.headers['Content-Type']).to eq('application/pdf')
     end
   end
 end

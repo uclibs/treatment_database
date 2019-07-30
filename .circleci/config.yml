@@ -36,6 +36,8 @@ jobs:
           name: Install Dependencies
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
+            sudo apt-get update
+            sudo apt-get install xvfb libfontconfig wkhtmltopdf
 
       - save_cache:
           paths:

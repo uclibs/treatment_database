@@ -13,5 +13,12 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe ExternalRepairRecordsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let!(:user) { create(:user) }
+  let!(:repair_type) { create(:controlled_vocabulary, vocabulary: 'repair_type', key: 'Wash') }
+  let!(:vendor) { create(:controlled_vocabulary, vocabulary: 'contract_conservator', key: 'John Q. Public') }
+  let!(:external_repair_record) { create(:external_repair_record, repair_type: repair_type.id, performed_by_vendor_id: vendor.id) }
+  it 'generates an external repair string' do
+    return_value = helper.generate_external_repair_string(external_repair_record)
+    expect(return_value).to eq('Wash performed by John Q. Public.')
+  end
 end

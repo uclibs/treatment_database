@@ -2,16 +2,18 @@
 
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the InHouseRepairRecordsHelper. For example:
-#
-# describe InHouseRepairRecordsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe InHouseRepairRecordsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:conservation_record) { create(:conservation_record) }
+  let(:repair_type) { create(:controlled_vocabulary, vocabulary: 'repair_type', key: 'Wash') }
+  let(:user) { create(:user, display_name: 'John Q. Public') }
+  let(:repair_record) do
+    create(:in_house_repair_record,
+           performed_by_user_id: user.id,
+           repair_type: repair_type.id,
+           conservation_record:
+           conservation_record)
+  end
+  it 'generates an in house repair string' do
+    expect(helper.generate_in_house_repair_string(repair_record)).to eq('Wash performed by John Q. Public in 10 minutes.')
+  end
 end

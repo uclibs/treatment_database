@@ -11,10 +11,10 @@ RSpec.describe 'conservation_records/conservation_worksheet', type: :view do
     render
 
     expect(rendered).to have_content('Department A')
-    expect(rendered).to have_content('A Farewell to Arms')
-    expect(rendered).to have_content('Ernest Hemmingway')
-    expect(rendered).to have_content('Scribner')
-    expect(rendered).to have_content('1234')
-    expect(rendered).to have_content('5678')
+    expect(rendered).to have_content('The Illiad')
+    expect(rendered).to have_content('James Joyce')
+    expect(rendered).to have_content('Dutton')
+    expect(rendered).to have_content('ir3445')
+    expect(rendered).to have_content('102340')
   end
 end

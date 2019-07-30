@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :controlled_vocabulary do
-    vocabulary { 'MyString' }
-    key { 'MyString' }
+    vocabulary { 'vocabulary_string' }
+    key { 'key_string' }
     active { false }
   end
 end
