@@ -24,6 +24,7 @@ RSpec.describe 'conservation_records/show', type: :view do
 
   it 'shows the table with all metadata' do
     render
+    expect(rendered).to match(/Database ID/)
     expect(rendered).to match(/Date Recieved/)
     expect(rendered).to match(/Department/)
     expect(rendered).to match(/Title/)

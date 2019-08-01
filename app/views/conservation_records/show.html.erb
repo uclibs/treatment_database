@@ -17,6 +17,10 @@
     <table class="table table-striped">
       <tbody>
         <tr>
+          <th scope="row">Database ID</th>
+          <td><%= @conservation_record.id %></td>
+        </tr>
+        <tr>
           <th scope="row">Date Recieved</th>
           <td><%= @conservation_record.date_recieved_in_preservation_services.strftime("%m/%d/%Y") %></td>
         </tr>
