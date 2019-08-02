@@ -8,6 +8,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th>Database ID</th>
       <th>Title</th>
       <th>Author</th>
       <th>Call number</th>
@@ -19,6 +20,7 @@
   <tbody>
     <% @conservation_records.each do |conservation_record| %>
       <tr>
+        <td><%= conservation_record.id %></td>
         <td><%= conservation_record.title %></td>
         <td><%= conservation_record.author %></td>
         <td><%= conservation_record.call_number %></td>
