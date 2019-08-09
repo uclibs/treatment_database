@@ -12,3 +12,7 @@ Metrics/BlockLength:
 Metrics/LineLength:
   Exclude:
     - 'app/views/conservation_records/_conservation_record.json.jbuilder'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'app/controllers/search_controller.rb'
