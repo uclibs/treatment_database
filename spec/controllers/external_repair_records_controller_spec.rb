@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe ExternalRepairRecordsController, type: :controller do
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
   render_views
 
   before do
