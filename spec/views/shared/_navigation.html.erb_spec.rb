@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'shared/_navigation.html.erb', type: :view do
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
 
   before do
     create(:user)
