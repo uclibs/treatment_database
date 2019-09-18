@@ -26,7 +26,7 @@
         </tr>
         <tr>
           <th scope="row">Department</th>
-          <td><%= @conservation_record.department %></td>
+          <td><%= controlled_vocabulary_lookup(@conservation_record.department) %></td>
         </tr>
         <tr>
           <th scope="row">Title</th>

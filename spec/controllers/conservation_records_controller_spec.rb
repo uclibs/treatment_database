@@ -29,12 +29,18 @@ RSpec.describe ConservationRecordsController, type: :controller do
   include Devise::Test::ControllerHelpers
   render_views
 
+  before do
+    user = create(:user)
+    sign_in_user(user)
+  end
+
   # This should return the minimal set of attributes required to create a valid
   # ConservationRecord. As you add validations to ConservationRecord, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
+    department_a = create(:controlled_vocabulary, vocabulary: 'department', key: 'Department A')
     {
-      department: 'Department A',
+      department: department_a.id,
       title: 'An Interesting Book',
       author: 'A Good Writer',
       imprint: 'Dutton',
@@ -60,11 +66,6 @@ RSpec.describe ConservationRecordsController, type: :controller do
 
   def sign_in_user(user)
     sign_in user
-  end
-
-  before do
-    user = create(:user)
-    sign_in_user(user)
   end
 
   describe 'GET #index' do
@@ -130,9 +131,10 @@ RSpec.describe ConservationRecordsController, type: :controller do
   describe 'PUT #update' do
     context 'with valid params' do
       let(:new_attributes) do
+        department_b = create(:controlled_vocabulary, vocabulary: 'department', key: 'Department B')
         {
-          department: 'Department B',
-          title: 'An Unteresting Book',
+          department: department_b.id,
+          title: 'An Uninteresting Book',
           author: 'A Poor Writer',
           imprint: 'Sribble',
           call_number: 'P102.3294.3921',
@@ -146,7 +148,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
         conservation_record = ConservationRecord.create! valid_attributes
         put :update, params: { id: conservation_record.to_param, conservation_record: new_attributes }
         conservation_record.reload
-        expect(conservation_record.department).to eq('Department B')
+        expect(conservation_record.department).to eq(new_attributes[:department])
       end
 
       it 'redirects to the conservation_record' do

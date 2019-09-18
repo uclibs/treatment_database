@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :conservation_record do
     date_recieved_in_preservation_services { '2019-06-11' }
-    department { 'Department A' }
+    department { ControlledVocabulary.where(vocabulary: 'department').order('RANDOM()').first.id }
     title { 'The Illiad' }
     author { 'James Joyce' }
     imprint { 'Dutton' }

@@ -6,7 +6,7 @@ RSpec.describe 'conservation_records/show', type: :view do
   before(:each) do
     @conservation_record = assign(:conservation_record, ConservationRecord.create!(
                                                           date_recieved_in_preservation_services: Date.new,
-                                                          department: 'Department',
+                                                          department: ControlledVocabulary.where(vocabulary: 'department', active: true).first.id,
                                                           title: 'Title',
                                                           author: 'Author',
                                                           imprint: 'Imprint',
