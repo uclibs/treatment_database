@@ -1,0 +1,2 @@
+class TreatmentReport < ApplicationRecord
+end

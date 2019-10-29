@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2019_12_04_011151) do
-
   create_table "conservation_records", force: :cascade do |t|
     t.date "date_recieved_in_preservation_services"
     t.string "title"
@@ -50,6 +49,44 @@ ActiveRecord::Schema.define(version: 2019_12_04_011151) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["conservation_record_id"], name: "index_in_house_repair_records_on_conservation_record_id"
+  end
+
+  create_table "treatment_records", force: :cascade do |t|
+    t.text "description_general_remarks"
+    t.integer "conservation_record_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conservation_record_id"], name: "index_treatment_records_on_conservation_record_id"
+  end
+
+  create_table "treatment_reports", force: :cascade do |t|
+    t.string "description_general_remarks"
+    t.string "description_binding"
+    t.string "description_textblock"
+    t.string "description_primary_support"
+    t.string "description_medium"
+    t.string "description_attachments_inserts"
+    t.string "description_housing"
+    t.string "condition_summary"
+    t.string "condition_binding"
+    t.string "condition_textblock"
+    t.string "condition_primary_support"
+    t.string "condition_medium"
+    t.integer "condition_housing_id"
+    t.string "condition_housing_naritive"
+    t.string "condition_attachments_inserts"
+    t.string "condition_previous_treatment"
+    t.string "condition_materials_analysis"
+    t.string "treatment_proposal_proposal"
+    t.integer "treatment_proposal_housing_need_id"
+    t.string "treatment_proposal_factors_influencing_treatment"
+    t.string "treatment_proposal_performed_treatment"
+    t.integer "treatment_proposal_housing_provided_id"
+    t.string "treatment_proposal_housing_narrative"
+    t.string "treatment_proposal_storage_and_handling_notes"
+    t.integer "treatment_proposal_total_treatment_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
