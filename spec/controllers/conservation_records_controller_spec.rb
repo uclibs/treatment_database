@@ -47,7 +47,8 @@ RSpec.describe ConservationRecordsController, type: :controller do
       call_number: 'P102.3294.3920',
       item_record_number: 'i452',
       digitization: true,
-      date_recieved_in_preservation_services: Date.new
+      date_recieved_in_preservation_services: Date.new,
+      treatment_report: TreatmentReport.new
     }
   end
 

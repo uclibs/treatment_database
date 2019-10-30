@@ -17,7 +17,7 @@ class CreateTreatmentReports < ActiveRecord::Migration[5.2]
       t.string :condition_primary_support
       t.string :condition_medium
       t.integer :condition_housing_id
-      t.string :condition_housing_naritive
+      t.string :condition_housing_narrative
       t.string :condition_attachments_inserts
       t.string :condition_previous_treatment
       t.string :condition_materials_analysis
