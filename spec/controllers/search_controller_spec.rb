@@ -7,7 +7,7 @@ RSpec.describe SearchController, type: :controller do
   render_views
 
   before do
-    create(:conservation_record)
+    create(:conservation_record, id: 1)
     create(:conservation_record, item_record_number: 'i1001')
     create(:conservation_record, title: 'Third Title')
   end

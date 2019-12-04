@@ -7,12 +7,12 @@ RSpec.describe InHouseRepairRecordsController, type: :controller do
   render_views
 
   before do
-    user = create(:user)
+    user = create(:user, role: 'standard')
     sign_in user
   end
 
   let(:conservation_record) { create(:conservation_record) }
-  let(:user) { create(:user) }
+  let(:user) { create(:user, role: 'standard') }
   let(:repair_type) { create(:controlled_vocabulary) }
   let(:valid_attributes) do
     {

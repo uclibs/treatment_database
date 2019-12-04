@@ -5,5 +5,6 @@ FactoryBot.define do
     sequence(:display_name) { |n| "Name #{n}" }
     sequence(:email) { |n| "user#{n}@example.com" }
     password { 'notapassword' }
+    role { 'standard' }
   end
 end

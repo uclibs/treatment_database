@@ -12,6 +12,14 @@
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
+
+  <% if can? :assign_roles, @user %>
+    <div class="field">
+      <%= f.label :role %><br />
+      <%= f.collection_select :role, User::ROLES, :to_s, :humanize %>
+    </div>
+  <% end %>
+
   <div class="field">
     <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
     <%= f.password_field :password, autocomplete: "new-password" %>

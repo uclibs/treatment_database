@@ -3,6 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe 'conservation_records/show', type: :view do
+
+include Devise::Test::ControllerHelpers
+
   before(:each) do
     @conservation_record = assign(:conservation_record, ConservationRecord.create!(
                                                           date_recieved_in_preservation_services: Date.new,
@@ -39,4 +42,15 @@ RSpec.describe 'conservation_records/show', type: :view do
     render
     expect(rendered).to have_link('Download Conservation Worksheet')
   end
+
+  it 'hides controls for read_only users' do
+      @user = create(:user, role: 'read_only')
+      @request.env['devise.mapping'] = Devise.mappings[:user]
+      sign_in @user
+      render
+      expect(rendered).not_to have_link('Edit Conservation Record')
+      expect(rendered).not_to have_button('Add In-House Repairs')
+      expect(rendered).not_to have_button('Add External Repair')
+  end
+
 end

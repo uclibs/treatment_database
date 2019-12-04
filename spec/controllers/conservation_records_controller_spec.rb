@@ -30,7 +30,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
   render_views
 
   before do
-    user = create(:user)
+    user = create(:user, role: 'admin')
     sign_in_user(user)
   end
 

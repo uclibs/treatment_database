@@ -1,6 +1,8 @@
 <div class="header">
   <h1>Conservation Records</h1>
-  <%= link_to 'Add Conservation Record', new_conservation_record_path %>
+  <% if can? :create, ConservationRecord %>
+    <%= link_to 'Add Conservation Record', new_conservation_record_path %>
+  <% end %>
 </div>
 
 <p></p>
@@ -26,8 +28,11 @@
         <td><%= conservation_record.call_number %></td>
         <td><%= conservation_record.item_record_number %></td>
         <td><%= link_to 'Show', conservation_record %></td>
-        <td><%= link_to 'Edit', edit_conservation_record_path(conservation_record) %></td>
+
+        <% if can? :crud, ConservationRecord %>
+          <td><%= link_to 'Edit', edit_conservation_record_path(conservation_record) %></td>
         <td><%= link_to 'Destroy', conservation_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
