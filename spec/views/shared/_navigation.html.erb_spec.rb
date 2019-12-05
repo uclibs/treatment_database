@@ -6,7 +6,6 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
   include Devise::Test::ControllerHelpers
 
   context 'when user is admin' do
-
     before do
       @user = create(:user, role: 'admin')
       @request.env['devise.mapping'] = Devise.mappings[:user]
@@ -50,7 +49,4 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       expect(rendered).to have_link('Log out')
     end
   end
-
-
-
 end

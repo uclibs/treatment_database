@@ -2,11 +2,11 @@
 
 Rails.application.routes.draw do
   namespace :admin do
-      resources :users
+    resources :users
 
-      root to: "users#index"
-    end
-  devise_for :users, controllers: { registrations: 'users/registrations' }  
+    root to: 'users#index'
+  end
+  devise_for :users, controllers: { registrations: 'users/registrations' }
 
   resources :controlled_vocabularies
 
