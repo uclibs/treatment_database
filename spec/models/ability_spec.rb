@@ -11,6 +11,9 @@ describe "User", type: :model do
     context "when is an admin" do
       let(:user){ build(:user, role: 'admin') }
       it { is_expected.to be_able_to(:manage, User.new) }
+      it { is_expected.to be_able_to(:index, Admin) }
+      it { is_expected.not_to be_able_to(:create, User) }
+
     end
 
     context "when is a standard user" do
@@ -21,6 +24,7 @@ describe "User", type: :model do
       it { is_expected.not_to be_able_to(:read, User.new) }
       it { is_expected.not_to be_able_to(:update, User.new) }
       it { is_expected.not_to be_able_to(:destroy, User.new) }
+      it { is_expected.not_to be_able_to(:index, Admin) }
 
       it { is_expected.to be_able_to(:index, ConservationRecord.new) }
       it { is_expected.to be_able_to(:read, ConservationRecord.new) }
@@ -42,6 +46,7 @@ describe "User", type: :model do
       it { is_expected.not_to be_able_to(:read, User.new) }
       it { is_expected.not_to be_able_to(:update, User.new) }
       it { is_expected.not_to be_able_to(:destroy, User.new) }
+      it { is_expected.not_to be_able_to(:index, Admin) }
 
       it { is_expected.to be_able_to(:index, ConservationRecord.new) }
       it { is_expected.to be_able_to(:read, ConservationRecord.new) }

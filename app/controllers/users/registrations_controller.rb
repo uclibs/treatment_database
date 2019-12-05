@@ -24,10 +24,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     authorize! :assign_roles, @user if params[:user][:assign_roles]
   end
 
-  # DELETE /resource
-  # def destroy
-  #   super
-  # end
+   def destroy
+     authorize! :destroy, @user
+     super
+   end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign

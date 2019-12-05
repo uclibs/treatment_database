@@ -35,6 +35,7 @@ class Ability
     if user.role == 'admin'
       can :manage, :all
       can :assign_roles, User
+      cannot :create, User
     elsif user.role == 'standard'
       can :crud, [ConservationRecord, ControlledVocabulary, ExternalRepairRecord, InHouseRepairRecord]
     elsif user.role == 'read_only'  

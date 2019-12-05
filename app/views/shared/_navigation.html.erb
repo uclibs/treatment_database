@@ -15,6 +15,13 @@
             <%= link_to('Vocabularies', controlled_vocabularies_path, class: 'nav-link') %>
           </li>
         <% end %>
+        <% if can? :manage, User %>
+          <li class="nav-item">
+            <%= link_to('Users', admin_users_path, class: 'nav-link') %>
+          </li>
+        <% end %>
+ 
+
         <li class="nav-item">
           <%= form_with url: '/search', method: :get, local: true, class: "form-inline" do |f| %>
             <%= f.text_field :search, id: :search, value: params[:search], placeholder: "Search", class: "form-control mr-sm-2" %>
