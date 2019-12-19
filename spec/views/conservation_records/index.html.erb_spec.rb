@@ -32,10 +32,6 @@ RSpec.describe 'conservation_records/index', type: :view do
            ])
   end
 
-  after(:all) do
-    ConservationRecord.all.delete_all
-  end
-
   it 'renders a list of conservation_records' do
     render
     assert_select 'td', text: '101', count: 1

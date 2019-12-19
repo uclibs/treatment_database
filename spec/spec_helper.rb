@@ -30,6 +30,8 @@ require 'byebug'
 
 require 'devise'
 
+require 'database_cleaner'
+
 def sign_in(user)
   post user_session_path \
     'user[email]' => user.email,
@@ -40,6 +42,20 @@ RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
+
+  config.before do |example|
+    if example.metadata[:type] == :feature && Capybara.current_driver != :rack_test
+      DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.start
+    end
+  end
+
+  config.after do
+    DatabaseCleaner.clean
+  end
+
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods

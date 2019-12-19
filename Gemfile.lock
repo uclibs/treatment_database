@@ -93,6 +93,7 @@ GEM
       thor (>= 0.19.4, < 2.0)
       tins (~> 1.6)
     crass (1.0.4)
+    database_cleaner (1.7.0)
     datetime_picker_rails (0.0.7)
       momentjs-rails (>= 2.8.1)
     devise (4.6.2)
@@ -314,6 +315,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   coffee-rails (~> 4.2)
   coveralls
+  database_cleaner
   devise
   dotenv-rails
   factory_bot_rails
