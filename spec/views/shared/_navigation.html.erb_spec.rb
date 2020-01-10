@@ -6,7 +6,6 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
   include Devise::Test::ControllerHelpers
 
   context 'when user is admin' do
-
     before do
       @user = create(:user, role: 'admin')
       @request.env['devise.mapping'] = Devise.mappings[:user]
@@ -14,9 +13,10 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       render
     end
 
-    it 'has a menu with the expected links when signed out' do
+    it 'has a menu with the expected links when signed in' do
       expect(rendered).to have_link('Conservation Records')
       expect(rendered).to have_link('Vocabularies')
+      expect(rendered).to have_link('Users')
       expect(rendered).to have_link('Log out')
     end
   end
@@ -29,9 +29,10 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       render
     end
 
-    it 'has a menu with the expected links when signed out' do
+    it 'has a menu with the expected links when signed in' do
       expect(rendered).to have_link('Conservation Records')
       expect(rendered).to have_link('Vocabularies')
+      expect(rendered).not_to have_link('Users')
       expect(rendered).to have_link('Log out')
     end
   end
@@ -44,13 +45,25 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       render
     end
 
-    it 'has a menu with the expected links when signed out' do
+    it 'has a menu with the expected links when signed in' do
       expect(rendered).to have_link('Conservation Records')
       expect(rendered).not_to have_link('Vocabularies')
+      expect(rendered).not_to have_link('Users')
       expect(rendered).to have_link('Log out')
     end
   end
 
+  context 'when user is not signed in' do
+    before do
+      render
+    end
 
-
+    it 'has a menu with the expected links' do
+      expect(rendered).not_to have_link('Conservation Records')
+      expect(rendered).not_to have_link('Vocabularies')
+      expect(rendered).not_to have_link('Users')
+      expect(rendered).to have_link('Log in')
+      expect(rendered).to have_link('Sign up')
+    end
+  end
 end

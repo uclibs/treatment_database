@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'conservation_records/index', type: :view do
-
-include Devise::Test::ControllerHelpers
+  include Devise::Test::ControllerHelpers
 
   before(:each) do
     assign(:conservation_records, [
@@ -49,12 +48,12 @@ include Devise::Test::ControllerHelpers
   end
 
   it 'hides controls for read_only users' do
-      @user = create(:user, role: 'read_only')
-      @request.env['devise.mapping'] = Devise.mappings[:user]
-      sign_in @user
-      render
-      expect(rendered).not_to have_link('New Conservation Record')
-      expect(rendered).not_to have_link('Edit')
-      expect(rendered).not_to have_link('Destroy')
+    @user = create(:user, role: 'read_only')
+    @request.env['devise.mapping'] = Devise.mappings[:user]
+    sign_in @user
+    render
+    expect(rendered).not_to have_link('New Conservation Record')
+    expect(rendered).not_to have_link('Edit')
+    expect(rendered).not_to have_link('Destroy')
   end
 end

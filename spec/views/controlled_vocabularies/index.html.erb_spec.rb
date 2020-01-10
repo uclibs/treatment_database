@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'controlled_vocabularies/index', type: :view do
-
-include Devise::Test::ControllerHelpers
+  include Devise::Test::ControllerHelpers
 
   before(:each) do
     assign(:controlled_vocabularies, [
