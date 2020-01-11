@@ -20,7 +20,6 @@ RSpec.describe 'users/index.html.erb', type: :view do
            ])
   end
 
-
   it 'renders a list of users' do
     render
     assert_select 'tr>td', text: 'Test User 1'
@@ -30,6 +29,4 @@ RSpec.describe 'users/index.html.erb', type: :view do
     assert_select 'tr>td', text: 'test_user1@example.com'
     assert_select 'tr>td', text: 'test_user2@example.com'
   end
-
-
 end
