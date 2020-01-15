@@ -77,10 +77,13 @@
         <% @in_house_repairs.each do |repair| %>
           <li class="list-group-item">
             <%= generate_in_house_repair_string(repair) %>
-            <%= link_to [repair.conservation_record, repair], method: :delete do %>
-              <button class="btn btn-danger justify-content-right">
-                <%= image_tag "delete.png", class: "delete-icon" %>
-              </button>
+
+            <% if can? :crud, InHouseRepairRecord %>
+              <%= link_to [repair.conservation_record, repair], method: :delete do %>
+                <button class="btn btn-danger justify-content-right">
+                  <%= image_tag "delete.png", class: "delete-icon" %>
+                </button>
+              <% end %>
             <% end %>
           </li>
         <% end %>
@@ -107,10 +110,13 @@
         <% @external_repairs.each do |repair| %>
           <li class="list-group-item">
             <%= generate_external_repair_string(repair) %>
-            <%= link_to [repair.conservation_record, repair], method: :delete do %>
-              <button class="btn btn-danger justify-content-right">
-                <%= image_tag "delete.png", class: "delete-icon" %>
-              </button>
+
+            <% if can? :crud, ExternalRepairRecord %>
+              <%= link_to [repair.conservation_record, repair], method: :delete do %>
+                <button class="btn btn-danger justify-content-right">
+                  <%= image_tag "delete.png", class: "delete-icon" %>
+                </button>
+              <% end %>
             <% end %>
           </li>
         <% end %>

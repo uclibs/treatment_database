@@ -22,4 +22,22 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to have_http_status(:success)
     end
   end
+
+  describe 'PUT update/:id' do
+    let(:attr) do
+      { email: 'newemail@example.com',
+        display_name: 'New Display Name',
+        role: 'standard_user' }
+    end
+
+    before(:each) do
+      put :update, params: { id: user.id, user: attr }
+      user.reload
+    end
+
+    it { expect(response).to redirect_to(users_path) }
+    it { expect(user.display_name).to eql attr[:display_name] }
+    it { expect(user.email).to eql attr[:email] }
+    it { expect(user.role).to eql attr[:role] }
+  end
 end

@@ -50,5 +50,7 @@ RSpec.describe 'conservation_records/show', type: :view do
     expect(rendered).not_to have_link('Edit Conservation Record')
     expect(rendered).not_to have_button('Add In-House Repairs')
     expect(rendered).not_to have_button('Add External Repair')
+    expect(rendered).not_to have_button('Delete In-House Repair')
+    expect(rendered).not_to have_button('Delete External Repair')
   end
 end
