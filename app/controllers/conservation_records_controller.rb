@@ -5,6 +5,8 @@ class ConservationRecordsController < ApplicationController
   before_action :set_conservation_record, only: %i[show edit update destroy]
   before_action :set_departments
 
+  load_and_authorize_resource
+
   # GET /conservation_records
   # GET /conservation_records.json
   def index

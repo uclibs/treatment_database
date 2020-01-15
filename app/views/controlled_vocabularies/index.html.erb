@@ -2,7 +2,11 @@
 
 <h1>Controlled Vocabularies</h1>
 
-<p><%= link_to 'New Controlled Vocabulary', new_controlled_vocabulary_path %></p>
+<p>
+  <% if can? :create, ControlledVocabulary %>
+    <%= link_to 'New Controlled Vocabulary', new_controlled_vocabulary_path %>
+  <% end %>
+</p>
 
 
 <table class="table">

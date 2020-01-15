@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'ControlledVocabularies', type: :request do
   before do
-    user = create(:user)
+    user = create(:user, role: 'standard')
     sign_in user
   end
 

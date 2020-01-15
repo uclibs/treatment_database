@@ -1,7 +1,9 @@
 <%= link_to '← Return to List', conservation_records_path %>
 <div class="header">
   <h1><%= @conservation_record.title %></h1>
-  <%= link_to 'Edit Conservation Record', edit_conservation_record_path(@conservation_record) %>
+  <% if can? :crud, ConservationRecord %>
+    <%= link_to 'Edit Conservation Record', edit_conservation_record_path(@conservation_record) %>
+  <% end %>
 </div>
 
 <%= link_to 'Download Conservation Worksheet', conservation_worksheet_path(@conservation_record), target: "_blank" %>
@@ -58,9 +60,11 @@
     
     <div class="header">
       <h3>In-House Repairs</h3>
-      <button type="button" class="btn btn-primary cta-btn" data-toggle="modal" data-target="#inHouseRepairModal">
-        Add In-House Repairs
-      </button>
+      <% if can? :crud, InHouseRepairRecord %>
+        <button type="button" class="btn btn-primary cta-btn" data-toggle="modal" data-target="#inHouseRepairModal">
+          Add In-House Repairs
+        </button>
+      <% end %>
     </div>
     <% if @in_house_repairs.count == 0 %>
       <div class="card">
@@ -73,10 +77,13 @@
         <% @in_house_repairs.each do |repair| %>
           <li class="list-group-item">
             <%= generate_in_house_repair_string(repair) %>
-            <%= link_to [repair.conservation_record, repair], method: :delete do %>
-              <button class="btn btn-danger justify-content-right">
-                <%= image_tag "delete.png", class: "delete-icon" %>
-              </button>
+
+            <% if can? :crud, InHouseRepairRecord %>
+              <%= link_to [repair.conservation_record, repair], method: :delete do %>
+                <button class="btn btn-danger justify-content-right">
+                  <%= image_tag "delete.png", class: "delete-icon" %>
+                </button>
+              <% end %>
             <% end %>
           </li>
         <% end %>
@@ -86,9 +93,11 @@
     <br />
     <div class="header">
       <h3>External Repairs</h3>
-      <button type="button" class="btn btn-primary cta-btn" data-toggle="modal" data-target="#externalRepairModal">
-        Add External Repair
-      </button>
+      <% if can? :crud, ExternalRepairRecord %>
+        <button type="button" class="btn btn-primary cta-btn" data-toggle="modal" data-target="#externalRepairModal">
+          Add External Repair
+        </button>
+      <% end %>
     </div>
     <% if @external_repairs.count == 0 %>
       <div class="card">
@@ -101,10 +110,13 @@
         <% @external_repairs.each do |repair| %>
           <li class="list-group-item">
             <%= generate_external_repair_string(repair) %>
-            <%= link_to [repair.conservation_record, repair], method: :delete do %>
-              <button class="btn btn-danger justify-content-right">
-                <%= image_tag "delete.png", class: "delete-icon" %>
-              </button>
+
+            <% if can? :crud, ExternalRepairRecord %>
+              <%= link_to [repair.conservation_record, repair], method: :delete do %>
+                <button class="btn btn-danger justify-content-right">
+                  <%= image_tag "delete.png", class: "delete-icon" %>
+                </button>
+              <% end %>
             <% end %>
           </li>
         <% end %>

@@ -49,7 +49,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   end
 
   before do
-    user = create(:user)
+    user = create(:user, role: 'standard')
     sign_in_user(user)
   end
 
