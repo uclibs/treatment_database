@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   root 'front#index'
   get 'front/index'
   get 'conservation_records/:id/conservation_worksheet', to: 'conservation_records#conservation_worksheet', as: 'conservation_worksheet'
+  get 'conservation_records/:id/treatment_report', to: 'conservation_records#treatment_report', as: 'treatment_report'
 end
