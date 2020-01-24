@@ -16,3 +16,4 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Exclude:
     - 'app/controllers/search_controller.rb'
+    - 'app/controllers/treatment_reports_controller.rb'

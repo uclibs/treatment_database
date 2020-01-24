@@ -14,11 +14,12 @@ RSpec.describe 'conservation_records/show', type: :view do
                                                           imprint: 'Imprint',
                                                           call_number: 'Call Number',
                                                           item_record_number: 'Item Record Number',
-                                                          digitization: false
+                                                          digitization: false,
+                                                          treatment_report: TreatmentReport.create
                                                         ))
     @in_house_repairs = []
     @external_repairs = []
-
+    @housing = []
     @users = []
     @repair_types = []
     @contract_conservators = []
