@@ -42,13 +42,15 @@
       </li>
       <% else %>
       <li class="nav-item">
-				<div class="dropdown">
-					<a class="dropdown-toggle nav-link" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= current_user.display_name %></a>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<%= link_to("Edit account", edit_user_registration_path, class: 'dropdown-item') %>
-						<%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item') %>
-					</div>
-				</div>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= current_user.display_name %>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <%= link_to("Edit account", edit_user_registration_path, class: 'dropdown-item') %>
+            <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item') %>
+          </div>
+        </div>
       </li>
       <% end %>
     </ul>
