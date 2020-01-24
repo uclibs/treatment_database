@@ -13,19 +13,22 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
       email: 'johngreen@example.com',
       display_name: 'John Green',
       password: 'notapass',
-      password_confirmation: 'notapass'
+      password_confirmation: 'notapass',
+      role: 'read_only'
     },
      {
        email: 'jkrowling@example.com',
        display_name: 'JK Rowling',
        password: 'notapass',
-       password_confirmation: 'notapass'
+       password_confirmation: 'notapass',
+       role: 'standard'
      },
      {
        email: 'chuck@chuck.codes',
        display_name: 'Chuck Greenman',
        password: 'notapass',
-       password_confirmation: 'notapass'
+       password_confirmation: 'notapass',
+       role: 'admin'
      }]
   )
 
