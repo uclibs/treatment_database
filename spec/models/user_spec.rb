@@ -22,4 +22,14 @@ RSpec.describe User, type: :model do
     user = User.new(email: 'test@example.com', display_name: 'Bobby Tables')
     expect(user).to_not be_valid
   end
+
+  it 'activates new account on creation' do
+    user = User.new(email: 'test@example.com', display_name: 'Bobby Tables')
+    expect(user.account_active).to be true
+  end
+
+  it 'set default role for new users' do
+    user = User.create(email: 'test@example.com', display_name: 'Bobby Tables')
+    expect(user.role).to eq 'read_only'
+  end
 end
