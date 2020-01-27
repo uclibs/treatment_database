@@ -19,6 +19,7 @@ class ConservationRecordsController < ApplicationController
     @users = User.all
     @repair_types = ControlledVocabulary.where(vocabulary: 'repair_type', active: true)
     @contract_conservators = ControlledVocabulary.where(vocabulary: 'contract_conservator', active: true)
+    @housing = ControlledVocabulary.where(vocabulary: 'housing', active: true)
     @in_house_repairs = @conservation_record.in_house_repair_records
     @external_repairs = @conservation_record.external_repair_records
   end
@@ -92,6 +93,10 @@ class ConservationRecordsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_conservation_record
     @conservation_record = ConservationRecord.find(params[:id])
+    return unless @conservation_record.treatment_report.nil?
+
+    @conservation_record.treatment_report = TreatmentReport.new
+    @conservation_record.save
   end
 
   def set_departments

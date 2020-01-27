@@ -17,7 +17,8 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       expect(rendered).to have_link('Conservation Records')
       expect(rendered).to have_link('Vocabularies')
       expect(rendered).to have_link('Users')
-      expect(rendered).to have_link('Log out')
+      expect(rendered).to have_link('Edit account')
+      expect(rendered).to have_link('Logout')
     end
   end
 
@@ -33,7 +34,8 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       expect(rendered).to have_link('Conservation Records')
       expect(rendered).to have_link('Vocabularies')
       expect(rendered).not_to have_link('Users')
-      expect(rendered).to have_link('Log out')
+      expect(rendered).to have_link('Edit account')
+      expect(rendered).to have_link('Logout')
     end
   end
 
@@ -49,7 +51,8 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       expect(rendered).to have_link('Conservation Records')
       expect(rendered).not_to have_link('Vocabularies')
       expect(rendered).not_to have_link('Users')
-      expect(rendered).to have_link('Log out')
+      expect(rendered).to have_link('Edit account')
+      expect(rendered).to have_link('Logout')
     end
   end
 
@@ -64,6 +67,8 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       expect(rendered).not_to have_link('Users')
       expect(rendered).to have_link('Log in')
       expect(rendered).to have_link('Sign up')
+      expect(rendered).not_to have_link('Edit account')
+      expect(rendered).not_to have_link('Logout')
     end
   end
 end
