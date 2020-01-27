@@ -56,6 +56,14 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
     )
   end
 
+  File.readlines("db/housing.txt").each do |line|
+    ControlledVocabulary.create(
+      vocabulary: "housing",
+      key: line.strip,
+      active: true
+    )
+  end
+
   ConservationRecord.create(
     [
       {
