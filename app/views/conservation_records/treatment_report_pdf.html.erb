@@ -74,7 +74,7 @@ table {
   <strong>Textblock</strong> <%= simple_format(@conservation_record.treatment_report.condition_textblock) %>
   <strong>Primary Support</strong> <%= simple_format(@conservation_record.treatment_report.condition_primary_support) %>
   <strong>Medium</strong> <%= simple_format(@conservation_record.treatment_report.condition_medium) %>
-  <strong>Housing</strong> <p><%= ControlledVocabulary.find(@conservation_record.treatment_report.condition_housing_id).key %></p>
+  <strong>Housing</strong> <p><%= friendly_housing(@conservation_record.treatment_report.condition_housing_id) %></p>
   <strong>Housing Narrative</strong> <%= simple_format(@conservation_record.treatment_report.condition_housing_narrative) %>
   <strong>Attachments | Inserts</strong> <%= simple_format(@conservation_record.treatment_report.condition_attachments_inserts) %>
   <strong>Previous Treatment</strong> <%= simple_format(@conservation_record.treatment_report.condition_previous_treatment) %>
@@ -82,10 +82,10 @@ table {
 
   <h2>Treatment Proposal</h2>
   <strong>Proposal</strong> <%= simple_format(@conservation_record.treatment_report.treatment_proposal_proposal) %>
-  <strong>Housing Need</strong> <p><%= ControlledVocabulary.find(@conservation_record.treatment_report.treatment_proposal_housing_need_id).key %></p>
+  <strong>Housing Need</strong> <p><%= friendly_housing(@conservation_record.treatment_report.treatment_proposal_housing_need_id) %></p>
   <strong>Factors Influencing Treatment</strong> <%= simple_format(@conservation_record.treatment_report.treatment_proposal_factors_influencing_treatment) %>
   <strong>Performed Treatment</strong> <%= simple_format(@conservation_record.treatment_report.treatment_proposal_performed_treatment) %>
-  <strong>Housing Provided</strong> <p><%= ControlledVocabulary.find(@conservation_record.treatment_report.treatment_proposal_housing_provided_id).key %></p>
+  <strong>Housing Provided</strong> <p><%= friendly_housing(@conservation_record.treatment_report.treatment_proposal_housing_provided_id) %></p>
   <strong>Housing Narrative</strong> <%= simple_format(@conservation_record.treatment_report.treatment_proposal_housing_narrative) %>
   <strong>Storage and Handling Notes</strong> <%= simple_format(@conservation_record.treatment_report.treatment_proposal_storage_and_handling_notes) %>
   <strong>Total Treatment Time</strong> <p><%= @conservation_record.treatment_report.treatment_proposal_total_treatment_time %></p>
