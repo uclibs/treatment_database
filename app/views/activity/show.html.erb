@@ -1,0 +1,44 @@
+<h2><%= version_summarizer(@version).html_safe %></h2>
+
+<center>
+  <button class="btn btn-danger">Revert to This Version</button>
+</center>
+<br>
+
+<table class="table">
+  <thead>
+    <th>Field</th>
+    <th>Was</th>
+    <th>Is</th>
+  </thead>
+
+  <tbody>
+    <% @version.changeset.each do |change| %>
+      <tr>
+        <td><%= change[0] %></td>
+        <td><%= change[1][0] %></td>
+        <td><%= change[1][1] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h3>Recent Activity on this Record</h3>
+<%= @other_versions.inspect %>
+<table class="table">
+  <thead>
+    <th>Field</th>
+    <th>Was</th>
+    <th>Is</th>
+  </thead>
+
+  <tbody>
+    <% @version.changeset.each do |change| %>
+      <tr>
+        <td><%= change[0] %></td>
+        <td><%= change[1][0] %></td>
+        <td><%= change[1][1] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

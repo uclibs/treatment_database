@@ -9,4 +9,6 @@ class ConservationRecord < ApplicationRecord
   has_one :cost_return_report, dependent: :destroy
 
   validates :department, :title, :author, :imprint, :call_number, :item_record_number, presence: true
+
+  has_paper_trail
 end

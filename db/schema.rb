@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_161902) do
     t.string "whodunnit"
     t.text "object", limit: 1073741823
     t.datetime "created_at"
+    t.text "object_changes", limit: 1073741823
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
