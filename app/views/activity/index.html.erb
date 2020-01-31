@@ -2,14 +2,16 @@
 
 <table class="table">
   <thead>
-    <th>Action</th>
+    <th>Activity</th>
+    <th>When</th>
     <th>Detail</th>
   </thead>
 
   <tbody>
-    <% PaperTrail::Version.all.each do |version| %>
+    <% PaperTrail::Version.all.order('created_at DESC').each do |version| %>
       <tr>
         <td><%= version_summarizer(version).html_safe %></td>
+        <td><%= version.created_at.in_time_zone("America/New_York").strftime("%-m/%-d/%y: %H:%M %Z") %>
         <td><%= link_to "Details", activity_path(version) %></td>
       </tr>
     <% end %>
