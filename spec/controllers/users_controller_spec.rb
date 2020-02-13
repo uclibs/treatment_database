@@ -27,7 +27,8 @@ RSpec.describe UsersController, type: :controller do
     let(:attr) do
       { email: 'newemail@example.com',
         display_name: 'New Display Name',
-        role: 'standard_user' }
+        role: 'standard_user',
+        account_active: true }
     end
 
     before(:each) do
@@ -39,5 +40,19 @@ RSpec.describe UsersController, type: :controller do
     it { expect(user.display_name).to eql attr[:display_name] }
     it { expect(user.email).to eql attr[:email] }
     it { expect(user.role).to eql attr[:role] }
+    it { expect(user.account_active).to be attr[:account_active] }
+  end
+
+  context 'user is inactive' do
+    let(:user) { create(:user, role: 'admin', account_active: false) }
+
+    before do
+      sign_in user
+    end
+
+    it 'blocks session for inactive user' do
+      get :index
+      expect(flash[:alert]).to eq('Your account is not activated yet.')
+    end
   end
 end

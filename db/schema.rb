@@ -10,7 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_04_011151) do
+ActiveRecord::Schema.define(version: 2020_01_24_174713) do
+
+  create_table "admin_users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "conservation_records", force: :cascade do |t|
     t.date "date_recieved_in_preservation_services"
@@ -94,6 +99,7 @@ ActiveRecord::Schema.define(version: 2019_12_04_011151) do
     t.datetime "updated_at", null: false
     t.string "display_name"
     t.string "role"
+    t.boolean "account_active"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -6,5 +6,6 @@ FactoryBot.define do
     sequence(:email) { |n| "user#{n}@example.com" }
     password { 'notapassword' }
     role { 'standard' }
+    account_active { true }
   end
 end
