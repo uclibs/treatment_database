@@ -10,12 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_24_174713) do
-
-  create_table "admin_users", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 2020_03_02_204517) do
 
   create_table "conservation_records", force: :cascade do |t|
     t.date "date_recieved_in_preservation_services"
@@ -36,6 +31,20 @@ ActiveRecord::Schema.define(version: 2020_01_24_174713) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "cost_return_reports", force: :cascade do |t|
+    t.decimal "shipping_cost", precision: 8, scale: 2
+    t.decimal "repair_estimate", precision: 8, scale: 2
+    t.decimal "repair_cost", precision: 8, scale: 2
+    t.datetime "invoice_sent_to_business_office"
+    t.boolean "complete"
+    t.datetime "returned_to_origin"
+    t.text "note"
+    t.integer "conservation_record_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conservation_record_id"], name: "index_cost_return_reports_on_conservation_record_id"
   end
 
   create_table "external_repair_records", force: :cascade do |t|

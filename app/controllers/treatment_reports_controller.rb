@@ -5,6 +5,7 @@ class TreatmentReportsController < ApplicationController
     @treatment_report = TreatmentReport.new(treatment_report_params)
     @treatment_report.conservation_record_id = params[:conservation_record_id]
     @treatment_report.save
+
     flash
     redirect_to conservation_record_path(@treatment_report.conservation_record), notice: 'Treatment record saved successfully!'
   end
