@@ -127,226 +127,231 @@
   <br>
   <div class="header">
     <h3>Treatment Report</h3>
-    <a href="#">Download Treatment Report</a>
+    <%= link_to 'Download Treatment Report', treatment_report_path(@conservation_record), target: '_blank' %>
   </div>
   <br>
-  <% if can? :crud, ExternalRepairRecord %>
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="condition-tab" data-toggle="tab" href="#condition" role="tab" aria-controls="condition" aria-selected="false">Condition</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="treatment-proposal-tab" data-toggle="tab" href="#treatment-proposal" role="tab" aria-controls="treatment-proposal" aria-selected="false">Treatment Proposal</a>
-      </li>
-    </ul>
-    <%= form_with(model: [@conservation_record, @conservation_record.treatment_report]) do |f| %>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-        <div class="form-group">
-          <p>
-            General Remarks<br>
-            <%= f.text_area :description_general_remarks, class: 'form-control' %>
-          </p>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="condition-tab" data-toggle="tab" href="#condition" role="tab" aria-controls="condition" aria-selected="false">Condition</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="treatment-proposal-tab" data-toggle="tab" href="#treatment-proposal" role="tab" aria-controls="treatment-proposal" aria-selected="false">Treatment Proposal</a>
+    </li>
+  </ul>
 
-          <p>
-            Binding<br>
-            <%= f.text_area :description_binding, class: 'form-control' %>
-          </p>
-
-          <p>
-            Textblock<br>
-            <%= f.text_area :description_textblock, class: 'form-control' %>
-          </p>
-
-          <p>
-            Primary Support<br>
-            <%= f.text_area :description_primary_support, class: 'form-control' %>
-          </p>
-
-          <p>
-            Medium<br>
-            <%= f.text_area :description_medium, class: 'form-control' %>
-          </p>
-
-          <p>
-            Attachments | Inserts<br>
-            <%= f.text_area :description_attachments_inserts, class: 'form-control' %>
-          </p>
-
-          <p>
-            Housing<br>
-            <%= f.text_area :description_housing, class: 'form-control' %>
-          </p>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="condition" role="tabpanel" aria-labelledby="condition-tab">
+  <%= form_with(model: [@conservation_record, @conservation_record.treatment_report], class: 'disable_input') do |f| %>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+      <div class="form-group">
         <p>
-          Summary<br>
-          <%= f.text_area :condition_summary, class: 'form-control' %>
+          General Remarks<br>
+          <%= f.text_area :description_general_remarks, class: 'form-control' %>
         </p>
 
         <p>
           Binding<br>
-          <%= f.text_area :condition_binding, class: 'form-control' %>
+          <%= f.text_area :description_binding, class: 'form-control' %>
         </p>
 
         <p>
           Textblock<br>
-          <%= f.text_area :condition_textblock, class: 'form-control' %>
+          <%= f.text_area :description_textblock, class: 'form-control' %>
         </p>
 
         <p>
           Primary Support<br>
-          <%= f.text_area :condition_primary_support, class: 'form-control' %>
+          <%= f.text_area :description_primary_support, class: 'form-control' %>
         </p>
 
         <p>
           Medium<br>
-          <%= f.text_area :condition_medium, class: 'form-control' %>
-        </p>
-
-        <p>
-          Housing<br>
-          <%= f.select(:condition_housing_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
-        </p>
-
-        <p>
-          Housing Narrative<br>
-          <%= f.text_area :condition_housing_narrative, class: 'form-control' %>
+          <%= f.text_area :description_medium, class: 'form-control' %>
         </p>
 
         <p>
           Attachments | Inserts<br>
-          <%= f.text_area :condition_attachments_inserts, class: 'form-control' %>
+          <%= f.text_area :description_attachments_inserts, class: 'form-control' %>
         </p>
 
         <p>
-          Previous Treatment<br>
-          <%= f.text_area :condition_previous_treatment, class: 'form-control' %>
+          Housing<br>
+          <%= f.text_area :description_housing, class: 'form-control' %>
         </p>
-
-        <p>
-          Materials Analysis<br>
-          <%= f.text_area :condition_materials_analysis, class: 'form-control' %>
-        </p>
-      </div>
-      <div class="tab-pane fade" id="treatment-proposal" role="tabpanel" aria-labelledby="treatment-proposal-tab">
-        <p>
-          Proposal<br>
-          <%= f.text_area :treatment_proposal_proposal, class: 'form-control' %>
-        </p>
-
-        <p>
-          Housing Need<br>
-          <%= f.select(:treatment_proposal_housing_need_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
-        </p>
-
-        <p>
-          Factors Influencing Treatment<br>
-          <%= f.text_area :treatment_proposal_factors_influencing_treatment, class: 'form-control' %>
-        </p>
-
-        <p>
-          Performed Treatment<br>
-          <%= f.text_area :treatment_proposal_performed_treatment, class: 'form-control' %>
-        </p>
-
-        <p>
-          Housing Provided<br>
-          <%= f.select(:treatment_proposal_housing_provided_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
-        </p>
-
-        <p>
-          Housing Narrative<br>
-          <%= f.text_area :treatment_proposal_housing_narrative, class: 'form-control' %>
-        </p>
-
-        <p>
-          Storage and Handling Notes<br>
-          <%= f.text_area :treatment_proposal_storage_and_handling_notes, class: 'form-control' %>
-        </p>
-
-        <p>
-          Total Treatment Time<br>
-          <%= f.number_field :treatment_proposal_total_treatment_time, class: 'form-control' %>
-        </p>
-
       </div>
     </div>
-      
-      
-        <p>
-          <%= f.submit 'Save Treatment Report', class: 'btn btn-primary' %>
-        </p>
-      </div>
-      <% end %>
-  </div>
-  <br />
+    <div class="tab-pane fade" id="condition" role="tabpanel" aria-labelledby="condition-tab">
+      <p>
+        Summary<br>
+        <%= f.text_area :condition_summary, class: 'form-control' %>
+      </p>
 
-  <div class="modal fade" id="inHouseRepairModal" tabindex="-1" role="dialog" aria-labelledby="inHouseRepairModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">In-House Repair</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+      <p>
+        Binding<br>
+        <%= f.text_area :condition_binding, class: 'form-control' %>
+      </p>
+
+      <p>
+        Textblock<br>
+        <%= f.text_area :condition_textblock, class: 'form-control' %>
+      </p>
+
+      <p>
+        Primary Support<br>
+        <%= f.text_area :condition_primary_support, class: 'form-control' %>
+      </p>
+
+      <p>
+        Medium<br>
+        <%= f.text_area :condition_medium, class: 'form-control' %>
+      </p>
+
+      <p>
+        Housing<br>
+        <%= f.select(:condition_housing_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
+      </p>
+
+      <p>
+        Housing Narrative<br>
+        <%= f.text_area :condition_housing_narrative, class: 'form-control' %>
+      </p>
+
+      <p>
+        Attachments | Inserts<br>
+        <%= f.text_area :condition_attachments_inserts, class: 'form-control' %>
+      </p>
+
+      <p>
+        Previous Treatment<br>
+        <%= f.text_area :condition_previous_treatment, class: 'form-control' %>
+      </p>
+
+      <p>
+        Materials Analysis<br>
+        <%= f.text_area :condition_materials_analysis, class: 'form-control' %>
+      </p>
+    </div>
+    <div class="tab-pane fade" id="treatment-proposal" role="tabpanel" aria-labelledby="treatment-proposal-tab">
+      <p>
+        Proposal<br>
+        <%= f.text_area :treatment_proposal_proposal, class: 'form-control' %>
+      </p>
+
+      <p>
+        Housing Need<br>
+        <%= f.select(:treatment_proposal_housing_need_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
+      </p>
+
+      <p>
+        Factors Influencing Treatment<br>
+        <%= f.text_area :treatment_proposal_factors_influencing_treatment, class: 'form-control' %>
+      </p>
+
+      <p>
+        Performed Treatment<br>
+        <%= f.text_area :treatment_proposal_performed_treatment, class: 'form-control' %>
+      </p>
+
+      <p>
+        Housing Provided<br>
+        <%= f.select(:treatment_proposal_housing_provided_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
+      </p>
+
+      <p>
+        Housing Narrative<br>
+        <%= f.text_area :treatment_proposal_housing_narrative, class: 'form-control' %>
+      </p>
+
+      <p>
+        Storage and Handling Notes<br>
+        <%= f.text_area :treatment_proposal_storage_and_handling_notes, class: 'form-control' %>
+      </p>
+
+      <p>
+        Total Treatment Time<br>
+        <%= f.number_field :treatment_proposal_total_treatment_time, class: 'form-control' %>
+      </p>
+
+    </div>
+  </div>
+    
+    
+      <p>
+        <%= f.submit 'Save Treatment Report', class: 'btn btn-primary' %>
+      </p>
+    </div>
+    <% end %>
+</div>
+<br />
+
+<div class="modal fade" id="inHouseRepairModal" tabindex="-1" role="dialog" aria-labelledby="inHouseRepairModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">In-House Repair</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <%= form_with(model: [@conservation_record, @conservation_record.in_house_repair_records.build]) do |form| %>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="RepairedBy">Repaired By</label>
+            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { :class => 'form-control' }) %>
         </div>
-        
-        <%= form_with(model: [@conservation_record, @conservation_record.in_house_repair_records.build]) do |form| %>
+        <div class="form-group">
+          <label>Repair Type</label>
+          <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control' } %>
+        </div>
+        <div class="form-group">
+          <label>Minutes Spent</label>
+          <%= form.number_field :minutes_spent, class: "form-control", placeholder: "Minutes" %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <%= form.submit "Create In-House Repair Record", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="externalRepairModal" tabindex="-1" role="dialog" aria-labelledby="externalRepairModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">External Repair</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <%= form_with(model: [@conservation_record, @conservation_record.external_repair_records.build]) do |form| %>
         <div class="modal-body">
           <div class="form-group">
             <label for="RepairedBy">Repaired By</label>
-              <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { :class => 'form-control' }) %>
+            <%= form.select(:performed_by_vendor_id, options_from_collection_for_select(@contract_conservators, "id", "key"), { prompt: 'Select Vendor' }, { :class => 'form-control' }) %>
           </div>
           <div class="form-group">
             <label>Repair Type</label>
             <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control' } %>
           </div>
-          <div class="form-group">
-            <label>Minutes Spent</label>
-            <%= form.number_field :minutes_spent, class: "form-control", placeholder: "Minutes" %>
-          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <%= form.submit "Create In-House Repair Record", class: "btn btn-primary" %>
-          <% end %>
+          <%= form.submit "Create External Repair Record", class: "btn btn-primary" %>
         </div>
-      </div>
+      <% end %>
     </div>
   </div>
-
-  <div class="modal fade" id="externalRepairModal" tabindex="-1" role="dialog" aria-labelledby="externalRepairModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">External Repair</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        
-        <%= form_with(model: [@conservation_record, @conservation_record.external_repair_records.build]) do |form| %>
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="RepairedBy">Repaired By</label>
-              <%= form.select(:performed_by_vendor_id, options_from_collection_for_select(@contract_conservators, "id", "key"), { prompt: 'Select Vendor' }, { :class => 'form-control' }) %>
-            </div>
-            <div class="form-group">
-              <label>Repair Type</label>
-              <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control' } %>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <%= form.submit "Create External Repair Record", class: "btn btn-primary" %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
 </div>
+
+<% if !can? :crud, ConservationRecord %>
+  <script>
+    $('.disable_input :input').prop('disabled', true);
+  </script>
+<% end %>
