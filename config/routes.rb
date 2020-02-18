@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   resources :users
-  resources :controlled_vocabularies
+  resources :controlled_vocabularies, except: [:destroy]
 
   resources :conservation_records do
     resources :in_house_repair_records
