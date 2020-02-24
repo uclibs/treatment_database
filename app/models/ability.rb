@@ -33,11 +33,13 @@ class Ability
     user ||= User.new # guest user (not logged in)
 
     alias_action :create, :read, :update, :destroy, to: :crud
+    alias_action :treatment_report, :conservation_worksheet, to: :view_pdfs
 
     if user.role == 'admin'
       can :manage, :all
       can :assign_roles, User
     elsif user.role == 'standard'
+      can :view_pdfs, [ConservationRecord]
       can :crud, [ConservationRecord, ControlledVocabulary, ExternalRepairRecord, InHouseRepairRecord]
     elsif user.role == 'read_only'
       can :read, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord]
