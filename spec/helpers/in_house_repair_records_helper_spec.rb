@@ -14,6 +14,6 @@ RSpec.describe InHouseRepairRecordsHelper, type: :helper do
            conservation_record)
   end
   it 'generates an in house repair string' do
-    expect(helper.generate_in_house_repair_string(repair_record)).to eq('Wash performed by John Q. Public in 10 minutes.')
+    expect(helper.generate_in_house_repair_string(repair_record, 0)).to eq('1. Wash performed by John Q. Public in 10 minutes.')
   end
 end
