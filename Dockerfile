@@ -1,5 +1,4 @@
 FROM ruby:2.5.1
-
 RUN apt-get update && apt-get install -y \
     build-essential \
       sqlite3
@@ -15,4 +14,5 @@ COPY . ./
 EXPOSE 3000
 
 ENTRYPOINT ["bundle", "exec"]
+
 CMD ["rails" ,"server" ,"-b" ,"0.0.0.0"]
