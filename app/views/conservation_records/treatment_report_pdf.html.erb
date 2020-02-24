@@ -92,15 +92,15 @@ table {
 
   <h2>In-House Repairs</h2>
   <ul>
-    <% @conservation_record.in_house_repair_records.each do |repair| %>
-      <li><%= generate_in_house_repair_string(repair) %></li>
+    <% @conservation_record.in_house_repair_records.each_with_index do |repair, i| %>
+      <li><%= generate_in_house_repair_string(repair, i) %></li>
     <% end %>
   </ul>
 
   <h2>External Repairs</h2>
   <ul>
-    <% @conservation_record.external_repair_records.each do |repair| %>
-      <li><%= generate_external_repair_string(repair) %></li>
+    <% @conservation_record.external_repair_records.each_with_index do |repair, i| %>
+      <li><%= generate_external_repair_string(repair, i) %></li>
     <% end %>
   </ul>
 </div>

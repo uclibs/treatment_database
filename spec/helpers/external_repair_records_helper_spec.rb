@@ -18,7 +18,7 @@ RSpec.describe ExternalRepairRecordsHelper, type: :helper do
   let!(:vendor) { create(:controlled_vocabulary, vocabulary: 'contract_conservator', key: 'John Q. Public') }
   let!(:external_repair_record) { create(:external_repair_record, repair_type: repair_type.id, performed_by_vendor_id: vendor.id) }
   it 'generates an external repair string' do
-    return_value = helper.generate_external_repair_string(external_repair_record)
-    expect(return_value).to eq('Wash performed by John Q. Public.')
+    return_value = helper.generate_external_repair_string(external_repair_record, 0)
+    expect(return_value).to eq('1. Wash performed by John Q. Public.')
   end
 end

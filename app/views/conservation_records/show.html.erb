@@ -74,9 +74,9 @@
       </div>
     <% else %>
       <ul class="list-group">
-        <% @in_house_repairs.each do |repair| %>
+        <% @in_house_repairs.each_with_index do |repair, i| %>
           <li class="list-group-item">
-            <%= generate_in_house_repair_string(repair) %>
+            <%= generate_in_house_repair_string(repair, i) %>
 
             <% if can? :crud, InHouseRepairRecord %>
               <%= link_to [repair.conservation_record, repair], method: :delete do %>
@@ -107,9 +107,9 @@
       </div>
     <% else %>
       <ul class="list-group">
-        <% @external_repairs.each do |repair| %>
+        <% @external_repairs.each_with_index do |repair, i| %>
           <li class="list-group-item">
-            <%= generate_external_repair_string(repair) %>
+            <%= generate_external_repair_string(repair, i) %>
 
             <% if can? :crud, ExternalRepairRecord %>
               <%= link_to [repair.conservation_record, repair], method: :delete do %>
