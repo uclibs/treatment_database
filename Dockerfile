@@ -1,16 +1,15 @@
-FROM ruby:2.5.1
-RUN apt-get update && apt-get install -y \
-    build-essential \
-      sqlite3
+FROM ruby:2.5.1-alpine3.7
+
+
+RUN apk --update add build-base sqlite-dev nodejs tzdata libxslt-dev libxml2-dev
 
 RUN mkdir -p /app
 WORKDIR /app
 COPY Gemfile* ./
 RUN gem install bundler
 RUN bundle install
-RUN rails db:migrate
 COPY . ./
-
+RUN rails db:migrate
 EXPOSE 3000
 
 ENTRYPOINT ["bundle", "exec"]
