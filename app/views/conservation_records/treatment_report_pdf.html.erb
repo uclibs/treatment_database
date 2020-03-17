@@ -93,14 +93,14 @@ table {
   <h2>In-House Repairs</h2>
   <ol>
     <% @conservation_record.in_house_repair_records.each_with_index do |repair, i| %>
-      <li><%= generate_in_house_repair_string(repair, i) %></li>
+      <li><%= generate_in_house_repair_string(repair, nil) %></li>
     <% end %>
   </ol>
 
   <h2>External Repairs</h2>
   <ol>
     <% @conservation_record.external_repair_records.each_with_index do |repair, i| %>
-      <li><%= generate_external_repair_string(repair, i) %></li>
+      <li><%= generate_external_repair_string(repair, nil) %></li>
     <% end %>
   </ol>
 </div>
