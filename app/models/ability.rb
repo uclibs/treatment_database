@@ -38,9 +38,10 @@ class Ability
     if user.role == 'admin'
       can :manage, :all
       can :assign_roles, User
+      can :crud, [ControlledVocabulary]
     elsif user.role == 'standard'
       can :view_pdfs, [ConservationRecord]
-      can :crud, [ConservationRecord, ControlledVocabulary, ExternalRepairRecord, InHouseRepairRecord]
+      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord]
     elsif user.role == 'read_only'
       can :read, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord]
     end

@@ -32,7 +32,7 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
 
     it 'has a menu with the expected links when signed in' do
       expect(rendered).to have_link('Conservation Records')
-      expect(rendered).to have_link('Vocabularies')
+      expect(rendered).not_to have_link('Vocabularies')
       expect(rendered).not_to have_link('Users')
       expect(rendered).to have_link('Edit account')
       expect(rendered).to have_link('Logout')

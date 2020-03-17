@@ -2,7 +2,7 @@
 
 class ControlledVocabulariesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_controlled_vocabulary, only: %i[show edit update destroy]
+  before_action :set_controlled_vocabulary, only: %i[show edit update]
 
   load_and_authorize_resource
 
@@ -51,16 +51,6 @@ class ControlledVocabulariesController < ApplicationController
         format.html { render :edit }
         format.json { render json: @controlled_vocabulary.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /controlled_vocabularies/1
-  # DELETE /controlled_vocabularies/1.json
-  def destroy
-    @controlled_vocabulary.destroy
-    respond_to do |format|
-      format.html { redirect_to controlled_vocabularies_url, notice: 'Controlled vocabulary was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
