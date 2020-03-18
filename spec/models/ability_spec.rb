@@ -28,11 +28,11 @@ describe 'User', type: :model do
       it { is_expected.to be_able_to(:update, ConservationRecord.new) }
       it { is_expected.to be_able_to(:destroy, ConservationRecord.new) }
 
-      it { is_expected.to be_able_to(:index, ControlledVocabulary.new) }
-      it { is_expected.to be_able_to(:create, ControlledVocabulary.new) }
-      it { is_expected.to be_able_to(:read, ControlledVocabulary.new) }
-      it { is_expected.to be_able_to(:update, ControlledVocabulary.new) }
-      it { is_expected.to be_able_to(:destroy, ControlledVocabulary.new) }
+      it { is_expected.not_to be_able_to(:index, ControlledVocabulary.new) }
+      it { is_expected.not_to be_able_to(:create, ControlledVocabulary.new) }
+      it { is_expected.not_to be_able_to(:read, ControlledVocabulary.new) }
+      it { is_expected.not_to be_able_to(:update, ControlledVocabulary.new) }
+      it { is_expected.not_to be_able_to(:destroy, ControlledVocabulary.new) }
     end
 
     context 'when is a read_only user' do

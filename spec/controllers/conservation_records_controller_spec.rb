@@ -189,5 +189,65 @@ RSpec.describe ConservationRecordsController, type: :controller do
       get :conservation_worksheet, params: { id: conservation_record.id }
       expect(response.headers['Content-Type']).to eq('application/pdf')
     end
+
+    context 'with read_only user' do
+      before do
+        read_user = create(:user, role: 'read_only')
+        sign_in_user(read_user)
+      end
+
+      it 'redirects to home with an error' do
+        conservation_record = ConservationRecord.create! valid_attributes
+        get :conservation_worksheet, params: { id: conservation_record.id }
+        expect(response).to redirect_to(root_url)
+      end
+    end
+
+    context 'with standard user' do
+      before do
+        standard_user = create(:user, role: 'standard')
+        sign_in_user(standard_user)
+      end
+
+      it 'sends a file' do
+        conservation_record = ConservationRecord.create! valid_attributes
+        get :conservation_worksheet, params: { id: conservation_record.id }
+        expect(response.headers['Content-Type']).to eq('application/pdf')
+      end
+    end
+  end
+
+  describe 'treatment_report' do
+    it 'sends a file' do
+      conservation_record = ConservationRecord.create! valid_attributes
+      get :treatment_report, params: { id: conservation_record.id }
+      expect(response.headers['Content-Type']).to eq('application/pdf')
+    end
+
+    context 'with read_only user' do
+      before do
+        read_user = create(:user, role: 'read_only')
+        sign_in_user(read_user)
+      end
+
+      it 'redirects to home with an error' do
+        conservation_record = ConservationRecord.create! valid_attributes
+        get :treatment_report, params: { id: conservation_record.id }
+        expect(response).to redirect_to(root_url)
+      end
+    end
+
+    context 'with standard user' do
+      before do
+        standard_user = create(:user, role: 'standard')
+        sign_in_user(standard_user)
+      end
+
+      it 'sends a file' do
+        conservation_record = ConservationRecord.create! valid_attributes
+        get :treatment_report, params: { id: conservation_record.id }
+        expect(response.headers['Content-Type']).to eq('application/pdf')
+      end
+    end
   end
 end

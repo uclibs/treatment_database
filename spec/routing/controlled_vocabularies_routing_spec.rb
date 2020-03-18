@@ -31,9 +31,5 @@ RSpec.describe ControlledVocabulariesController, type: :routing do
     it 'routes to #update via PATCH' do
       expect(patch: '/controlled_vocabularies/1').to route_to('controlled_vocabularies#update', id: '1')
     end
-
-    it 'routes to #destroy' do
-      expect(delete: '/controlled_vocabularies/1').to route_to('controlled_vocabularies#destroy', id: '1')
-    end
   end
 end

@@ -49,7 +49,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   end
 
   before do
-    user = create(:user, role: 'standard')
+    user = create(:user, role: 'admin')
     sign_in_user(user)
   end
 
@@ -148,21 +148,6 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
         expect(response.body).to have_content("Vocabulary can't be blank")
         expect(response.body).to have_content("Key can't be blank")
       end
-    end
-  end
-
-  describe 'DELETE #destroy' do
-    it 'destroys the requested controlled_vocabulary' do
-      controlled_vocabulary = ControlledVocabulary.create! valid_attributes
-      expect do
-        delete :destroy, params: { id: controlled_vocabulary.to_param }, session: valid_session
-      end.to change(ControlledVocabulary, :count).by(-1)
-    end
-
-    it 'redirects to the controlled_vocabularies list' do
-      controlled_vocabulary = ControlledVocabulary.create! valid_attributes
-      delete :destroy, params: { id: controlled_vocabulary.to_param }, session: valid_session
-      expect(response).to redirect_to(controlled_vocabularies_url)
     end
   end
 end
