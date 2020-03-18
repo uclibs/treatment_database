@@ -282,11 +282,52 @@
         <%= f.submit 'Save Treatment Report', class: 'btn btn-primary' %>
       </p>
     </div>
-    <% end %>
+  <% end %>
 
   <div class="header">
     <h3>Cost and Return Information</h3>
   </div>
+  <%= form_with(model: [@conservation_record, @conservation_record.cost_return_report]) do |f| %>
+
+    <p>
+      Shipping Cost<br>
+      <%= f.number_field :shipping_cost, class: 'form-control' %>
+    </p>
+
+    <p>
+      Repair Estimate<br>
+      <%= f.number_field :repair_estimate, class: 'form-control' %>
+    </p>
+
+    <p>
+      Repair Cost<br>
+      <%= f.number_field :repair_cost, class: 'form-control' %>
+    </p>
+
+    <p>
+      Invoice Sent to Business Office<br>
+      <%= f.date_field(:invoice_sent_to_business_office, class: 'form-control') %>
+    </p>
+
+    <p>
+      <%= f.check_box(:complete) %>
+      <%= label_tag(:complete) %>
+    </p>
+
+    <p>
+      Returned to Origin<br>
+      <%= f.date_field(:returned_to_origin, class: 'form-control') %>
+    </p>
+
+    <p>
+      Conservator Note
+      <%= f.text_area :note, class: 'form-control' %>
+    </p>
+
+    <p>
+      <%= f.submit 'Save Cost and Return Information', class: 'btn btn-primary' %>
+    </p>
+  <% end %>
 </div>
 <br />
 
