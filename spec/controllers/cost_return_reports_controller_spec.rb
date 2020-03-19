@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe CostReturnReportsController, type: :controller do
@@ -17,7 +19,7 @@ RSpec.describe CostReturnReportsController, type: :controller do
       invoice_sent_to_business_office: Time.now,
       complete: true,
       returned_to_origin: Time.now,
-      note: "This is the note."
+      note: 'This is the note.'
     }
   end
 

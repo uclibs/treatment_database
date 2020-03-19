@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CostReturnReportsController < ApplicationController
   before_action :authenticate_user!
 
@@ -25,6 +27,7 @@ class CostReturnReportsController < ApplicationController
   private
 
   def cost_return_report_params
-    params.require(:cost_return_report).permit(:shipping_cost, :repair_estimate, :repair_cost, :invoice_sent_to_business_office, :complete, :returned_to_origin, :note)
+    params.require(:cost_return_report).permit(:shipping_cost, :repair_estimate, :repair_cost, :invoice_sent_to_business_office, :complete,
+                                               :returned_to_origin, :note)
   end
 end
