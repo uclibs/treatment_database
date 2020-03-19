@@ -12,11 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2020_01_24_174713) do
 
-  create_table "admin_users", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "conservation_records", force: :cascade do |t|
     t.date "date_recieved_in_preservation_services"
     t.string "title"

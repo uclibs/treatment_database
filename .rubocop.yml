@@ -8,6 +8,7 @@ AllCops:
 Metrics/AbcSize:
   Exclude:
     - app/helpers/in_house_repair_records_helper.rb
+    - app/helpers/external_repair_records_helper.rb
 
 Metrics/BlockLength:
   Exclude:
