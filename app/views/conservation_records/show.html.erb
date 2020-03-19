@@ -152,17 +152,17 @@
 
     <p>
       Shipping Cost<br>
-      <%= f.number_field :shipping_cost, class: 'form-control' %>
+      <%= f.number_field :shipping_cost, :value => (number_with_precision(f.object.shipping_cost, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
     </p>
 
     <p>
       Repair Estimate<br>
-      <%= f.number_field :repair_estimate, class: 'form-control' %>
+      <%= f.number_field :repair_estimate, :value => (number_with_precision(f.object.repair_estimate, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
     </p>
 
     <p>
       Repair Cost<br>
-      <%= f.number_field :repair_cost, class: 'form-control' %>
+      <%= f.number_field :repair_cost, :value => (number_with_precision(f.object.repair_cost, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
     </p>
 
     <p>
@@ -181,7 +181,7 @@
     </p>
 
     <p>
-      Conservator Note
+      Note
       <%= f.text_area :note, class: 'form-control' %>
     </p>
 
