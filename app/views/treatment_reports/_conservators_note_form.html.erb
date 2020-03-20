@@ -1,0 +1,17 @@
+<br>
+<div class="header">
+  <h3>Conservator's Note</h3>
+  <a href="#">Download Abbreviated Treatment Report</a>
+</div>
+
+  <%= form_with(model: [@conservation_record, @conservation_record.treatment_report], class: 'disable_input') do |f| %>
+    <div class="form-group">
+      <p>
+        <%= f.text_area :conservators_note, class: 'form-control' %>
+      </p>
+
+      <p>
+        <%= f.submit 'Save Conservator Note', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>

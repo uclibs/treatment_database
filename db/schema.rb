@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_24_174713) do
+ActiveRecord::Schema.define(version: 2020_03_20_134630) do
 
   create_table "conservation_records", force: :cascade do |t|
     t.date "date_recieved_in_preservation_services"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 2020_01_24_174713) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "conservation_record_id"
+    t.string "conservators_note"
     t.index ["conservation_record_id"], name: "index_treatment_reports_on_conservation_record_id"
   end
 

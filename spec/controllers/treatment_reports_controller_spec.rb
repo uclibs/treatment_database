@@ -38,7 +38,8 @@ RSpec.describe TreatmentReportsController, type: :controller do
       treatment_proposal_housing_provided_id: housing_a.id,
       treatment_proposal_housing_narrative: 'Treatment Propsal Housing Narrative',
       treatment_proposal_storage_and_handling_notes: 'Treatment Proposal Storage Handling and Notes',
-      treatment_proposal_total_treatment_time: 30
+      treatment_proposal_total_treatment_time: 30,
+      conservators_report: "Conservator's Note"
     }
   end
 
