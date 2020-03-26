@@ -44,6 +44,7 @@ class TreatmentReportsController < ApplicationController
                                              :treatment_proposal_housing_provided_id,
                                              :treatment_proposal_housing_narrative,
                                              :treatment_proposal_storage_and_handling_notes,
-                                             :treatment_proposal_total_treatment_time)
+                                             :treatment_proposal_total_treatment_time,
+                                             :conservators_note)
   end
 end
