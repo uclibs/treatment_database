@@ -5,11 +5,6 @@ AllCops:
     - 'db/**/*'
     - vendor/bundle/**/*
 
-Metrics/AbcSize:
-  Exclude:
-    - app/helpers/in_house_repair_records_helper.rb
-    - app/helpers/external_repair_records_helper.rb
-
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*.rb'
@@ -22,8 +17,3 @@ Metrics/MethodLength:
   Exclude:
     - 'app/controllers/search_controller.rb'
     - 'app/controllers/treatment_reports_controller.rb'
-    - 'app/models/ability.rb'
-
-
-Rails/FilePath:
-  Enabled: false

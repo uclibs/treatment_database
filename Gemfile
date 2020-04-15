@@ -56,8 +56,6 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 3.8'
-  gem 'rubocop'
-  gem 'rubocop-rails'
 end
 
 group :development do
@@ -66,6 +64,7 @@ group :development do
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'rb-readline'
+  gem 'rubocop'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end

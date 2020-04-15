@@ -146,7 +146,7 @@ GEM
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
     parallel (1.19.1)
-    parser (2.7.1.0)
+    parser (2.7.1.1)
       ast (~> 2.4.0)
     pdfkit (0.8.4.2)
     popper_js (1.16.0)
@@ -224,10 +224,6 @@ GEM
       rexml
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
-    rubocop-rails (2.5.2)
-      activesupport
-      rack (>= 1.1)
-      rubocop (>= 0.72.0)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
     sass (3.7.4)
@@ -322,7 +318,6 @@ DEPENDENCIES
   rb-readline
   rspec-rails (~> 3.8)
   rubocop
-  rubocop-rails
   sass-rails (~> 5.0)
   simplecov
   spring
@@ -337,4 +332,4 @@ RUBY VERSION
    ruby 2.6.6p146
 
 BUNDLED WITH
-   1.17.2
+   2.1.4
