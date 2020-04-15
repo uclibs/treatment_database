@@ -23,3 +23,7 @@ Metrics/MethodLength:
     - 'app/controllers/search_controller.rb'
     - 'app/controllers/treatment_reports_controller.rb'
     - 'app/models/ability.rb'
+
+
+Rails/FilePath:
+  Enabled: false
