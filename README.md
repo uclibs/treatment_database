@@ -9,11 +9,47 @@ rails db:migrate
 rails server
 ```
 
+#Dockerizing application
+
+ To dockerize the treatment database application use the following commands after setting up docker on your local machine or server.
+
+ ```bash
+ cd \\to_the_treatment_database_directory
+ docker build -t treatment_database_image .
+ docker run -it --rm treatment_database_image bundle exec rake test
+ docker run -d --name treatment_database -p 3000:3000 -itP -v $(pwd):/app treatment_database_image
+ ```
+ Then to check the containers which are running:
+ ```bash
+ docker ps
+ ```
+
+ If running on local machine, access the app in the browser: [http://localhost:3000](http://localhost:3000)
+
+ Access the rails console:
+ ```bash
+ docker exec -it treatment_database rails c
+ ```
+
+ Access the shell:
+ ```bash
+ docker exec -it treatment_database /bin/sh
+ ```
+
+ To stop the container:
+ ```bash
+ docker stop treatment_database
+ ```
+ To delete the container:
+ ```bash
+ docker rm treatment_database
+ ```
+
 ## Running the Tests
 The treatment database has a test suite built with rspec, running it is simple, just call the following in the project directory:
 
 ```bash
-rspec
+docker exec -it treatment_database bundle exec rspec
 ```
 
 ## Generating PDFs
@@ -21,7 +57,7 @@ In several areas of the application we generate PDF reports.  To accomplish this
 
 If you're running in a headless linux environment you'll likely the X virtual frame buffer.  You can install this with yum and other popular package managers.
 
-Finally, you'll need to add the following bash to your bin `/usr/local/bin/wkhtmltopdf.sh`
+Finally, you'll need to add the following script to your bin `/usr/local/bin/wkhtmltopdf.sh`
 
 ```bash
 xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf "$@"
