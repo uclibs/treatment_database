@@ -13,8 +13,8 @@ describe ApplicationController, type: :controller do
   describe 'handling AccessDenied exceptions' do
     it 'redirects to the root page and sets flash message' do
       get :index
-      flash[:notice].should eq('You are not authorized to access this page.')
-      response.should redirect_to(root_url)
+      expect(flash[:notice]).to eq('You are not authorized to access this page.')
+      expect(response).to redirect_to(root_url)
     end
   end
 end

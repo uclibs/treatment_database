@@ -33,6 +33,20 @@ ActiveRecord::Schema.define(version: 2020_03_20_134630) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "cost_return_reports", force: :cascade do |t|
+    t.decimal "shipping_cost", precision: 8, scale: 2
+    t.decimal "repair_estimate", precision: 8, scale: 2
+    t.decimal "repair_cost", precision: 8, scale: 2
+    t.datetime "invoice_sent_to_business_office"
+    t.boolean "complete"
+    t.datetime "returned_to_origin"
+    t.text "note"
+    t.integer "conservation_record_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conservation_record_id"], name: "index_cost_return_reports_on_conservation_record_id"
+  end
+
   create_table "external_repair_records", force: :cascade do |t|
     t.integer "repair_type"
     t.integer "performed_by_vendor_id"
