@@ -16,7 +16,7 @@ default: &default
   username: root
   password: root
   host: localhost
-  socket: /tmp/mysql.sock
+  socket: /var/run/mysql5/mysqld.sock
 
 #staging is for hosting app in dev mode in AWS
 staging:
