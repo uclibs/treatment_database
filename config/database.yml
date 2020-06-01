@@ -15,7 +15,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password: root
-  host: host.docker.internal
+  host: localhost
   socket: /tmp/mysql.sock
 
 #staging is for hosting app in dev mode in AWS
