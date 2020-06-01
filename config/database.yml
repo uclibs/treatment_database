@@ -9,14 +9,14 @@
 #   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 #   timeout: 5000
 
-default: &default
-  adapter: mysql2
-  encoding: utf8mb4
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password: root
-  host: localhost
-  socket: /tmp/mysql.sock
+# default: &default
+#   adapter: mysql2
+#   encoding: utf8mb4
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#   username: root
+#   password: root
+#   host: localhost
+#   socket: /tmp/mysql.sock
 
 #staging is for hosting app in dev mode in AWS
 staging:
@@ -32,25 +32,68 @@ staging:
 #   <<: *default
 #   database: db/development.sqlite3
 
-development:
-  <<: *default
-  database: db/development_mysql
+<%
+  socket = [
+  ENV["BOXEN_MYSQL_SOCKET"],
+  "/var/run/mysql5/mysqld.sock",
+  "/tmp/mysql.sock"
+  ].detect { |f| f && File.exist?(f) }
 
+  port = ENV["AAEC_DATABASE_PORT"]%>
+
+mysql_connection: &mysql_connection
+<% if socket %>
+  host: <%= ENV["TREATMENT_DATABASE_HOST"] %>
+  socket: <%= socket %>
+<% else %>
+  host: 127.0.0.1
+  port: <%= port %>
+<% end %>
+
+database_settings: &database_settings
+  <<: *mysql_connection
+  adapter:   <%= ENV["TREATMENT_DATABASE_ADAPTER"] %>
+  pool:      <%= ENV["TREATMENT_DATABASE_POOL"] %>
+  username:  <%= ENV["TREATMENT_DATABASE_USERNAME"] %>
+  password:  <%= ENV["TREATMENT_DATABASE_PASSWORD"] %>
+  database:  <%= ENV["TREATMENT_DATABASE_NAME"] %>
+  host:      <%= ENV["TREATMENT_DATABASE_HOST"] %>
+  timeout:   <%= ENV["TREATMENT_DATABASE_TIMEOUT"] %>
+  encoding:  utf8
+  RECONNECT: FALSE
+#
 # development:
-#   adapter: mysql2
-#   database: db/development.mysql
-#   username: root
-#   password: mysql
-#   host: localhost
-#   socket: /tmp/mysql.sock
+#   <<: *default
+#   database: db/development.sqlite3
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
+development:
+  <<: *database_settings
+
 test:
-  <<: *default
-  database: db/test_mysql
+  <<: *database_settings
 
 production:
-  <<: *default
-  database: db/production_mysql
+  <<: *database_settings
+
+# development:
+#   <<: *default
+#   database: db/development_mysql
+#
+# # development:
+# #   adapter: mysql2
+# #   database: db/development.mysql
+# #   username: root
+# #   password: mysql
+# #   host: localhost
+# #   socket: /tmp/mysql.sock
+#
+# # Warning: The database defined as "test" will be erased and
+# # re-generated from your development database when you run "rake".
+# # Do not set this db to the same as development or production.
+# test:
+#   <<: *default
+#   database: db/test_mysql
+#
+# production:
+#   <<: *default
+#   database: db/production_mysql
