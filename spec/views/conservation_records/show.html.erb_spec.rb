@@ -15,8 +15,7 @@ RSpec.describe 'conservation_records/show', type: :view do
                                                           call_number: 'Call Number',
                                                           item_record_number: 'Item Record Number',
                                                           digitization: false,
-                                                          treatment_report: TreatmentReport.create,
-                                                          cost_return_report: CostReturnReport.create
+                                                          treatment_report: TreatmentReport.create
                                                         ))
     @in_house_repairs = []
     @external_repairs = []

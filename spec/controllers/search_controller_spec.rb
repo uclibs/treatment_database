@@ -7,14 +7,14 @@ RSpec.describe SearchController, type: :controller do
   render_views
 
   before do
-    create(:conservation_record)
+    create(:conservation_record, id: 6)
     create(:conservation_record, item_record_number: 'i1001')
     create(:conservation_record, title: 'Third Title')
   end
 
   it 'can search for documents by database id' do
-    get :results, params: { search: ConservationRecord.first.id }
-    expect(response).to redirect_to(conservation_record_path(ConservationRecord.first.id))
+    get :results, params: { search: '6' }
+    expect(response).to redirect_to(conservation_record_path(6))
   end
 
   it 'can search for documents by item record number' do

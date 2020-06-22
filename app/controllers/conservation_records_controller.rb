@@ -2,8 +2,7 @@
 
 class ConservationRecordsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_treatment_report, only: %i[show edit update destroy]
-  before_action :set_cost_return_report, only: %i[show edit update destroy]
+  before_action :set_conservation_record, only: %i[show edit update destroy]
   before_action :set_departments
 
   load_and_authorize_resource
@@ -109,9 +108,9 @@ class ConservationRecordsController < ApplicationController
 
   def set_cost_return_report
     @conservation_record = ConservationRecord.find(params[:id])
-    return unless @conservation_record.cost_return_report.nil?
+    return unless @conservation_record.treatment_report.nil?
 
-    @conservation_record.cost_return_report = CostReturnReport.new
+    @conservation_record.treatment_report = TreatmentReport.new
     @conservation_record.save
   end
 

@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     resources :in_house_repair_records
     resources :external_repair_records
     resources :treatment_reports
-    resources :cost_return_reports
   end
 
   get 'search/help'

@@ -17,6 +17,10 @@
 !/log/.keep
 !/tmp/.keep
 
+/tmp/puma/*
+!/tmp/puma/
+!/tmp/puma/.keep
+
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
@@ -35,3 +39,11 @@
 
 # Don't track .DS_Store on MacOS
 .DS_Store
+
+/vendor/bundle
+
+# Ignore local dotenv config files
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production.local

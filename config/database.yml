@@ -4,22 +4,60 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 #
-default: &default
-  adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+# default: &default
+#   adapter: sqlite3
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#   timeout: 5000
+
+#staging is for hosting app in dev mode in AWS
+staging:
+  adapter: mysql2
+  encoding: utf8mb4
+  host: <%= ENV['MYSQL_HOST'] %>
+  username: <%= ENV['MYSQL_USER_NAME'] %>
+  password: <%= ENV['MYSQL_PASSWORD'] %>
+  pool: 5
+  database: <%= ENV['MYSQL_DB'] %>
+
+  <%
+  socket = [
+  ENV["BOXEN_MYSQL_SOCKET"],
+  "/var/run/mysql5/mysqld.sock",
+  "/tmp/mysql.sock"
+  ].detect { |f| f && File.exist?(f) }
+
+  port = ENV["TREATMENT_DATABASE_PORT"]%>
+
+mysql_connection: &mysql_connection
+<% if socket %>
+  host: <%= ENV["TREATMENT_DATABASE_HOST"] %>
+  socket: <%= socket %>
+<% else %>
+  host: 127.0.0.1
+  port: <%= port %>
+<% end %>
+
+database_settings: &database_settings
+  <<: *mysql_connection
+  adapter:   <%= ENV["TREATMENT_DATABASE_ADAPTER"] %>
+  pool:      <%= ENV["TREATMENT_DATABASE_POOL"] %>
+  username:  <%= ENV["TREATMENT_DATABASE_USERNAME"] %>
+  password:  <%= ENV["TREATMENT_DATABASE_PASSWORD"] %>
+  database:  <%= ENV["TREATMENT_DATABASE_NAME"] %>
+  host:      <%= ENV["TREATMENT_DATABASE_HOST"] %>
+  timeout:   <%= ENV["TREATMENT_DATABASE_TIMEOUT"] %>
+  encoding:  utf8
+  RECONNECT: FALSE
+#
+# development:
+#   <<: *default
+#   database: db/development.sqlite3
 
 development:
-  <<: *default
-  database: db/development.sqlite3
+  <<: *database_settings
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: db/test.sqlite3
+  <<: *database_settings
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  <<: *database_settings

@@ -7,8 +7,6 @@ ruby '2.6.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
@@ -58,6 +56,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'rubocop'
   gem 'rubocop-rails'
+  gem 'sqlite3'
 end
 
 group :development do
@@ -65,7 +64,6 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'rb-readline'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
@@ -77,6 +75,13 @@ group :test do
   gem 'coveralls'
   gem 'rails-controller-testing'
   gem 'simplecov', require: false
+end
+
+group :production do
+  gem 'mysql2'
+
+  # Needed to get console working in production mode
+  gem 'rb-readline'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

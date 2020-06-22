@@ -139,53 +139,9 @@
     <div class="tab-pane fade show active" id="treatment-report" role="tabpanel" aria-labelledby="nav-home-tab"><%= render 'treatment_reports/form' %></div>
     <div class="tab-pane fade" id="conservators-note" role="tabpanel" aria-labelledby="conservators-note"><%= render 'treatment_reports/conservators_note_form' %></div>
   </div>
- 
-  <div class="header">
-    <h3>Cost and Return Information</h3>
-  </div>
-  <%= form_with(model: [@conservation_record, @conservation_record.cost_return_report]) do |f| %>
 
-    <p>
-      Shipping To Vendor Cost<br>
-      <%= f.number_field :shipping_cost, :value => (number_with_precision(f.object.shipping_cost, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
-    </p>
 
-    <p>
-      Repair Cost Estimate<br>
-      <%= f.number_field :repair_estimate, :value => (number_with_precision(f.object.repair_estimate, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
-    </p>
-
-    <p>
-      Actual Billed Repair Cost<br>
-      <%= f.number_field :repair_cost, :value => (number_with_precision(f.object.repair_cost, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
-    </p>
-
-    <p>
-      Date Invoice Sent to Business Office<br>
-      <%= f.date_field(:invoice_sent_to_business_office, class: 'form-control') %>
-    </p>
-
-    <p>
-      <%= f.check_box(:complete) %>
-      <%= f.label("Complete (returned to origin)") %>
-    </p>
-
-    <p>
-      Date Returned to Origin<br>
-      <%= f.date_field(:returned_to_origin, class: 'form-control') %>
-    </p>
-
-    <p>
-      Note
-      <%= f.text_area :note, class: 'form-control' %>
-    </p>
-
-    <p>
-      <%= f.submit 'Save Cost and Return Information', class: 'btn btn-primary' %>
-    </p>
-  <% end %>
-</div>
-<br />
+  
 
 <div class="modal fade" id="inHouseRepairModal" tabindex="-1" role="dialog" aria-labelledby="inHouseRepairModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
