@@ -2,7 +2,7 @@ inherit_from: .rubocop_todo.yml
 
 AllCops:
   Exclude:
-    - 'db/**/*'
+    - "db/**/*"
     - vendor/bundle/**/*
 
 Metrics/AbcSize:
@@ -12,17 +12,18 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Exclude:
-    - 'spec/**/*.rb'
+    - "spec/**/*.rb"
 
 Metrics/LineLength:
   Exclude:
-    - 'app/views/conservation_records/_conservation_record.json.jbuilder'
+    - "app/views/conservation_records/_conservation_record.json.jbuilder"
 
 Metrics/MethodLength:
   Exclude:
-    - 'app/controllers/search_controller.rb'
-    - 'app/controllers/treatment_reports_controller.rb'
-    - 'app/models/ability.rb'
+    - "app/controllers/search_controller.rb"
+    - "app/controllers/treatment_reports_controller.rb"
+    - "app/models/ability.rb"
 
-Rails/FilePath:
-  Enabled: false
+Style/ExpandPathArguments:
+  Exclude:
+    - "config/puma.rb"

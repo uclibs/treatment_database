@@ -1,6 +1,7 @@
 FROM ruby:2.6.6-alpine3.11
-
-RUN apk --update add build-base ncurses wkhtmltopdf xvfb xvfb-run sqlite-dev nodejs tzdata libxslt-dev libxml2-dev
+RUN apk --update add build-base ncurses wkhtmltopdf xvfb xvfb-run nodejs tzdata libxslt-dev libxml2-dev
+RUN apk --update add openssh-server
+RUN apk --update add mariadb-dev
 
 RUN mkdir -p /app
 WORKDIR /app

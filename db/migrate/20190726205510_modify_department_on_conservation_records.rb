@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ModifyDepartmentOnConservationRecords < ActiveRecord::Migration[5.2]
   # This migration is in service of changing the department field
   # from a free-form text field to a controlled vocabulary.

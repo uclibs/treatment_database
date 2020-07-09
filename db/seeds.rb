@@ -48,7 +48,7 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
     )
   end
 
-  File.readlines("db/departments.txt").each do |line|
+  File.readlines('db/departments.txt').each do |line|
     ControlledVocabulary.create(
       vocabulary: 'department',
       key: line.strip,
@@ -56,9 +56,9 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
     )
   end
 
-  File.readlines("db/housing.txt").each do |line|
+  File.readlines('db/housing.txt').each do |line|
     ControlledVocabulary.create(
-      vocabulary: "housing",
+      vocabulary: 'housing',
       key: line.strip,
       active: true
     )
@@ -68,7 +68,7 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
     [
       {
         date_recieved_in_preservation_services: Time.now,
-        department: ControlledVocabulary.where(vocabulary: "department").sample(1).first.id,
+        department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
         title: 'Farewell to Arms',
         author: 'Ernest Hemingway',
         imprint: 'Scribner',
@@ -78,7 +78,7 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
       },
       {
         date_recieved_in_preservation_services: Time.now - 1.days,
-        department: ControlledVocabulary.where(vocabulary: "department").sample(1).first.id,
+        department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
         title: 'Ulysses',
         author: 'James Joyce',
         imprint: 'Picador',
@@ -88,7 +88,7 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
       },
       {
         date_recieved_in_preservation_services: Time.now - 2.days,
-        department: ControlledVocabulary.where(vocabulary: "department").sample(1).first.id,
+        department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
         title: 'The Great Gatsby',
         author: 'F. Scott Fitzgerald',
         imprint: 'Scribner',
