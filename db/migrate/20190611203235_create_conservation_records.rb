@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CreateConservationRecords < ActiveRecord::Migration[5.2]
-  def change
+  def change # rubocop:todo Metrics/MethodLength
     create_table :conservation_records do |t|
       t.date :date_recieved_in_preservation_services
       t.string :department

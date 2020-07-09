@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class CreateTreatmentReports < ActiveRecord::Migration[5.2]
-  def change
-    create_table :treatment_reports do |t|
+  def change # rubocop:todo Metrics/AbcSize
+    create_table :treatment_reports do |t| # rubocop:todo Metrics/BlockLength
       # Description Fields
       t.string :description_general_remarks
       t.string :description_binding
