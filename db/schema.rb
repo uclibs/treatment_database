@@ -10,108 +10,106 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_20_134630) do
-
-  create_table "conservation_records", force: :cascade do |t|
-    t.date "date_recieved_in_preservation_services"
-    t.string "title"
-    t.string "author"
-    t.string "imprint"
-    t.string "call_number"
-    t.string "item_record_number"
-    t.boolean "digitization"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "department"
+ActiveRecord::Schema.define(version: 20_200_320_134_630) do
+  create_table 'conservation_records', force: :cascade do |t|
+    t.date 'date_recieved_in_preservation_services'
+    t.string 'title'
+    t.string 'author'
+    t.string 'imprint'
+    t.string 'call_number'
+    t.string 'item_record_number'
+    t.boolean 'digitization'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.integer 'department'
   end
 
-  create_table "controlled_vocabularies", force: :cascade do |t|
-    t.string "vocabulary"
-    t.string "key"
-    t.boolean "active"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'controlled_vocabularies', force: :cascade do |t|
+    t.string 'vocabulary'
+    t.string 'key'
+    t.boolean 'active'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "cost_return_reports", force: :cascade do |t|
-    t.decimal "shipping_cost", precision: 8, scale: 2
-    t.decimal "repair_estimate", precision: 8, scale: 2
-    t.decimal "repair_cost", precision: 8, scale: 2
-    t.datetime "invoice_sent_to_business_office"
-    t.boolean "complete"
-    t.datetime "returned_to_origin"
-    t.text "note"
-    t.integer "conservation_record_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["conservation_record_id"], name: "index_cost_return_reports_on_conservation_record_id"
+  create_table 'cost_return_reports', force: :cascade do |t|
+    t.decimal 'shipping_cost', precision: 8, scale: 2
+    t.decimal 'repair_estimate', precision: 8, scale: 2
+    t.decimal 'repair_cost', precision: 8, scale: 2
+    t.datetime 'invoice_sent_to_business_office'
+    t.boolean 'complete'
+    t.datetime 'returned_to_origin'
+    t.text 'note'
+    t.integer 'conservation_record_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['conservation_record_id'], name: 'index_cost_return_reports_on_conservation_record_id'
   end
 
-  create_table "external_repair_records", force: :cascade do |t|
-    t.integer "repair_type"
-    t.integer "performed_by_vendor_id"
-    t.integer "conservation_record_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["conservation_record_id"], name: "index_external_repair_records_on_conservation_record_id"
+  create_table 'external_repair_records', force: :cascade do |t|
+    t.integer 'repair_type'
+    t.integer 'performed_by_vendor_id'
+    t.integer 'conservation_record_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['conservation_record_id'], name: 'index_external_repair_records_on_conservation_record_id'
   end
 
-  create_table "in_house_repair_records", force: :cascade do |t|
-    t.integer "repair_type"
-    t.integer "performed_by_user_id"
-    t.integer "minutes_spent"
-    t.integer "conservation_record_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["conservation_record_id"], name: "index_in_house_repair_records_on_conservation_record_id"
+  create_table 'in_house_repair_records', force: :cascade do |t|
+    t.integer 'repair_type'
+    t.integer 'performed_by_user_id'
+    t.integer 'minutes_spent'
+    t.integer 'conservation_record_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['conservation_record_id'], name: 'index_in_house_repair_records_on_conservation_record_id'
   end
 
-  create_table "treatment_reports", force: :cascade do |t|
-    t.string "description_general_remarks"
-    t.string "description_binding"
-    t.string "description_textblock"
-    t.string "description_primary_support"
-    t.string "description_medium"
-    t.string "description_attachments_inserts"
-    t.string "description_housing"
-    t.string "condition_summary"
-    t.string "condition_binding"
-    t.string "condition_textblock"
-    t.string "condition_primary_support"
-    t.string "condition_medium"
-    t.integer "condition_housing_id"
-    t.string "condition_housing_narrative"
-    t.string "condition_attachments_inserts"
-    t.string "condition_previous_treatment"
-    t.string "condition_materials_analysis"
-    t.string "treatment_proposal_proposal"
-    t.integer "treatment_proposal_housing_need_id"
-    t.string "treatment_proposal_factors_influencing_treatment"
-    t.string "treatment_proposal_performed_treatment"
-    t.integer "treatment_proposal_housing_provided_id"
-    t.string "treatment_proposal_housing_narrative"
-    t.string "treatment_proposal_storage_and_handling_notes"
-    t.integer "treatment_proposal_total_treatment_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "conservation_record_id"
-    t.string "conservators_note"
-    t.index ["conservation_record_id"], name: "index_treatment_reports_on_conservation_record_id"
+  create_table 'treatment_reports', force: :cascade do |t|
+    t.string 'description_general_remarks'
+    t.string 'description_binding'
+    t.string 'description_textblock'
+    t.string 'description_primary_support'
+    t.string 'description_medium'
+    t.string 'description_attachments_inserts'
+    t.string 'description_housing'
+    t.string 'condition_summary'
+    t.string 'condition_binding'
+    t.string 'condition_textblock'
+    t.string 'condition_primary_support'
+    t.string 'condition_medium'
+    t.integer 'condition_housing_id'
+    t.string 'condition_housing_narrative'
+    t.string 'condition_attachments_inserts'
+    t.string 'condition_previous_treatment'
+    t.string 'condition_materials_analysis'
+    t.string 'treatment_proposal_proposal'
+    t.integer 'treatment_proposal_housing_need_id'
+    t.string 'treatment_proposal_factors_influencing_treatment'
+    t.string 'treatment_proposal_performed_treatment'
+    t.integer 'treatment_proposal_housing_provided_id'
+    t.string 'treatment_proposal_housing_narrative'
+    t.string 'treatment_proposal_storage_and_handling_notes'
+    t.integer 'treatment_proposal_total_treatment_time'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.integer 'conservation_record_id'
+    t.string 'conservators_note'
+    t.index ['conservation_record_id'], name: 'index_treatment_reports_on_conservation_record_id'
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "display_name"
-    t.string "role"
-    t.boolean "account_active"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  create_table 'users', force: :cascade do |t|
+    t.string 'email', default: '', null: false
+    t.string 'encrypted_password', default: '', null: false
+    t.string 'reset_password_token'
+    t.datetime 'reset_password_sent_at'
+    t.datetime 'remember_created_at'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.string 'display_name'
+    t.string 'role'
+    t.boolean 'account_active'
+    t.index ['email'], name: 'index_users_on_email', unique: true
+    t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
   end
-
 end
