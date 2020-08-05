@@ -4,6 +4,7 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 #
+#staging is for hosting app in dev mode in AWS
 staging:
   adapter: mysql2
   encoding: utf8mb4
@@ -12,7 +13,7 @@ staging:
   password: <%= ENV['MYSQL_PASSWORD'] %>
   pool: 5
   database: <%= ENV['MYSQL_DB'] %>
-
+  
   <%
   socket = [
   ENV["BOXEN_MYSQL_SOCKET"],
