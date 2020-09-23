@@ -7,6 +7,8 @@ ruby '2.6.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
+# Use sqlite3 as the database for Active Record
+gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
@@ -22,6 +24,14 @@ gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
+# Use rails-controller-testing for testing a controller
+gem 'rails-controller-testing'
+# Use coveralls for code-coverage
+gem 'coveralls', '~> 0.8.22', require: false
+# Use rubocop for static code analysis
+gem 'rubocop'
+# Use simplecov to generate the coveralls report in .html format
+gem 'simplecov', require: false
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
@@ -53,10 +63,9 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'database_cleaner'
   gem 'factory_bot_rails'
+  gem 'rspec_junit_formatter'
   gem 'rspec-rails', '~> 3.8'
-  gem 'rubocop'
   gem 'rubocop-rails'
-  gem 'sqlite3'
 end
 
 group :development do
@@ -71,10 +80,9 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
+  gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'coveralls'
-  gem 'rails-controller-testing'
-  gem 'simplecov', require: false
+  gem 'chromedriver-helper'
 end
 
 group :production do
