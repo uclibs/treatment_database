@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   get 'search/help'
   get 'search', to: 'search#results', as: 'search'
-  root 'front#index'
+  root 'conservation_records#index'
   get 'front/index'
   get 'conservation_records/:id/conservation_worksheet', to: 'conservation_records#conservation_worksheet', as: 'conservation_worksheet'
   get 'conservation_records/:id/treatment_report', to: 'conservation_records#treatment_report', as: 'treatment_report'
