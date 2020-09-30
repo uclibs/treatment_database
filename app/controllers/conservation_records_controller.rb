@@ -5,13 +5,12 @@ class ConservationRecordsController < ApplicationController
   before_action :set_treatment_report, only: %i[show edit update destroy]
   before_action :set_cost_return_report, only: %i[show edit update destroy]
   before_action :set_departments
-
   load_and_authorize_resource
 
   # GET /conservation_records
   # GET /conservation_records.json
   def index
-    @conservation_records = ConservationRecord.all
+    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
   end
 
   # GET /conservation_records/1

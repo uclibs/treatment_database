@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'conservation_records/index', type: :view do
   include Devise::Test::ControllerHelpers
+  include Pagy::Backend
 
   before(:each) do
     assign(:conservation_records, [
@@ -37,6 +38,7 @@ RSpec.describe 'conservation_records/index', type: :view do
   end
 
   it 'renders a list of conservation_records' do
+    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
     render
     assert_select 'td', text: '101', count: 1
     assert_select 'td', text: '102', count: 1
@@ -51,9 +53,16 @@ RSpec.describe 'conservation_records/index', type: :view do
     @user = create(:user, role: 'read_only')
     @request.env['devise.mapping'] = Devise.mappings[:user]
     sign_in @user
+    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
     render
     expect(rendered).not_to have_link('New Conservation Record')
     expect(rendered).not_to have_link('Edit')
     expect(rendered).not_to have_link('Destroy')
+  end
+
+  it 'displays a pagination widget' do
+    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
+    render
+    expect(rendered).to have_text('Prev1Next')
   end
 end
