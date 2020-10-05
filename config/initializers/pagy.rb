@@ -1,3 +1,3 @@
-# Bootstrap extra: Add nav, nav_js and combo_nav_js helpers and templates for Bootstrap pagination
+# frozen_string_literal: true
 
 require 'pagy/extras/bootstrap'
