@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'pagy'
 
 RSpec.describe 'conservation_records/conservation_worksheet', type: :view do
   before(:each) do
