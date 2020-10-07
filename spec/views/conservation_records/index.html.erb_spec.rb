@@ -51,7 +51,7 @@ RSpec.describe 'conservation_records/index', type: :view do
     @user = create(:user, role: 'read_only')
     @request.env['devise.mapping'] = Devise.mappings[:user]
     sign_in @useri
-    <%== pagy_bootstrap_nav(@pagy).html_safe %>
+    @pagy
     render
     expect(rendered).not_to have_link('New Conservation Record')
     expect(rendered).not_to have_link('Edit')
