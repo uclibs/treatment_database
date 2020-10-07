@@ -50,7 +50,8 @@ RSpec.describe 'conservation_records/index', type: :view do
   it 'hides controls for read_only users' do
     @user = create(:user, role: 'read_only')
     @request.env['devise.mapping'] = Devise.mappings[:user]
-    sign_in @user
+    sign_in @useri
+    <%== pagy_bootstrap_nav(@pagy).html_safe %>
     render
     expect(rendered).not_to have_link('New Conservation Record')
     expect(rendered).not_to have_link('Edit')
