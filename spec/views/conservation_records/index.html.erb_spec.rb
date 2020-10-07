@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+include Pagy::Backend
+
 RSpec.describe 'conservation_records/index', type: :view do
   include Devise::Test::ControllerHelpers
 
@@ -37,6 +39,7 @@ RSpec.describe 'conservation_records/index', type: :view do
   end
 
   it 'renders a list of conservation_records' do
+    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
     render
     assert_select 'td', text: '101', count: 1
     assert_select 'td', text: '102', count: 1
@@ -50,7 +53,7 @@ RSpec.describe 'conservation_records/index', type: :view do
   it 'hides controls for read_only users' do
     @user = create(:user, role: 'read_only')
     @request.env['devise.mapping'] = Devise.mappings[:user]
-    sign_in @useri
+    sign_in @user
     @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
     render
     expect(rendered).not_to have_link('New Conservation Record')
