@@ -10,7 +10,7 @@ class ConservationRecordsController < ApplicationController
   # GET /conservation_records
   # GET /conservation_records.json
   def index
-    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 10)
+    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
   end
 
   # GET /conservation_records/1
