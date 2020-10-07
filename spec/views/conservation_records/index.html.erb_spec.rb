@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+require 'pagy'
+
 RSpec.describe 'conservation_records/index', type: :view do
   include Devise::Test::ControllerHelpers
 
