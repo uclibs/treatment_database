@@ -56,4 +56,5 @@ RSpec.describe 'conservation_records/index', type: :view do
     expect(rendered).not_to have_link('Edit')
     expect(rendered).not_to have_link('Destroy')
   end
+<div class="float-right"> <%== pagy_bootstrap_nav(@pagy).html_safe %> </div>
 end

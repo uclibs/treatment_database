@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 require 'cancan'
-
+include Pagy::Backend
 describe ApplicationController, type: :controller do
   controller do
     def index
