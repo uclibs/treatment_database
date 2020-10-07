@@ -51,9 +51,7 @@ RSpec.describe 'conservation_records/index', type: :view do
     @user = create(:user, role: 'read_only')
     @request.env['devise.mapping'] = Devise.mappings[:user]
     sign_in @useri
-    def index
-      @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
-    end
+    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
     render
     expect(rendered).not_to have_link('New Conservation Record')
     expect(rendered).not_to have_link('Edit')
