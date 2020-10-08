@@ -2,7 +2,6 @@
 
 require 'rails_helper'
 require 'cancan'
-
 describe ApplicationController, type: :controller do
   controller do
     def index
