@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_20_134630) do
+ActiveRecord::Schema.define(version: 2020_10_21_161256) do
+
+  create_table "con_tech_records", force: :cascade do |t|
+    t.integer "performed_by_user_id"
+    t.integer "conservation_record_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conservation_record_id"], name: "index_con_tech_records_on_conservation_record_id"
+  end
 
   create_table "conservation_records", force: :cascade do |t|
     t.date "date_recieved_in_preservation_services"
