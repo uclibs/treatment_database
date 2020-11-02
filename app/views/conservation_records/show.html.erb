@@ -122,6 +122,39 @@
         <% end %>
       </ul>
     <% end %>
+     <br />
+    <div class="header">
+      <h3>Conservators and Technicians</h3>
+      <% if can? :crud, ConTechRecord %>
+        <button type="button" class="btn btn-primary cta-btn" data-toggle="modal" data-target="#ConservatorsTechniciansModal">
+          Add Conservators and Technicians
+        </button>
+      <% end %>
+    </div>
+    <% if @con_tech_records.count == 0 %>
+      <div class="card">
+        <div class="card-body">
+          There are no Conservators and Technicians to show.
+        </div>
+      </div>
+    <% else %>
+      <ul class="list-group">
+        <% @con_tech_records.each_with_index do |record, i| %>
+          <li class="list-group-item">
+            <%= generate_con_tech_string(record, i) %>
+
+            <% if can? :crud, ConTechRecord %>
+              <%= link_to [record.conservation_record, record], method: :delete do %>
+                <button class="btn btn-danger justify-content-right">
+                  <%= image_tag "delete.png", class: "delete-icon" %>
+                </button>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+     <br />
   </div>
 
   <br>
@@ -250,6 +283,32 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="ConservatorsTechniciansModal" tabindex="-1" role="dialog" aria-labelledby="ConservatorsTechniciansModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Conservators and Technicians</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <%= form_with(model: [@conservation_record, @conservation_record.con_tech_records.build]) do |form| %>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="ConservationandTechnicians">Conservators and Technicians</label>
+            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { :class => 'form-control' }) %>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= form.submit "Create Conservators and Technicians Record", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 
 <% if !can? :crud, ConservationRecord %>
   <script>

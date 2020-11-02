@@ -20,6 +20,7 @@ RSpec.describe 'conservation_records/show', type: :view do
                                                         ))
     @in_house_repairs = []
     @external_repairs = []
+    @con_tech_records = []
     @housing = []
     @users = []
     @repair_types = []
@@ -52,7 +53,9 @@ RSpec.describe 'conservation_records/show', type: :view do
     expect(rendered).not_to have_link('Edit Conservation Record')
     expect(rendered).not_to have_button('Add In-House Repairs')
     expect(rendered).not_to have_button('Add External Repair')
+    expect(rendered).not_to have_button('Add Conservators and Technicians')
     expect(rendered).not_to have_button('Delete In-House Repair')
     expect(rendered).not_to have_button('Delete External Repair')
+    expect(rendered).not_to have_button('Delete Conservators and Technicians')
   end
 end

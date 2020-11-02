@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :conservation_records do
     resources :in_house_repair_records
     resources :external_repair_records
+    resources :con_tech_records
     resources :treatment_reports
     resources :cost_return_reports
   end
