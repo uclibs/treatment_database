@@ -1,10 +1,10 @@
 <br>
 <div class="header">
   <h3>Conservator's Note</h3>
-  <a href="#">Download Abbreviated Treatment Report</a>
+  <%= link_to 'Download Abbreviated Treatment Report', abbreviated_treatment_report_path(@conservation_record), target: '_blank' %>
 </div>
 
-  <%= form_with(model: [@conservation_record, @conservation_record.treatment_report], class: 'disable_input') do |f| %>
+  <%= form_with(model: [@conservation_record, @conservation_record.treatment_report]) do |f| %>
     <div class="form-group">
       <p>
         <%= f.text_area :conservators_note, class: 'form-control' %>

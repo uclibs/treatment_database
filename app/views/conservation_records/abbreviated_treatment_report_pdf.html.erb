@@ -1,0 +1,119 @@
+<style>
+.banner {
+  font-size: 30px;
+  background-color: maroon;
+  color: white;
+}
+
+.section {
+  margin-bottom: 15px;
+  display: table-row;
+}
+
+table {
+  font-family: Calibri;
+  text-align: left;
+  display: block;
+}
+
+.a4 {
+  font-family: Calibri;
+  width: 800px;
+  margin: 0 auto;
+  padding-left: 0;
+  display: table;
+}
+th{ 
+    font-family: Calibri;
+    font-weight: normal;
+}
+td {
+  padding: 0 20px;
+}
+
+</style>
+<div class="section">
+  <div class="banner section">
+     Preservation Lab - Abbreviated Treatment Report
+  </div>
+  <br>
+  <div class="a4">
+    <table width="100%">
+      <tr>
+	<th>Database ID</th>
+	<td><b><%= @conservation_record.id %></b></td>
+	<td>Date Received</td>
+	<td><b><%= @conservation_record.date_recieved_in_preservation_services %></b></td>
+      </tr>
+      <tr>
+	<th>Department</th>
+	<td><b><%= controlled_vocabulary_lookup(@conservation_record.department) %></b></td>
+	<td>Date Returned</td>
+	<td><b><%= date_returned(@conservation_record) %></b></td>
+      </tr>
+      <tr>
+	<th>Item Record #</th>
+	<td><b><%= @conservation_record.item_record_number %></b></td>
+      </tr>
+      <tr>
+	<th>Call Number</th>
+	<td><b><%= @conservation_record.call_number %></b></td>
+      </tr>
+      <tr>
+	<th>Title</th>
+        <td><b><%= @conservation_record.title %></b></td>
+      </tr>
+      <tr>
+	<th>Author</th>
+      	<td><b><%= @conservation_record.author %></b></td>
+      </tr>
+      <tr>
+	<th>Imprint</th>
+	<td><b><%= @conservation_record.imprint %></b></td>
+      </tr>
+    </table>
+  </div>
+  <br>
+  <div class="a4">
+      <table width=70%>
+	  <ol>
+   	    <% @conservation_record.in_house_repair_records.each_with_index do |repair, i| %>
+	      <tr>
+		<td rowspan="4"> <strong style="font-size: 25px;"> <%= i+1 %></strong></td>
+	      </tr>
+	      <tr>
+	      <td>
+		  In-House Repair <%=i+1%>
+	      </td>
+	      <td>
+            	  <b><%= generate_abbreviated_treatment_report_type(repair,i)%></b>
+	      </td>
+	      </tr>
+	      <tr>
+	      <td>
+		  Performed In-house Repair
+	      </td>
+	      <td>
+		 <b><%= generate_abbreviated_treatment_report_performed_by(repair,i)%></b>
+	      </td>
+	      </tr>
+	      <tr>
+	      <td>
+		 Time In-house Repair <%=i+1%> (minutes)
+	      </td>
+	      <td>
+	         <b><%= generate_abbreviated_treatment_report_time(repair,i)%></b>
+	      </td>
+	      </tr>
+	      <tr><td><br></td></tr>
+	    <% end %>
+           </ol>
+         </tr>
+       </table>
+   </div>
+   <br>
+</div>
+<div class="a4">
+  Conservator's Note
+  <b><%=simple_format(@conservation_record.treatment_report.conservators_note)%></b>
+</div>

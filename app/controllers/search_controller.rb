@@ -3,9 +3,10 @@
 class SearchController < ApplicationController
   def results
     @search_string = params[:search]
-    @records = if @search_string =~ /^i\d{1,}/
+    @records = case @search_string
+               when /^i\d{1,}/
                  ConservationRecord.where(item_record_number: @search_string)
-               elsif @search_string =~ /^\d+$/
+               when /^\d+$/
                  ConservationRecord.where(id: @search_string)
                else
                  ConservationRecord.where('title LIKE ?', "%#{@search_string}%")

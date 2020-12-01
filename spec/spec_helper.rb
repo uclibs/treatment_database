@@ -30,7 +30,6 @@ SimpleCov.at_exit do
   SimpleCov.result.format!
 end
 
-require 'coveralls'
 Coveralls.wear!('rails')
 
 require 'byebug'

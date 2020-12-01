@@ -1,0 +1,90 @@
+<style>
+.banner {
+  font-size: 30px;
+  background-color: maroon;
+  color: white;
+}
+
+.section {
+  margin-bottom: 15px;
+  display: table-row;
+}
+
+table {
+  font-family: Calibri;
+  text-align: left;
+  display: block;
+}
+
+.a4 {
+  font-family: Calibri;
+  width: 800px;
+  margin: 0 auto;
+  padding-left: 0;
+  display: table;
+}
+th{ 
+    font-family: Calibri;
+    font-weight: normal;
+}
+</style>
+<div class="section">
+  <div class="banner section">
+     Preservation Lab - Abbreviated Treatment Report
+  </div>
+  <br>
+  <div class="a4">
+    <table width="100%">
+      <tr>
+	<th>Database ID</th>
+	<td><b><%= @conservation_record.id %></b></td>
+	<td>Date Received</td>
+	<td><b><%= @conservation_record.date_recieved_in_preservation_services %></b></td>
+      </tr>
+      <tr>
+	<th>Department</th>
+	<td><b><%= controlled_vocabulary_lookup(@conservation_record.department) %></b></td>
+	<th>Date Returned</th>
+	<td><b><%= date_returned(@conservation_record) %></b></td>
+      </tr>
+      <tr>
+	<th>Item Record #</th>
+	<td><b><%= @conservation_record.item_record_number %></b></td>
+      </tr>
+      <tr>
+	<th>Call Number</th>
+	<td><b><%= @conservation_record.call_number %></b></td>
+      </tr>
+      <tr>
+	<th>Title</th>
+        <td><b><%= @conservation_record.title %></b></td>
+      </tr>
+      <tr>
+	<th>Author</th>
+      	<td><b><%= @conservation_record.author %></b></td>
+      </tr>
+      <tr>
+	<th>Imprint</th>
+	<td><b><%= @conservation_record.imprint %></b></td>
+      </tr>
+    </table>
+  </div>
+  <br>
+  <div class="a4">
+      <table width=50%>
+	<tr>
+	  <ul class="list-group">
+   	    <% @conservation_record.in_house_repair_records.each_with_index do |repair, i| %>
+	      <td rowspan="4"><li class="list-group-item"><%puts #{i}%><%= end%></li></td>
+	      <td>
+		<li class="list-group-item">
+            	  <%= generate_abbreviated_treatment_report_type(repair,i)%>
+		</li>
+	      </td>
+	    <% end %>
+           </ul>
+         </tr>
+       </table>
+   </div>
+   <br>
+</div>

@@ -48,7 +48,8 @@ RSpec.describe ConservationRecordsController, type: :controller do
       item_record_number: 'i452',
       digitization: true,
       date_recieved_in_preservation_services: Date.new,
-      treatment_report: TreatmentReport.new
+      treatment_report: TreatmentReport.new,
+      abbreviated_treatment_report: AbbreviatedTreatmentReport.new
     }
   end
 
