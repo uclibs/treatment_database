@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_21_161256) do
+ActiveRecord::Schema.define(version: 2020_12_02_161902) do
+
+  create_table "abbreviated_treatment_reports", force: :cascade do |t|
+    t.integer "conservation_record_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conservation_record_id"], name: "index_abbreviated_treatment_reports_on_conservation_record_id"
+  end
 
   create_table "con_tech_records", force: :cascade do |t|
     t.integer "performed_by_user_id"

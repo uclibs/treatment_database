@@ -1,9 +1,20 @@
+require:
+  - rubocop
+  - rubocop-rails
 inherit_from: .rubocop_todo.yml
 
 AllCops:
   Exclude:
     - "db/**/*"
     - vendor/bundle/**/*
+
+Metrics/ClassLength:
+  Exclude:
+    - app/controllers/conservation_records_controller.rb
+
+Rails/LexicallyScopedActionFilter:
+  Exclude:
+    - app/controllers/users/registrations_controller.rb
 
 Metrics/AbcSize:
   Exclude:

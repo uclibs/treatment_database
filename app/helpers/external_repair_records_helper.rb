@@ -5,8 +5,8 @@ module ExternalRepairRecordsHelper
     repair_type = ControlledVocabulary.find(err.repair_type).key
     contract_conservator_name = ControlledVocabulary.find(err.performed_by_vendor_id).key
 
-    return repair_type + 'performed by ' + contract_conservator_name.squish + '.' if ind.nil?
+    return "#{repair_type}performed by #{contract_conservator_name.squish}." if ind.nil?
 
-    (ind + 1).to_s + '. ' + repair_type + ' performed by ' + contract_conservator_name.squish + '.'
+    "#{ind + 1}. #{repair_type} performed by #{contract_conservator_name.squish}."
   end
 end
