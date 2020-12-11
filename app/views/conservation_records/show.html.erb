@@ -79,7 +79,7 @@
             <%= generate_in_house_repair_string(repair, i) %>
 
             <% if can? :crud, InHouseRepairRecord %>
-              <%= link_to [repair.conservation_record, repair], method: :delete do %>
+              <%= link_to [repair.conservation_record, repair], method: :delete, data: {confirm: "Are you sure?"} do %>
                 <button class="btn btn-danger justify-content-right">
                   <%= image_tag "delete.png", class: "delete-icon" %>
                 </button>
@@ -112,7 +112,7 @@
             <%= generate_external_repair_string(repair, i) %>
 
             <% if can? :crud, ExternalRepairRecord %>
-              <%= link_to [repair.conservation_record, repair], method: :delete do %>
+              <%= link_to [repair.conservation_record, repair], method: :delete,  data: {confirm: "Are you sure?"} do %>
                 <button class="btn btn-danger justify-content-right">
                   <%= image_tag "delete.png", class: "delete-icon" %>
                 </button>
