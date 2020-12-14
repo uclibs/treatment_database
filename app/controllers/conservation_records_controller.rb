@@ -88,8 +88,8 @@ class ConservationRecordsController < ApplicationController
 
   def abbreviated_treatment_report
     @conservation_record = ConservationRecord.find(params[:id])
-    send_data build_pdf('abbreviated_treatment_report_pdf'), filename: @conservation_record.title + '_abbreviated_treatment_report.pdf',
-                                                             type: 'application/pdf', disposition: 'inline' 
+    send_data build_pdf('abbreviated_treatment_report_pdf'), filename: "#{@conservation_record.title}_abbreviated_treatment_report.pdf",
+                                                             type: 'application/pdf', disposition: 'inline'
   end
 
   def build_pdf(format)
