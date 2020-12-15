@@ -33,7 +33,7 @@ class Ability
     user ||= User.new # guest user (not logged in)
 
     alias_action :create, :read, :update, :destroy, to: :crud
-    alias_action :treatment_report, :conservation_worksheet, to: :view_pdfs
+    alias_action :treatment_report, :abbreviated_treatment_report, :conservation_worksheet, to: :view_pdfs
 
     case user.role
     when 'admin'
