@@ -15,13 +15,13 @@ environment ENV.fetch('RAILS_ENV', 'development')
 
 app_dir = File.expand_path('..', __dir__)
 
-port ENV.fetch('PORT', 3000)
+port ENV.fetch('PORT') { 3000 }
 
 if ENV.fetch('RAILS_ENV') == 'production'
   # Set the working directory
   directory app_dir.to_s
   # Set up socket location
-  #  bind "unix://#{app_dir}/tmp/puma/puma.sock"
+  # bind "unix://#{app_dir}/tmp/puma/puma.sock"
 end
 
 # Logs

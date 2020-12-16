@@ -35,7 +35,7 @@ mysql_connection: &mysql_connection
 database_settings: &database_settings
   <<: *mysql_connection
   adapter:   <%= ENV["TREATMENT_DATABASE_ADAPTER"] %>
-  pool:      <%= ENV["TREATMENT_DATABASE_POOL"] %>
+  pool:      5
   username:  <%= ENV["TREATMENT_DATABASE_USERNAME"] %>
   password:  <%= ENV["TREATMENT_DATABASE_PASSWORD"] %>
   database:  <%= ENV["TREATMENT_DATABASE_NAME"] %>
