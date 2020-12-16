@@ -19,10 +19,6 @@ class Users::RegistrationsController < Devise::RegistrationsController # rubocop
   #   super
   # end
 
-  def update
-    super
-  end
-
   # DELETE /resource
   # def destroy
   #   super

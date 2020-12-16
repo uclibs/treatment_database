@@ -74,16 +74,22 @@ class ConservationRecordsController < ApplicationController
 
   def conservation_worksheet
     @conservation_record = ConservationRecord.find(params[:id])
-    @base_64_form_image = 'data:image/png;base64,' + File.open(Rails.root.join('public', 'worksheet_form_image.base64')).read
+    @base_64_form_image = "data:image/png;base64,#{File.open(Rails.root.join('public', 'worksheet_form_image.base64')).read}"
 
-    send_data build_pdf('conservation_worksheet'), filename: @conservation_record.title + '_conservation_worksheet.pdf',
+    send_data build_pdf('conservation_worksheet'), filename: "#{@conservation_record.title}_conservation_worksheet.pdf",
                                                    type: 'application/pdf', disposition: 'inline'
   end
 
   def treatment_report
     @conservation_record = ConservationRecord.find(params[:id])
-    send_data build_pdf('treatment_report_pdf'), filename: @conservation_record.title + '_treatment_report.pdf',
+    send_data build_pdf('treatment_report_pdf'), filename: "#{@conservation_record.title}_treatment_report.pdf",
                                                  type: 'application/pdf', disposition: 'inline'
+  end
+
+  def abbreviated_treatment_report
+    @conservation_record = ConservationRecord.find(params[:id])
+    send_data build_pdf('abbreviated_treatment_report_pdf'), filename: "#{@conservation_record.title}_abbreviated_treatment_report.pdf",
+                                                             type: 'application/pdf', disposition: 'inline'
   end
 
   def build_pdf(format)
@@ -105,6 +111,14 @@ class ConservationRecordsController < ApplicationController
     return unless @conservation_record.treatment_report.nil?
 
     @conservation_record.treatment_report = TreatmentReport.new
+    @conservation_record.save
+  end
+
+  def set_abbreviated_treatment_report
+    @conservation_record = ConservationRecord.find(params[:id])
+    return unless @conservation_record.abbreviated_treatment_report.nil?
+
+    @conservation_record.abbreviated_treatment_report = AbbreviatedTreatmentReport.new
     @conservation_record.save
   end
 

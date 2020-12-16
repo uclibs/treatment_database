@@ -6,6 +6,6 @@ module ConTechRecordsHelper
 
     return display_name if ind.nil?
 
-    (ind + 1).to_s + '. ' + display_name
+    "#{ind + 1}. #{display_name}"
   end
 end
