@@ -3,10 +3,8 @@
 module ActivityHelper
   def version_summarizer(version)
     display_name = 'Someone'
-    if !version.whodunnit.nil?
-      display_name = User.find(version.whodunnit).display_name
-    end
-    display_name + ' ' + event_to_summary(version.event) + ' the ' + item_type_to_summary(version.item_type) + ': ' + name_to_summary(version)
+    display_name = User.find(version.whodunnit).display_name unless version.whodunnit.nil?
+    "#{display_name} #{event_to_summary(version.event)} the #{item_type_to_summary(version.item_type)}: #{name_to_summary(version)}"
   end
 
   def event_to_summary(event)
@@ -43,17 +41,16 @@ module ActivityHelper
     type = version.item_type
     id = version.item_id
 
-    if type == 'ConservationRecord'
+    case type
+    when 'ConservationRecord'
       link_to ConservationRecord.find(id).title, conservation_record_path(id)
-    elsif type == 'TreatmentReport'
+    when 'TreatmentReport'
       treatment_report_id = TreatmentReport.find(id).conservation_record.id
-      link_to ConservationRecord.find(treatment_report_id).title + "'s treatment report", conservation_record_path(id)
-    elsif type == "User"
+      link_to "#{ConservationRecord.find(treatment_report_id).title}'s treatment report", conservation_record_path(id)
+    when 'User'
       User.find(id).display_name
     end
   end
 
-  def changeset_format(field, value)
-    
-  end
+  def changeset_format(field, value); end
 end
