@@ -64,4 +64,6 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   Rails.application.load_seed
+
+  config.include Devise::Test::ControllerHelpers, type: :controller
 end
