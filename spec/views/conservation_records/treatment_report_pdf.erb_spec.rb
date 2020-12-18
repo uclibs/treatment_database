@@ -16,10 +16,9 @@ RSpec.describe 'conservation_records/treatment_report_pdf', type: :view do
     expect(rendered).to have_content('Engineering Library')
     expect(rendered).to have_content('The Illiad')
     expect(rendered).to have_content('James Joyce')
-    expect(rendered).to have_content('Dutton')
     expect(rendered).to have_content('ir3445')
     expect(rendered).to have_content('102340')
-    headers = ['Description', 'Condition', 'Treatment Proposal', 'In-House Repairs', 'External Repairs']
+    headers = ['DESCRIPTION', 'CONDITION', 'TREATMENT', 'PRODUCTION - WORK ASSIGNMENT AND TIME', 'TOTAL Treatment and Documentation Time']
     headers.each do |header|
       expect(rendered).to have_content(header)
     end
