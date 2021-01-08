@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class ActivityController < ApplicationController
-  def index; end
+  def index
+    @pagy, @versions = pagy(PaperTrail::Version.all, items: 50)
+  end
 
   def show
     @version = PaperTrail::Version.find(params[:id])

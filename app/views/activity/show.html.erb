@@ -1,10 +1,5 @@
 <h2><%= version_summarizer(@version).html_safe %></h2>
 
-<center>
-  <button class="btn btn-danger">Revert to This Version</button>
-</center>
-<br>
-
 <% if @version.event == 'create' %>
   <center>
     <div class="card" style="width: 18rem;">
