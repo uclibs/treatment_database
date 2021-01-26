@@ -35,3 +35,7 @@
 
 # Don't track .DS_Store on MacOS
 .DS_Store
+
+.env.production.local
+.env.test.local
+.env.development.local

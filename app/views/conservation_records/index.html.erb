@@ -31,8 +31,8 @@
 
         <% if can? :crud, ConservationRecord %>
           <td><%= link_to 'Edit', edit_conservation_record_path(conservation_record) %></td>
-        <td><%= link_to 'Destroy', conservation_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
+          <td><%= link_to 'Destroy', conservation_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+       <% end %>
       </tr>
     <% end %>
   </tbody>

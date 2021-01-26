@@ -20,6 +20,7 @@ Metrics/AbcSize:
   Exclude:
     - app/helpers/in_house_repair_records_helper.rb
     - app/helpers/external_repair_records_helper.rb
+    - app/helpers/activity_helper.rb
 
 Metrics/BlockLength:
   Exclude:
@@ -28,12 +29,22 @@ Metrics/BlockLength:
 Metrics/LineLength:
   Exclude:
     - "app/views/conservation_records/_conservation_record.json.jbuilder"
-
+    - "spec/helpers/activity_helper_spec.rb"
+    
 Metrics/MethodLength:
   Exclude:
     - "app/controllers/search_controller.rb"
     - "app/controllers/treatment_reports_controller.rb"
     - "app/models/ability.rb"
+    - "app/helpers/activity_helper.rb"
+
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - "app/helpers/activity_helper.rb"
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - "app/helpers/activity_helper.rb"
 
 Style/ExpandPathArguments:
   Exclude:
