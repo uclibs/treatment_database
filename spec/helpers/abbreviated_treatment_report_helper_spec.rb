@@ -44,42 +44,4 @@ RSpec.describe AbbreviatedTreatmentReportHelper, type: :helper do
       expect(return_value).to eq('2')
     end
   end
-
-  describe 'conservators_note' do
-    let!(:treatment_report) do
-      TreatmentReport.create(conservation_record_id: 1,
-                             description_general_remarks: 'Good',
-                             description_binding: nil,
-                             description_textblock: nil,
-                             description_primary_support: nil,
-                             description_medium: nil,
-                             description_attachments_inserts: nil,
-                             description_housing: nil,
-                             condition_summary: nil,
-                             condition_binding: nil,
-                             condition_textblock: nil,
-                             condition_primary_support: nil,
-                             condition_medium: nil,
-                             condition_housing_id: nil,
-                             condition_housing_narrative: nil,
-                             condition_attachments_inserts: nil,
-                             condition_previous_treatment: nil,
-                             condition_materials_analysis: nil,
-                             treatment_proposal_proposal: nil,
-                             treatment_proposal_housing_need_id: nil,
-                             treatment_proposal_factors_influencing_treatment: nil,
-                             treatment_proposal_performed_treatment: nil,
-                             treatment_proposal_housing_provided_id: nil,
-                             treatment_proposal_housing_narrative: nil,
-                             treatment_proposal_storage_and_handling_notes: nil,
-                             treatment_proposal_total_treatment_time: nil,
-                             created_at: '2021-01-21 19:29:04',
-                             updated_at: '2021-01-21 19:29:04',
-                             conservators_note: nil)
-    end
-    it 'returns conservators note left on In House Repair Record' do
-      return_value = helper.conservators_note(treatment_report, 1)
-      expect(return_value).to eq(nil)
-    end
-  end
 end
