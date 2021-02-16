@@ -41,7 +41,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
     department_a = create(:controlled_vocabulary, vocabulary: 'department', key: 'Department A')
     {
       department: department_a.id,
-      title: 'An Interesting Book',
+      title: 'Farewell to Arms',
       author: 'A Good Writer',
       imprint: 'Dutton',
       call_number: 'P102.3294.3920',
@@ -81,7 +81,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
       ConservationRecord.create! valid_attributes
       get :index, params: {}
       expect(response.body).to have_content('Conservation Records')
-      expect(response.body).to have_content('An Interesting Book')
+      expect(response.body).to have_content('Farewell to Arms')
     end
   end
 
