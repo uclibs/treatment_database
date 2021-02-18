@@ -2,10 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Admin User Tests', type: :feature do
-  let(:user) { create(:user, role: 'admin') }
-  let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms', department: 'ARB Library') }
-  let(:vocabulary) { create(:controlled_vocabulary) }
+RSpec.describe 'Standard User Tests', type: :feature do
+  let(:user) { create(:user, role: 'standard') }
+  let(:conservation_record) { create(:conservation_record, department: 'ARB Library', title: 'Farewell to Arms') }
   it 'allows User to login and show Conservation Records' do
     # Login
 
@@ -15,6 +14,9 @@ RSpec.describe 'Admin User Tests', type: :feature do
     click_button 'Log in'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
+    expect(page).to have_no_link('Users')
+    expect(page).to have_no_link('Activity')
+    expect(page).to have_no_link('Vocabularies')
 
     # Show Conservation Records
 
@@ -32,38 +34,6 @@ RSpec.describe 'Admin User Tests', type: :feature do
     visit conservation_records_path
     click_link('Edit', match: :prefer_exact)
     expect(page).to have_content('Editing Conservation Record')
-
-    # Edit Users
-
-    visit conservation_records_path
-    click_on 'Users'
-    expect(page).to have_content('Users')
-    click_link('Edit', match: :prefer_exact)
-    expect(page).to have_content('Admin Users Edit')
-    fill_in 'Display name', with: 'Haritha Vytla'
-    fill_in 'Email', with: 'vytlasa@mail.uc.edu'
-    select('Admin', from: 'Role')
-    click_on 'Update User'
-    expect(page).to have_content('Haritha Vytla')
-
-    # View Activity
-
-    visit conservation_records_path
-    click_link('Activity')
-    expect(page).to have_content('Recent Activity')
-    expect(page).to have_content('updated the user: Haritha Vytla')
-
-    # Add Vocabulary
-
-    visit conservation_records_path
-    click_link('Vocabularies')
-    expect(page).to have_content('Controlled Vocabularies')
-    click_link('New Controlled Vocabulary')
-    expect(page).to have_content('New Controlled Vocabulary')
-    fill_in 'Vocabulary', with: 'vocabulary_string'
-    fill_in 'Key', with: 'key_string'
-    click_button 'Create Controlled vocabulary'
-    expect(page).to have_content('Controlled vocabulary was successfully created')
 
     # Add New Conservation Record
 
@@ -92,10 +62,10 @@ RSpec.describe 'Admin User Tests', type: :feature do
     click_link('Show', match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
-    select('Haritha Vytla', from: 'in_house_repair_record_performed_by_user_id')
+    select('John Green', from: 'in_house_repair_record_performed_by_user_id')
     select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
     click_button('Create In-House Repair Record')
-    expect(page).to have_content('Mend paper performed by Haritha Vytla')
+    expect(page).to have_content('Mend paper performed by John Green')
 
     # External Repair
     expect(page).to have_button('Add External Repair')
@@ -106,11 +76,7 @@ RSpec.describe 'Admin User Tests', type: :feature do
     expect(page).to have_content('Wash performed by Amanda Buck')
 
     # Conservators and Technicians
-    expect(page).to have_button('Add Conservators and Technicians')
-    click_button('Add Conservators and Technicians')
-    select('Haritha Vytla', from: 'con_tech_record_performed_by_user_id', match: :first)
-    click_button('Create Conservators and Technicians Record')
-    expect(page).to have_content('Haritha Vytla')
+    expect(page).to have_no_button('Add Conservators and Technicians')
 
     # Save Treatment Report
 
@@ -147,6 +113,6 @@ RSpec.describe 'Admin User Tests', type: :feature do
     fill_in 'cost_return_report_invoice_sent_to_business_office', with: Time.zone.today.strftime('%Y-%m-%d')
     fill_in 'cost_return_report_note', with: nil
     click_button('Save Cost and Return Information')
-    expect(page).to have_content('Treatment record updated')
+    expect(page).to have_content('You are not authorized to access this page')
   end
 end
