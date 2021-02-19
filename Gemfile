@@ -69,6 +69,7 @@ group :development, :test do
   gem 'rspec_junit_formatter'
   gem 'rspec-rails', '~> 3.8'
   gem 'rubocop-rails'
+  gem 'webdrivers', '~>4.0'
 end
 
 group :development do
@@ -85,7 +86,6 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
 end
 
 group :production do
