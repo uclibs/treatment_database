@@ -12,8 +12,4 @@ module AbbreviatedTreatmentReportHelper
   def generate_abbreviated_treatment_report_time(ihrr, _ind)
     ihrr.minutes_spent.to_s
   end
-
-  def conservators_note(ihrr, _ind)
-    ihrr.conservators_note
-  end
 end
