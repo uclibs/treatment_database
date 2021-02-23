@@ -92,7 +92,7 @@ RSpec.describe 'Admin User Tests', type: :feature do
     click_link('Show', match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
-    select('Haritha Vytla', from: 'in_house_repair_record_performed_by_user_id')
+    select('Haritha Vytla', from: 'in_house_repair_record_performed_by_user_id', match: :first)
     select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
     click_button('Create In-House Repair Record')
     expect(page).to have_content('Mend paper performed by Haritha Vytla')
