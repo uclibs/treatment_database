@@ -62,10 +62,10 @@ RSpec.describe 'Standard User Tests', type: :feature do
     click_link('Show', match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
-    select('John Green', from: 'in_house_repair_record_performed_by_user_id')
-    select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
+    select('Chuck Greenman', from: 'in_house_repair_record_performed_by_user_id')
+    select('Soft slipcase', from: 'in_house_repair_record_repair_type', match: :first)
     click_button('Create In-House Repair Record')
-    expect(page).to have_content('Mend paper performed by John Green')
+    expect(page).to have_content('Soft slipcase performed by Chuck Greenman')
 
     # External Repair
     expect(page).to have_button('Add External Repair')
