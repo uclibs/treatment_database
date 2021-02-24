@@ -48,7 +48,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            bundle install
             sudo apt-get update
             sudo apt-get install xvfb libfontconfig wkhtmltopdf
 
@@ -90,10 +90,61 @@ jobs:
           name: Update Coveralls
           command: |
             curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_BUILD_NUM&payload[status]=done"
+
+  build_docker_image:
+    working_directory: /app/treatment_database
+    docker:
+      - image: docker:20.10.2-git
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - restore_cache:
+          keys:
+            - v1-{{ .Branch }}
+          paths:
+            - /caches/treatment-database-app.tar
+
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/treatment-database-app.tar | true
+
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build --cache-from=treatment-database-app -t treatment-database-app --build-arg RAILS_MASTER_KEY -f docker/app/Dockerfile .
+
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/treatment-database-app.tar treatment-database-app
+
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/treatment-database-app.tar
+
+      - run:
+          name: Push application Docker image
+          command: |
+            set -x
+            alias aws='docker run --rm -it -e AWS_ACCESS_KEY_ID -e AWS_DEFAULT_REGION -e AWS_SECRET_ACCESS_KEY amazon/aws-cli'
+            aws ecr get-login-password | docker login --username AWS --password-stdin ${ECR_ENDPOINT}
+            docker tag treatment-database-app "${ECR_ENDPOINT}/treatment-database-app:$CIRCLE_SHA1"
+            docker push "${ECR_ENDPOINT}/treatment-database-app:$CIRCLE_SHA1"
+
 workflows:
     version: 2
     ci:
         jobs:
             - build:
-                name: ruby2-6-6      
+                name: ruby2-6-6
 
+            - build_docker_image:
+                name: build_docker_image
+                filters:
+                  branches:
+                    only: qa
