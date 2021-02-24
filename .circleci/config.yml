@@ -145,6 +145,3 @@ workflows:
 
             - build_docker_image:
                 name: build_docker_image
-                filters:
-                  branches:
-                    only: qa
