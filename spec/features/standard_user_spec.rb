@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Standard User Tests', type: :feature do
+RSpec.describe 'Standard User Tests', type: :feature, js: true do
   let(:user) { create(:user, role: 'standard') }
   let(:conservation_record) { create(:conservation_record, department: 'ARB Library', title: 'Farewell to Arms') }
   it 'allows User to login and show Conservation Records' do
