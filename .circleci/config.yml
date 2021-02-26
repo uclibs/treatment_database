@@ -135,9 +135,9 @@ jobs:
             - /caches/image.tar
 
       - persist_to_workspace:
-          root: /
+          root: /caches
           paths:
-            - ./caches/image.tar
+            - ./image.tar
 
   publish-image:
     executor: docker-publisher
