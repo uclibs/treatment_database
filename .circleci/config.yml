@@ -135,7 +135,7 @@ jobs:
             - /caches/image.tar
 
       - persist_to_workspace:
-          root: .
+          root: /
           paths:
             - ./caches/image.tar
 
@@ -173,9 +173,8 @@ workflows:
           name: ruby2-6-6
 
       - build-image:
-          filters:
-            branches:
-              only: 128/docker-containers-build-circleci
+          requires:
+            - ruby2-6-6
 
       - publish-image:
           requires:
