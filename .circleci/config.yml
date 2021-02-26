@@ -96,6 +96,9 @@ jobs:
     docker:
       - image: docker:20.10.2-git
 
+    environment:
+      AWS_DEFAULT_REGION: us-east-2
+
     steps:
       - checkout
       - setup_remote_docker
