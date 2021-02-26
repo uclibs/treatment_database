@@ -96,6 +96,9 @@ jobs:
     docker:
       - image: docker:20.10.2-git
 
+    environment:
+      SHORT_GIT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
+
     steps:
       - checkout
       - setup_remote_docker
@@ -134,8 +137,8 @@ jobs:
             set -ex
             alias aws='docker run --rm -it -e AWS_ACCESS_KEY_ID -e AWS_DEFAULT_REGION -e AWS_SECRET_ACCESS_KEY amazon/aws-cli'
             aws ecr get-login-password | cut -c5- | docker login --username AWS --password-stdin ${ECR_ENDPOINT}
-            docker tag treatment-database-app:latest "${ECR_ENDPOINT}/treatment-database-app:$CIRCLE_SHA1"
-            docker push "${ECR_ENDPOINT}/treatment-database-app:$CIRCLE_SHA1"
+            docker tag treatment-database-app:latest "${ECR_ENDPOINT}/treatment-database-app:$SHORT_GIT_HASH"
+            docker push "${ECR_ENDPOINT}/treatment-database-app:$SHORT_GIT_HASH"
 
 workflows:
   version: 2
