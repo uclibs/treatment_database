@@ -169,12 +169,11 @@ workflows:
   version: 2
   ci:
     jobs:
-      - build:
-          name: ruby2-6-6
+      - build
 
       - build-image:
           requires:
-            - ruby2-6-6
+            - build
 
       - publish-image:
           requires:
