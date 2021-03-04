@@ -9,6 +9,18 @@ RSpec.describe UsersController, type: :controller do
     sign_in user
   end
 
+  let(:valid_attributes) do
+  {
+      id: 1,
+      display_name: user.display_name,
+      password: 'notapass',
+      confirm_password: 'notapass',
+      email: user.email,
+      role: user.role,
+      account_active: user.account_active
+  }
+  end
+
   describe 'GET #index' do
     it 'returns http success' do
       get :index
@@ -21,6 +33,26 @@ RSpec.describe UsersController, type: :controller do
       get :edit, params: { id: user.id }
       expect(response).to have_http_status(:success)
     end
+  end
+
+  describe 'GET #new' do
+    it 'returns a success response' do
+      get :new
+      expect(response).to be_successful
+    end
+  end
+
+  describe 'POST #create_user' do
+      it 'creates a new User' do
+        expect do
+          post :create_user, params: { user: valid_attributes }
+        end.to change(User, :count).by(1)
+      end
+
+      it 'redirects to the Users Path' do
+        post :create_user, params: { user: valid_attributes }
+        expect(response).to redirect_to(users_path)
+      end
   end
 
   describe 'PUT update/:id' do

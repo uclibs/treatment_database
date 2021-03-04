@@ -1,5 +1,8 @@
 <div class="header">
   <h1>Users</h1>
+  <% if can? :create, User %>
+    <%= link_to 'Add New User', new_user_path %>
+  <% end %>
 </div>
 <table class="table">
   <thead>
