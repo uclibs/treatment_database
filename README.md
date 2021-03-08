@@ -6,6 +6,7 @@ This is a web application originally developed for the Preservation Lab at the U
 git clone github.com/uclibs/treatment_database
 bundle install
 rails db:migrate
+rails db:seed
 rails server
 ```
 
