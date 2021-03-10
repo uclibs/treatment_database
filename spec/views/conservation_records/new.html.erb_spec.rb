@@ -33,6 +33,9 @@ RSpec.describe 'conservation_records/new', type: :view do
       assert_select 'input[name=?]', 'conservation_record[item_record_number]'
 
       assert_select 'input[name=?]', 'conservation_record[digitization]'
+
+      expect(rendered).to have_button('Create Conservation record')
     end
+    expect(rendered).to have_link('Back')
   end
 end
