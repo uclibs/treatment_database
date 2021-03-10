@@ -18,10 +18,9 @@
 	  <% @users.each do |user| %>
 		  <tr>
 			  <td><%= user.id %></td>
-        <td><%= user.display_name %></td>
+        <td><%= link_to user.display_name,edit_user_path(user)  %></td>
         <td><%= user.email %></td>
         <td><%= user.role %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
   		</tr>
   	<% end %>
 	</tbody>
