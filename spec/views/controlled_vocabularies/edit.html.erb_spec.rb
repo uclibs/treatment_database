@@ -15,7 +15,7 @@ RSpec.describe 'controlled_vocabularies/edit', type: :view do
     render
 
     assert_select 'form[action=?][method=?]', controlled_vocabulary_path(@controlled_vocabulary), 'post' do
-      assert_select 'input[name=?]', 'controlled_vocabulary[vocabulary]'
+      assert_select 'select[name=?]', 'controlled_vocabulary[vocabulary]'
 
       assert_select 'input[name=?]', 'controlled_vocabulary[key]'
 
