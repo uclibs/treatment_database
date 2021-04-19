@@ -29,7 +29,7 @@ Rails.application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = true
+  config.assets.compile = false
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
@@ -99,4 +99,14 @@ Rails.application.configure do
 
   # Change the Uglifier parsing engine
   config.assets.js_compressor = Uglifier.new(harmony: true)
+
+  # Configure AWS XRay
+  config.xray = {
+    name: 'treatment-database',
+    patch: %I[net_http aws_sdk],
+    plugins: %I[ec2 ecs],
+    # record db transactions as subsegments
+    active_record: true,
+    context_missing: 'LOG_ERROR'
+  }
 end
