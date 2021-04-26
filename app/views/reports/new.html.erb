@@ -1,0 +1,10 @@
+<h1>Completed In House Repairs</h1>
+</br>
+<%= form_tag(new_report_path, method: :get) do %>
+   <%= label_tag(:search, "Start Date") %>
+   <%= date_field_tag :start_date, params[:start_date] %> </br></br>
+   <%= label_tag(:search, "End Date") %>
+   <%= date_field_tag :end_date, params[:end_date] %> </br></br>
+   <%= submit_tag("Search") %>
+<% end %>
+

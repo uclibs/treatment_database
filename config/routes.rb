@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :users
   resources :controlled_vocabularies, except: [:destroy]
   resources :activity
+  resources :reports
 
   resources :conservation_records do
     resources :in_house_repair_records

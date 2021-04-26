@@ -91,6 +91,11 @@ class ConservationRecordsController < ApplicationController
     send_data build_pdf('abbreviated_treatment_report_pdf'), filename: "#{@conservation_record.title}_abbreviated_treatment_report.pdf",
                                                              type: 'application/pdf', disposition: 'inline'
   end
+  
+  def report
+    send_data build_pdf('additional_report_pdf'), filename: "Completed_in_house_repair_report.pdf",
+                                                 type: 'application/pdf', disposition: 'inline'
+  end
 
   def build_pdf(format)
     html = render_to_string "conservation_records/#{format}", layout: false
@@ -132,6 +137,11 @@ class ConservationRecordsController < ApplicationController
 
   def set_departments
     @departments = ControlledVocabulary.where(vocabulary: 'department', active: true)
+  end
+
+  def set_additional_report
+    @report = Report.new
+    @report.save
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
