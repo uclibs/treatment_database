@@ -1,3 +1,52 @@
-<% @results.each do |result| %>
- <li><%= result %></li><br>
+<style>
+.section {
+  margin-bottom: 15px;
+  display: table-row;
+}
+
+table {
+  text-align: left;
+}
+
+.a4 {
+  width: 800px;
+  margin: 0 auto;
+  padding-left: 0;
+  display: table;
+}
+th{ 
+    font-weight: normal;
+}
+</style>
+<% if @results.empty? %> 
+   <p> No Results </p> 
 <% end %>
+<div class="section">
+  <div class="a4">
+    <table width="200%">
+      <col span="1" style="width: 50;">
+      <col span="1" style="width: 30;">
+      <col span="1" style="width: 30;">
+      <col span="1" style="width: 30;">
+      <col span="3" style="width: 40">
+      <tr>
+	<th><b>Database ID</b></th>
+	<th><b>Department</b></th>
+	<th><b>title</b></th>
+	<th><b>Item Record#</b></th>
+	<th><b>In-House Repairs</b></th>
+      </tr>
+      <% @results.each do |result| %>
+      <tr>
+        <td><%= result.conservation_record.id %></td>
+	<td><%= controlled_vocabulary_lookup(result.conservation_record.department) %></td>
+	<td><%= result.conservation_record.title %></td>
+        <td><%= result.conservation_record.item_record_number %></td>
+ 	<% result.conservation_record.in_house_repair_records.each_with_index do |repair, i| %>
+	  <td><%= generate_abbreviated_treatment_report_type(repair,i)%>, <%= generate_abbreviated_treatment_report_performed_by(repair,i)%>, <%= generate_abbreviated_treatment_report_time(repair,i)%><td>
+        <%end%>
+      </tr>
+    </table>
+  </div>
+</div>
+<%end%>

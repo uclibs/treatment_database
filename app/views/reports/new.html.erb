@@ -1,6 +1,17 @@
-<h1>Completed In House Repairs</h1>
+<h3>Completed In House Repairs</h3>
 </br>
-<%= form_tag(new_report_path, method: :get) do %>
+<%= form_tag(reports_path, method: :get) do %>
+   <%= label_tag(:search, "Start Date") %>
+   <%= date_field_tag :start_date, params[:start_date] %> </br></br>
+   <%= label_tag(:search, "End Date") %>
+   <%= date_field_tag :end_date, params[:end_date] %> </br></br>
+   <%= submit_tag("Search") %>
+<% end %>
+<br>
+<br>
+<h3> Completed without In-House Repairs </h3>
+</br>
+<%= form_tag(reports_path, method: :post) do %>
    <%= label_tag(:search, "Start Date") %>
    <%= date_field_tag :start_date, params[:start_date] %> </br></br>
    <%= label_tag(:search, "End Date") %>

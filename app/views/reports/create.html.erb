@@ -1,0 +1,25 @@
+<% if @results.empty? %> 
+   <p> No Results </p> 
+<% end %>
+<div>
+   <table width="100%">
+      <col span="1" style="width: 25;">
+      <col span="1" style="width: 25;">
+      <col span="1" style="width: 25;">
+      <col span="1" style="width: 25;">
+      <tr>
+        <th><b>Database ID</b></th>
+        <th><b>Department</b></th>
+        <th><b>title</b></th>
+        <th><b>Item Record#</b></th>
+      </tr>
+      <% @results.each do |result| %>
+      <tr>
+        <td><%= result.conservation_record.id %></td>
+        <td><%= controlled_vocabulary_lookup(result.conservation_record.department) %></td>
+        <td><%= result.conservation_record.title %></td>
+        <td><%= result.conservation_record.item_record_number %></td>
+      </tr>
+    </table>
+</div>
+<%end%>
