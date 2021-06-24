@@ -91,6 +91,7 @@ end
 
 group :production do
   # Needed to get console working in production mode
+  gem 'aws-xray-sdk', require: ['aws-xray-sdk/facets/rails/railtie']
   gem 'mysql2'
   gem 'rb-readline'
 end
