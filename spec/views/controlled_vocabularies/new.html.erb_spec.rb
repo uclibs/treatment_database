@@ -9,7 +9,7 @@ RSpec.describe 'controlled_vocabularies/new', type: :view do
                                      key: 'MyString',
                                      active: false
                                    ))
-    @vocabularies = ControlledVocabulary.pluck(:vocabulary).uniq
+    @vocabularies = ControlledVocabulary.distinct.pluck(:vocabulary).uniq
   end
 
   it 'renders new controlled_vocabulary form' do
