@@ -19,7 +19,7 @@ class CostReturnReportsController < ApplicationController
 
   def destroy
     @conservation_record = ConservationRecord.find(params[:conservation_record_id])
-    @cost_return_report = @conservation_record.cost_return_report.find(params[:id])
+    @cost_return_report = @conservation_record.cost_return_report
     @cost_return_report.destroy
     redirect_to conservation_record_path(@conservation_record)
   end

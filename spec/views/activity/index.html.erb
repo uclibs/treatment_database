@@ -1,0 +1,48 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.describe 'activity/index', type: :view do
+  include Devise::Test::ControllerHelpers
+  include Pagy::Backend
+
+  before(:each) do
+    assign(:version, [
+             version.create!(
+               Activity: 'Haritha Vytla created the Cost Return Report: The Great Gatsby',
+               When: Date.new,
+	       Detail: 'Details'),
+             version.create!(
+               Activity: 'Haritha Vytla created the Conservation Record: The Great Gatsby',
+               When: Date.new,
+               Detail: 'Details'),
+  end
+
+  after(:all) do
+    PaperTrail::Version.all.delete_all
+  end
+
+  it 'renders a list of activity' do
+    @pagy, @versions = pagy(PaperTrail::Version.all, items: 50)
+    render
+    assert_select 'td', text: 'Haritha Vytla created the Cost Return Report: The Great Gatsby', count: 1
+    assert_select 'td', text: 'Haritha Vytla created the Conservation Record: The Great Gatsby', count: 1
+    assert_select 'td', text: 'When', count: 2
+    assert_select 'td', text: 'Detail', count: 2
+  end
+
+  it 'hides controls for read_only users' do
+    @user = create(:user, role: 'read_only')
+    @request.env['devise.mapping'] = Devise.mappings[:user]
+    sign_in @user
+    @pagy, @versions = pagy(PaperTrail::Version.all, items: 50)
+    render
+    expect(rendered).not_to have_link('Activity')
+  end
+
+  it 'displays a pagination widget' do
+    @pagy, @versions = pagy(PaperTrail::Version.all, items: 50)
+    render
+    expect(rendered).to have_text('Prev1Next')
+  end
+end

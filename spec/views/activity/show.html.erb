@@ -1,0 +1,38 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.describe 'conservation_records/show', type: :view do
+  include Devise::Test::ControllerHelpers
+
+  before(:each) do
+    assign(:version, [
+             version.create!(
+               Activity: 'Haritha Vytla created the Cost Return Report: The Great Gatsby',
+               When: Date.new,
+               Detail: 'Details'),
+             version.create!(
+               Activity: 'Haritha Vytla created the Conservation Record: The Great Gatsby',
+               When: Date.new,
+               Detail: 'Details'),
+  end
+
+  after(:all) do
+    PaperTrail::Version.all.delete_all
+  end
+
+  it 'shows the table with all metadata' do
+    render
+    expect(rendered).to match(/Activity/)
+    expect(rendered).to match(/When/)
+    expect(rendered).to match(/Detail/)
+  end
+
+  it 'hides controls for read_only users' do
+    @user = create(:user, role: 'read_only')
+    @request.env['devise.mapping'] = Devise.mappings[:user]
+    sign_in @user
+    render
+    expect(rendered).not_to have_link('Activity')
+  end
+end

@@ -28,4 +28,6 @@ class User < ApplicationRecord
 
     super && account_active?
   end
+
+  has_paper_trail
 end

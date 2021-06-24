@@ -13,10 +13,6 @@ module AbbreviatedTreatmentReportHelper
     ihrr.minutes_spent.to_s
   end
 
-  def conservators_note(ihrr, _ind)
-    ihrr.conservators_note
-  end
-
   def generate_sum_minutes(conservation_record)
     sum = 0
     conservation_record.in_house_repair_records.each_with_index do |repair, _i|
