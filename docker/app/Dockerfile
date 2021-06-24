@@ -1,4 +1,4 @@
-FROM ruby:2.6.6-alpine3.11
+FROM ruby:2.7.3-alpine
 RUN apk --update --no-cache add build-base ncurses wkhtmltopdf xvfb xvfb-run nodejs yarn sqlite-dev tzdata libxslt-dev libxml2-dev
 RUN apk --update --no-cache add openssh-server mariadb-dev
 
@@ -14,7 +14,7 @@ WORKDIR $RAILS_ROOT
 COPY scripts/wkhtmltopdf.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/wkhtmltopdf.sh
 COPY Gemfile* ./
-RUN gem install bundler && bundle config set --local without 'development test' && bundle install --no-cache --jobs 20 --retry 5
+RUN gem install bundler -v "$(cat Gemfile.lock | tail -1 | tr -d ' ')" && bundle config set --local without 'development test' && bundle install --no-cache --jobs 20 --retry 5
 
 COPY . ./
 # Precompile Rails assets.
