@@ -6,6 +6,9 @@ services:
     build:
       context: .
       dockerfile: ./docker/app/Dockerfile
+      args:
+        # The value will automatically be picked up from `.env` file, and passed as argument to the docker build
+        RAILS_MASTER_KEY:
     depends_on:
       - db
     links:
