@@ -38,20 +38,20 @@ RSpec.describe 'users/index.html.erb', type: :view do
     render
     expect(rendered).to have_link('Add New User')
   end
-  
-  it 'does not allow standard users to create users' do 
+
+  it 'does not allow standard users to create users' do
     @user = create(:user, role: 'standard')
     @request.env['devise.mapping'] = Devise.mappings[:user]
     sign_in @user
     render
     expect(rendered).not_to have_link('Add New User')
   end
-  
-   it 'does not allow read_only users to create users' do 
+
+  it 'does not allow read_only users to create users' do
     @user = create(:user, role: 'read_only')
     @request.env['devise.mapping'] = Devise.mappings[:user]
     sign_in @user
     render
     expect(rendered).not_to have_link('Add New User')
-   end
+  end
 end

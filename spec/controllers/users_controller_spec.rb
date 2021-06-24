@@ -10,7 +10,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   let(:valid_attributes) do
-  {
+    {
       id: 1,
       display_name: user.display_name,
       password: 'notapass',
@@ -18,7 +18,7 @@ RSpec.describe UsersController, type: :controller do
       email: user.email,
       role: user.role,
       account_active: user.account_active
-  }
+    }
   end
 
   describe 'GET #index' do
@@ -43,16 +43,16 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'POST #create_user' do
-      it 'creates a new User' do
-        expect do
-          post :create_user, params: { user: valid_attributes }
-        end.to change(User, :count).by(1)
-      end
-
-      it 'redirects to the Users Path' do
+    it 'creates a new User' do
+      expect do
         post :create_user, params: { user: valid_attributes }
-        expect(response).to redirect_to(users_path)
-      end
+      end.to change(User, :count).by(1)
+    end
+
+    it 'redirects to the Users Path' do
+      post :create_user, params: { user: valid_attributes }
+      expect(response).to redirect_to(users_path)
+    end
   end
 
   describe 'PUT update/:id' do
