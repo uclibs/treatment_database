@@ -91,10 +91,10 @@ class ConservationRecordsController < ApplicationController
     send_data build_pdf('abbreviated_treatment_report_pdf'), filename: "#{@conservation_record.title}_abbreviated_treatment_report.pdf",
                                                              type: 'application/pdf', disposition: 'inline'
   end
-  
+
   def report
-    send_data build_pdf('additional_report_pdf'), filename: "Completed_in_house_repair_report.pdf",
-                                                 type: 'application/pdf', disposition: 'inline'
+    send_data build_pdf('additional_report_pdf'), filename: 'Completed_in_house_repair_report.pdf',
+                                                  type: 'application/pdf', disposition: 'inline'
   end
 
   def build_pdf(format)
