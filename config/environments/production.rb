@@ -71,6 +71,9 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: ENV['TREATMENT_DATABASE_PRODUCTION_MAILER_URL'], protocol: 'http' }
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
@@ -95,7 +98,15 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Needed for mail to work in production
-  config.action_mailer.smtp_settings = { enable_starttls_auto: false }
+  config.action_mailer.smtp_settings = {
+    port: ENV['TREATMENT_DATABASE_SMTP_PORT'].to_i,
+    address: ENV['TREATMENT_DATABASE_SMTP_HOST'],
+    user_name: ENV['TREATMENT_DATABASE_SMTP_USERNAME'],
+    password: ENV['TREATMENT_DATABASE_SMTP_PASSWORD'],
+    domain: ENV['TREATMENT_DATABASE_SMTP_DOMAIN'],
+    enable_starttls_auto: true,
+    authentication: :login
+  }
 
   # Change the Uglifier parsing engine
   config.assets.js_compressor = Uglifier.new(harmony: true)
