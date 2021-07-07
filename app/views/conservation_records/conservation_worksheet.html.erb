@@ -1,6 +1,8 @@
 <style>
 .banner {
   font-size: 20px;
+  background-color: maroon;
+  color: white;
 }
 
 .section {
@@ -9,7 +11,7 @@
 }
 
 table {
-  text-align: center;
+  text-align: left;
 }
 
 .a4 {
@@ -33,7 +35,7 @@ table {
 </style>
 <div class="pdf a4">
   <div class="banner section">
-    <%= @conservation_record.title %> - <%= controlled_vocabulary_lookup(@conservation_record.department) %> - Preservation Lab Book Conservation Worksheet
+    Preservation Lab Book Conservation Worksheet - <%= controlled_vocabulary_lookup(@conservation_record.department) %> 
   </div>
   <div class="section">
     <table width="100%">
@@ -55,19 +57,19 @@ table {
         <td><%= @conservation_record.date_recieved_in_preservation_services %></td>
         <td><%= date_returned(@conservation_record) %></td>
       </tr>
-    </table>
-  </div>
-  <div class="section">
-    <table width="100%">
       <tr>
         <th>Title</th>
-        <th>Author</th>
-        <th>Imprint</th>
       </tr>
       <tr>
         <td><%= @conservation_record.title %></td>
-        <td><%= @conservation_record.author %></td>
-        <td><%= @conservation_record.imprint %></td>
+      </tr>
+      <tr>
+        <th>Imprint</th>
+	<th>Author</th>
+      </tr>
+      <tr>
+	<td><%= @conservation_record.imprint %></td>
+	<td><%= @conservation_record.author %></td>
       </tr>
     </table>
   </div>
