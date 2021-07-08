@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_14_151606) do
+ActiveRecord::Schema.define(version: 2021_07_08_175252) do
 
   create_table "abbreviated_treatment_reports", force: :cascade do |t|
     t.integer "conservation_record_id"
@@ -86,6 +86,8 @@ ActiveRecord::Schema.define(version: 2021_04_14_151606) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "start_date"
+    t.date "end_date"
   end
 
   create_table "treatment_reports", force: :cascade do |t|
