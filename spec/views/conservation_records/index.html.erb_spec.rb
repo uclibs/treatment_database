@@ -9,7 +9,7 @@ RSpec.describe 'conservation_records/index', type: :view do
   before(:each) do
     assign(:conservation_records, [
              ConservationRecord.create!(
-               id: 100,
+               id: 200,
                date_recieved_in_preservation_services: Date.new,
                department: 'Department',
                title: 'Title',
@@ -20,7 +20,7 @@ RSpec.describe 'conservation_records/index', type: :view do
                digitization: false
              ),
              ConservationRecord.create!(
-               id: 102,
+               id: 202,
                date_recieved_in_preservation_services: Date.new,
                department: 'Department',
                title: 'Title',
@@ -40,8 +40,8 @@ RSpec.describe 'conservation_records/index', type: :view do
   it 'renders a list of conservation_records' do
     @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
     render
-    assert_select 'td', text: '100', count: 1
-    assert_select 'td', text: '102', count: 1
+    assert_select 'td', text: '200', count: 1
+    assert_select 'td', text: '202', count: 1
     assert_select 'td', text: 'Title', count: 2
     assert_select 'td', text: 'Title', count: 2
     assert_select 'td', text: 'Author', count: 2
