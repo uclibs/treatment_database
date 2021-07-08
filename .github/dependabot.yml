@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: daily
+    labels:
+      - dependencies
+      - bundler
+    target-branch: 147/circle-ci-workflows
