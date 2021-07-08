@@ -108,6 +108,6 @@ Rails.application.configure do
     # record db transactions as subsegments
     active_record: true,
     context_missing: 'LOG_ERROR',
-    logger: Logger.new("log/#{Rails.env}-xray.log", 1, Integer(ENV.fetch("TREATMENT_DATABASE_XRAY_MAX_LOG_SIZE", "10"), 10).megabytes)
+    logger: Logger.new("log/#{Rails.env}-xray.log", 1, Integer(ENV.fetch('TREATMENT_DATABASE_XRAY_MAX_LOG_SIZE', '10'), 10).megabytes)
   }
 end
