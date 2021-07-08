@@ -140,9 +140,6 @@ jobs:
             - ./image.tar
 
   publish-image:
-    parameters:
-      node-version:
-        type: string
     executor: docker-publisher
 
     environment:
