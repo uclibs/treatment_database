@@ -9,3 +9,5 @@ updates:
       - dependencies
       - bundler
     target-branch: qa
+    reviewers:
+      - hortongn
