@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: sunday
+    labels:
+      - dependencies
+      - bundler
+    target-branch: qa
+    reviewers:
+      - hortongn

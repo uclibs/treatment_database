@@ -1,0 +1,43 @@
+on:
+  schedule:
+    - cron: '0 0 * * SUN'
+
+jobs:
+  createPullRequest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+
+      - name: Make changes to pull request
+        run: |
+          LATEST_RUBY_VERSION=$(ruby -v | awk '{ print $2 }' | awk -F 'p' '{ print $1 }')
+          echo "ruby-${LATEST_RUBY_VERSION}" > .ruby-version
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update report
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          branch: ruby-upgrade
+          delete-branch: true
+          title: 'Ruby Upgrade'
+          body: |
+            Ruby Upgrade
+            - Updgrade Ruby
+          labels: |
+            report
+            automated pr
+          assignees: hortongn
+          reviewers: hortongn
+
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}
