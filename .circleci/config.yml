@@ -3,10 +3,20 @@
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@2
+  aws-ecs: circleci/aws-ecs@2
+  aws-ecr: circleci/aws-ecr@2
+  aws-s3: circleci/aws-s3@2
+#  aws-eks: circleci/aws-eks@1
+
 executors:
   docker-publisher:
     environment:
       IMAGE_NAME: treatment-database-app
+      AWS_RESOURCE_NAME_PREFIX: treatment-database-app
+#    machine:
+#      image:
     docker:
       - image: docker:20.10.7-git
 
@@ -33,7 +43,7 @@ jobs:
       CACHE_PATH: /tmp/cache
       COVERALLS_PARALLEL: true
 
-   
+
     working_directory: ~/treatment_database
 
     steps:
@@ -166,6 +176,28 @@ jobs:
             docker tag ${IMAGE_NAME}:latest "${ECR_ENDPOINT}/${IMAGE_NAME}:$IMAGE_TAG"
             docker push "${ECR_ENDPOINT}/${IMAGE_NAME}:$IMAGE_TAG"
 
+  deploy-ecs:
+    working_directory: ~/treatment_database
+    docker:
+      # https://circleci.com/docs/2.0/circleci-images/
+      - image: cimg/base:2020.01
+        environment:
+          AWS_RESOURCE_NAME_PREFIX: treatment-database-app
+
+    steps:
+      - checkout
+
+      - aws-ecr/build-and-push-image:
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          tag: "${CIRCLE_SHA1}"
+
+      - aws-ecs/deploy-service-update:
+          requires:
+            - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
+          family: "${AWS_RESOURCE_NAME_PREFIX}-service"
+          cluster-name: "${AWS_RESOURCE_NAME_PREFIX}-cluster"
+          container-image-name-updates: "container=${AWS_RESOURCE_NAME_PREFIX}-service,tag=${CIRCLE_SHA1}"
+
 workflows:
   version: 2
   ci:
@@ -182,3 +214,24 @@ workflows:
           filters:
             branches:
               only: qa
+
+      - deploy-ecs:
+          requires:
+            - publish-image
+          filters:
+            branches:
+              only: qa
+
+#      - deploy-qa:
+#          name: deploy-ecs
+#          filters:
+#            branches:
+#              only: /pre-prod(?:-.+)?$/
+#
+#      - deploy-prod:
+#          name: deploy-ecs
+#          filters:
+#            tags:
+#              only: /^v.*/
+#            branches:
+#              ignore: /.*/
