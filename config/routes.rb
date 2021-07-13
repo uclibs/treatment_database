@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  post 'users', to: 'users#create_user'
   devise_for :users, controllers: { registrations: 'users/registrations' }
-
-  resources :users
+  resources :users, controller: 'users', except: [:create]
   resources :controlled_vocabularies, except: [:destroy]
   resources :activity
 

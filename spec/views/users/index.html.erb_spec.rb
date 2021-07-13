@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'users/index.html.erb', type: :view do
+  include Devise::Test::ControllerHelpers
   before(:each) do
     assign(:users, [
              User.create!(
@@ -28,5 +29,29 @@ RSpec.describe 'users/index.html.erb', type: :view do
     assert_select 'tr>td', text: 'standard_user'
     assert_select 'tr>td', text: 'test_user1@example.com'
     assert_select 'tr>td', text: 'test_user2@example.com'
+  end
+
+  it 'allows admins to create users' do
+    @user = create(:user, role: 'admin')
+    @request.env['devise.mapping'] = Devise.mappings[:user]
+    sign_in @user
+    render
+    expect(rendered).to have_link('Add New User')
+  end
+
+  it 'does not allow standard users to create users' do
+    @user = create(:user, role: 'standard')
+    @request.env['devise.mapping'] = Devise.mappings[:user]
+    sign_in @user
+    render
+    expect(rendered).not_to have_link('Add New User')
+  end
+
+  it 'does not allow read_only users to create users' do
+    @user = create(:user, role: 'read_only')
+    @request.env['devise.mapping'] = Devise.mappings[:user]
+    sign_in @user
+    render
+    expect(rendered).not_to have_link('Add New User')
   end
 end
