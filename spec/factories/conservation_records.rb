@@ -10,5 +10,11 @@ FactoryBot.define do
     call_number { '102340' }
     item_record_number { 'ir3445' }
     digitization { false }
+
+    factory :conservation_record_with_cost_return_report do
+      after(:create) do |conservation_record|
+        create(:cost_return_report, conservation_record: conservation_record)
+      end
+    end
   end
 end
