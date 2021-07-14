@@ -11,3 +11,5 @@ updates:
     target-branch: qa
     reviewers:
       - hortongn
+    assignees:
+      - hortongn
