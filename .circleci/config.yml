@@ -75,7 +75,6 @@ jobs:
             chromedriver --version
             node -v
             npm -v
-            ruby -v
             ls -al ~/.rvm/environments/ruby-2.7.3
             cat $BASH_ENV
 
