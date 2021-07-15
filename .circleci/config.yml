@@ -63,7 +63,7 @@ jobs:
           install-yarn: true
 
       - ruby/install:
-          version: 2.7.3
+          version: ${RUBY_VERSION}
 
       - run:
           name: Check Stuff
