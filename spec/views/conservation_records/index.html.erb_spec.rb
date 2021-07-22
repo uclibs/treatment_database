@@ -6,7 +6,7 @@ RSpec.describe 'conservation_records/index', type: :view do
   include Devise::Test::ControllerHelpers
   include Pagy::Backend
 
-  before(:each) do
+  before do
     assign(:conservation_records, [
              ConservationRecord.create!(
                id: 200,
