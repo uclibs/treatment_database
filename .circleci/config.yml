@@ -233,16 +233,16 @@ workflows:
 #              only: /^v.*/
 #            branches:
 #              ignore: /.*/
-  build-and-deploy:
+  deploy:
     jobs:
       - aws-ecr/build-and-push-image:
           account-url: ECR_ENDPOINT
           region: AWS_REGION
-          repo: '${MY_APP_PREFIX}'
+          repo: 'treatment-database-app'
           tag: '${CIRCLE_SHA1}'
       - aws-ecs/deploy-service-update:
-          cluster-name: '${MY_APP_PREFIX}-cluster'
-          container-image-name-updates: 'container=${MY_APP_PREFIX}-service,tag=${CIRCLE_SHA1}'
-          family: '${MY_APP_PREFIX}-service'
+          cluster-name: 'treatment-database-app-cluster'
+          container-image-name-updates: 'container=treatment-database-app-service,tag=${CIRCLE_SHA1}'
+          family: 'treatment-database-app-service'
           requires:
             - aws-ecr/build-and-push-image
