@@ -162,10 +162,10 @@ jobs:
 
   deploy-ecs:
     executor: aws-cli/default
-#    working_directory: ~/treatment_database
 #    docker:
 #      # https://circleci.com/docs/2.0/circleci-images/
-#      - image: cimg/base:2020.01
+#      - image: aws-cli/default
+##      - image: cimg/python:3.9.1
 #        environment:
 #          AWS_RESOURCE_NAME_PREFIX: treatment-database-app
 
