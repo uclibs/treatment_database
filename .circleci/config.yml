@@ -189,12 +189,6 @@ jobs:
       - aws-cli/setup
       - setup_remote_docker
 
-      - aws-ecr/build-and-push-image:
-          account-url: ECR_ENDPOINT
-          region: AWS_REGION
-          repo: "treatment-database-app"
-          tag: "${CIRCLE_SHA1}"
-
       - aws-ecs/update-service:
           cluster-name: "${AWS_RESOURCE_NAME_PREFIX}-cluster"
           family: "${AWS_RESOURCE_NAME_PREFIX}-service"
@@ -254,6 +248,7 @@ workflows:
           region: AWS_REGION
           repo: 'treatment-database-app'
           tag: '${CIRCLE_SHA1}'
+
       - aws-ecs/deploy-service-update:
           cluster-name: 'treatment-database-cluster'
           container-image-name-updates: 'container=${MY_APP_PREFIX}-service,tag=${CIRCLE_SHA1}'
