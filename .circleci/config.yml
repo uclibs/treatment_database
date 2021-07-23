@@ -6,9 +6,12 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2
   aws-ecs: circleci/aws-ecs@2
-  aws-ecr: circleci/aws-ecr@2
+  aws-ecr: circleci/aws-ecr@7
   aws-s3: circleci/aws-s3@2
-#  aws-eks: circleci/aws-eks@1
+  aws-eks: circleci/aws-eks@1
+  ruby: circleci/ruby@1
+  node: circleci/node@4
+  browser-tools: circleci/browser-tools@1
 
 executors:
   docker-publisher:
@@ -20,14 +23,8 @@ executors:
 
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/ruby:2.7.3-node-browsers
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
+    machine:
+      image: ubuntu-2004:202010-01
 
     environment:
       BUNDLE_PATH: vendor/bundle
@@ -41,36 +38,39 @@ jobs:
       CACHE_PATH: /tmp/cache
       COVERALLS_PARALLEL: true
 
-
-    working_directory: ~/treatment_database
-
     steps:
       - checkout
 
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+      - run:
+          name: Get Ruby Version
+          command: echo "export RUBY_VERSION=$(cat .ruby-version | awk -F '-' '{ print $2 }')" >> $BASH_ENV
+
+      - browser-tools/install-browser-tools
+
+      - node/install:
+          install-yarn: true
+
+      - ruby/install:
+          version: ${RUBY_VERSION}
 
       - run:
-          name: Configure Bundler
+          name: Check Versions
           command: |
-            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
-            source $BASH_ENV
-            gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
+            java -version
+            google-chrome --version
+            firefox --version
+            geckodriver --version
+            chromedriver --version
+            node -v
+            npm -v
+
+      - ruby/install-deps
 
       - run:
           name: Install Dependencies
           command: |
-            bundle install
             sudo apt-get update
-            sudo apt-get install xvfb libfontconfig wkhtmltopdf
-
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+            sudo apt-get install -y xvfb libfontconfig wkhtmltopdf
 
       # Database setup
       - run: bundle exec rake db:create
@@ -82,21 +82,7 @@ jobs:
             gem install rubocop
             bundle exec rubocop --require rubocop-rails
 
-      # run tests!
-      - run:
-          name: Run rspec in parallel
-          command: |
-            mkdir /tmp/test-results
-            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            #bundle exec rspec --out /tmp/test-results/rspec.xml $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
-
+      - ruby/rspec-test
 
       - store_artifacts:
           path: coverage
