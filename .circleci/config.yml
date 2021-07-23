@@ -239,7 +239,9 @@ workflows:
           account-url: ECR_ENDPOINT
           region: AWS_REGION
           repo: 'treatment-database-app'
+          dockerfile: docker/Dockerfile
           tag: '${CIRCLE_SHA1}'
+
       - aws-ecs/deploy-service-update:
           cluster-name: 'treatment-database-app-cluster'
           container-image-name-updates: 'container=treatment-database-app-service,tag=${CIRCLE_SHA1}'
