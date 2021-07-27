@@ -2,6 +2,8 @@
 
 Rails.application.routes.draw do
   post 'users', to: 'users#create_user'
+  # get 'reports', to: 'reports#index'
+  resources :reports, only: [:index]
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users, controller: 'users', except: [:create]
   resources :controlled_vocabularies, except: [:destroy]

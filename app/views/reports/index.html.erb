@@ -1,0 +1,58 @@
+<h1><%= 'Reports' %></h1>
+
+
+<%= search_form_for([:report, @q], url: url_for(controller: 'reports', action: 'index')) do |f| %>
+
+<div class="form-group">
+    <%= f.label "Beginning date returned to origin" %>
+    <%= f.date_field :returned_to_origin_gteq %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label "Ending date returned to origin" %>
+    <%= f.date_field :returned_to_origin_lteq %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :completed %>
+    <%= f.select :complete_eq, [['Yes', true], ['No', false]], include_blank: '' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :has_in_house_repairs %>
+    <%= f.select :in_house_repair_records_id_null,  [['Yes', false], ['No', true]], include_blank: '' %>
+  </div>
+
+  <div class="actions form-group">
+    <%= f.submit%>
+  </div>
+<% end %>
+
+<% if @results.empty? %> 
+   <p> No Results </p> 
+<% end %>
+   <table class="table">
+      <col scope="col">
+      <col scope="col">
+      <col scope="col">
+      <col scope="col">
+      <col scope="col">
+      <tr>
+	<th>Database ID</th>
+	<th>Department</th>
+	<th>Title</th>
+	<th>Item Record#</th>
+	<th>In-House Repairs</th>
+      </tr>
+      <% @results.each do |result| %>
+      <tr>
+        <td><%= result.conservation_record.id %></td>
+	<td><%= controlled_vocabulary_lookup(result.conservation_record.department) %></td>
+	<td><%= result.conservation_record.title %></td>
+        <td><%= result.conservation_record.item_record_number %></td>
+ 	<% result.conservation_record.in_house_repair_records.each_with_index do |repair, i| %>
+	  <td><%= generate_abbreviated_treatment_report_type(repair,i)%>, <%= generate_abbreviated_treatment_report_performed_by(repair,i)%>, <%= generate_abbreviated_treatment_report_time(repair,i)%><td>
+        <%end%>
+      </tr>
+<%end%>
+    </table>
