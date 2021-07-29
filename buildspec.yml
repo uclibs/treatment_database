@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   secrets-manager:
-    RAILS_MASTER_KEY: "arn:aws:secretsmanager:us-east-2:689243823134:secret:uclib/TreatmentDB/dev/railsMasterKey-giuFXZ"
+    RAILS_MASTER_KEY: "uclib/TreatmentDB/dev/railsMasterKey:railsMasterKey"
 
 phases:
   pre_build:
