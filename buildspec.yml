@@ -1,12 +1,15 @@
 version: 0.2
 
+env:
+  secrets-manager:
+    RAILS_MASTER_KEY: "arn:aws:secretsmanager:us-east-2:689243823134:secret:uclib/TreatmentDB/dev/railsMasterKey-giuFXZ"
 
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 873079457075.dkr.ecr.us-east-2.amazonaws.com
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 689243823134.dkr.ecr.us-east-2.amazonaws.com
       - REPOSITORY_URI=689243823134.dkr.ecr.us-east-2.amazonaws.com/treatment-database-app
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
@@ -14,7 +17,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:latest .
+      - docker build -t $REPOSITORY_URI:latest --build-arg RAILS_MASTER_KEY -f docker/app/Dockerfile .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
