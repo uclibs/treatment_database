@@ -68,6 +68,7 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
       expect(rendered).to have_link('Conservation Records')
       expect(rendered).not_to have_link('Vocabularies')
       expect(rendered).not_to have_link('Users')
+      expect(rendered).not_to have_button('Search')
       expect(rendered).to have_link('Log in')
       expect(rendered).not_to have_link('Edit account')
       expect(rendered).not_to have_link('Logout')

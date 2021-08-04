@@ -2,7 +2,7 @@
 <div class="header">
   <h1><%= @conservation_record.title %></h1>
   <% if can? :crud, ConservationRecord %>
-    <%= link_to 'Edit Conservation Record', edit_conservation_record_path(@conservation_record) %>
+    <%= link_to 'Edit Conservation Record', edit_conservation_record_path(@conservation_record), class: "btn btn-primary" %>
   <% end %>
 </div>
 
@@ -172,9 +172,8 @@
     <div class="tab-pane fade show active" id="treatment-report" role="tabpanel" aria-labelledby="nav-home-tab"><%= render 'treatment_reports/form' %></div>
     <div class="tab-pane fade" id="conservators-note" role="tabpanel" aria-labelledby="conservators-note"><%= render 'treatment_reports/conservators_note_form' %></div>
   </div>
-  <br>
+  
   <div class="header">
-    <h3> Abbreviated Treatment Report </h3>
     <%= link_to 'Download Abbreviated Treatment Report', abbreviated_treatment_report_path(@conservation_record), target: '_blank' %>
   </div>
 

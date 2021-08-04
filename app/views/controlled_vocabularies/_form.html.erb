@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= form.label :vocabulary %>
-    <%= form.text_field :vocabulary %>
+    <%= form.select(:vocabulary, ControlledVocabulary.pluck(:vocabulary).uniq, { include_blank: 'Vocabulary' }) %>
   </div>
 
   <div class="field">

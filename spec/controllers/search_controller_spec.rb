@@ -7,9 +7,15 @@ RSpec.describe SearchController, type: :controller do
   render_views
 
   before do
+    user = create(:user, role: 'admin')
+    sign_in_user(user)
     create(:conservation_record)
     create(:conservation_record, item_record_number: 'i1001')
     create(:conservation_record, title: 'Third Title')
+  end
+
+  def sign_in_user(user)
+    sign_in user
   end
 
   it 'can search for documents by database id' do

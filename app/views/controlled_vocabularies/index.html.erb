@@ -1,12 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Controlled Vocabularies</h1>
-
-<p>
+<div class="header">
+  <h1>Controlled Vocabularies</h1>
   <% if can? :create, ControlledVocabulary %>
-    <%= link_to 'New Controlled Vocabulary', new_controlled_vocabulary_path %>
+    <%= link_to 'New Controlled Vocabulary', new_controlled_vocabulary_path , class: "btn btn-primary justify-content-right"%>
   <% end %>
-</p>
+</div>
 
 
 <table class="table">
@@ -23,10 +22,8 @@
     <% @controlled_vocabularies.each do |controlled_vocabulary| %>
       <tr>
         <td><%= controlled_vocabulary.vocabulary %></td>
-        <td><%= controlled_vocabulary.key %></td>
+        <td><%= link_to controlled_vocabulary.key, controlled_vocabulary %></td>
         <td><%= controlled_vocabulary.active %></td>
-        <td><%= link_to 'Show', controlled_vocabulary %></td>
-        <td><%= link_to 'Edit', edit_controlled_vocabulary_path(controlled_vocabulary) %></td>
       </tr>
     <% end %>
   </tbody>

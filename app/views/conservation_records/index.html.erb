@@ -1,7 +1,7 @@
 <div class="header">
   <h1>Conservation Records</h1>
   <% if can? :create, ConservationRecord %>
-    <%= link_to 'Add Conservation Record', new_conservation_record_path %>
+    <%= link_to 'New Conservation Record', new_conservation_record_path, class: "btn btn-primary justify-content-right" %>
   <% end %>
 </div>
 
@@ -23,16 +23,20 @@
     <% @conservation_records.each do |conservation_record| %>
       <tr>
         <td><%= conservation_record.id %></td>
-        <td><%= conservation_record.title %></td>
+        <td><%= link_to conservation_record.title, conservation_record %></td>
         <td><%= conservation_record.author %></td>
         <td><%= conservation_record.call_number %></td>
         <td><%= conservation_record.item_record_number %></td>
-        <td><%= link_to 'Show', conservation_record %></td>
 
         <% if can? :crud, ConservationRecord %>
-          <td><%= link_to 'Edit', edit_conservation_record_path(conservation_record) %></td>
-          <td><%= link_to 'Destroy', conservation_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-       <% end %>
+          <td>
+           <%= link_to [conservation_record], method: :delete, data: {confirm: "Are you sure?"} do %>
+              <button class="btn btn-danger justify-content-right">
+                 <%= image_tag "delete.png", class: "delete-icon" %>
+              </button>
+           <% end %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

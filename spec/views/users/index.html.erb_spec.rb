@@ -21,6 +21,14 @@ RSpec.describe 'users/index.html.erb', type: :view do
            ])
   end
 
+  it 'allows admins to edit users' do
+    @user_admin = create(:user, role: 'admin')
+    @request.env['devise.mapping'] = Devise.mappings[:user_admin]
+    sign_in @user_admin
+    render
+    expect(rendered).to have_link('Test User 1')
+  end
+
   it 'renders a list of users' do
     render
     assert_select 'tr>td', text: 'Test User 1'

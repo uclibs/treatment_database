@@ -20,26 +20,25 @@ RSpec.describe 'Admin User Tests', type: :feature do
 
     click_on 'Conservation Records'
     expect(page).to have_content('Conservation Records')
-    expect(page).to have_link('Destroy')
-    expect(page).to have_link('Edit')
-    expect(page).to have_link('Show')
-    expect(page).to have_link('Add Conservation Record')
-    click_link('Show', match: :prefer_exact)
+    expect(page).to have_css('.delete-icon')
+    expect(page).to_not have_link('Show')
+    expect(page).to have_link('New Conservation Record')
     expect(page).to have_content(conservation_record.title)
 
     # Edit Conservation Record
 
     visit conservation_records_path
-    click_link('Edit', match: :prefer_exact)
-    expect(page).to have_content('Editing Conservation Record')
+    click_link(conservation_record.title, match: :prefer_exact)
+    expect(page).to have_content('Edit Conservation Record')
 
     # Edit Users
 
     visit conservation_records_path
     click_on 'Users'
     expect(page).to have_content('Users')
-    click_link('Edit', match: :prefer_exact)
-    expect(page).to have_content('Admin Users Edit')
+    click_link(user.display_name, match: :prefer_exact)
+
+    expect(page).to have_content('Edit User')
     fill_in 'Display name', with: 'Haritha Vytla'
     fill_in 'Email', with: 'vytlasa@mail.uc.edu'
     select('Admin', from: 'Role')
@@ -60,15 +59,17 @@ RSpec.describe 'Admin User Tests', type: :feature do
     expect(page).to have_content('Controlled Vocabularies')
     click_link('New Controlled Vocabulary')
     expect(page).to have_content('New Controlled Vocabulary')
-    fill_in 'Vocabulary', with: 'vocabulary_string'
+    select 'repair_type', from: 'Vocabulary'
     fill_in 'Key', with: 'key_string'
+    check 'Active'
     click_button 'Create Controlled vocabulary'
+
     expect(page).to have_content('Controlled vocabulary was successfully created')
 
     # Add New Conservation Record
 
     visit conservation_records_path
-    click_on 'Add Conservation Record'
+    click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
     select('ARB Library', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
@@ -89,7 +90,7 @@ RSpec.describe 'Admin User Tests', type: :feature do
     # In_House Repair
 
     visit conservation_records_path
-    click_link('Show', match: :prefer_exact)
+    click_link(conservation_record.title, match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
     select('Haritha Vytla', from: 'in_house_repair_record_performed_by_user_id', match: :first)
