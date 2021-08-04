@@ -26,7 +26,7 @@ RSpec.describe 'users/index.html.erb', type: :view do
     @request.env['devise.mapping'] = Devise.mappings[:user_admin]
     sign_in @user_admin
     render
-    expect(rendered).to have_link(user.title)
+    expect(rendered).to have_link('Test User 1')
   end
 
   it 'renders a list of users' do

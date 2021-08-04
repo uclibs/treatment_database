@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SearchController < ApplicationController
+  before_action :authenticate_user!
+
   def results
     @search_string = params[:search]
     @records = case @search_string
