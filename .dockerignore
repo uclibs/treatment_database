@@ -7,7 +7,7 @@
 .byebug_history
 .rspec
 tmp
-log
+log/*.log
 test
 config/deploy
 public/packs
