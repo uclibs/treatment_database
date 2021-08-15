@@ -31,6 +31,13 @@ jobs:
               sed -E -i'' -e 's,circleci/ruby:2.7.[0-9]+-node-browsers,'circleci/ruby:${LATEST_RUBY_VERSION}-node-browsers',g' .circleci/config.yml
           fi
 
+      - name: Update Gemfile
+        id: update-gemfile
+        run: |
+          sed -E -i'' -e "s/ruby '2.7.[0-9]+'/ruby '${{ steps.check-ruby-version.outputs.LATEST_RUBY_VERSION }}'/g" Gemfile
+          bundle update --ruby
+        if: steps.check-ruby-version.outputs.RUBY_VERSION_CHANGED == 'true'
+
       - name: Create Pull Request
         id: create-pull-request
         uses: peter-evans/create-pull-request@v3
