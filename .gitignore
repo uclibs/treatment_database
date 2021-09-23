@@ -44,4 +44,6 @@
 .env.test.local
 .env.development.local
 
-
+/tmp/puma/*
+!/tmp/puma/
+!/tmp/puma/.keep
