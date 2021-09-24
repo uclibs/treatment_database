@@ -26,7 +26,7 @@ USER $RAILS_USER
 WORKDIR $RAILS_ROOT
 
 COPY --chown=rails:rails Gemfile* ./
-RUN gem install bundler -v "$(cat Gemfile.lock | tail -1 | tr -d ' ')"  && bundle config set --local without 'development test' && bundle install --no-cache --jobs 20 --retry 5
+RUN gem install bundler --user-install -v "$(cat Gemfile.lock | tail -1 | tr -d ' ')"  && bundle config set --local without 'development test' && bundle install --no-cache --jobs 20 --retry 5
 
 COPY --chown=rails:rails . ./
 # Precompile Rails assets.
