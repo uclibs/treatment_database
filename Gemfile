@@ -48,7 +48,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Use devise for authentication
 gem 'devise'
 
-gem 'bootstrap', '~> 4.3.1'
+gem 'bootstrap', '~> 5.1.0'
 
 gem 'jquery-rails'
 
