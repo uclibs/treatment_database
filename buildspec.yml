@@ -19,7 +19,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:latest --build-arg RAILS_MASTER_KEY -f ./docker/Dockerfile .
+      - docker build -t $REPOSITORY_URI:latest --build-arg RAILS_MASTER_KEY  .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
