@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # get 'reports', to: 'reports#index'
   resources :reports, only: [:index]
   devise_for :users, controllers: { registrations: 'users/registrations' }
-  resources :users, controller: 'users', except: [:create]
+  resources :users, controller: 'users', except: %i[create show]
   resources :controlled_vocabularies, except: [:destroy]
   resources :activity
 

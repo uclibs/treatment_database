@@ -16,7 +16,7 @@ RSpec.describe AbbreviatedTreatmentReportHelper, type: :helper do
   let(:conservation_record) { create(:conservation_record) }
   let(:repair_type) { create(:controlled_vocabulary, vocabulary: 'repair_type', key: 'Repair/restore binding') }
   let(:user) { create(:user, display_name: 'Haritha Vytla') }
-  let(:repair_record) do
+  let!(:repair_record) do
     create(:in_house_repair_record,
            performed_by_user_id: user.id,
            repair_type: repair_type.id,
@@ -42,6 +42,13 @@ RSpec.describe AbbreviatedTreatmentReportHelper, type: :helper do
     it 'returns "minutes spent on In House Repair Record"' do
       return_value = helper.generate_abbreviated_treatment_report_time(repair_record, 1)
       expect(return_value).to eq('2')
+    end
+  end
+
+  describe 'generate_sum_minutes' do
+    it 'returns sum minutes' do
+      return_value = helper.generate_sum_minutes(conservation_record)
+      expect(return_value).to eq('2 minutes')
     end
   end
 end
