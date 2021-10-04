@@ -46,13 +46,13 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST #create_user' do
     it 'with valid params' do
       post :create_user, params: { user: valid_attributes }, session: valid_session
-      expect(response).to redirect_to(users_path)
-      expect(flash[:success]).to be_present
+      expect(response).to redirect_to(conservation_records_path)
+      expect(flash[:notice]).to be_present
     end
 
     it 'with invalid params' do
       post :create_user, params: { user: valid_attributes.except!(:email) }, session: valid_session
-      expect(response).to render_template('new')
+      expect(response).to redirect_to(root_path)
     end
   end
 
