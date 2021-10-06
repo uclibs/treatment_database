@@ -4,6 +4,7 @@ require:
 inherit_from: .rubocop_todo.yml
 
 AllCops:
+  NewCops: enable
   Exclude:
     - "db/**/*"
     - vendor/bundle/**/*
@@ -26,11 +27,11 @@ Metrics/BlockLength:
   Exclude:
     - "spec/**/*.rb"
 
-Metrics/LineLength:
+Layout/LineLength:
   Exclude:
     - "app/views/conservation_records/_conservation_record.json.jbuilder"
     - "spec/helpers/activity_helper_spec.rb"
-    
+
 Metrics/MethodLength:
   Exclude:
     - "app/controllers/search_controller.rb"
