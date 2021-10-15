@@ -46,9 +46,15 @@ RSpec.describe AbbreviatedTreatmentReportHelper, type: :helper do
   end
 
   describe 'generate_sum_minutes' do
-    it 'returns sum minutes' do
+    it 'returns sum minutes as minutes' do
       return_value = helper.generate_sum_minutes(conservation_record)
       expect(return_value).to eq('2 minutes')
+    end
+
+    it 'returns sum minutes as hours' do
+      repair_record.update(minutes_spent: 120)
+      return_value = helper.generate_sum_minutes(conservation_record)
+      expect(return_value).to eq('2 hours')
     end
   end
 end
