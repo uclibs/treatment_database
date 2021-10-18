@@ -65,7 +65,6 @@ RSpec.describe 'shared/_navigation.html.erb', type: :view do
     end
 
     it 'has a menu with the expected links' do
-      expect(rendered).to have_link('Conservation Records')
       expect(rendered).not_to have_link('Vocabularies')
       expect(rendered).not_to have_link('Users')
       expect(rendered).not_to have_button('Search')

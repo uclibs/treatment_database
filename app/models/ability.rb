@@ -45,6 +45,7 @@ class Ability
       can :view_pdfs, [ConservationRecord]
       can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord]
     when 'read_only'
+      can :view_pdfs, [ConservationRecord]
       can :read, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord]
     end
   end
