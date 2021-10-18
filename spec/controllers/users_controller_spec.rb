@@ -46,7 +46,7 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST #create_user' do
     it 'with valid params' do
       post :create_user, params: { user: valid_attributes }, session: valid_session
-      expect(response).to redirect_to(conservation_records_path)
+      expect(response).to redirect_to(users_path)
       expect(flash[:notice]).to be_present
     end
 
