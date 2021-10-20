@@ -57,7 +57,7 @@
       </tbody>
     </table>
     <p></p>
-    
+
     <div class="header">
       <h3>In-House Repairs</h3>
       <% if can? :crud, InHouseRepairRecord %>
@@ -172,7 +172,7 @@
     <div class="tab-pane fade show active" id="treatment-report" role="tabpanel" aria-labelledby="nav-home-tab"><%= render 'treatment_reports/form' %></div>
     <div class="tab-pane fade" id="conservators-note" role="tabpanel" aria-labelledby="conservators-note"><%= render 'treatment_reports/conservators_note_form' %></div>
   </div>
-  
+
   <div class="header">
     <%= link_to 'Download Abbreviated Treatment Report', abbreviated_treatment_report_path(@conservation_record), target: '_blank' %>
   </div>
@@ -234,7 +234,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      
+
       <%= form_with(model: [@conservation_record, @conservation_record.in_house_repair_records.build]) do |form| %>
       <div class="modal-body">
         <div class="form-group">
@@ -268,7 +268,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      
+
       <%= form_with(model: [@conservation_record, @conservation_record.external_repair_records.build]) do |form| %>
         <div class="modal-body">
           <div class="form-group">

@@ -200,7 +200,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
       it 'redirects to home with an error' do
         conservation_record = ConservationRecord.create! valid_attributes
         get :conservation_worksheet, params: { id: conservation_record.id }
-        expect(response).to redirect_to(root_url)
+        expect(response.headers['Content-Type']).to eq('application/pdf')
       end
     end
 
@@ -234,7 +234,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
       it 'redirects to home with an error' do
         conservation_record = ConservationRecord.create! valid_attributes
         get :treatment_report, params: { id: conservation_record.id }
-        expect(response).to redirect_to(root_url)
+        expect(response.headers['Content-Type']).to eq('application/pdf')
       end
     end
 
@@ -268,7 +268,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
       it 'redirects to home with an error' do
         conservation_record = ConservationRecord.create! valid_attributes
         get :abbreviated_treatment_report, params: { id: conservation_record.id }
-        expect(response).to redirect_to(root_url)
+        expect(response.headers['Content-Type']).to eq('application/pdf')
       end
     end
 

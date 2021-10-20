@@ -19,9 +19,6 @@ RSpec.describe 'Non-Authenticated User Tests', type: :feature do
     visit root_path
     expect(page).to have_link('Log in')
     expect(page).not_to have_link('Sign up')
-    expect(page).to have_link('Conservation Records')
-    click_on 'Conservation Records'
-    expect(page).to have_content('You need to sign in or sign up before continuing')
   end
 end
 
