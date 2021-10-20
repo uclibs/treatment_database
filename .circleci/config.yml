@@ -10,6 +10,7 @@ executors:
     docker:
       - image: docker:20.10.7-git
 
+
 jobs:
   build:
     docker:
@@ -73,6 +74,19 @@ jobs:
           command: |
             gem install rubocop
             bundle exec rubocop --require rubocop-rails
+
+      # Brakeman
+      - run:
+          name: Run Brakeman
+          command: bundle exec brakeman -q -w 2
+
+      # Bundler-audit
+      - run:
+          name: Install Bundler-audit
+          command: gem install bundler-audit
+      - run:
+          name: Run Bundle-audit
+          command: bundle exec bundle audit check --update
 
       # run tests!
       - run:
