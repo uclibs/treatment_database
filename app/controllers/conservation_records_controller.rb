@@ -114,14 +114,6 @@ class ConservationRecordsController < ApplicationController
     @conservation_record.save
   end
 
-  def set_abbreviated_treatment_report
-    @conservation_record = ConservationRecord.find(params[:id])
-    return unless @conservation_record.abbreviated_treatment_report.nil?
-
-    @conservation_record.abbreviated_treatment_report = AbbreviatedTreatmentReport.new
-    @conservation_record.save
-  end
-
   def set_cost_return_report
     @conservation_record = ConservationRecord.find(params[:id])
     return unless @conservation_record.cost_return_report.nil?
