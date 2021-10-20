@@ -22,10 +22,9 @@ if ENV.fetch('RAILS_ENV') == 'production'
   directory app_dir.to_s
   # Set up socket location
   # bind "unix://#{app_dir}/tmp/puma/puma.sock"
+  # Log to files
+  stdout_redirect "#{app_dir}/log/puma.stdout.log", "#{app_dir}/log/puma.stderr.log", true
 end
-
-# Logs
-stdout_redirect "#{app_dir}/log/puma.stdout.log", "#{app_dir}/log/puma.stderr.log", true
 
 # Set master PID and state locations
 pidfile "#{app_dir}/tmp/puma/pid"
