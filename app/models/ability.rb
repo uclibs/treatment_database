@@ -39,7 +39,6 @@ class Ability
     when 'admin'
       can :manage, :all
       can :assign_roles, User
-      can :create, User
       can :crud, [ControlledVocabulary]
     when 'standard'
       can :view_pdfs, [ConservationRecord]
@@ -47,6 +46,7 @@ class Ability
     when 'read_only'
       can :view_pdfs, [ConservationRecord]
       can :read, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord]
+      can :create_user, User
     end
   end
 end
