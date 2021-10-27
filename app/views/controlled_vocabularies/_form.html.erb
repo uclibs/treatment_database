@@ -11,22 +11,24 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-block">
+  <div class="form-group">
     <%= form.label :vocabulary %>
-    <%= form.select(:vocabulary, ControlledVocabulary.pluck(:vocabulary).uniq, { include_blank: 'Vocabulary' }) %>
-  </div>
+    <%= form.select(:vocabulary, ControlledVocabulary.pluck(:vocabulary).uniq, { include_blank: 'Select Vocabulary' }, {class: 'form-control'}) %>
+ </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :key %>
-    <%= form.text_field :key %>
+    <%= form.text_field :key, class: 'form-control'%>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :active %>
-    <%= form.check_box :active %>
+    <%= form.check_box :active,class: 'btn btn-primary' %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: 'btn btn-primary'%>
   </div>
-<% end %>
+ <% end %>
+ </div>
