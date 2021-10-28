@@ -24,7 +24,11 @@
         </tr>
         <tr>
           <th scope="row">Date Recieved</th>
-          <td><%= @conservation_record.date_recieved_in_preservation_services.strftime("%m/%d/%Y") %></td>
+          <td>
+            <% unless @conservation_record.date_recieved_in_preservation_services.nil? %>
+              <%= @conservation_record.date_recieved_in_preservation_services.strftime("%m/%d/%Y") %>
+            <% end %>
+          </td>
         </tr>
         <tr>
           <th scope="row">Department</th>
@@ -81,7 +85,7 @@
             <% if can? :crud, InHouseRepairRecord %>
               <%= link_to [repair.conservation_record, repair], id: "delete_in_house_repair_record_#{repair.id}", method: :delete, data: {confirm: "Are you sure?"} do %>
                 <button class="btn btn-danger justify-content-right">
-                  <%= image_tag "delete.png", class: "delete-icon" %>
+                  <%= image_tag "delete.png", class: "delete-icon", alt: "Delete" %>
                 </button>
               <% end %>
             <% end %>
@@ -114,7 +118,7 @@
             <% if can? :crud, ExternalRepairRecord %>
               <%= link_to [repair.conservation_record, repair], id: "delete_external_repair_record_#{repair.id}", method: :delete,  data: {confirm: "Are you sure?"} do %>
                 <button class="btn btn-danger justify-content-right">
-                  <%= image_tag "delete.png", class: "delete-icon" %>
+                  <%= image_tag "delete.png", class: "delete-icon", alt: "Delete" %>
                 </button>
               <% end %>
             <% end %>
@@ -146,7 +150,7 @@
             <% if can? :crud, ConTechRecord %>
               <%= link_to [record.conservation_record, record], method: :delete do %>
                 <button class="btn btn-danger justify-content-right">
-                  <%= image_tag "delete.png", class: "delete-icon" %>
+                  <%= image_tag "delete.png", class: "delete-icon", alt: "Delete" %>
                 </button>
               <% end %>
             <% end %>
@@ -184,22 +188,22 @@
   <%= form_with(model: [@conservation_record, @conservation_record.cost_return_report], class: 'disable_input') do |f| %>
 
     <p>
-      Shipping To Vendor Cost<br>
+      <%= f.label :Shipping_To_Vendor_Cost, "Shipping To Vendor Cost" %>
       <%= f.number_field :shipping_cost, :value => (number_with_precision(f.object.shipping_cost, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
     </p>
 
     <p>
-      Repair Cost Estimate<br>
+      <%= f.label :Repair_Cost_Estimate, "Repair Cost Estimate" %>
       <%= f.number_field :repair_estimate, :value => (number_with_precision(f.object.repair_estimate, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
     </p>
 
     <p>
-      Actual Billed Repair Cost<br>
+      <%= f.label :Actual_Billed_Repair_Cost, "Actual Billed Repair Cost" %>
       <%= f.number_field :repair_cost, :value => (number_with_precision(f.object.repair_cost, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
     </p>
 
     <p>
-      Date Invoice Sent to Business Office<br>
+      <%= f.label :Date_Invoice_Sent_to_Business_Office, "Date Invoice Sent to Business Office" %>
       <%= f.date_field(:invoice_sent_to_business_office, class: 'form-control') %>
     </p>
 
@@ -209,12 +213,12 @@
     </p>
 
     <p>
-      Date Returned to Origin<br>
+      <%= f.label :Date_Returned_to_Origin, "Date Returned to Origin" %>
       <%= f.date_field(:returned_to_origin, class: 'form-control') %>
     </p>
 
     <p>
-      Note
+      <%= f.label :Note, "Note" %>
       <%= f.text_area :note, class: 'form-control' %>
     </p>
 

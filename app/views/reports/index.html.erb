@@ -3,33 +3,39 @@
 
 <%= search_form_for([:report, @q], url: url_for(controller: 'reports', action: 'index')) do |f| %>
 
-<div class="form-group">
+<div class="form-block">
+ <div class="form-group">
     <%= f.label "Beginning date returned to origin" %>
-    <%= f.date_field :returned_to_origin_gteq %>
-  </div>
+    <%= f.date_field :returned_to_origin_gteq, class: "form-control" %>
+ </div>
 
   <div class="form-group">
     <%= f.label "Ending date returned to origin" %>
-    <%= f.date_field :returned_to_origin_lteq %>
+    <%= f.date_field :returned_to_origin_lteq, class: "form-control"  %>
   </div>
 
   <div class="form-group">
     <%= f.label :completed %>
-    <%= f.select :complete_eq, [['Yes', true], ['No', false]], include_blank: '' %>
+    <%= f.select(:complete_eq, [['Yes', true], ['No', false]], {}, { :class => 'form-control' }) %>
   </div>
 
   <div class="form-group">
     <%= f.label :has_in_house_repairs %>
-    <%= f.select :in_house_repair_records_id_null,  [['Yes', false], ['No', true]], include_blank: '' %>
+    <%= f.select(:in_house_repair_records_id_null, [['Yes', false], ['No', true]], {}, { :class => 'form-control' }) %>
   </div>
+
+  <br>
 
   <div class="actions form-group">
-    <%= f.submit%>
+    <%= f.submit class: 'btn btn-primary'%>
   </div>
-<% end %>
+ <% end %>
+</div>
 
-<% if @results.empty? %> 
-   <p> No Results </p> 
+ <br>
+
+<% if @results.empty? %>
+   <p> No Results </p>
 <% end %>
    <table class="table">
       <col scope="col">
