@@ -8,7 +8,7 @@ FactoryBot.define do
     author { 'James Joyce' }
     imprint { 'Dutton' }
     call_number { '102340' }
-    item_record_number { 'ir3445' }
+    item_record_number { 'i3445' }
     digitization { false }
 
     factory :conservation_record_with_cost_return_report do
