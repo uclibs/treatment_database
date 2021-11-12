@@ -2,11 +2,13 @@
 ARG RUBY_VERSION=2.7.4
 ARG MODE
 # Note: Specifying the alpine version may result in issues if the image is discontinued
-FROM ruby:${RUBY_VERSION}-alpine
+FROM ruby:${RUBY_VERSION}
 # FROM circleci/ruby:${RUBY_VERSION}-node-browsers
 
 # Install packages
-RUN apk --update add git bash bash-completion build-base ncurses wkhtmltopdf xvfb xvfb-run nodejs sqlite-dev tzdata libxslt-dev libxml2-dev openssh-server mariadb-dev
+RUN apt-get update -qq && apt-get install -y git bash bash-completion wkhtmltopdf xvfb nodejs tzdata libxslt-dev libxml2-dev openssh-server chromium python3 python3-dev
+# RUN pip install --upgrade pip
+# RUN pip3 install -U selenium
 
 # Setup application
 WORKDIR /treatment_database
