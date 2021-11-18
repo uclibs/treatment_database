@@ -294,11 +294,9 @@ RSpec.describe 'Admin User Tests', type: :feature do
     click_button('Create In-House Repair Record')
     expect(page).to have_content('Mend paper performed by Haritha Vytla')
 
-    skip 'intermittent failure see https://github.com/uclibs/treatment_database/issues/239' do
-      # Delete In-house repair
-      find("a[id='delete_in_house_repair_record_1']").click
-      expect(page).not_to have_content('Mend paper performed by Haritha Vytla')
-    end
+    # Delete In-house repair
+    find("a[id='delete_in_house_repair_record_1']").click
+    expect(page).not_to have_content('Mend paper performed by Haritha Vytla')
 
     # Create External Repair
     expect(page).to have_button('Add External Repair')
