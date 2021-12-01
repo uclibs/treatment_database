@@ -15,13 +15,13 @@
   </div>
 
   <div class="form-group">
-    <%= f.label "Limit to complete records (returned to origin)" %>
     <%= f.check_box :complete_eq, {}, true, false %>
+    <%= f.label "Limit to complete records (returned to origin)" %>
   </div>
 
   <div class="form-group">
+    <%= f.check_box :in_house_repair_records_id_null, {}, false, true %>
     <%= f.label "Limit to records with at least 1 in-house repair record" %>
-    <%= f.check_box :in_house_repair_records_id_null, {}, true, false %>
   </div>
 
   <br>
