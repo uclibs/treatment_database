@@ -22,3 +22,32 @@
 label {
     padding-top: 10px;
 }
+
+.btn.btn-primary{
+  background-color: #004FA3;
+  color: white;
+}
+
+.nav-item h6 {
+   visibility: hidden;
+ }
+
+/* unvisited link */
+a:link {
+  color: #004FA3;
+}
+
+/* visited link */
+a:visited {
+  color: #004FA3;
+}
+
+/* mouse over link */
+a:hover {
+  color: #004FA3;
+}
+
+/* selected link */
+a:active {
+  color: #004FA3;
+}

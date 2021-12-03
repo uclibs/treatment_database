@@ -32,7 +32,7 @@
           <td>
            <%= link_to [conservation_record], id: "delete_conservation_record_#{conservation_record.id}", method: :delete, data: {confirm: "Are you sure?"} do %>
               <button class="btn btn-danger justify-content-right">
-                 <%= image_tag "delete.png", class: "delete-icon" %>
+                 <%= image_tag "delete.png", class: "delete-icon", alt: "Delete" %>
               </button>
            <% end %>
           </td>
