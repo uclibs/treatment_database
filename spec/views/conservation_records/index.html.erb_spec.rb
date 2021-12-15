@@ -8,7 +8,7 @@ RSpec.describe 'conservation_records/index', type: :view do
 
   let!(:conservation_record1) do
     create(:conservation_record,
-           date_recieved_in_preservation_services: Date.new,
+           date_received_in_preservation_services: Date.new,
            department: 'Department',
            title: 'Title',
            author: 'Author',
@@ -20,7 +20,7 @@ RSpec.describe 'conservation_records/index', type: :view do
 
   let!(:conservation_record2) do
     create(:conservation_record,
-           date_recieved_in_preservation_services: Date.new,
+           date_received_in_preservation_services: Date.new,
            department: 'Department',
            title: 'Title',
            author: 'Author',

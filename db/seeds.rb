@@ -67,7 +67,7 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
   ConservationRecord.create(
     [
       {
-        date_recieved_in_preservation_services: Time.now,
+        date_received_in_preservation_services: Time.now,
         department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
         title: 'Farewell to Arms',
         author: 'Ernest Hemingway',
@@ -77,7 +77,7 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
         digitization: false
       },
       {
-        date_recieved_in_preservation_services: Time.now - 1.days,
+        date_received_in_preservation_services: Time.now - 1.days,
         department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
         title: 'Ulysses',
         author: 'James Joyce',
@@ -87,7 +87,7 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
         digitization: true
       },
       {
-        date_recieved_in_preservation_services: Time.now - 2.days,
+        date_received_in_preservation_services: Time.now - 2.days,
         department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
         title: 'The Great Gatsby',
         author: 'F. Scott Fitzgerald',

@@ -126,7 +126,7 @@ RSpec.describe ActivityHelper, type: :helper do
   describe 'name_to_summary' do
     context 'when item_type is ConservationRecord and the record exists' do
       let!(:conservation_record) do
-        ConservationRecord.create(date_recieved_in_preservation_services: '2021-01-19',
+        ConservationRecord.create(date_received_in_preservation_services: '2021-01-19',
                                   title: 'This is a Test',
                                   author: 'F. Scott Fitzgerald',
                                   imprint: 'Scribner',
@@ -157,7 +157,7 @@ RSpec.describe ActivityHelper, type: :helper do
 
     context 'when item_type is TreatmentReport and the record exists' do
       let!(:conservation_record) do
-        ConservationRecord.create(date_recieved_in_preservation_services: '2021-01-19',
+        ConservationRecord.create(date_received_in_preservation_services: '2021-01-19',
                                   title: 'This is a Test',
                                   author: 'F. Scott Fitzgerald',
                                   imprint: 'Scribner',
@@ -221,7 +221,7 @@ RSpec.describe ActivityHelper, type: :helper do
 
     context 'when item_type is InHouseRepairRecord and the record exists' do
       let!(:conservation_record) do
-        ConservationRecord.create(date_recieved_in_preservation_services: '2021-01-19',
+        ConservationRecord.create(date_received_in_preservation_services: '2021-01-19',
                                   title: 'This is a Test',
                                   author: 'F. Scott Fitzgerald',
                                   imprint: 'Scribner',
@@ -263,7 +263,7 @@ RSpec.describe ActivityHelper, type: :helper do
 
     context 'when item_type is ExternalRepairRecord and the record exists' do
       let!(:conservation_record) do
-        ConservationRecord.create(date_recieved_in_preservation_services: '2021-01-19',
+        ConservationRecord.create(date_received_in_preservation_services: '2021-01-19',
                                   title: 'This is a Test',
                                   author: 'F. Scott Fitzgerald',
                                   imprint: 'Scribner',
@@ -304,7 +304,7 @@ RSpec.describe ActivityHelper, type: :helper do
 
     context 'when item_type is CostReturnReport and the record exists' do
       let!(:conservation_record) do
-        ConservationRecord.create(date_recieved_in_preservation_services: '2021-01-19',
+        ConservationRecord.create(date_received_in_preservation_services: '2021-01-19',
                                   title: 'This is a Test',
                                   author: 'F. Scott Fitzgerald',
                                   imprint: 'Scribner',

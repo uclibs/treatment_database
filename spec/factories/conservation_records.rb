@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :conservation_record do
-    date_recieved_in_preservation_services { '2019-06-11' }
+    date_received_in_preservation_services { '2019-06-11' }
     department { ControlledVocabulary.where(vocabulary: 'department').order(Arel.sql('random()')).first.id }
     title { 'The Illiad' }
     author { 'James Joyce' }
