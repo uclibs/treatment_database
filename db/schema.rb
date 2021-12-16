@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_02_161902) do
+ActiveRecord::Schema.define(version: 2021_12_15_190617) do
 
   create_table "abbreviated_treatment_reports", force: :cascade do |t|
     t.integer "conservation_record_id"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_161902) do
   end
 
   create_table "conservation_records", force: :cascade do |t|
-    t.date "date_recieved_in_preservation_services"
+    t.date "date_received_in_preservation_services"
     t.string "title"
     t.string "author"
     t.string "imprint"

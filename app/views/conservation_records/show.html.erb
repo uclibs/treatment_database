@@ -23,10 +23,10 @@
           <td><%= @conservation_record.id %></td>
         </tr>
         <tr>
-          <th scope="row">Date Recieved</th>
+          <th scope="row">Date Received</th>
           <td>
-            <% unless @conservation_record.date_recieved_in_preservation_services.nil? %>
-              <%= @conservation_record.date_recieved_in_preservation_services.strftime("%m/%d/%Y") %>
+            <% unless @conservation_record.date_received_in_preservation_services.nil? %>
+              <%= @conservation_record.date_received_in_preservation_services.strftime("%m/%d/%Y") %>
             <% end %>
           </td>
         </tr>

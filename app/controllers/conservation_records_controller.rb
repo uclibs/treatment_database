@@ -129,7 +129,7 @@ class ConservationRecordsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def conservation_record_params
     params.require(:conservation_record).permit(
-      :date_recieved_in_preservation_services,
+      :date_received_in_preservation_services,
       :department,
       :title,
       :author,
