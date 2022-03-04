@@ -1,5 +1,5 @@
-#Use base image of ruby 2.7.4
-ARG RUBY_VERSION=2.7.4
+#Use base image of ruby 2.7.5
+ARG RUBY_VERSION=2.7.5
 FROM ruby:${RUBY_VERSION}
 
 #Install all necessary dependencies 
