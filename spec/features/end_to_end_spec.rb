@@ -24,7 +24,7 @@ end
 
 RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:user) { create(:user, role: 'read_only') }
-  let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms', department: 'ARB Library') }
+  let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms', department: 'PLCH') }
   it 'allows User to login and show Conservation Records' do
     # Login
     visit new_user_session_path
@@ -65,7 +65,7 @@ end
 
 RSpec.describe 'Standard User Tests', type: :feature do
   let(:user) { create(:user, role: 'standard') }
-  let!(:conservation_record) { create(:conservation_record, department: 'ARB Library', title: 'Farewell to Arms') }
+  let!(:conservation_record) { create(:conservation_record, department: 'PLCH', title: 'Farewell to Arms') }
   it 'allows User to login and show Conservation Records' do
     # Login
     visit new_user_session_path
@@ -90,6 +90,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
     click_link(conservation_record.title, match: :prefer_exact)
     click_link('Edit Conservation Record')
     expect(page).to have_content('Editing Conservation Record')
+    # Check that selected shows on edit
     fill_in 'Imprint', with: 'University of Cincinnati Press'
     click_on 'Update Conservation record'
     expect(page).to have_content('Conservation record was successfully updated')
@@ -99,7 +100,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
-    select('ARB Library', from: 'Department', match: :first)
+    select('PLCH', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
     fill_in 'Author', with: conservation_record.author
     fill_in 'Imprint', with: conservation_record.imprint
@@ -109,6 +110,8 @@ RSpec.describe 'Standard User Tests', type: :feature do
     expect(page).to have_content('Conservation record was successfully created')
     expect(page).to have_content(conservation_record.title)
     expect(page).to have_link('Edit Conservation Record')
+    click_on 'Edit Conservation Record'
+    expect(page).to have_select('conservation_record_department', selected: 'PLCH')
 
     # In_House Repair
     visit conservation_records_path
@@ -155,6 +158,9 @@ RSpec.describe 'Standard User Tests', type: :feature do
     fill_in 'treatment_report_treatment_proposal_total_treatment_time', with: 10
     click_button('Save Treatment Report')
     expect(page).to have_content('Treatment Record updated successfully!')
+    click_on 'Condition'
+    expect(page).to have_select('treatment_report_treatment_proposal_housing_need_id', selected: 'Portfolio')
+    expect(page).to have_select('treatment_report_treatment_proposal_housing_provided_id', selected: 'Portfolio')
 
     # Save Cost Return Information
     expect(page).to have_content('Cost and Return Information')
@@ -268,7 +274,7 @@ RSpec.describe 'Admin User Tests', type: :feature do
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
-    select('ARB Library', from: 'Department', match: :first)
+    select('PLCH', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
     fill_in 'Author', with: conservation_record.author
     fill_in 'Imprint', with: conservation_record.imprint

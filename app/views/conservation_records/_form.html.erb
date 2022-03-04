@@ -20,7 +20,7 @@
 
     <div class="form-group">
       <%= form.label :department %>
-      <%= form.select(:department, options_from_collection_for_select(@departments, "id", "key"), { prompt: 'Select Department' }, {class: 'form-control'}) %>
+      <%= form.select(:department, options_from_collection_for_select(@departments, "id", "key", @conservation_record.department), { prompt: 'Select Department' }, {class: 'form-control'}) %>
     </div>
 
   <div class="form-group">
