@@ -120,16 +120,19 @@ RSpec.describe 'Standard User Tests', type: :feature do
     click_button('Add In-House Repairs')
     select('Chuck Greenman', from: 'in_house_repair_record_performed_by_user_id')
     select('Soft slipcase', from: 'in_house_repair_record_repair_type', match: :first)
+    fill_in('in_house_repair_record_other_note', with: 'Some Other note for the in-house repair')
+    fill_in('in_house_repair_record_minutes_spent', with: '2')
     click_button('Create In-House Repair Record')
-    expect(page).to have_content('Soft slipcase performed by Chuck Greenman')
+    expect(page).to have_content('Soft slipcase performed by Chuck Greenman in 2 minutes. Other note: Some Other note for the in-house repair')
 
     # External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
     select('Amanda Buck', from: 'external_repair_record_performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_record_repair_type', match: :first)
+    fill_in('external_repair_record_other_note', with: 'Some Other note for the external repair')
     click_button('Create External Repair Record')
-    expect(page).to have_content('Wash performed by Amanda Buck')
+    expect(page).to have_content('Wash performed by Amanda Buck. Other note: Some Other note for the external repair')
 
     # Conservators and Technicians
     expect(page).to have_no_button('Add Conservators and Technicians')
@@ -297,8 +300,10 @@ RSpec.describe 'Admin User Tests', type: :feature do
     click_button('Add In-House Repairs')
     select('Haritha Vytla', from: 'in_house_repair_record_performed_by_user_id', match: :first)
     select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
+    fill_in('in_house_repair_record_other_note', with: 'Some Other note for the in-house repair')
+    fill_in('in_house_repair_record_minutes_spent', with: '2')
     click_button('Create In-House Repair Record')
-    expect(page).to have_content('Mend paper performed by Haritha Vytla')
+    expect(page).to have_content('Mend paper performed by Haritha Vytla in 2 minutes. Other note: Some Other note for the in-house repair')
 
     # Delete In-house repair
     find("a[id='delete_in_house_repair_record_1']").click
@@ -309,8 +314,9 @@ RSpec.describe 'Admin User Tests', type: :feature do
     click_button('Add External Repair')
     select('Amanda Buck', from: 'external_repair_record_performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_record_repair_type', match: :first)
+    fill_in('external_repair_record_other_note', with: 'Some Other note for the external repair')
     click_button('Create External Repair Record')
-    expect(page).to have_content('Wash performed by Amanda Buck')
+    expect(page).to have_content('Wash performed by Amanda Buck. Other note: Some Other note for the external repair')
 
     # Delete external repair
     find("a[id='delete_external_repair_record_1']").click

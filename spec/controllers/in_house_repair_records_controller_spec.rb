@@ -19,7 +19,8 @@ RSpec.describe InHouseRepairRecordsController, type: :controller do
       conservation_record_id: conservation_record.id,
       performed_by_user_id: user.id,
       repair_type: repair_type.id,
-      minutes_spent: 10
+      minutes_spent: 10,
+      other_note: 'Some other note'
     }
   end
 

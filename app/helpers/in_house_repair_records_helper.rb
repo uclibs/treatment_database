@@ -5,8 +5,14 @@ module InHouseRepairRecordsHelper
     repair_type = ControlledVocabulary.find(ihrr.repair_type).key
     display_name = User.find(ihrr.performed_by_user_id).display_name
 
-    return "#{repair_type} performed by #{display_name} in #{ihrr.minutes_spent} minutes." if ind.nil?
+    if ind.nil?
+      return "#{repair_type} performed by #{display_name} in #{ihrr.minutes_spent} minutes. #{if ihrr.other_note.present?
+                                                                                                "Other note: #{ihrr.other_note}"
+                                                                                              end}"
+    end
 
-    "#{ind + 1}. #{repair_type} performed by #{display_name} in #{ihrr.minutes_spent} minutes."
+    "#{ind + 1}. #{repair_type} performed by #{display_name} in #{ihrr.minutes_spent} minutes. #{if ihrr.other_note.present?
+                                                                                                   "Other note: #{ihrr.other_note}"
+                                                                                                 end}"
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_15_190617) do
+ActiveRecord::Schema.define(version: 2022_03_24_141343) do
 
   create_table "abbreviated_treatment_reports", force: :cascade do |t|
     t.integer "conservation_record_id"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2021_12_15_190617) do
     t.integer "conservation_record_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "other_note"
     t.index ["conservation_record_id"], name: "index_external_repair_records_on_conservation_record_id"
   end
 
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 2021_12_15_190617) do
     t.integer "conservation_record_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "other_note"
     t.index ["conservation_record_id"], name: "index_in_house_repair_records_on_conservation_record_id"
   end
 
