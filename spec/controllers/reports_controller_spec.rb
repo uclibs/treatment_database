@@ -20,6 +20,6 @@ RSpec.describe ReportsController, type: :controller do
 
   it 'returns completed results within date parameters' do
     get :index, params: { q: { complete_eq: true } }
-    expect(response.body).to have_text(conservation_record.title)
+    expect(response.body).to have_link(conservation_record.title)
   end
 end

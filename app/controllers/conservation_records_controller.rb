@@ -74,7 +74,7 @@ class ConservationRecordsController < ApplicationController
 
   def conservation_worksheet
     @conservation_record = ConservationRecord.find(params[:id])
-    @base_64_form_image = "data:image/png;base64,#{File.open(Rails.root.join('public', 'worksheet_form_image.base64')).read}"
+    @base_64_form_image = "data:image/png;base64,#{File.read(Rails.root.join('public', 'worksheet_form_image.base64'))}"
 
     send_data build_pdf('conservation_worksheet'), filename: "#{@conservation_record.title}_conservation_worksheet.pdf",
                                                    type: 'application/pdf', disposition: 'inline'
