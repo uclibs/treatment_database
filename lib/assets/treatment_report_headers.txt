@@ -1,0 +1,31 @@
+Treatment ID
+Description General Remarks
+Description Binding
+Description Textblock
+Description Primary Support
+Description Media
+Description Attachments|Inserts
+Description Housing
+Condition Summary
+Condition Binding
+Condition Textblock
+Condition Primary Support
+Condition Media
+Condition Housing
+Condition Housing Narrative
+Condition Attachments|Inserts
+Condition Foreign substances
+Condition Testing
+Treatment Proposal
+Treatment Proposed Housing
+Performed Treatment
+Performed Housing
+Performed Housing Provided
+Treatment Proposed Housing Narrative
+Performed Storage and Handling notes
+Performed Treatment Time
+Item Record #
+Reviewed by
+Technicians
+Notes and Cautions
+Date Returned to Origin
