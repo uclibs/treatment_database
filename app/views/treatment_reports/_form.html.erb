@@ -85,7 +85,7 @@
 
     <p>
       <%= f.label :Housing, "Housing" %>
-      <%= f.select(:condition_housing_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
+      <%= f.select(:condition_housing_id, options_from_collection_for_select(@housing, "id", "key", @conservation_record.treatment_report.condition_housing_id), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
     </p>
 
     <p>
@@ -116,7 +116,7 @@
 
     <p>
       <%= f.label :Housing_Need, "Housing Need" %>
-      <%= f.select(:treatment_proposal_housing_need_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
+      <%= f.select(:treatment_proposal_housing_need_id, options_from_collection_for_select(@housing, "id", "key", @conservation_record.treatment_report.treatment_proposal_housing_need_id), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
     </p>
 
     <p>
@@ -131,7 +131,7 @@
 
     <p>
       <%= f.label :Housing_Provided, "Housing Provided" %>
-      <%= f.select(:treatment_proposal_housing_provided_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
+      <%= f.select(:treatment_proposal_housing_provided_id, options_from_collection_for_select(@housing, "id", "key", @conservation_record.treatment_report.treatment_proposal_housing_provided_id), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
     </p>
 
     <p>
