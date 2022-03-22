@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_24_141343) do
+ActiveRecord::Schema.define(version: 2022_04_29_164249) do
 
   create_table "abbreviated_treatment_reports", force: :cascade do |t|
     t.integer "conservation_record_id"
@@ -80,7 +80,16 @@ ActiveRecord::Schema.define(version: 2022_03_24_141343) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "other_note"
+    t.integer "staff_code_id"
     t.index ["conservation_record_id"], name: "index_in_house_repair_records_on_conservation_record_id"
+    t.index ["staff_code_id"], name: "index_in_house_repair_records_on_staff_code_id"
+  end
+
+  create_table "staff_codes", force: :cascade do |t|
+    t.string "code"
+    t.integer "points"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "treatment_reports", force: :cascade do |t|

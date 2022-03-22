@@ -2,9 +2,13 @@
 
 require 'rails_helper'
 
+Capybara.current_driver = :selenium_chrome
+
 RSpec.describe 'conservation_records/index', type: :view do
   include Devise::Test::ControllerHelpers
   include Pagy::Backend
+
+  let!(:staff_code) { create(:staff_code, code: 'C', points: 10) }
 
   let!(:conservation_record1) do
     create(:conservation_record,

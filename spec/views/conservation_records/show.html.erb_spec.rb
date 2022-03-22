@@ -26,6 +26,7 @@ RSpec.describe 'conservation_records/show', type: :view do
     @users = []
     @repair_types = []
     @contract_conservators = []
+    @staff_codes = []
   end
 
   it 'shows the table with all metadata' do

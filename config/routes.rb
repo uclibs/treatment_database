@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :staff_codes
   post 'users', to: 'users#create_user'
   # get 'reports', to: 'reports#index'
   resources :reports, only: [:index]

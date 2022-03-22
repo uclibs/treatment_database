@@ -220,6 +220,8 @@ RSpec.describe ActivityHelper, type: :helper do
     end
 
     context 'when item_type is InHouseRepairRecord and the record exists' do
+      let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
+
       let!(:conservation_record) do
         ConservationRecord.create(date_received_in_preservation_services: '2021-01-19',
                                   title: 'This is a Test',
@@ -234,7 +236,8 @@ RSpec.describe ActivityHelper, type: :helper do
       let!(:in_house_repair_record) do
         InHouseRepairRecord.create(repair_type: 2,
                                    performed_by_user_id: 1,
-                                   minutes_spent: nil,
+                                   minutes_spent: 30,
+                                   staff_code_id: 1,
                                    conservation_record_id: conservation_record.id,
                                    created_at: '2021-01-26 15:36:59',
                                    updated_at: '2021-01-26 15:36:59')

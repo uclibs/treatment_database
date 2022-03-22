@@ -16,12 +16,14 @@ RSpec.describe AbbreviatedTreatmentReportHelper, type: :helper do
   let(:conservation_record) { create(:conservation_record) }
   let(:repair_type) { create(:controlled_vocabulary, vocabulary: 'repair_type', key: 'Repair/restore binding') }
   let(:user) { create(:user, display_name: 'Haritha Vytla') }
+  let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let!(:repair_record) do
     create(:in_house_repair_record,
            performed_by_user_id: user.id,
            repair_type: repair_type.id,
            conservation_record: conservation_record,
-           minutes_spent: 2)
+           minutes_spent: 2,
+           staff_code_id: 1)
   end
 
   describe 'generate_abbreviated_treatment_report_type' do

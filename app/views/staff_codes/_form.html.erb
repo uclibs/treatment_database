@@ -1,0 +1,27 @@
+<%= form_with(model: staff_code, local: true) do |form| %>
+  <% if staff_code.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(staff_code.errors.count, "error") %> prohibited this staff_code from being saved:</h2>
+
+      <ul>
+      <% staff_code.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :code %>
+    <%= form.text_field :code %>
+  </div>
+
+  <div class="field">
+    <%= form.label :points %>
+    <%= form.number_field :points %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -257,7 +257,11 @@
           <label>Other Note</label>
           <%= form.text_field :other_note, class: "form-control", placeholder: "Other Notes" %>
         </div>
-      </div>
+        <div class="form-group"> 
+          <label>Staff Code</label>
+          <%= form.select :staff_code_id, options_from_collection_for_select(@staff_codes, "id", "code"), { prompt: 'Select Staff Code' }, { :class => 'form-control' } %>
+        </div>
+       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <%= form.submit "Create In-House Repair Record", class: "btn btn-primary" %>
@@ -283,6 +287,7 @@
             <label for="RepairedBy">Repaired By</label>
             <%= form.select(:performed_by_vendor_id, options_from_collection_for_select(@contract_conservators, "id", "key"), { prompt: 'Select Vendor' }, { :class => 'form-control' }) %>
           </div>
+
           <div class="form-group">
             <label>Repair Type</label>
             <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control' } %>
