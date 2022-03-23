@@ -54,7 +54,7 @@
       <tr>
         <td><%= result.conservation_record.id %></td>
 	<td><%= controlled_vocabulary_lookup(result.conservation_record.department) %></td>
-	<td><%= result.conservation_record.title %></td>
+	<td><%= link_to result.conservation_record.title,result.conservation_record %></td>
         <td><%= result.conservation_record.item_record_number %></td>
  	<% result.conservation_record.in_house_repair_records.each_with_index do |repair, i| %>
 	  <td><%= generate_abbreviated_treatment_report_type(repair,i)%>, <%= generate_abbreviated_treatment_report_performed_by(repair,i)%>, <%= generate_abbreviated_treatment_report_time(repair,i)%><td>
