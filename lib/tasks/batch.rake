@@ -97,6 +97,36 @@ def create_external_repair_reports(row)
   end
 end
 
+def cost_return_report(row)
+  CostReturnReport.create! do |crr|
+    crr.shipping_cost = row['Cost of Shipping to Vendor'].tr('$', '').to_i if row['Cost of Shipping to Vendor'].present?
+    crr.repair_estimate = row['Cost Estimate of Repair'].tr('$', '').to_i if row['Cost Estimate of Repair'].present?
+    crr.repair_cost = row['Actual Cost Billed for Repair'].tr('$', '').to_i if row['Actual Cost Billed for Repair'].present?
+    crr.invoice_sent_to_business_office = row['Date invoice sent to Business office'] if row['Date invoice sent to Business office'].present?
+    crr.complete = row['COMPLETE (Returned to origin)']
+    crr.returned_to_origin = row['Date Returned to Origin'] if row['Date Returned to Origin'].present?
+    crr.note = row['Note']
+    crr.conservation_record_id = row['Database ID']
+    puts '   - Attached cost return report'
+  end
+end
+
+def con_tech_record(row)
+  if row['Reviewed by'].present?
+    ConTechRecord.create!(performed_by_user_id: user_lookup(row['Reviewed by']),
+                          conservation_record_id: row['Database ID'])
+    puts '   - Attached con_tech_record'
+  end
+  return if row['Technicians'].blank?
+
+  # split names by seperators and create con-tech records for each
+  row['Technicians'].split(%r{[&,-/]}) do |name|
+    ConTechRecord.create!(performed_by_user_id: user_lookup(name.strip),
+                          conservation_record_id: row['Database ID'])
+    puts '   - Attached con_tech_record'
+  end
+end
+
 namespace :batch do
   desc 'Load repair_type controlled vocabulary'
   task repair_type_controlled_vocabulary: :environment do
@@ -179,6 +209,8 @@ namespace :batch do
       # Add repair records
       create_in_house_repair_reports(row)
       create_external_repair_reports(row)
+      # Add cost return report data
+      cost_return_report(row)
     end
     puts '## Conservation Record Batch load completed ##'
   end
@@ -238,6 +270,8 @@ namespace :batch do
       else
         puts ">> Treatment Report #{row['Treatment ID']} not created -- Conservation Record number: #{row['Item Record #']}"
       end
+      # Add technicians
+      con_tech_record(row)
     end
   end
 end
