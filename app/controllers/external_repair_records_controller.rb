@@ -21,6 +21,6 @@ class ExternalRepairRecordsController < ApplicationController
   private
 
   def create_params
-    params.require(:external_repair_record).permit(:performed_by_vendor_id, :repair_type)
+    params.require(:external_repair_record).permit(:performed_by_vendor_id, :repair_type, :other_note)
   end
 end

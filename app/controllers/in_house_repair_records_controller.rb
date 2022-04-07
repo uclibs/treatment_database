@@ -21,6 +21,6 @@ class InHouseRepairRecordsController < ApplicationController
   private
 
   def create_params
-    params.require(:in_house_repair_record).permit(:performed_by_user_id, :repair_type, :minutes_spent)
+    params.require(:in_house_repair_record).permit(:performed_by_user_id, :repair_type, :minutes_spent, :other_note)
   end
 end

@@ -253,6 +253,10 @@
           <label>Minutes Spent</label>
           <%= form.number_field :minutes_spent, class: "form-control", placeholder: "Minutes" %>
         </div>
+        <div class="form-group">
+          <label>Other Note</label>
+          <%= form.text_field :other_note, class: "form-control", placeholder: "Other Notes" %>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -282,6 +286,10 @@
           <div class="form-group">
             <label>Repair Type</label>
             <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control' } %>
+          </div>
+          <div class="form-group">
+            <label>Other Note</label>
+            <%= form.text_field :other_note, class: "form-control", placeholder: "Other Notes" %>
           </div>
         </div>
         <div class="modal-footer">

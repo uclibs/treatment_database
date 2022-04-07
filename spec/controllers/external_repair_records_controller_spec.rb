@@ -18,7 +18,8 @@ RSpec.describe ExternalRepairRecordsController, type: :controller do
   let(:valid_attributes) do
     {
       conservation_record_id: conservation_record.id,
-      repair_type: repair_type.id
+      repair_type: repair_type.id,
+      other_note: 'Some other note'
     }
   end
 

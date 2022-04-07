@@ -6,6 +6,7 @@ require 'csv'
 
 @departments = {}
 @repair_type = {}
+@vendor = {}
 
 # open csv files to load input vocab with ids
 
@@ -17,6 +18,10 @@ CSV.foreach('lib/assets/types_of_repairs.csv', headers: true, return_headers: fa
   @repair_type[(i[0])] = i[1]
 end
 
+CSV.foreach('lib/assets/contract_conservators.csv', headers: true, return_headers: false) do |i|
+  @vendor[(i[0])] = i[1]
+end
+
 def open_input_csv
   CSV.read(ENV['CSV_LOCATION'], col_sep: ',', headers: true, row_sep: :auto)
 end
@@ -25,6 +30,71 @@ end
 
 def vocab(input_type, input_key)
   ControlledVocabulary.find_by(vocabulary: input_type, key: input_key).id if input_key.present?
+end
+
+def user_lookup(name)
+  user = User.find_by(display_name: name)
+  user.present? ? user.id : User.find_by(display_name: 'Temporary User').id # assign temp user
+end
+
+def create_in_house_repair_reports(row)
+  if row['Type In-house Repair'].present?
+    InHouseRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type In-house Repair']]),
+                                performed_by_user_id: user_lookup(row['Preformed In-house Repair']),
+                                minutes_spent: row['Time In-house Repair'],
+                                conservation_record_id: row['Database ID'])
+    puts '   - Attached in-house repair'
+  end
+  if row['Type In-house Repair 2'].present?
+    InHouseRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type In-house Repair 2']]),
+                                performed_by_user_id: user_lookup(row['Preformed In-house Repair 2']),
+                                minutes_spent: row['Time In-house Repair 2'],
+                                conservation_record_id: row['Database ID'])
+    puts '   - Attached in-house repair'
+  end
+  if row['Type In-house Repair 3'].present?
+    InHouseRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type In-house Repair 3']]),
+                                performed_by_user_id: user_lookup(row['Preformed In-house Repair 3']),
+                                minutes_spent: row['Time In-house Repair 3'],
+                                conservation_record_id: row['Database ID'])
+    puts '   - Attached in-house repair'
+  end
+  if row['Type In-house Repair other'].present? # rubocop:disable Style/GuardClause
+    InHouseRepairRecord.create!(repair_type: vocab('repair_type', 'Other'),
+                                performed_by_user_id: user_lookup(row['Preformed In-house Repair other']),
+                                minutes_spent: row['Time In-house Repair other'],
+                                conservation_record_id: row['Database ID'],
+                                other_note: row['Type In-house Repair other'])
+    puts '   - Attached in-house repair'
+  end
+end
+
+def create_external_repair_reports(row)
+  if row['Type Vendor Repair'].present?
+    ExternalRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type Vendor Repair']]),
+                                 performed_by_vendor_id: vocab('vendor', @vendor[row['Preformed by Vendor']]),
+                                 conservation_record_id: row['Database ID'])
+    puts '   - Attached external repair'
+  end
+  if row['Type Vendor Repair 2'].present?
+    ExternalRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type Vendor Repair 2']]),
+                                 performed_by_vendor_id: vocab('vendor', @vendor[row['Preformed by Vendor 2']]),
+                                 conservation_record_id: row['Database ID'])
+    puts '   - Attached external repair'
+  end
+  if row['Type Vendor Repair 3'].present?
+    ExternalRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type Vendor Repair 3']]),
+                                 performed_by_vendor_id: vocab('vendor', @vendor[row['Preformed by Vendor 3']]),
+                                 conservation_record_id: row['Database ID'])
+    puts '   - Attached external repair'
+  end
+  if row['Type Vendor Repair other'].present? # rubocop:disable Style/GuardClause
+    ExternalRepairRecord.create!(repair_type: vocab('repair_type', 'Other'),
+                                 performed_by_vendor_id: vocab('vendor', row['Preformed by Vendor other']),
+                                 conservation_record_id: row['Database ID'],
+                                 other_note: row['Type Vendor Repair other'])
+    puts '   - Attached external repair'
+  end
 end
 
 namespace :batch do
@@ -62,6 +132,27 @@ namespace :batch do
     end
   end
 
+  desc 'Load Contract Conservators controlled vocabulary'
+  task contract_conservators_controlled_vocabulary: :environment do
+    puts '## Controlled Vocab contract conservators - Batch Load complete'
+    require 'csv'
+    filename = 'lib/assets/contract_conservators.csv'
+    CSV.foreach(filename, col_sep: ',', headers: true) do |row|
+      ControlledVocabulary.create!(vocabulary: 'vendor', key: row[1], active: true)
+      puts "Created controlled vocab for contract conservator: #{row[1]}"
+    end
+  end
+
+  desc 'Load_Users'
+  task load_users: :environment do
+    CSV.foreach('lib/assets/users.csv', headers: true, return_headers: false) do |i|
+      user = User.create(display_name: i[0], email: i[1], role: i[2])
+      user.save(validate: false)
+      puts user
+    end
+    puts '##  User load complete'
+  end
+
   # call rake task with:
   #
   # rails batch:load:conservation_records CSV_LOCATION="/tmp/sample_batch_metadata.csv"
@@ -69,6 +160,7 @@ namespace :batch do
   desc 'Load multiple Conservation records from CSV'
   task conservation_records: :environment do
     # Rake::Task["batch:department_controlled_vocabulary"].execute
+
     csv = open_input_csv
     csv.each do |row|
       conservation_record = ConservationRecord.new
@@ -84,6 +176,9 @@ namespace :batch do
       # Use $departments global array to lookup input_key > vocab_term > target_id
       conservation_record.department = vocab('department', @departments[row['Department']])
       conservation_record.save!
+      # Add repair records
+      create_in_house_repair_reports(row)
+      create_external_repair_reports(row)
     end
     puts '## Conservation Record Batch load completed ##'
   end
