@@ -10,12 +10,13 @@ executors:
     docker:
       - image: docker:20.10.7-git
 
-
+orbs:
+  browser-tools: circleci/browser-tools@1.1
 jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.7.5-node-browsers
+      - image: cimg/ruby:2.7.6-browsers
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -38,6 +39,7 @@ jobs:
     working_directory: ~/treatment_database
 
     steps:
+      - browser-tools/install-chrome
       - checkout
 
       - restore_cache:

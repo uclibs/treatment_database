@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.5'
+ruby '2.7.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
@@ -27,7 +27,8 @@ gem 'jbuilder', '~> 2.5'
 # Use rails-controller-testing for testing a controller
 gem 'rails-controller-testing'
 # Use coveralls for code-coverage
-gem 'coveralls', '~> 0.8.22', require: false
+gem 'coveralls_reborn', '~> 0.24.0', require: false
+
 # Use rubocop for static code analysis
 gem 'rubocop'
 # Use simplecov to generate the coveralls report in .html format
