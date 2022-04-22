@@ -27,7 +27,8 @@ gem 'jbuilder', '~> 2.5'
 # Use rails-controller-testing for testing a controller
 gem 'rails-controller-testing'
 # Use coveralls for code-coverage
-gem 'coveralls_reborn', '~> 0.24.0', require: false
+# gem 'coveralls_reborn', '~> 0.24.0', require: false
+gem 'coveralls', '~> 0.8.22', require: false
 
 # Use rubocop for static code analysis
 gem 'rubocop'
