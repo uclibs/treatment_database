@@ -102,9 +102,11 @@ def cost_return_report(row)
     crr.shipping_cost = row['Cost of Shipping to Vendor'].tr('$', '').to_i if row['Cost of Shipping to Vendor'].present?
     crr.repair_estimate = row['Cost Estimate of Repair'].tr('$', '').to_i if row['Cost Estimate of Repair'].present?
     crr.repair_cost = row['Actual Cost Billed for Repair'].tr('$', '').to_i if row['Actual Cost Billed for Repair'].present?
-    crr.invoice_sent_to_business_office = row['Date invoice sent to Business office'] if row['Date invoice sent to Business office'].present?
+    if row['Date invoice sent to Business office'].present?
+      crr.invoice_sent_to_business_office = Date.strptime(row['Date invoice sent to Business office'], '%m/%d/%Y')
+    end
     crr.complete = row['COMPLETE (Returned to origin)']
-    crr.returned_to_origin = row['Date Returned to Origin'] if row['Date Returned to Origin'].present?
+    crr.returned_to_origin = Date.strptime(row['Date Returned to Origin'], '%m/%d/%Y') if row['Date Returned to Origin'].present?
     crr.note = row['Note']
     crr.conservation_record_id = row['Database ID']
     puts '   - Attached cost return report'
@@ -196,7 +198,9 @@ namespace :batch do
       conservation_record = ConservationRecord.new
       puts "Conservation Record created: #{row['Database ID']}"
       conservation_record.id = row['Database ID'].to_i
-      conservation_record.date_received_in_preservation_services = row['Date received in Preservation Services']
+      if row['Date received in Preservation Services'].present?
+        conservation_record.date_received_in_preservation_services = Date.strptime(row['Date received in Preservation Services'], '%m/%d/%Y')
+      end
       conservation_record.title = row['Title']
       conservation_record.author = row['Author']
       conservation_record.imprint = row['Imprint']
