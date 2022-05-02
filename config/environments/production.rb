@@ -101,12 +101,12 @@ Rails.application.configure do
   config.assets.js_compressor = Uglifier.new(harmony: true)
 
   # Configure AWS XRay
-  config.xray = {
-    name: 'treatment-database',
-    patch: %I[net_http aws_sdk],
-    plugins: %I[ec2 ecs],
-    # record db transactions as subsegments
-    active_record: true,
-    context_missing: 'LOG_ERROR'
-  }
+  # config.xray = {
+  #   name: 'treatment-database',
+  #   patch: %I[net_http aws_sdk],
+  #   plugins: %I[ec2 ecs],
+  #   # record db transactions as subsegments
+  #   active_record: true,
+  #   context_missing: 'LOG_ERROR'
+  # }
 end
