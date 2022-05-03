@@ -259,8 +259,8 @@ namespace :batch do
       end
       treatment_report.condition_housing_narrative = row['Condition Housing Narrative']
       treatment_report.condition_attachments_inserts = row['Condition Attachments|Inserts']
-      treatment_report.condition_previous_treatment = row['Condition Previous Statement']
-      treatment_report.condition_materials_analysis = row['Condition Materials Analysis']
+      treatment_report.condition_previous_treatment = row['Condition Foreign substances']
+      treatment_report.condition_materials_analysis = row['Condition Testing']
       treatment_report.treatment_proposal_proposal = row['Treatment Proposal']
       treatment_report.treatment_proposal_factors_influencing_treatment = row['Notes and Cautions']
       if row['Treatment Proposed Housing'].present?
