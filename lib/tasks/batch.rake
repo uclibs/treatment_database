@@ -23,6 +23,8 @@ CSV.foreach('lib/assets/contract_conservators.csv', headers: true, return_header
 end
 
 def open_input_csv
+  return if ENV['CSV_LOCATION'].blank?
+
   CSV.read(ENV['CSV_LOCATION'], col_sep: ',', headers: true, row_sep: :auto)
 end
 
@@ -33,8 +35,15 @@ def vocab(input_type, input_key)
 end
 
 def user_lookup(name)
+  class << self
+    def assign_temp_user(name)
+      puts "User account #{name} not found"
+      User.find_by(display_name: 'Temporary User').id
+    end
+  end
+
   user = User.find_by(display_name: name)
-  user.present? ? user.id : User.find_by(display_name: 'Temporary User').id # assign temp user
+  user.present? ? user.id : assign_temp_user(name) # assign temp user
 end
 
 def create_in_house_repair_reports(row)
@@ -116,7 +125,7 @@ end
 def con_tech_record(row)
   if row['Reviewed by'].present?
     ConTechRecord.create!(performed_by_user_id: user_lookup(row['Reviewed by']),
-                          conservation_record_id: row['Database ID'])
+                          conservation_record_id: ConservationRecord.find_by(item_record_number: row['Item Record #']).id)
     puts '   - Attached con_tech_record'
   end
   return if row['Technicians'].blank?
@@ -124,7 +133,7 @@ def con_tech_record(row)
   # split names by seperators and create con-tech records for each
   row['Technicians'].split(%r{[&,-/]}) do |name|
     ConTechRecord.create!(performed_by_user_id: user_lookup(name.strip),
-                          conservation_record_id: row['Database ID'])
+                          conservation_record_id: ConservationRecord.find_by(item_record_number: row['Item Record #']).id)
     puts '   - Attached con_tech_record'
   end
 end
@@ -177,10 +186,11 @@ namespace :batch do
 
   desc 'Load_Users'
   task load_users: :environment do
-    CSV.foreach('lib/assets/users.csv', headers: true, return_headers: false) do |i|
+    file = ENV['CSV_LOCATION'].presence || 'lib/assets/users.csv'
+    CSV.foreach(file, headers: true, return_headers: false) do |i|
       user = User.create(display_name: i[0], email: i[1], role: i[2])
       user.save(validate: false)
-      puts user
+      puts "Account created: #{user.display_name}"
     end
     puts '##  User load complete'
   end
@@ -271,11 +281,11 @@ namespace :batch do
         treatment_report.conservation_record_id = conservation_record.id
         treatment_report.save!
         puts "Created treatment report #{row['Treatment ID']} -- Conservation Record #{conservation_record.id}"
+        # Add technicians
+        con_tech_record(row)
       else
         puts ">> Treatment Report #{row['Treatment ID']} not created -- Conservation Record number: #{row['Item Record #']}"
       end
-      # Add technicians
-      con_tech_record(row)
     end
   end
 end
