@@ -258,18 +258,18 @@ namespace :batch do
                                                                              key: row['Condition Housing']).id
       end
       treatment_report.condition_housing_narrative = row['Condition Housing Narrative']
-      treatment_report.condition_attachments_inserts = row['Condition Attachments Inserts']
+      treatment_report.condition_attachments_inserts = row['Condition Attachments|Inserts']
       treatment_report.condition_previous_treatment = row['Condition Previous Statement']
       treatment_report.condition_materials_analysis = row['Condition Materials Analysis']
       treatment_report.treatment_proposal_proposal = row['Treatment Proposal']
       treatment_report.treatment_proposal_factors_influencing_treatment = row['Notes and Cautions']
-      if row['Treatment Proposal Housing'].present?
+      if row['Treatment Proposed Housing'].present?
         treatment_report.treatment_proposal_housing_need_id = ControlledVocabulary.find_by(vocabulary: 'housing',
-                                                                                           key: row['Treatment Proposal Housing']).id
+                                                                                           key: row['Treatment Proposed Housing']).id
       end
       treatment_report.treatment_proposal_performed_treatment = row['Performed Treatment']
 
-      if row['Proposed Housing'].present?
+      if row['Performed Housing'].present?
         treatment_report.treatment_proposal_housing_provided_id = ControlledVocabulary.find_by(vocabulary: 'housing',
                                                                                                key: row['Performed Housing']).id
       end
