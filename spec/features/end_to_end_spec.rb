@@ -13,6 +13,7 @@ Capybara.register_driver :selenium_chrome_headless_sandboxless do |app|
 end
 Capybara.default_driver = :rack_test # This is a faster driver
 Capybara.javascript_driver = :selenium_chrome_headless_sandboxless
+# Capybara.current_driver = :selenium_chrome
 
 RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
@@ -66,6 +67,8 @@ end
 RSpec.describe 'Standard User Tests', type: :feature do
   let(:user) { create(:user, role: 'standard') }
   let!(:conservation_record) { create(:conservation_record, department: 'PLCH', title: 'Farewell to Arms') }
+  let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
+
   it 'allows User to login and show Conservation Records' do
     # Login
     visit new_user_session_path
@@ -122,6 +125,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
     select('Soft slipcase', from: 'in_house_repair_record_repair_type', match: :first)
     fill_in('in_house_repair_record_other_note', with: 'Some Other note for the in-house repair')
     fill_in('in_house_repair_record_minutes_spent', with: '2')
+    select('test', from: 'in_house_repair_record_staff_code_id', match: :first)
     click_button('Create In-House Repair Record')
     expect(page).to have_content('Soft slipcase performed by Chuck Greenman in 2 minutes. Other note: Some Other note for the in-house repair')
 
@@ -197,6 +201,8 @@ RSpec.describe 'Admin User Tests', type: :feature do
   let(:user) { create(:user, role: 'admin') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let(:vocabulary) { create(:controlled_vocabulary) }
+  let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
+
   it 'allows User to login and show Conservation Records' do
     # Login
     visit new_user_session_path
@@ -302,6 +308,7 @@ RSpec.describe 'Admin User Tests', type: :feature do
     select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
     fill_in('in_house_repair_record_other_note', with: 'Some Other note for the in-house repair')
     fill_in('in_house_repair_record_minutes_spent', with: '2')
+    select('test', from: 'in_house_repair_record_staff_code_id', match: :first)
     click_button('Create In-House Repair Record')
     expect(page).to have_content('Mend paper performed by Haritha Vytla in 2 minutes. Other note: Some Other note for the in-house repair')
 

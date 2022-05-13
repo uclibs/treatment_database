@@ -7,6 +7,7 @@ require 'csv'
 @departments = {}
 @repair_type = {}
 @vendor = {}
+@staff_code = {}
 
 # open csv files to load input vocab with ids
 
@@ -46,26 +47,37 @@ def user_lookup(name)
   user.present? ? user.id : assign_temp_user(name) # assign temp user
 end
 
+def staff_code_lookup(code)
+  if code.present?
+    StaffCode.find_by(code: code).id
+  else
+    '4'
+  end
+end
+
 def create_in_house_repair_reports(row)
   if row['Type In-house Repair'].present?
     InHouseRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type In-house Repair']]),
                                 performed_by_user_id: user_lookup(row['Preformed In-house Repair']),
                                 minutes_spent: row['Time In-house Repair'],
-                                conservation_record_id: row['Database ID'])
+                                conservation_record_id: row['Database ID'],
+                                staff_code_id: staff_code_lookup(row['Staff Code']))
     puts '   - Attached in-house repair'
   end
   if row['Type In-house Repair 2'].present?
     InHouseRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type In-house Repair 2']]),
                                 performed_by_user_id: user_lookup(row['Preformed In-house Repair 2']),
                                 minutes_spent: row['Time In-house Repair 2'],
-                                conservation_record_id: row['Database ID'])
+                                conservation_record_id: row['Database ID'],
+                                staff_code_id: staff_code_lookup(row['Staff Code2']))
     puts '   - Attached in-house repair'
   end
   if row['Type In-house Repair 3'].present?
     InHouseRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type In-house Repair 3']]),
                                 performed_by_user_id: user_lookup(row['Preformed In-house Repair 3']),
                                 minutes_spent: row['Time In-house Repair 3'],
-                                conservation_record_id: row['Database ID'])
+                                conservation_record_id: row['Database ID'],
+                                staff_code_id: staff_code_lookup(row['Staff Code3']))
     puts '   - Attached in-house repair'
   end
   if row['Type In-house Repair other'].present? # rubocop:disable Style/GuardClause
@@ -73,7 +85,8 @@ def create_in_house_repair_reports(row)
                                 performed_by_user_id: user_lookup(row['Preformed In-house Repair other']),
                                 minutes_spent: row['Time In-house Repair other'],
                                 conservation_record_id: row['Database ID'],
-                                other_note: row['Type In-house Repair other'])
+                                other_note: row['Type In-house Repair other'],
+                                staff_code_id: staff_code_lookup(row['Staff Codes other']))
     puts '   - Attached in-house repair'
   end
 end
@@ -159,6 +172,17 @@ namespace :batch do
     CSV.foreach(filename, col_sep: ',', headers: true) do |row|
       ControlledVocabulary.create!(vocabulary: 'department', key: row[1], active: true)
       puts "Created controlled vocab for department: #{row[1]}"
+    end
+  end
+
+  desc 'Load staff code  controlled vocabulary'
+  task staff_code_controlled_vocabulary: :environment do
+    puts '## Controlled Vocab staff code - Batch Load complete'
+    require 'csv'
+    filename = 'lib/assets/types_of_staff_code.csv'
+    CSV.foreach(filename, col_sep: ',', headers: true) do |row|
+      StaffCode.create!(code: row[1], points: row[2])
+      puts "Created controlled vocab for staff code: #{row[1]}"
     end
   end
 
