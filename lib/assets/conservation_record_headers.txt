@@ -1,0 +1,46 @@
+Database ID
+Date received in Preservation Services
+Department
+Item Record #
+Call Number
+Title
+Author
+Imprint
+Digitization
+In-house Repair
+Type In-house Repair
+Preformed In-house Repair
+Time In-house Repair
+Staff Code
+Type In-house Repair 2
+Preformed In-house Repair 2
+Staff Code2
+Time In-house Repair 2
+Type In-house Repair 3
+Preformed In-house Repair 3
+Staff Code3
+Time In-house Repair 3
+Type In-house Repair other
+Preformed In-house Repair other
+Staff Codes other
+Time In-house Repair other
+Outside Vendor Repair
+Type Vendor Repair
+Preformed by Vendor
+Type Vendor Repair 2
+Preformed by Vendor 2
+Type Vendor Repair 3
+Preformed by Vendor 3
+Type Vendor Repair other
+Preformed by Vendor other
+Date sent to contract conservator
+Cost of Shipping to Vendor
+Cost Estimate of Repair
+Actual Cost Billed for Repair
+Date invoice sent to Business office
+COMPLETE (Returned to origin)
+Note
+Date Returned to Origin
+Service Type, Primary
+Service Type, Tertiary
+Conservator's Note

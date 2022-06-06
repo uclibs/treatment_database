@@ -8,6 +8,7 @@ require 'csv'
 @repair_type = {}
 @vendor = {}
 @staff_code = {}
+@housing = {}
 
 # open csv files to load input vocab with ids
 
@@ -21,6 +22,10 @@ end
 
 CSV.foreach('lib/assets/contract_conservators.csv', headers: true, return_headers: false) do |i|
   @vendor[(i[0])] = i[1]
+end
+
+CSV.foreach('lib/assets/housing.csv', headers: true, return_headers: false) do |i|
+  @housing[(i[0])] = i[1]
 end
 
 def open_input_csv
@@ -57,7 +62,7 @@ end
 
 def create_in_house_repair_reports(row)
   if row['Type In-house Repair'].present?
-    InHouseRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type In-house Repair']]),
+    InHouseRepairRecord.create!(repair_type: vocab('repair_type', row['Type In-house Repair']),
                                 performed_by_user_id: user_lookup(row['Preformed In-house Repair']),
                                 minutes_spent: row['Time In-house Repair'],
                                 conservation_record_id: row['Database ID'],
@@ -65,7 +70,7 @@ def create_in_house_repair_reports(row)
     puts '   - Attached in-house repair'
   end
   if row['Type In-house Repair 2'].present?
-    InHouseRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type In-house Repair 2']]),
+    InHouseRepairRecord.create!(repair_type: vocab('repair_type', row['Type In-house Repair 2']),
                                 performed_by_user_id: user_lookup(row['Preformed In-house Repair 2']),
                                 minutes_spent: row['Time In-house Repair 2'],
                                 conservation_record_id: row['Database ID'],
@@ -73,7 +78,7 @@ def create_in_house_repair_reports(row)
     puts '   - Attached in-house repair'
   end
   if row['Type In-house Repair 3'].present?
-    InHouseRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type In-house Repair 3']]),
+    InHouseRepairRecord.create!(repair_type: vocab('repair_type', row['Type In-house Repair 3']),
                                 performed_by_user_id: user_lookup(row['Preformed In-house Repair 3']),
                                 minutes_spent: row['Time In-house Repair 3'],
                                 conservation_record_id: row['Database ID'],
@@ -93,20 +98,20 @@ end
 
 def create_external_repair_reports(row)
   if row['Type Vendor Repair'].present?
-    ExternalRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type Vendor Repair']]),
-                                 performed_by_vendor_id: vocab('vendor', @vendor[row['Preformed by Vendor']]),
+    ExternalRepairRecord.create!(repair_type: vocab('repair_type', row['Type Vendor Repair']),
+                                 performed_by_vendor_id: vocab('vendor', row['Preformed by Vendor']),
                                  conservation_record_id: row['Database ID'])
     puts '   - Attached external repair'
   end
   if row['Type Vendor Repair 2'].present?
-    ExternalRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type Vendor Repair 2']]),
-                                 performed_by_vendor_id: vocab('vendor', @vendor[row['Preformed by Vendor 2']]),
+    ExternalRepairRecord.create!(repair_type: vocab('repair_type', row['Type Vendor Repair 2']),
+                                 performed_by_vendor_id: vocab('vendor', row['Preformed by Vendor 2']),
                                  conservation_record_id: row['Database ID'])
     puts '   - Attached external repair'
   end
   if row['Type Vendor Repair 3'].present?
-    ExternalRepairRecord.create!(repair_type: vocab('repair_type', @repair_type[row['Type Vendor Repair 3']]),
-                                 performed_by_vendor_id: vocab('vendor', @vendor[row['Preformed by Vendor 3']]),
+    ExternalRepairRecord.create!(repair_type: vocab('repair_type', row['Type Vendor Repair 3']),
+                                 performed_by_vendor_id: vocab('vendor', row['Preformed by Vendor 3']),
                                  conservation_record_id: row['Database ID'])
     puts '   - Attached external repair'
   end
@@ -228,6 +233,10 @@ namespace :batch do
     # Rake::Task["batch:department_controlled_vocabulary"].execute
 
     csv = open_input_csv
+    if (File.readlines('lib/assets/conservation_record_headers.txt').map(&:chomp).sort <=> csv.headers.sort) != 0
+      abort('**CSV Header Validation failed, check headers and in input CSV**')
+    end
+
     csv.each do |row|
       conservation_record = ConservationRecord.new
       puts "Conservation Record created: #{row['Database ID']}"
@@ -242,7 +251,7 @@ namespace :batch do
       conservation_record.item_record_number = row['Item Record #']
       conservation_record.digitization = row['Digitization'].to_i.positive?
       # Use $departments global array to lookup input_key > vocab_term > target_id
-      conservation_record.department = vocab('department', @departments[row['Department']])
+      conservation_record.department = vocab('department', row['Department'])
       conservation_record.save!
       # Add repair records
       create_in_house_repair_reports(row)
@@ -277,10 +286,7 @@ namespace :batch do
       treatment_report.condition_textblock = row['Condition Textblock']
       treatment_report.condition_primary_support = row['Condition Primary Support']
       treatment_report.condition_medium = row['Condition Medium']
-      if row['Condition Housing'].present?
-        treatment_report.condition_housing_id = ControlledVocabulary.find_by(vocabulary: 'housing',
-                                                                             key: row['Condition Housing']).id
-      end
+      treatment_report.condition_housing_id = vocab('housing', @housing[row['Condition Housing']]) if row['Condition Housing'].present?
       treatment_report.condition_housing_narrative = row['Condition Housing Narrative']
       treatment_report.condition_attachments_inserts = row['Condition Attachments|Inserts']
       treatment_report.condition_previous_treatment = row['Condition Foreign substances']
@@ -288,15 +294,11 @@ namespace :batch do
       treatment_report.treatment_proposal_proposal = row['Treatment Proposal']
       treatment_report.treatment_proposal_factors_influencing_treatment = row['Notes and Cautions']
       if row['Treatment Proposed Housing'].present?
-        treatment_report.treatment_proposal_housing_need_id = ControlledVocabulary.find_by(vocabulary: 'housing',
-                                                                                           key: row['Treatment Proposed Housing']).id
+        treatment_report.treatment_proposal_housing_need_id = vocab('housing', @housing[row['Treatment Proposed Housing']])
       end
       treatment_report.treatment_proposal_performed_treatment = row['Performed Treatment']
 
-      if row['Performed Housing'].present?
-        treatment_report.treatment_proposal_housing_provided_id = ControlledVocabulary.find_by(vocabulary: 'housing',
-                                                                                               key: row['Performed Housing']).id
-      end
+      treatment_report.treatment_proposal_housing_provided_id = vocab('housing', @housing[row['Performed Housing']]) if row['Performed Housing'].present?
 
       treatment_report.treatment_proposal_housing_narrative = row['Performed Housing Provided']
       treatment_report.treatment_proposal_storage_and_handling_notes = row['Performed Storage and Handlling Notes']
