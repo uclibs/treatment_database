@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_29_164249) do
+ActiveRecord::Schema.define(version: 2022_06_07_185907) do
 
   create_table "abbreviated_treatment_reports", force: :cascade do |t|
     t.integer "conservation_record_id"
@@ -93,35 +93,35 @@ ActiveRecord::Schema.define(version: 2022_04_29_164249) do
   end
 
   create_table "treatment_reports", force: :cascade do |t|
-    t.string "description_general_remarks"
-    t.string "description_binding"
-    t.string "description_textblock"
-    t.string "description_primary_support"
-    t.string "description_medium"
-    t.string "description_attachments_inserts"
-    t.string "description_housing"
-    t.string "condition_summary"
-    t.string "condition_binding"
-    t.string "condition_textblock"
-    t.string "condition_primary_support"
-    t.string "condition_medium"
+    t.text "description_general_remarks"
+    t.text "description_binding"
+    t.text "description_textblock"
+    t.text "description_primary_support"
+    t.text "description_medium"
+    t.text "description_attachments_inserts"
+    t.text "description_housing"
+    t.text "condition_summary"
+    t.text "condition_binding"
+    t.text "condition_textblock"
+    t.text "condition_primary_support"
+    t.text "condition_medium"
     t.integer "condition_housing_id"
-    t.string "condition_housing_narrative"
-    t.string "condition_attachments_inserts"
-    t.string "condition_previous_treatment"
-    t.string "condition_materials_analysis"
-    t.string "treatment_proposal_proposal"
+    t.text "condition_housing_narrative"
+    t.text "condition_attachments_inserts"
+    t.text "condition_previous_treatment"
+    t.text "condition_materials_analysis"
+    t.text "treatment_proposal_proposal"
     t.integer "treatment_proposal_housing_need_id"
-    t.string "treatment_proposal_factors_influencing_treatment"
-    t.string "treatment_proposal_performed_treatment"
+    t.text "treatment_proposal_factors_influencing_treatment"
+    t.text "treatment_proposal_performed_treatment"
     t.integer "treatment_proposal_housing_provided_id"
-    t.string "treatment_proposal_housing_narrative"
-    t.string "treatment_proposal_storage_and_handling_notes"
+    t.text "treatment_proposal_housing_narrative"
+    t.text "treatment_proposal_storage_and_handling_notes"
     t.integer "treatment_proposal_total_treatment_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "conservation_record_id"
-    t.string "conservators_note"
+    t.text "conservators_note"
     t.index ["conservation_record_id"], name: "index_treatment_reports_on_conservation_record_id"
   end
 
