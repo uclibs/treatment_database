@@ -9,6 +9,7 @@ require 'csv'
 @vendor = {}
 @staff_code = {}
 @housing = {}
+@treatment_time = {}
 
 # open csv files to load input vocab with ids
 
@@ -26,6 +27,10 @@ end
 
 CSV.foreach('lib/assets/housing.csv', headers: true, return_headers: false) do |i|
   @housing[(i[0])] = i[1]
+end
+
+CSV.foreach('lib/assets/performed_treatment_time.csv', headers: false) do |i|
+  @treatment_time[(i[0])] = i[1]
 end
 
 def open_input_csv
@@ -302,7 +307,7 @@ namespace :batch do
 
       treatment_report.treatment_proposal_housing_narrative = row['Performed Housing Provided']
       treatment_report.treatment_proposal_storage_and_handling_notes = row['Performed Storage and Handlling Notes']
-      treatment_report.treatment_proposal_total_treatment_time = row['Performed Treatment Time']
+      treatment_report.treatment_proposal_total_treatment_time = @treatment[row['Performed Treatment Time']] if row['Performed Treatment Time'].present?
       if (conservation_record = ConservationRecord.find_by(item_record_number: row['Item Record #']))
         treatment_report.conservation_record_id = conservation_record.id
         treatment_report.save!
