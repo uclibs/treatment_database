@@ -13,7 +13,6 @@ Capybara.register_driver :selenium_chrome_headless_sandboxless do |app|
 end
 Capybara.default_driver = :rack_test # This is a faster driver
 Capybara.javascript_driver = :selenium_chrome_headless_sandboxless
-# Capybara.current_driver = :selenium_chrome
 
 RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do

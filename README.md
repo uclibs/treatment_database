@@ -7,15 +7,15 @@ git clone github.com/uclibs/treatment_database
 
 bundle install
 
-Run the migration to prepare the database.
+# Run the migration to prepare the database.
 
 rails db:migrate
 
-Load users.
+# Load users.
 
 rails batch:load_users
 
-Load controlled vocabulary prior to other record types. All vocabularies are includes with the app in /lib/assets/.
+# Load controlled vocabulary prior to other record types. All vocabularies are includes with the app in /lib/assets/.
 
 rails batch:department_controlled_vocabulary
 
@@ -27,7 +27,7 @@ rails batch:contract_conservators_controlled_vocabulary
 
 rails batch:staff_code_controlled_vocabulary
 
-You must supply a csv in utf8 format with records, exported from the legacy access db. Conservation records have a one to one/many relationship with the other records, they anchor all other records types aside from controlled vocabulary.
+# You must supply a csv in utf8 format with records, exported from the legacy access db. Conservation records have a one to one/many relationship with the other records, they anchor all other records types aside from controlled vocabulary.
 
 rails batch:conservation_records CSV_LOCATION=/tmp/Conservation-Data-with-headers.csv
 

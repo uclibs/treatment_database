@@ -10,12 +10,16 @@ executors:
     docker:
       - image: docker:20.10.7-git
 
+orbs:
+  ruby: circleci/ruby@1.8.0
+  node: circleci/node@5.0.2
+  browser-tools: circleci/browser-tools@1.3.0
 
 jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.7.5-node-browsers
+      - image: cimg/ruby:2.7-browsers
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -38,6 +42,8 @@ jobs:
     working_directory: ~/treatment_database
 
     steps:
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - checkout
 
       - restore_cache:
@@ -107,6 +113,25 @@ jobs:
       - store_artifacts:
           path: coverage
 
+      - run:
+          name: "What branch am I on now?"
+          command: echo $CIRCLE_BRANCH
+      - run:
+          name: "What was circle workflow id"
+          command: echo $CIRCLE_WORKFLOW_ID
+      - run:
+          name: "What was circle build num"
+          command: echo $CIRCLE_BUILD_NUM
+
+      - run:
+          name: "What was circle node index"
+          command: echo $CIRCLE_NODE_INDEX
+      - run:
+          name: "What was coverals repo tokennn"
+          command: echo $COVERALLS_REPO_TOKEN
+      - run:
+          name: "Print an env var stored in a Context"
+          command: echo ${CONTEXT_ENV_VAR}
       - deploy:
           name: Update Coveralls
           command: |
