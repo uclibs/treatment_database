@@ -66,6 +66,10 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "treatment_database_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_options = { from: ENV.fetch('TREATMENT_PRODUCTION_MAILER_FROM', nil) }
+
+  # Store the base url from where request is received.
+  config.action_mailer.default_url_options = { host: ENV.fetch('TREATMENT_PRODUCTION_MAILER_URL', nil), protocol: 'https' }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
