@@ -104,6 +104,25 @@ jobs:
           destination: test-results
 
 
+      - run:
+          name: "What branch am I on now?"
+          command: echo $CIRCLE_BRANCH
+      - run:
+          name: "What was circle workflow id"
+          command: echo $CIRCLE_WORKFLOW_ID
+      - run:
+          name: "What was circle build num"
+          command: echo $CIRCLE_BUILD_NUM
+
+      - run:
+          name: "What was circle node index"
+          command: echo $CIRCLE_NODE_INDEX
+      - run:
+          name: "What was coverals repo tokennn"
+          command: echo $COVERALLS_REPO_TOKEN
+      - run:
+          name: "Print an env var stored in a Context"
+          command: echo ${CONTEXT_ENV_VAR}
       - store_artifacts:
           path: coverage
 
