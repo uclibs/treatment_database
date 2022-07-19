@@ -36,7 +36,7 @@ end
 def open_input_csv
   return if ENV['CSV_LOCATION'].blank?
 
-  CSV.read(ENV['CSV_LOCATION'], col_sep: ',', headers: true, row_sep: :auto)
+  CSV.read(ENV.fetch('CSV_LOCATION', nil), col_sep: ',', headers: true, row_sep: :auto)
 end
 
 # method to use input id for target id lookup

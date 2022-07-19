@@ -41,3 +41,5 @@ Rails/FilePath:
     - "app/controllers/conservation_records_controller.rb"
     - "config/environments/development.rb"
     - "config/environments/staging.rb"
+Rails/I18nLocaleTexts:
+  Enabled: false
