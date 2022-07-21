@@ -47,15 +47,6 @@ RSpec.describe UsersController, type: :controller do
       post :create_user, params: { user: valid_attributes.except!(:email) }, session: valid_session
       expect(response).to redirect_to(root_path)
     end
-
-    context 'with valid params when user is not admin' do
-      let(:user) { create(:user, role: 'read_only') }
-      it 'with valid params when user is not an admin' do
-        post :create_user, params: { user: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(conservation_records_path)
-        expect(flash[:notice]).to be_present
-      end
-    end
   end
 
   describe 'PUT update/:id' do
