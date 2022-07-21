@@ -12,7 +12,7 @@ module ConservationRecordsHelper
     if id.nil?
       'No housing method selected.'
     else
-      ControlledVocabulary.find(id)
+      ControlledVocabulary.find(id).key
     end
   end
 end
