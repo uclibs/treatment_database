@@ -31,7 +31,7 @@ RSpec.describe ConservationRecordsHelper, type: :helper do
       end
       it 'return Controlled Vocabulary object' do
         return_value = helper.friendly_housing(controlled_vocabulary.id)
-        expect(return_value.key).to eq('Repair/restore binding')
+        expect(return_value).to eq('Repair/restore binding')
       end
     end
   end
