@@ -46,7 +46,6 @@ class Ability
     when 'read_only'
       can :view_pdfs, [ConservationRecord]
       can :read, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, StaffCode]
-      can :create_user, User
     end
   end
 end
