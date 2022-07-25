@@ -27,11 +27,13 @@ gem 'jbuilder', '~> 2.5'
 # Use rails-controller-testing for testing a controller
 gem 'rails-controller-testing'
 # Use coveralls for code-coverage
-gem 'coveralls', '~> 0.8.22', require: false
+# gem 'coveralls', '~> 0.8.22', require: false
+gem 'coveralls_reborn'
 # Use rubocop for static code analysis
 gem 'rubocop'
 # Use simplecov to generate the coveralls report in .html format
 gem 'simplecov', require: false
+gem 'simplecov-lcov', require: false
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
