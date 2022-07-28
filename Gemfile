@@ -71,7 +71,7 @@ gem 'brakeman', '~> 5.1', '>= 5.1.1'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'capistrano'
+  gem 'capistrano', '3.11.2'
   gem 'capistrano-bundler', '~> 1.6', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-rvm', require: false

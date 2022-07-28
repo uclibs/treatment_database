@@ -10,5 +10,6 @@ ask(:username, nil)
 ask(:password, nil, echo: false)
 server 'libapps.libraries.uc.edu', user: fetch(:username), password: fetch(:password), port: 22, roles: %i[web app db]
 set :deploy_to, '/opt/webapps/treatment_database'
+after 'deploy:updating', 'ruby_update_check'
 after 'deploy:updating', 'init_qp'
 before 'deploy:cleanup', 'start_qp'
