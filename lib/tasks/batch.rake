@@ -307,7 +307,9 @@ namespace :batch do
 
       treatment_report.treatment_proposal_housing_narrative = row['Performed Housing Provided']
       treatment_report.treatment_proposal_storage_and_handling_notes = row['Performed Storage and Handlling Notes']
-      treatment_report.treatment_proposal_total_treatment_time = @treatment[row['Performed Treatment Time']] if row['Performed Treatment Time'].present?
+      if row['Performed Treatment Time'].present?
+        treatment_report.treatment_proposal_total_treatment_time = @treatment_time[row['Performed Treatment Time']]
+      end
       if (conservation_record = ConservationRecord.find_by(item_record_number: row['Item Record #']))
         treatment_report.conservation_record_id = conservation_record.id
         treatment_report.save!
