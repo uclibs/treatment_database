@@ -95,6 +95,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
     select('Chuck Greenman', from: 'in_house_repair_record_performed_by_user_id')
     select('Soft slipcase', from: 'in_house_repair_record_repair_type', match: :first)
     fill_in 'in_house_repair_record_other_note', with: 'Other Note'
+    fill_in 'in_house_repair_record_minutes_spent', with: '23'
     select('test', from: 'in_house_repair_record_staff_code_id', match: :first)
     click_button('Create In-House Repair Record')
     expect(page).to have_content('Soft slipcase performed by Chuck Greenman')
