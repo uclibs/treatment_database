@@ -41,11 +41,12 @@ class Ability
       can :assign_roles, User
       can :crud, [ControlledVocabulary, StaffCode]
     when 'standard'
-      can :view_pdfs, [ConservationRecord]
-      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, StaffCode]
+      can :view_pdfs, ConservationRecord
+      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, StaffCode, CostReturnReport]
     when 'read_only'
-      can :view_pdfs, [ConservationRecord]
-      can :read, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, StaffCode]
+      can :view_pdfs, ConservationRecord
+      can :read, ConservationRecord
+      can :index, ConservationRecord
     end
   end
 end
