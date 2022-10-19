@@ -109,7 +109,11 @@ RSpec.describe 'Standard User Tests', type: :feature do
     expect(page).to have_content('Wash performed by Amanda Buck')
 
     # Conservators and Technicians
-    expect(page).to have_no_button('Add Conservators and Technicians')
+    expect(page).to have_button('Add Conservators and Technicians')
+    click_button('Add Conservators and Technicians')
+    select('John Green', from: 'con_tech_record_performed_by_user_id', match: :first)
+    click_button('Create Conservators and Technicians Record')
+    expect(page).to have_content('John Green')
 
     # Save Treatment Report
 
@@ -144,8 +148,8 @@ RSpec.describe 'Standard User Tests', type: :feature do
     fill_in 'cost_return_report_repair_estimate', with: 100
     fill_in 'cost_return_report_repair_cost', with: 100
     fill_in 'cost_return_report_invoice_sent_to_business_office', with: Time.zone.today.strftime('%Y-%m-%d')
-    fill_in 'cost_return_report_note', with: nil
+    fill_in 'cost_return_report_note', with: 'Test cost and return note'
     click_button('Save Cost and Return Information')
-    expect(page).to have_content('You are not authorized to access this page')
+    expect(page).to have_content('Test cost and return note')
   end
 end

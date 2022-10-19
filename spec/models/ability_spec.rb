@@ -33,11 +33,42 @@ describe 'User', type: :model do
       it { is_expected.not_to be_able_to(:read, ControlledVocabulary.new) }
       it { is_expected.not_to be_able_to(:update, ControlledVocabulary.new) }
       it { is_expected.not_to be_able_to(:destroy, ControlledVocabulary.new) }
+
+      it { is_expected.to be_able_to(:index, ExternalRepairRecord.new) }
+      it { is_expected.to be_able_to(:create, ExternalRepairRecord.new) }
+      it { is_expected.to be_able_to(:read, ExternalRepairRecord.new) }
+      it { is_expected.to be_able_to(:update, ExternalRepairRecord.new) }
+      it { is_expected.to be_able_to(:destroy, ExternalRepairRecord.new) }
+
+      it { is_expected.to be_able_to(:index, InHouseRepairRecord.new) }
+      it { is_expected.to be_able_to(:create, InHouseRepairRecord.new) }
+      it { is_expected.to be_able_to(:read, InHouseRepairRecord.new) }
+      it { is_expected.to be_able_to(:update, InHouseRepairRecord.new) }
+      it { is_expected.to be_able_to(:destroy, InHouseRepairRecord.new) }
+
+      it { is_expected.to be_able_to(:index, StaffCode.new) }
+      it { is_expected.to be_able_to(:create, StaffCode.new) }
+      it { is_expected.to be_able_to(:read, StaffCode.new) }
+      it { is_expected.to be_able_to(:update, StaffCode.new) }
+      it { is_expected.to be_able_to(:destroy, StaffCode.new) }
+
+      it { is_expected.to be_able_to(:index, CostReturnReport.new) }
+      it { is_expected.to be_able_to(:create, CostReturnReport.new) }
+      it { is_expected.to be_able_to(:read, CostReturnReport.new) }
+      it { is_expected.to be_able_to(:update, CostReturnReport.new) }
+      it { is_expected.to be_able_to(:destroy, CostReturnReport.new) }
+
+      it { is_expected.to be_able_to(:index, ConTechRecord.new) }
+      it { is_expected.to be_able_to(:create, ConTechRecord.new) }
+      it { is_expected.to be_able_to(:read, ConTechRecord.new) }
+      it { is_expected.to be_able_to(:update, ConTechRecord.new) }
+      it { is_expected.to be_able_to(:destroy, ConTechRecord.new) }
     end
 
     context 'when is a read_only user' do
       let(:user) { build(:user, role: 'read_only') }
 
+      it { is_expected.not_to be_able_to(:index, User.new) }
       it { is_expected.not_to be_able_to(:create, User.new) }
       it { is_expected.not_to be_able_to(:read, User.new) }
       it { is_expected.not_to be_able_to(:update, User.new) }
@@ -54,6 +85,36 @@ describe 'User', type: :model do
       it { is_expected.not_to be_able_to(:read, ControlledVocabulary.new) }
       it { is_expected.not_to be_able_to(:update, ControlledVocabulary.new) }
       it { is_expected.not_to be_able_to(:destroy, ControlledVocabulary.new) }
+
+      it { is_expected.not_to be_able_to(:index, ExternalRepairRecord.new) }
+      it { is_expected.not_to be_able_to(:create, ExternalRepairRecord.new) }
+      it { is_expected.not_to be_able_to(:read, ExternalRepairRecord.new) }
+      it { is_expected.not_to be_able_to(:update, ExternalRepairRecord.new) }
+      it { is_expected.not_to be_able_to(:destroy, ExternalRepairRecord.new) }
+
+      it { is_expected.not_to be_able_to(:index, InHouseRepairRecord.new) }
+      it { is_expected.not_to be_able_to(:create, InHouseRepairRecord.new) }
+      it { is_expected.not_to be_able_to(:read, InHouseRepairRecord.new) }
+      it { is_expected.not_to be_able_to(:update, InHouseRepairRecord.new) }
+      it { is_expected.not_to be_able_to(:destroy, InHouseRepairRecord.new) }
+
+      it { is_expected.not_to be_able_to(:index, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:create, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:read, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:update, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:destroy, StaffCode.new) }
+
+      it { is_expected.not_to be_able_to(:index, CostReturnReport.new) }
+      it { is_expected.not_to be_able_to(:create, CostReturnReport.new) }
+      it { is_expected.not_to be_able_to(:read, CostReturnReport.new) }
+      it { is_expected.not_to be_able_to(:update, CostReturnReport.new) }
+      it { is_expected.not_to be_able_to(:destroy, CostReturnReport.new) }
+
+      it { is_expected.not_to be_able_to(:index, ConTechRecord.new) }
+      it { is_expected.not_to be_able_to(:create, ConTechRecord.new) }
+      it { is_expected.not_to be_able_to(:read, ConTechRecord.new) }
+      it { is_expected.not_to be_able_to(:update, ConTechRecord.new) }
+      it { is_expected.not_to be_able_to(:destroy, ConTechRecord.new) }
     end
   end
 end
