@@ -213,7 +213,7 @@ namespace :batch do
     require 'csv'
     filename = 'lib/assets/contract_conservators.csv'
     CSV.foreach(filename, col_sep: ',', headers: true) do |row|
-      ControlledVocabulary.create!(vocabulary: 'vendor', key: row[1], active: true)
+      ControlledVocabulary.create!(vocabulary: 'contract_conservator', key: row[1], active: true)
       puts "Created controlled vocab for contract conservator: #{row[1]}"
     end
   end

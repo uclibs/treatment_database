@@ -9,7 +9,7 @@ class InHouseRepairRecordsController < ApplicationController
     @conservation_record = ConservationRecord.find(params[:conservation_record_id])
     @repair_record = @conservation_record.in_house_repair_records.create(create_params)
     if @repair_record.valid?
-      redirect_to conservation_record_path(@conservation_record), notice: 'success'
+      redirect_to conservation_record_path(@conservation_record)
     else
       redirect_to conservation_record_path(@conservation_record), notice: "In house repair not saved: #{@repair_record.errors.full_messages[0]}"
     end
