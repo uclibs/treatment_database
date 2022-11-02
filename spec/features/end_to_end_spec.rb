@@ -401,7 +401,7 @@ RSpec.describe 'Admin User Tests', type: :feature do
     expect(page).to have_content('Haritha Vytla deleted the external repair record')
     expect(page).to have_content('Haritha Vytla created the in house repair record')
     expect(page).to have_content('Haritha Vytla deleted the in house repair record')
-    expect(page).to have_content('Haritha Vytla created the treatment report')
+    expect(page).to_not have_content('Haritha Vytla created the treatment report')
     expect(page).to have_content('Haritha Vytla updated the treatment report')
   end
 end
