@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_07_185907) do
+ActiveRecord::Schema.define(version: 2023_01_18_193919) do
 
   create_table "abbreviated_treatment_reports", force: :cascade do |t|
     t.integer "conservation_record_id"
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 2022_06_07_185907) do
     t.integer "treatment_proposal_housing_provided_id"
     t.text "treatment_proposal_housing_narrative"
     t.text "treatment_proposal_storage_and_handling_notes"
-    t.integer "treatment_proposal_total_treatment_time"
+    t.text "treatment_proposal_total_treatment_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "conservation_record_id"
