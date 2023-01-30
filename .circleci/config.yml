@@ -43,9 +43,9 @@ jobs:
     working_directory: ~/treatment_database
 
     steps:
+      - checkout
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
-      - checkout
 
       - restore_cache:
           keys:
