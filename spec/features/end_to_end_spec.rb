@@ -5,7 +5,7 @@ require 'rails_helper'
 require 'capybara'
 
 Capybara.register_driver :selenium_chrome_headless_sandboxless do |app|
-  browser_options = ::Selenium::WebDriver::Chrome::Options.new
+  browser_options = Selenium::WebDriver::Chrome::Options.new
   browser_options.args << '--headless'
   browser_options.args << '--disable-gpu'
   browser_options.args << '--no-sandbox'
