@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-
 require 'capybara'
 
 Capybara.register_driver :selenium_chrome_headless_sandboxless do |app|
@@ -24,7 +23,7 @@ end
 
 RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:user) { create(:user, role: 'read_only') }
-  let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms', department: 'PLCH') }
+  let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   it 'allows User to login and show Conservation Records' do
     # Login
     visit new_user_session_path
@@ -65,7 +64,7 @@ end
 
 RSpec.describe 'Standard User Tests', type: :feature do
   let(:user) { create(:user, role: 'standard') }
-  let!(:conservation_record) { create(:conservation_record, department: 'PLCH', title: 'Farewell to Arms') }
+  let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
   it 'allows User to login and show Conservation Records' do

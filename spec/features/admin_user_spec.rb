@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Admin User Tests', type: :feature do
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:user) { create(:user, role: 'admin') }
-  let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms', department: 'ARB Library') }
+  let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms', department: 2) }
   let(:vocabulary) { create(:controlled_vocabulary) }
 
   it 'allows User to login and show Conservation Records and Staff Codes' do
