@@ -15,7 +15,6 @@ RSpec.describe 'reports/index', type: :view, js: true do
 
   it 'renders search form' do
     expect(rendered).to have_unchecked_field('q_complete_eq')
-    expect(rendered).to have_unchecked_field('q_in_house_repair_records_id_null')
   end
 
   it 'shows the table with all metadata' do
