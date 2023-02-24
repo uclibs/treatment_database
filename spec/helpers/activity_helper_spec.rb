@@ -196,7 +196,7 @@ RSpec.describe ActivityHelper, type: :helper do
                                treatment_proposal_total_treatment_time: nil,
                                created_at: '2021-01-21 19:29:04',
                                updated_at: '2021-01-21 19:29:04',
-                               conservators_note: nil)
+                               abbreviated_treatment_report: nil)
       end
 
       before do
