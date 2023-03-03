@@ -8,7 +8,7 @@ RSpec.describe ConservationRecord, type: :model do
   end
 
   it 'is valid with valid attributes' do
-    expect(ConservationRecord.new(department: '1', title: 'Some test title', author: 'Earnest Hemingway', imprint: 'Uc Press', call_number: 'PA2323',
+    expect(ConservationRecord.new(department: '1', title: 'Some test title',
                                   item_record_number: 'i33322222')).to be_valid
   end
 
@@ -22,22 +22,22 @@ RSpec.describe ConservationRecord, type: :model do
                                   item_record_number: 'i33322222')).to_not be_valid
   end
 
-  it 'is not valid without author attribute' do
+  it 'is valid without author attribute' do
     expect(ConservationRecord.new(department: '1', title: 'Some test title', imprint: 'Uc Press', call_number: 'PA2323',
-                                  item_record_number: 'i33322222')).to_not be_valid
+                                  item_record_number: 'i33322222')).to be_valid
   end
 
   it 'is valid without imprint attribute' do
     expect(ConservationRecord.new(department: '1', title: 'Some test title', author: 'Earnest Hemingway', call_number: 'PA2323',
-                                  item_record_number: 'i33322222')).to_not be_valid
+                                  item_record_number: 'i33322222')).to be_valid
   end
 
   it 'is valid without call_number attribute' do
     expect(ConservationRecord.new(department: '1', title: 'Some test title', author: 'Earnest Hemingway', imprint: 'Uc Press',
-                                  item_record_number: 'i33322222')).to_not be_valid
+                                  item_record_number: 'i33322222')).to be_valid
   end
 
-  it 'is valid with item_record attribute' do
+  it 'is not valid without item_record attribute' do
     expect(ConservationRecord.new(department: '1', title: 'Some test title', author: 'Earnest Hemingway', imprint: 'Uc Press',
                                   call_number: 'PA2323')).to_not be_valid
   end
