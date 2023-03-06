@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_18_193919) do
+ActiveRecord::Schema.define(version: 2023_02_24_201755) do
 
   create_table "abbreviated_treatment_reports", force: :cascade do |t|
     t.integer "conservation_record_id"
@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 2023_01_18_193919) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "conservation_record_id"
-    t.text "conservators_note"
+    t.text "abbreviated_treatment_report"
     t.index ["conservation_record_id"], name: "index_treatment_reports_on_conservation_record_id"
   end
 
@@ -141,7 +141,8 @@ ActiveRecord::Schema.define(version: 2023_01_18_193919) do
   end
 
   create_table "versions", force: :cascade do |t|
-    t.string "item_type", null: false
+    t.string "item_type"
+    t.string "{:null=>false}"
     t.integer "item_id", limit: 8, null: false
     t.string "event", null: false
     t.string "whodunnit"
@@ -156,4 +157,6 @@ ActiveRecord::Schema.define(version: 2023_01_18_193919) do
   add_foreign_key "cost_return_reports", "conservation_records"
   add_foreign_key "external_repair_records", "conservation_records"
   add_foreign_key "in_house_repair_records", "conservation_records"
+  add_foreign_key "in_house_repair_records", "staff_codes"
+  add_foreign_key "treatment_reports", "conservation_records"
 end
