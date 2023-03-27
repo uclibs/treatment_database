@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   resources :staff_codes
   post 'users', to: 'users#create_user'
-  resources :reports, only: [:index]
+  resources :reports
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users, controller: 'users', except: %i[create show]
   resources :controlled_vocabularies, except: [:destroy]
@@ -25,4 +25,5 @@ Rails.application.routes.draw do
   get 'conservation_records/:id/conservation_worksheet', to: 'conservation_records#conservation_worksheet', as: 'conservation_worksheet'
   get 'conservation_records/:id/treatment_report', to: 'conservation_records#treatment_report', as: 'treatment_report'
   get 'conservation_records/:id/abbreviated_treatment_report', to: 'conservation_records#abbreviated_treatment_report', as: 'abbreviated_treatment_report'
+  get 'reports/download_csv'
 end

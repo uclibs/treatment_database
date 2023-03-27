@@ -64,8 +64,6 @@ gem 'paper_trail'
 
 gem 'pagy'
 
-gem 'ransack'
-
 gem 'brakeman', '~> 5.1', '>= 5.1.1'
 
 group :development, :test do

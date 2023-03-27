@@ -7,19 +7,28 @@ RSpec.describe ReportsController, type: :controller do
   render_views
 
   before do
-    user = create(:user, role: 'admin')
+    ActiveJob::Base.queue_adapter = :test
+    user = create(:user, role: 'standard')
     sign_in(user)
   end
 
-  let!(:conservation_record) { create(:conservation_record_with_cost_return_report) }
+  describe 'POST #create' do
+    it 'executes DataExportJob' do
+      expect { post :create }.to change { Report.count }.by 1
+    end
 
-  it 'returns no results with blank search' do
-    get :index, params: { q: {} }
-    expect(response.body).to have_text('No Results')
+    it 'redirects to reports index' do
+      post :create
+      expect(response).to redirect_to reports_path
+    end
   end
 
-  it 'returns completed results within date parameters' do
-    get :index, params: { q: { complete_eq: true } }
-    expect(response.body).to have_link(conservation_record.title)
+  describe 'DELETE #destroy' do
+    it 'destroys the requested conservation_record' do
+      report_record = Report.create!
+      expect do
+        delete :destroy, params: { id: report_record.to_param }
+      end.to change(Report, :count).by(-1)
+    end
   end
 end

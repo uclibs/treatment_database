@@ -5,7 +5,9 @@ module ApplicationHelper
   def controlled_vocabulary_lookup(vocabulary_id)
     return 'ID Missing' if vocabulary_id.nil?
 
-    c = ControlledVocabulary.find(vocabulary_id)
+    c = ControlledVocabulary.find_by(id: vocabulary_id)
+    return if c.nil?
+
     c.key
   end
 

@@ -4,8 +4,6 @@ require 'rails_helper'
 
 RSpec.describe 'reports/index', type: :view, js: true do
   before do
-    @q = CostReturnReport.none.ransack
-    @results = []
     render
   end
 
@@ -13,15 +11,12 @@ RSpec.describe 'reports/index', type: :view, js: true do
     expect(rendered).to have_text('Reports')
   end
 
-  it 'renders search form' do
-    expect(rendered).to have_unchecked_field('q_complete_eq')
+  it 'has new report button' do
+    expect(rendered).to have_link('New Report')
   end
 
   it 'shows the table with all metadata' do
-    expect(rendered).to match(/Database ID/)
-    expect(rendered).to match(/Department/)
-    expect(rendered).to match(/Title/)
-    expect(rendered).to match(/Item Record#/)
-    expect(rendered).to match(/In-House Repairs?/)
+    expect(rendered).to match(/Date Created/)
+    expect(rendered).to match(/File/)
   end
 end

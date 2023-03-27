@@ -42,7 +42,7 @@ class Ability
       can :crud, [ControlledVocabulary, StaffCode]
     when 'standard'
       can :view_pdfs, ConservationRecord
-      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, StaffCode, CostReturnReport]
+      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, StaffCode, CostReturnReport, Report]
     when 'read_only'
       can :view_pdfs, ConservationRecord
       can :read, ConservationRecord
