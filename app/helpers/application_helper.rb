@@ -8,4 +8,11 @@ module ApplicationHelper
     c = ControlledVocabulary.find(vocabulary_id)
     c.key
   end
+
+  def user_display_name(id)
+    user = User.find(id)
+    user.display_name
+  rescue ActiveRecord::RecordNotFound
+    "User not found (ID: #{id})"
+  end
 end

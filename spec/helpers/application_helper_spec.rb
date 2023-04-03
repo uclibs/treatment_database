@@ -13,8 +13,8 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe ApplicationHelper, type: :helper do
-  let(:controlled_vocab) { create :controlled_vocabulary }
   describe 'controlled_vocabulary_lookup' do
+    let(:controlled_vocab) { create :controlled_vocabulary }
     it 'returns a controlled vocab object' do
       result = helper.controlled_vocabulary_lookup(controlled_vocab.id)
       expect(result).to eq(controlled_vocab.key)
@@ -23,6 +23,18 @@ RSpec.describe ApplicationHelper, type: :helper do
     it 'returns id missing string if vocab id is nil' do
       result = helper.controlled_vocabulary_lookup(nil)
       expect(result).to eq('ID Missing')
+    end
+  end
+  describe 'user_display_name' do
+    let(:user) { create :user }
+    it 'returns an existing users display name' do
+      result = helper.user_display_name(user.id)
+      expect(result).to eq(user.display_name)
+    end
+
+    it 'rescues and returns user not found string for non-existing user' do
+      result = helper.user_display_name(9999)
+      expect(result).to eq('User not found (ID: 9999)')
     end
   end
 end

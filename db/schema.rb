@@ -141,8 +141,7 @@ ActiveRecord::Schema.define(version: 2023_02_24_201755) do
   end
 
   create_table "versions", force: :cascade do |t|
-    t.string "item_type"
-    t.string "{:null=>false}"
+    t.string "item_type", null: false
     t.integer "item_id", limit: 8, null: false
     t.string "event", null: false
     t.string "whodunnit"
@@ -157,6 +156,4 @@ ActiveRecord::Schema.define(version: 2023_02_24_201755) do
   add_foreign_key "cost_return_reports", "conservation_records"
   add_foreign_key "external_repair_records", "conservation_records"
   add_foreign_key "in_house_repair_records", "conservation_records"
-  add_foreign_key "in_house_repair_records", "staff_codes"
-  add_foreign_key "treatment_reports", "conservation_records"
 end

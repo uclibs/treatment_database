@@ -6,7 +6,7 @@ module AbbreviatedTreatmentReportHelper
   end
 
   def generate_abbreviated_treatment_report_performed_by(ihrr, _ind)
-    User.find(ihrr.performed_by_user_id).display_name
+    user_display_name(ihrr.performed_by_user_id)
   end
 
   def generate_abbreviated_treatment_report_time(ihrr, _ind)
