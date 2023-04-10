@@ -2,7 +2,7 @@
 
 module ConTechRecordsHelper
   def generate_con_tech_string(ihrr, ind)
-    display_name = User.find(ihrr.performed_by_user_id).display_name
+    display_name = user_display_name(ihrr.performed_by_user_id)
 
     return display_name if ind.nil?
 
