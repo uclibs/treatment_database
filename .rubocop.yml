@@ -29,6 +29,7 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*.rb'
+    - 'lib/tasks/export.rake'
 
 Layout/LineLength:
   Exclude:

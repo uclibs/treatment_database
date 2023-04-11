@@ -12,14 +12,22 @@ RSpec.describe ReportsController, type: :controller do
     sign_in(user)
   end
 
+  describe 'GET #index' do
+    it 'returns a success response' do
+      get :index
+      expect(response).to be_successful
+    end
+  end
+
   describe 'POST #create' do
     it 'executes DataExportJob' do
       expect { post :create }.to change { Report.count }.by 1
     end
 
-    it 'redirects to reports index' do
+    it 'redirects to reports index and show flash message' do
       post :create
       expect(response).to redirect_to reports_path
+      expect(flash[:notice]).to be_present
     end
   end
 

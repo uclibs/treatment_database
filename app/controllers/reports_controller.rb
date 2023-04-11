@@ -11,6 +11,7 @@ class ReportsController < ApplicationController
 
   def create
     DataExportJob.perform_now
+    flash[:notice] = "#{Report.last.csv_file.filename} is ready below."
     redirect_to reports_path
   end
 

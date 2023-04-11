@@ -15,55 +15,62 @@ namespace :export do
     ConservationRecord.all.each do |h|
       ihrr.push h.in_house_repair_records.count if h.in_house_repair_records.count.positive?
       staff.push h.con_tech_records.count if h.con_tech_records.count.positive?
-      err.push h.con_tech_records.count if h.external_repair_records.count.positive?
+      err.push h.external_repair_records.count if h.external_repair_records.count.positive?
     end
 
     # set headers for repeat fields
     err_csv = []
-    err.max.times do
-      err_headings = ['External Repair Record id',
-                      'External Repair repair_type',
-                      'External Repair performed_by_vendor_id',
-                      'External Repair conservation_record_id',
-                      'External Repair created_at',
-                      'External Repair other_note']
-      err_csv.push err_headings
+
+    def err_headings(ordinal)
+      ["External Repair Record id #{ordinal + 1}",
+       "External Repair repair_type #{ordinal + 1}",
+       "External Repair performed_by_vendor_id #{ordinal + 1}",
+       "External Repair conservation_record_id #{ordinal + 1}",
+       "External Repair created_at #{ordinal + 1}",
+       "External Repair other_note #{ordinal + 1}"]
+    end
+
+    err.max.times.each do |ordinal|
+      err_csv.push err_headings(ordinal)
     end
 
     ihrr_csv = []
-    ihrr.max.times do
-      ihrr_headings = ['In House Repair performed_by_user_id',
-                       'In House Repair minutes_spent',
-                       'In House Repair conservation_record_id',
-                       'In House Repair other_note',
-                       'In House Repair created_at',
-                       'In House Repair staff_code_id']
-      ihrr_csv.push ihrr_headings
+
+    def ihrr_headings(ordinal)
+      ["In House Repair performed_by_user_id #{ordinal + 1}",
+       "In House Repair minutes_spent #{ordinal + 1}",
+       "In House Repair conservation_record_id #{ordinal + 1}",
+       "In House Repair other_note #{ordinal + 1}",
+       "In House Repair created_at #{ordinal + 1}",
+       "In House Repair staff_code #{ordinal + 1}"]
+    end
+
+    ihrr.max.times.each do |ordinal|
+      ihrr_csv.push ihrr_headings(ordinal)
     end
 
     staff_csv = []
+
+    staff_headings = ['Staff ID',
+                      'Staff performed_by_user_id',
+                      'Staff created_at',
+                      'Staff conservation_record_id']
+
     staff.max.times do
-      staff_headings = ['Staff id',
-                        'Staff performed_by_user_id',
-                        'Staff created_at',
-                        'Staff conservation_record_id']
       staff_csv.push staff_headings
     end
 
     # set headers for singular records
-    cons_headings = ['Conservation Record id',
+    cons_headings = ['Conservation Record ID',
                      'Conservation Record date_received_in_preservation_services',
                      'Conservation Record title',
                      'Conservation Record author',
                      'Conservation Record imprint',
                      'Conservation Recordl call_number',
                      'Conservation Record item_record_number',
-                     'Conseration Record digitization',
-                     'Conservation Record created_at',
-                     'Conservation Record updated_at',
-                     'Conservaiton Record departmen']
+                     'Conservaiton Record department']
 
-    tr_headings = ['Treatment Record id',
+    tr_headings = ['Treatment Report ID',
                    'Treatment Report description_general_remarks',
                    'Treatment Report description_binding',
                    'Treatment Report description_textblock',
@@ -94,15 +101,29 @@ namespace :export do
                    'Treatment Report conservation_record_id',
                    'Treatment Report abbreviated_treatment_report']
 
+    def crr_headings
+      ['Cost Return Report Complete?',
+       'Cost Return Report Returned to Origin?',
+       'Cost Return Report ID',
+       'Cost Return Report Shipping Cost',
+       'Cost Return Report Repair Estimate',
+       'Cost Return Report Repair Cost',
+       'Cost Return Report Invoice Sent to Business Office',
+       'Cost Return Report Note',
+       'Cost Return Report Conservation Record ID',
+       'Cost Return Report Created At',
+       'Cost Return Report Updated At']
+    end
+
     def in_house_repair_record_array(conservation_record, ihrr)
       records = []
       conservation_record.in_house_repair_records.all.each do |i|
-        records << [User.find(i.performed_by_user_id).display_name.to_s,
+        records << [user_display_name(i.performed_by_user_id),
                     i.minutes_spent.to_s,
                     i.conservation_record_id.to_s,
                     i.other_note,
                     i.created_at.to_s,
-                    i.staff_code_id.to_s]
+                    StaffCode.find_by(id: i.staff_code_id).code]
       end
       # Fill in empty spaces
       (ihrr.max - conservation_record.in_house_repair_records.count).times do
@@ -115,8 +136,8 @@ namespace :export do
       records = []
       conservation_record.external_repair_records.all.each do |i|
         records << [i.id.to_s,
-                    ControlledVocabulary.find(i.repair_type).key.to_s,
-                    ControlledVocabulary.find(i.performed_by_vendor_id).key.to_s,
+                    controlled_vocabulary_lookup(i.repair_type) || '',
+                    controlled_vocabulary_lookup(i.performed_by_vendor_id) || '',
                     i.conservation_record_id.to_s,
                     i.created_at.to_s,
                     i.other_note]
@@ -132,7 +153,7 @@ namespace :export do
       records = []
       conservation_record.con_tech_records.all.each do |i|
         records << [i.id.to_s,
-                    User.find(i.performed_by_user_id).display_name.to_s,
+                    user_display_name(i.performed_by_user_id),
                     i.created_at.to_s,
                     i.conservation_record_id.to_s]
       end
@@ -152,10 +173,24 @@ namespace :export do
        cons_record.imprint,
        cons_record.call_number,
        cons_record.item_record_number,
-       cons_record.digitization.to_s,
-       cons_record.created_at.to_s,
-       cons_record.updated_at.to_s,
-       ControlledVocabulary.find(cons_record.department).key.to_s]
+       controlled_vocabulary_lookup(cons_record.department) || '']
+    end
+
+    def cost_return_report_array(conservation_record)
+      return ['', '', '', '', '', '', '', '', '', '', ''] if conservation_record.cost_return_report.nil?
+
+      cost_return = conservation_record.cost_return_report
+      [cost_return.complete,
+       cost_return.returned_to_origin,
+       cost_return.id,
+       cost_return.shipping_cost,
+       cost_return.repair_estimate,
+       cost_return.repair_cost,
+       cost_return.invoice_sent_to_business_office,
+       cost_return.note,
+       cost_return.conservation_record_id,
+       cost_return.created_at,
+       cost_return.updated_at]
     end
 
     def treatment_report_array(conservation_record)
@@ -198,13 +233,13 @@ namespace :export do
       # create csv file
       CSV.open(file, 'wb', force_quotes: true) do |csv|
         # write headers
-        csv << (cons_headings + ihrr_csv.flatten + err_csv.flatten + staff_csv.flatten + tr_headings)
+        csv << (cons_headings + ihrr_csv.flatten + crr_headings + err_csv.flatten + staff_csv.flatten + tr_headings)
         # write data, line by line
         ConservationRecord.all.each do |conservation_record|
           csv << [conservation_record_array(conservation_record) + in_house_repair_record_array(conservation_record,
-                                                                                                ihrr) + external_repair_record_array(conservation_record,
-                                                                                                                                     err) + staff_array(conservation_record,
-                                                                                                                                                        staff) + treatment_report_array(conservation_record)].flatten
+                                                                                                ihrr) + cost_return_report_array(conservation_record) + external_repair_record_array(conservation_record,
+                                                                                                                                                                                     err) + staff_array(conservation_record,
+                                                                                                                                                                                                        staff) + treatment_report_array(conservation_record)].flatten
         end
       end
       # save and serve file

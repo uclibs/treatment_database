@@ -104,25 +104,25 @@ end
 def create_external_repair_reports(row)
   if row['Type Vendor Repair'].present?
     ExternalRepairRecord.create!(repair_type: vocab('repair_type', row['Type Vendor Repair']),
-                                 performed_by_vendor_id: vocab('vendor', row['Preformed by Vendor']),
+                                 performed_by_vendor_id: vocab('contract_conservator', row['Preformed by Vendor']),
                                  conservation_record_id: row['Database ID'])
     puts '   - Attached external repair'
   end
   if row['Type Vendor Repair 2'].present?
     ExternalRepairRecord.create!(repair_type: vocab('repair_type', row['Type Vendor Repair 2']),
-                                 performed_by_vendor_id: vocab('vendor', row['Preformed by Vendor 2']),
+                                 performed_by_vendor_id: vocab('contract_conservator', row['Preformed by Vendor 2']),
                                  conservation_record_id: row['Database ID'])
     puts '   - Attached external repair'
   end
   if row['Type Vendor Repair 3'].present?
     ExternalRepairRecord.create!(repair_type: vocab('repair_type', row['Type Vendor Repair 3']),
-                                 performed_by_vendor_id: vocab('vendor', row['Preformed by Vendor 3']),
+                                 performed_by_vendor_id: vocab('contract_conservator', row['Preformed by Vendor 3']),
                                  conservation_record_id: row['Database ID'])
     puts '   - Attached external repair'
   end
   if row['Type Vendor Repair other'].present? # rubocop:disable Style/GuardClause
     ExternalRepairRecord.create!(repair_type: vocab('repair_type', 'Other'),
-                                 performed_by_vendor_id: vocab('vendor', row['Preformed by Vendor other']),
+                                 performed_by_vendor_id: vocab('contract_conservator', row['Preformed by Vendor other']),
                                  conservation_record_id: row['Database ID'],
                                  other_note: row['Type Vendor Repair other'])
     puts '   - Attached external repair'
