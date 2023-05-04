@@ -6,54 +6,58 @@ inherit_from: .rubocop_todo.yml
 AllCops:
   NewCops: enable
   Exclude:
-    - "db/**/*"
-    - vendor/bundle/**/*
+    - 'db/**/*'
+    - 'vendor/bundle/**/*'
 
 Metrics/ClassLength:
   Exclude:
-    - app/controllers/conservation_records_controller.rb
+    - 'app/controllers/conservation_records_controller.rb'
 
 Rails/LexicallyScopedActionFilter:
   Exclude:
-    - app/controllers/users/registrations_controller.rb
+    - 'app/controllers/users/registrations_controller.rb'
 
 Metrics/AbcSize:
   Exclude:
-    - app/helpers/in_house_repair_records_helper.rb
-    - app/helpers/external_repair_records_helper.rb
-    - app/helpers/activity_helper.rb
-    - "app/controllers/users_controller.rb"
-    - lib/tasks/batch.rake
+    - 'app/helpers/in_house_repair_records_helper.rb'
+    - 'app/helpers/external_repair_records_helper.rb'
+    - 'app/helpers/activity_helper.rb'
+    - 'app/controllers/users_controller.rb'
+    - 'lib/tasks/batch.rake'
+    - 'lib/tasks/export.rake'
 
 Metrics/BlockLength:
   Exclude:
-    - "spec/**/*.rb"
+    - 'spec/**/*.rb'
+    - 'lib/tasks/export.rake'
 
 Layout/LineLength:
   Exclude:
-    - "app/views/conservation_records/_conservation_record.json.jbuilder"
-    - "lib/tasks/batch.rake"
-    - "spec/helpers/activity_helper_spec.rb"
-    - "spec/helpers/in_house_repair_records_helper_spec.rb"
+    - 'app/views/conservation_records/_conservation_record.json.jbuilder'
+    - 'lib/tasks/batch.rake'
+    - 'spec/helpers/activity_helper_spec.rb'
+    - 'spec/helpers/in_house_repair_records_helper_spec.rb'
+    - 'lib/tasks/export.rake'
 
 Metrics/MethodLength:
   Exclude:
-    - "app/controllers/search_controller.rb"
-    - "app/controllers/treatment_reports_controller.rb"
-    - "app/models/ability.rb"
-    - "app/helpers/activity_helper.rb"
-    - "app/controllers/users_controller.rb"
-    - "lib/tasks/batch.rake"
-    - "app/helpers/in_house_repair_records_helper.rb"
+    - 'app/controllers/search_controller.rb'
+    - 'app/controllers/treatment_reports_controller.rb'
+    - 'app/models/ability.rb'
+    - 'app/helpers/activity_helper.rb'
+    - 'app/controllers/users_controller.rb'
+    - 'lib/tasks/batch.rake'
+    - 'app/helpers/in_house_repair_records_helper.rb'
+    - 'lib/tasks/export.rake'
 
 Metrics/CyclomaticComplexity:
   Exclude:
-    - "app/helpers/activity_helper.rb"
+    - 'app/helpers/activity_helper.rb'
 
 Metrics/PerceivedComplexity:
   Exclude:
-    - "app/helpers/activity_helper.rb"
+    - 'app/helpers/activity_helper.rb'
 
 Style/ExpandPathArguments:
   Exclude:
-    - "config/puma.rb"
+    - 'config/puma.rb'

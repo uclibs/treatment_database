@@ -6,7 +6,7 @@ module InHouseRepairRecordsHelper
   end
 
   def generate_in_house_repair_string(ihrr, ind)
-    repair_type = ControlledVocabulary.find(ihrr.repair_type).key
+    repair_type = controlled_vocabulary_lookup(ihrr.repair_type)
 
     if ind.nil?
       return "#{repair_type} performed by #{display_name(ihrr)} in #{ihrr.minutes_spent} minutes. #{if ihrr.other_note.present?

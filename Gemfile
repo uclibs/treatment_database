@@ -64,8 +64,6 @@ gem 'paper_trail'
 
 gem 'pagy'
 
-gem 'ransack'
-
 gem 'brakeman', '~> 5.1', '>= 5.1.1'
 
 group :development, :test do
@@ -111,4 +109,4 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # wkhtmltopdf uclibs fork
-gem 'wkhtmltopdf-binary', git: 'git@github.com:uclibs/wkhtmltopdf_binary_gem.git', branch: '153/oracle-linux-support'
+gem 'wkhtmltopdf-binary', git: 'https://github.com/uclibs/wkhtmltopdf_binary_gem', branch: '153/oracle-linux-support'

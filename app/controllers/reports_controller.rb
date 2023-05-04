@@ -6,14 +6,18 @@ class ReportsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    query_base = search_params.present? ? CostReturnReport.all : CostReturnReport.none
-    @q = query_base.ransack(search_params[:q])
-    @results = @q.result(distinct: true).includes(:in_house_repair_records)
+    @reports = Report.all
   end
 
-  private
+  def create
+    DataExportJob.perform_now
+    flash[:notice] = "#{Report.last.csv_file.filename} is ready below."
+    redirect_to reports_path
+  end
 
-  def search_params
-    params.permit(q: {})
+  def destroy
+    @report.csv_file.purge
+    @report.destroy
+    redirect_to reports_path
   end
 end
