@@ -1,23 +1,20 @@
 #!/bin/bash
 
-if [ ! -f "$(dirname "$(dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" )" )/static/.env.production" ]; then
+pwd
+
+if [ ! -f "$(dirname "$(dirname "$(dirname "$( cd "$( dirname "scripts/start_qp.sh" )" >/dev/null 2>&1 && pwd )" )" )" )/static/.env.production" ]; then
     echo "Missing updated .env.production file in the static directory. The server may not function properly"
 else
-    cp "$(dirname "$(dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" )" )/static/.env.production" "$(dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" )"
+    cp "$(dirname "$(dirname "$(dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" )" )" )/static/.env.production" "$(dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" )"
 fi
 
 export RAILS_RELATIVE_URL_ROOT=/treatment_database
 export RAILS_ENV=production
 
-# bin/bundle exec rake db:seed
-
 # Check if puma is started
 if ! ( [ -f /opt/webapps/treatment_database/current/tmp/puma/pid ] && pgrep -F /opt/webapps/treatment_database/current/tmp/puma/pid > /dev/null )
 then
-    bin/bundle exec puma
+    sudo systemctl start puma-treatment-database.service
 else
-    bin/bundle exec pumactl restart
-    # sleep 10
-    # cd /opt/webapps/treatment_database/current
-    # bin/bundle exec puma
+    sudo systemctl restart puma-treatment-database.service
 fi
