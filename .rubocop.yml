@@ -58,6 +58,20 @@ Metrics/PerceivedComplexity:
   Exclude:
     - 'app/helpers/activity_helper.rb'
 
+Rails/EagerEvaluationLogMessage: 
+  Exclude:
+    - 'config/deploy.rb'
+
+Rails/Exit: 
+  Exclude:
+    - 'config/deploy/production.rb'
+    - 'config/deploy.rb'
+
+Rails/Output:
+  Exclude:
+    - 'config/deploy/production.rb'
+    - 'config/deploy.rb'
+
 Style/ExpandPathArguments:
   Exclude:
     - 'config/puma.rb'
