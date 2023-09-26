@@ -5,7 +5,7 @@ module ConservationRecordsHelper
     return if record.cost_return_report.blank?
 
     returned_date = record.cost_return_report.returned_to_origin
-    return returned_date.to_date if returned_date.present?
+    returned_date.to_date if returned_date.present?
   end
 
   def friendly_housing(id)
