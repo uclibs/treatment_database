@@ -3,10 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe 'Admin User Tests', type: :feature do
+  let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:user) { create(:user, role: 'admin') }
-  let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms', department: 'ARB Library') }
+  let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms', department: 2) }
   let(:vocabulary) { create(:controlled_vocabulary) }
-  it 'allows User to login and show Conservation Records' do
+
+  it 'allows User to login and show Conservation Records and Staff Codes' do
     # Login
 
     visit new_user_session_path
@@ -30,6 +32,37 @@ RSpec.describe 'Admin User Tests', type: :feature do
     visit conservation_records_path
     click_link(conservation_record.title, match: :prefer_exact)
     expect(page).to have_content('Edit Conservation Record')
+
+    # Show Staff Codes
+
+    visit staff_codes_path
+    expect(page).to have_content('Staff Codes')
+    expect(page).to have_link('Destroy')
+    expect(page).to have_link('Show')
+    expect(page).to have_link('New Staff Code')
+
+    # Edit Staff Codes
+
+    visit staff_codes_path
+    click_link('Edit')
+    expect(page).to have_content('Editing Staff Code')
+
+    # Add Staff Codes
+
+    visit staff_codes_path
+    click_link 'New Staff Code'
+    expect(page).to have_content('New Staff Code')
+    fill_in 'Code', with: staff_code.code
+    fill_in 'Points', with: staff_code.points
+    click_on 'Create Staff code'
+    expect(page).to have_content('Staff code was successfully created')
+    expect(page).to have_content(staff_code.code)
+    expect(page).to have_link('Edit')
+
+    # Edit the existing Staff Code
+
+    click_link 'Edit'
+    expect(page).to have_content('Editing Staff Code')
 
     # Edit Users
 
@@ -95,6 +128,9 @@ RSpec.describe 'Admin User Tests', type: :feature do
     click_button('Add In-House Repairs')
     select('Haritha Vytla', from: 'in_house_repair_record_performed_by_user_id', match: :first)
     select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
+    fill_in 'in_house_repair_record_minutes_spent', with: '10'
+    fill_in 'in_house_repair_record_other_note', with: 'Other Note'
+    select('test', from: 'in_house_repair_record_staff_code_id', match: :first)
     click_button('Create In-House Repair Record')
     expect(page).to have_content('Mend paper performed by Haritha Vytla')
 

@@ -22,131 +22,131 @@
   <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
     <div class="form-group">
       <p>
-        General Remarks<br>
+        <%= f.label :General_Remarks, "General Remarks" %>
         <%= f.text_area :description_general_remarks, class: 'form-control' %>
       </p>
 
       <p>
-        Binding<br>
+        <%= f.label :Binding, "Binding" %>
         <%= f.text_area :description_binding, class: 'form-control' %>
       </p>
 
       <p>
-        Textblock<br>
+        <%= f.label :textblock, "Text Block" %>
         <%= f.text_area :description_textblock, class: 'form-control' %>
       </p>
 
       <p>
-        Primary Support<br>
+        <%= f.label :primary_support, "Primary Support" %>
         <%= f.text_area :description_primary_support, class: 'form-control' %>
       </p>
 
       <p>
-        Medium<br>
+        <%= f.label :medium, "Medium" %>
         <%= f.text_area :description_medium, class: 'form-control' %>
       </p>
 
       <p>
-        Attachments | Inserts<br>
+        <%= f.label :Attachments_Inserts, "Attachments | Inserts" %>
         <%= f.text_area :description_attachments_inserts, class: 'form-control' %>
       </p>
 
       <p>
-        Housing<br>
+        <%= f.label :Housing, "Housing" %>
         <%= f.text_area :description_housing, class: 'form-control' %>
       </p>
     </div>
   </div>
   <div class="tab-pane fade" id="condition" role="tabpanel" aria-labelledby="condition-tab">
     <p>
-      Summary<br>
+      <%= f.label :Summary, "Summary" %>
       <%= f.text_area :condition_summary, class: 'form-control' %>
     </p>
 
     <p>
-      Binding<br>
+      <%= f.label :Binding, "Binding" %>
       <%= f.text_area :condition_binding, class: 'form-control' %>
     </p>
 
     <p>
-      Textblock<br>
+      <%= f.label :Textblock, "Text Block" %>
       <%= f.text_area :condition_textblock, class: 'form-control' %>
     </p>
 
     <p>
-      Primary Support<br>
+      <%= f.label :Primary_Support, "Primary Support" %>
       <%= f.text_area :condition_primary_support, class: 'form-control' %>
     </p>
 
     <p>
-      Medium<br>
+      <%= f.label :Medium, "Medium" %>
       <%= f.text_area :condition_medium, class: 'form-control' %>
     </p>
 
     <p>
-      Housing<br>
-      <%= f.select(:condition_housing_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
+      <%= f.label :Housing, "Housing" %>
+      <%= f.select(:condition_housing_id, options_from_collection_for_select(@housing, "id", "key", @conservation_record.treatment_report.condition_housing_id), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
     </p>
 
     <p>
-      Housing Narrative<br>
+      <%= f.label :Housing_Narrative, "Housing Narrative" %>
       <%= f.text_area :condition_housing_narrative, class: 'form-control' %>
     </p>
 
     <p>
-      Attachments | Inserts<br>
+      <%= f.label :Attachments_Inserts, "Attachments | Inserts" %>
       <%= f.text_area :condition_attachments_inserts, class: 'form-control' %>
     </p>
 
     <p>
-      Previous Treatment<br>
+      <%= f.label :Previous_Treatment, "Previous Treatment" %>
       <%= f.text_area :condition_previous_treatment, class: 'form-control' %>
     </p>
 
     <p>
-      Materials Analysis<br>
+      <%= f.label :Materials_Analysis, "Materials Analysis" %>
       <%= f.text_area :condition_materials_analysis, class: 'form-control' %>
     </p>
   </div>
   <div class="tab-pane fade" id="treatment-proposal" role="tabpanel" aria-labelledby="treatment-proposal-tab">
     <p>
-      Proposal<br>
+      <%= f.label :Proposal, "Proposal" %>
       <%= f.text_area :treatment_proposal_proposal, class: 'form-control' %>
     </p>
 
     <p>
-      Housing Need<br>
-      <%= f.select(:treatment_proposal_housing_need_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
+      <%= f.label :Housing_Need, "Housing Need" %>
+      <%= f.select(:treatment_proposal_housing_need_id, options_from_collection_for_select(@housing, "id", "key", @conservation_record.treatment_report.treatment_proposal_housing_need_id), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
     </p>
 
     <p>
-      Factors Influencing Treatment<br>
+      <%= f.label :Factors_Influencing_Treatment, "Factors Influencing Treatment" %>
       <%= f.text_area :treatment_proposal_factors_influencing_treatment, class: 'form-control' %>
     </p>
 
     <p>
-      Performed Treatment<br>
+      <%= f.label :Performed_Treatment, "Performed Treatment" %>
       <%= f.text_area :treatment_proposal_performed_treatment, class: 'form-control' %>
     </p>
 
     <p>
-      Housing Provided<br>
-      <%= f.select(:treatment_proposal_housing_provided_id, options_from_collection_for_select(@housing, "id", "key"), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
+      <%= f.label :Housing_Provided, "Housing Provided" %>
+      <%= f.select(:treatment_proposal_housing_provided_id, options_from_collection_for_select(@housing, "id", "key", @conservation_record.treatment_report.treatment_proposal_housing_provided_id), { prompt: 'Select Housing' }, { :class => 'form-control' }) %>
     </p>
 
     <p>
-      Housing Narrative<br>
+      <%= f.label :Housing_Narrative, "Housing Narrative" %>
       <%= f.text_area :treatment_proposal_housing_narrative, class: 'form-control' %>
     </p>
 
     <p>
-      Storage and Handling Notes<br>
+      <%= f.label :Storage_and_Handling_Notes, "Storage and Handling Notes" %>
       <%= f.text_area :treatment_proposal_storage_and_handling_notes, class: 'form-control' %>
     </p>
 
     <p>
-      Total Treatment Time<br>
-      <%= f.number_field :treatment_proposal_total_treatment_time, class: 'form-control' %>
+      <%= f.label :Total_Treatment_Time, "Total Treatment Time" %>
+      <%= f.text_area :treatment_proposal_total_treatment_time, class: 'form-control' %>
     </p>
 
   </div>

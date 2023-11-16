@@ -28,7 +28,7 @@ Style/MixinUsage:
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
-Metrics/LineLength:
+Layout/LineLength:
   Max: 154
   Exclude:
     - "db/**/*"
@@ -41,3 +41,5 @@ Rails/FilePath:
     - "app/controllers/conservation_records_controller.rb"
     - "config/environments/development.rb"
     - "config/environments/staging.rb"
+Rails/I18nLocaleTexts:
+  Enabled: false

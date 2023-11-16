@@ -21,8 +21,9 @@ table {
   margin: 0 auto;
   display: table;
 }
+
 .tab {
-  display: inline-block; 
+  display: block; 
   margin-left: 40px; 
 }
 </style>
@@ -42,7 +43,7 @@ table {
       <tr>
         <td><%= @conservation_record.id %></td>
         <td><%= @conservation_record.item_record_number %></td>
-        <td><%= @conservation_record.date_recieved_in_preservation_services %></td>
+        <td><%= @conservation_record.date_received_in_preservation_services %></td>
       </tr>
       <tr><td><br></td></tr>
       <tr>
@@ -102,10 +103,11 @@ table {
    <h2 style="color:maroon">TREATMENT</h2>
    <span class="tab">
 	<strong>Proposal</strong> <%= simple_format(@conservation_record.treatment_report.treatment_proposal_proposal) %>
-	<strong>Housing Need</strong> <%= friendly_housing(@conservation_record.treatment_report.treatment_proposal_housing_need_id).class == String ? friendly_housing(@conservation_record.treatment_report.treatment_proposal_housing_need_id) : friendly_housing(@conservation_record.treatment_report.treatment_proposal_housing_need_id).key %>
+	<strong>Housing Need</strong> <p> <%= friendly_housing(@conservation_record.treatment_report.treatment_proposal_housing_need_id) %> </p>
+
 	<strong>Factors Influencing Treatment</strong> <%= simple_format(@conservation_record.treatment_report.treatment_proposal_factors_influencing_treatment) %>
    	<strong>Performed Treatment</strong> <%= simple_format(@conservation_record.treatment_report.treatment_proposal_performed_treatment) %>
-   	<strong>Housing Provided</strong> <p><%= friendly_housing(@conservation_record.treatment_report.treatment_proposal_housing_provided_id).class == String ? friendly_housing(@conservation_record.treatment_report.treatment_proposal_housing_provided_id) : friendly_housing(@conservation_record.treatment_report.treatment_proposal_housing_provided_id).key %></p>
+   	<strong>Housing Provided</strong> <p><%= friendly_housing(@conservation_record.treatment_report.treatment_proposal_housing_provided_id) %></p>
    	<strong>Housing Narrative</strong> <%= simple_format(@conservation_record.treatment_report.treatment_proposal_housing_narrative) %>
    	<strong>Storage and Handling Notes</strong> <%= simple_format(@conservation_record.treatment_report.treatment_proposal_storage_and_handling_notes) %>
    </span>

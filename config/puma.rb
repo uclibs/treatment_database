@@ -11,21 +11,20 @@ threads threads_count, threads_count
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch('RAILS_ENV', 'development')
+# environment ENV.fetch('RAILS_ENV', 'development')
 
 app_dir = File.expand_path('..', __dir__)
-
-port ENV.fetch('PORT', 3000)
 
 if ENV.fetch('RAILS_ENV') == 'production'
   # Set the working directory
   directory app_dir.to_s
   # Set up socket location
-  # bind "unix://#{app_dir}/tmp/puma/puma.sock"
+  bind "unix://#{app_dir}/tmp/puma/puma.sock"
+  # Log to files
+  stdout_redirect "#{app_dir}/log/puma.stdout.log", "#{app_dir}/log/puma.stderr.log", true
+else
+  port ENV.fetch('PORT', 3000)
 end
-
-# Logs
-stdout_redirect "#{app_dir}/log/puma.stdout.log", "#{app_dir}/log/puma.stderr.log", true
 
 # Set master PID and state locations
 pidfile "#{app_dir}/tmp/puma/pid"

@@ -12,24 +12,23 @@
 
 table {
   text-align: left;
+  font-size: 4vh;
+  font-size: 12px;
+  display: inline;
 }
 
 .a4 {
-  height: 900px;
-  width: 800px;
+  width: 900px;
   margin: 0 auto;
   display: table;
-}
-
-.image {
-  border: 1px solid blue;
-  display: table-row;
-  height: 100%;
 }
 
 .image img {
   width: 100%; 
   object-fit: contain;
+   position:fixed;
+   left:0px;
+   bottom:0px;
 }
 
 </style>
@@ -54,7 +53,7 @@ table {
         <td><%= @conservation_record.id %></td>
         <td><%= controlled_vocabulary_lookup(@conservation_record.department) %></td>
         <td><%= @conservation_record.call_number %></td>
-        <td><%= @conservation_record.date_recieved_in_preservation_services %></td>
+        <td><%= @conservation_record.date_received_in_preservation_services %></td>
         <td><%= date_returned(@conservation_record) %></td>
       </tr>
       <tr>

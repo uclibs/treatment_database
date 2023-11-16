@@ -3,7 +3,15 @@
 module ApplicationHelper
   include Pagy::Frontend
   def controlled_vocabulary_lookup(vocabulary_id)
-    c = ControlledVocabulary.find(vocabulary_id)
-    c.key
+    return 'ID Missing' if vocabulary_id.nil?
+
+    ControlledVocabulary.find_by(id: vocabulary_id)&.key
+  end
+
+  def user_display_name(id)
+    user = User.find(id)
+    user.display_name.squish
+  rescue ActiveRecord::RecordNotFound
+    "User not found (ID: #{id})"
   end
 end

@@ -10,7 +10,7 @@ class ConservationRecordsController < ApplicationController
   # GET /conservation_records
   # GET /conservation_records.json
   def index
-    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
+    @pagy, @conservation_records = pagy(ConservationRecord.order(id: :desc), items: 100)
   end
 
   # GET /conservation_records/1
@@ -23,6 +23,7 @@ class ConservationRecordsController < ApplicationController
     @in_house_repairs = @conservation_record.in_house_repair_records
     @external_repairs = @conservation_record.external_repair_records
     @con_tech_records = @conservation_record.con_tech_records
+    @staff_codes = StaffCode.all
   end
 
   # GET /conservation_records/new
@@ -74,22 +75,23 @@ class ConservationRecordsController < ApplicationController
 
   def conservation_worksheet
     @conservation_record = ConservationRecord.find(params[:id])
-    @base_64_form_image = "data:image/png;base64,#{File.open(Rails.root.join('public', 'worksheet_form_image.base64')).read}"
+    @base_64_form_image = "data:image/png;base64,#{Rails.public_path.join('worksheet_form_image.base64').read}"
 
-    send_data build_pdf('conservation_worksheet'), filename: "#{@conservation_record.title}_conservation_worksheet.pdf",
+    send_data build_pdf('conservation_worksheet'), filename: "#{@conservation_record.title.truncate(25, omission: '')}_conservation_worksheet.pdf",
                                                    type: 'application/pdf', disposition: 'inline'
   end
 
   def treatment_report
     @conservation_record = ConservationRecord.find(params[:id])
-    send_data build_pdf('treatment_report_pdf'), filename: "#{@conservation_record.title}_treatment_report.pdf",
+    send_data build_pdf('treatment_report_pdf'), filename: "#{@conservation_record.title.truncate(25, omission: '')}_treatment_report.pdf",
                                                  type: 'application/pdf', disposition: 'inline'
   end
 
   def abbreviated_treatment_report
     @conservation_record = ConservationRecord.find(params[:id])
-    send_data build_pdf('abbreviated_treatment_report_pdf'), filename: "#{@conservation_record.title}_abbreviated_treatment_report.pdf",
-                                                             type: 'application/pdf', disposition: 'inline'
+    send_data build_pdf('abbreviated_treatment_report_pdf'),
+              filename: "#{@conservation_record.title.truncate(25, omission: '')}_abbreviated_treatment_report.pdf",
+              type: 'application/pdf', disposition: 'inline'
   end
 
   def build_pdf(format)
@@ -114,14 +116,6 @@ class ConservationRecordsController < ApplicationController
     @conservation_record.save
   end
 
-  def set_abbreviated_treatment_report
-    @conservation_record = ConservationRecord.find(params[:id])
-    return unless @conservation_record.abbreviated_treatment_report.nil?
-
-    @conservation_record.abbreviated_treatment_report = AbbreviatedTreatmentReport.new
-    @conservation_record.save
-  end
-
   def set_cost_return_report
     @conservation_record = ConservationRecord.find(params[:id])
     return unless @conservation_record.cost_return_report.nil?
@@ -137,7 +131,7 @@ class ConservationRecordsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def conservation_record_params
     params.require(:conservation_record).permit(
-      :date_recieved_in_preservation_services,
+      :date_received_in_preservation_services,
       :department,
       :title,
       :author,

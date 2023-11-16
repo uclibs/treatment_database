@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Staff Codes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Points</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @staff_codes.each do |staff_code| %>
+      <tr>
+        <td><%= staff_code.code %></td>
+        <td><%= staff_code.points %></td>
+        <td><%= link_to 'Show', staff_code %></td>
+        <% if can? :crud, StaffCode %>
+          <td><%= link_to 'Edit', edit_staff_code_path(staff_code) %></td>
+          <td><%= link_to 'Destroy', staff_code, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Staff Code', new_staff_code_path %>

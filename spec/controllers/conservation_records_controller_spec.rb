@@ -41,13 +41,13 @@ RSpec.describe ConservationRecordsController, type: :controller do
     department_a = create(:controlled_vocabulary, vocabulary: 'department', key: 'Department A')
     {
       department: department_a.id,
-      title: 'Farewell to Arms',
+      title: 'Farewell to Arms and Legs and Eyes and Ears',
       author: 'A Good Writer',
       imprint: 'Dutton',
       call_number: 'P102.3294.3920',
       item_record_number: 'i452',
       digitization: true,
-      date_recieved_in_preservation_services: Date.new,
+      date_received_in_preservation_services: Date.new,
       treatment_report: TreatmentReport.new,
       abbreviated_treatment_report: AbbreviatedTreatmentReport.new
     }
@@ -62,7 +62,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
       call_number: '',
       item_record_number: '',
       digitization: nil,
-      date_recieved_in_preservation_services: nil
+      date_received_in_preservation_services: nil
     }
   end
 
@@ -123,7 +123,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it "returns a success response (i.e. to display the 'new' template)", skip: 'validation disabled for migration' do
         post :create, params: { conservation_record: invalid_attributes }
         expect(response).to be_successful
       end
@@ -142,7 +142,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
           call_number: 'P102.3294.3921',
           item_record_number: 'i453',
           digitization: false,
-          date_recieved_in_preservation_services: Date.new - 1
+          date_received_in_preservation_services: Date.new - 1
         }
       end
 
@@ -161,7 +161,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
+      it "returns a success response (i.e. to display the 'edit' template)", skip: 'validation disabled for migration' do
         conservation_record = ConservationRecord.create! valid_attributes
         put :update, params: { id: conservation_record.to_param, conservation_record: invalid_attributes }
         expect(response).to be_successful
@@ -189,6 +189,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
       conservation_record = ConservationRecord.create! valid_attributes
       get :conservation_worksheet, params: { id: conservation_record.id }
       expect(response.headers['Content-Type']).to eq('application/pdf')
+      expect(response.headers['Content-Disposition']).to have_content('Farewell to Arms and Legs_conservation_worksheet.pdf')
     end
 
     context 'with read_only user' do
@@ -197,10 +198,11 @@ RSpec.describe ConservationRecordsController, type: :controller do
         sign_in_user(read_user)
       end
 
-      it 'redirects to home with an error' do
+      it 'sends a file' do
         conservation_record = ConservationRecord.create! valid_attributes
         get :conservation_worksheet, params: { id: conservation_record.id }
-        expect(response).to redirect_to(root_url)
+        expect(response.headers['Content-Type']).to eq('application/pdf')
+        expect(response.headers['Content-Disposition']).to have_content('Farewell to Arms and Legs_conservation_worksheet.pdf')
       end
     end
 
@@ -214,6 +216,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
         conservation_record = ConservationRecord.create! valid_attributes
         get :conservation_worksheet, params: { id: conservation_record.id }
         expect(response.headers['Content-Type']).to eq('application/pdf')
+        expect(response.headers['Content-Disposition']).to have_content('Farewell to Arms and Legs_conservation_worksheet.pdf')
       end
     end
   end
@@ -223,6 +226,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
       conservation_record = ConservationRecord.create! valid_attributes
       get :treatment_report, params: { id: conservation_record.id }
       expect(response.headers['Content-Type']).to eq('application/pdf')
+      expect(response.headers['Content-Disposition']).to have_content('Farewell to Arms and Legs_treatment_report.pdf')
     end
 
     context 'with read_only user' do
@@ -234,7 +238,8 @@ RSpec.describe ConservationRecordsController, type: :controller do
       it 'redirects to home with an error' do
         conservation_record = ConservationRecord.create! valid_attributes
         get :treatment_report, params: { id: conservation_record.id }
-        expect(response).to redirect_to(root_url)
+        expect(response.headers['Content-Type']).to eq('application/pdf')
+        expect(response.headers['Content-Disposition']).to have_content('Farewell to Arms and Legs_treatment_report.pdf')
       end
     end
 
@@ -257,6 +262,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
       conservation_record = ConservationRecord.create! valid_attributes
       get :abbreviated_treatment_report, params: { id: conservation_record.id }
       expect(response.headers['Content-Type']).to eq('application/pdf')
+      expect(response.headers['Content-Disposition']).to have_content('Farewell to Arms and Legs_abbreviated_treatment_report.pdf')
     end
 
     context 'with read_only user' do
@@ -265,10 +271,11 @@ RSpec.describe ConservationRecordsController, type: :controller do
         sign_in_user(read_user)
       end
 
-      it 'redirects to home with an error' do
+      it 'sends a file' do
         conservation_record = ConservationRecord.create! valid_attributes
         get :abbreviated_treatment_report, params: { id: conservation_record.id }
-        expect(response).to redirect_to(root_url)
+        expect(response.headers['Content-Type']).to eq('application/pdf')
+        expect(response.headers['Content-Disposition']).to have_content('Farewell to Arms and Legs_abbreviated_treatment_report.pdf')
       end
     end
 
@@ -282,6 +289,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
         conservation_record = ConservationRecord.create! valid_attributes
         get :abbreviated_treatment_report, params: { id: conservation_record.id }
         expect(response.headers['Content-Type']).to eq('application/pdf')
+        expect(response.headers['Content-Disposition']).to have_content('Farewell to Arms and Legs_abbreviated_treatment_report.pdf')
       end
     end
   end

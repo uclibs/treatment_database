@@ -8,7 +8,8 @@ class ConservationRecord < ApplicationRecord
   has_one :abbreviated_treatment_report, dependent: :destroy
   has_one :cost_return_report, dependent: :destroy
 
-  validates :department, :title, :author, :imprint, :call_number, :item_record_number, presence: true
+  # Disabling presence validations for more discussion around data migration
+  validates :department, :title, :item_record_number, presence: true
 
   has_paper_trail
 end

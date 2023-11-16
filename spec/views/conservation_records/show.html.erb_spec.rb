@@ -7,7 +7,7 @@ RSpec.describe 'conservation_records/show', type: :view do
 
   before(:each) do
     @conservation_record = assign(:conservation_record, ConservationRecord.create!(
-                                                          date_recieved_in_preservation_services: Date.new,
+                                                          date_received_in_preservation_services: Date.new,
                                                           department: ControlledVocabulary.where(vocabulary: 'department', active: true).first.id,
                                                           title: 'Title',
                                                           author: 'Author',
@@ -26,12 +26,13 @@ RSpec.describe 'conservation_records/show', type: :view do
     @users = []
     @repair_types = []
     @contract_conservators = []
+    @staff_codes = []
   end
 
   it 'shows the table with all metadata' do
     render
     expect(rendered).to match(/Database ID/)
-    expect(rendered).to match(/Date Recieved/)
+    expect(rendered).to match(/Date Received/)
     expect(rendered).to match(/Department/)
     expect(rendered).to match(/Title/)
     expect(rendered).to match(/Author/)

@@ -14,13 +14,19 @@
     <tbody>
       <% @records.each do |conservation_record| %>
         <tr>
-          <td><%= conservation_record.title %></td>
+          <td><%= link_to conservation_record.title, conservation_record %></td>
           <td><%= conservation_record.author %></td>
           <td><%= conservation_record.call_number %></td>
           <td><%= conservation_record.item_record_number %></td>
-          <td><%= link_to 'Show', conservation_record %></td>
-          <td><%= link_to 'Edit', edit_conservation_record_path(conservation_record) %></td>
-          <td><%= link_to 'Destroy', conservation_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td>
+          <% if can? :crud, ConservationRecord %>
+          <%= link_to [conservation_record], method: :delete, data: {confirm: "Are you sure?"} do %>
+             <button class="btn btn-danger justify-content-right">
+                <%= image_tag "delete.png", class: "delete-icon", alt: "Delete" %>
+             </button>
+          <% end %>
+         </td>
+         <% end %>
         </tr>
       <% end %>
     </tbody>

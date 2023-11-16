@@ -53,7 +53,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :debug
+  config.log_level = ENV.fetch('TREATMENT_DATABASE_LOG_LEVEL', 'debug').to_sym
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
@@ -66,6 +66,10 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "treatment_database_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_options = { from: ENV.fetch('TREATMENT_PRODUCTION_MAILER_FROM', nil) }
+
+  # Store the base url from where request is received.
+  config.action_mailer.default_url_options = { host: ENV.fetch('TREATMENT_PRODUCTION_MAILER_URL', nil), protocol: 'https' }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -79,7 +83,7 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
@@ -101,12 +105,12 @@ Rails.application.configure do
   config.assets.js_compressor = Uglifier.new(harmony: true)
 
   # Configure AWS XRay
-  config.xray = {
-    name: 'treatment-database',
-    patch: %I[net_http aws_sdk],
-    plugins: %I[ec2 ecs],
-    # record db transactions as subsegments
-    active_record: true,
-    context_missing: 'LOG_ERROR'
-  }
+  # config.xray = {
+  #   name: 'treatment-database',
+  #   patch: %I[net_http aws_sdk],
+  #   plugins: %I[ec2 ecs],
+  #   # record db transactions as subsegments
+  #   active_record: true,
+  #   context_missing: 'LOG_ERROR'
+  # }
 end

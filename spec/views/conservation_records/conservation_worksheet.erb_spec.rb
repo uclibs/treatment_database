@@ -16,7 +16,7 @@ RSpec.describe 'conservation_records/conservation_worksheet', type: :view do
     expect(rendered).to have_content('The Illiad')
     expect(rendered).to have_content('James Joyce')
     expect(rendered).to have_content('Dutton')
-    expect(rendered).to have_content('ir3445')
+    expect(rendered).to have_content('i3445')
     expect(rendered).to have_content('102340')
   end
 end

@@ -1,0 +1,16 @@
+<br>
+<div class="header">
+  <h3>Abbreviated Treatment Report</h3>
+</div>
+
+  <%= form_with(model: [@conservation_record, @conservation_record.treatment_report], class: 'disable_input') do |f| %>
+    <div class="form-group">
+      <p>
+        <%= f.text_area :abbreviated_treatment_report, class: 'form-control' %>
+      </p>
+
+      <p>
+        <%= f.submit 'Save Abbreviated Treatment Report', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>

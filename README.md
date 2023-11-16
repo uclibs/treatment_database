@@ -4,11 +4,22 @@ This is a web application originally developed for the Preservation Lab at the U
 
 ```bash
 git clone github.com/uclibs/treatment_database
+
 bundle install
+
+# Run the migration to prepare the database.
+
 rails db:migrate
+
 rails db:seed
+
 rails server
+
+rails db:seed (optional)
+
 ```
+
+See [wiki](https://github.com/uclibs/treatment_database/wiki/Migration) for migration steps.
 
 # Dockerizing application
 
@@ -70,6 +81,10 @@ docker-compose up
 The treatment database has a test suite built with rspec, running it is simple, just call the following in the project directory:
 
 ```bash
+bin/rails db:migrate RAILS_ENV=test
+
+bundle exec rspec
+
 docker exec -it treatment_database bundle exec rspec
 ```
 

@@ -14,12 +14,26 @@ RSpec.describe InHouseRepairRecordsController, type: :controller do
   let(:conservation_record) { create(:conservation_record) }
   let(:user) { create(:user, role: 'standard') }
   let(:repair_type) { create(:controlled_vocabulary) }
+  let!(:staff_code) { create(:staff_code, code: 'C', points: 10) }
   let(:valid_attributes) do
     {
       conservation_record_id: conservation_record.id,
       performed_by_user_id: user.id,
       repair_type: repair_type.id,
-      minutes_spent: 10
+      minutes_spent: 10,
+      other_note: 'Some other note',
+      staff_code_id: staff_code.id
+
+    }
+  end
+
+  let(:in_valid_attributes) do
+    {
+      conservation_record_id: conservation_record.id,
+      performed_by_user_id: user.id,
+      repair_type: repair_type.id,
+      minutes_spent: 10,
+      other_note: 'Some other note'
     }
   end
 
@@ -27,6 +41,11 @@ RSpec.describe InHouseRepairRecordsController, type: :controller do
     it 'creates a new in house repair record' do
       post :create, params: { in_house_repair_record: valid_attributes, conservation_record_id: conservation_record.id }
       expect(response).to redirect_to(conservation_record)
+    end
+
+    it 'does not have valid staff code to create in house repair record' do
+      post :create, params: { in_house_repair_record: in_valid_attributes, conservation_record_id: conservation_record.id }
+      expect(response).to_not be_successful
     end
   end
 

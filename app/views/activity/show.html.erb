@@ -1,4 +1,4 @@
-<h2><%= version_summarizer(@version).html_safe %></h2>
+<h2><%= sanitize version_summarizer(@version) %></h2>
 
 <% if @version.event == 'create' %>
   <center>

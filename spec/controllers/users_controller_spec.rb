@@ -11,12 +11,11 @@ RSpec.describe UsersController, type: :controller do
 
   let(:valid_attributes) do
     {
-      id: user.id,
-      display_name: user.display_name,
+      display_name: 'Test User',
       password: 'notapass',
       confirm_password: 'notapass',
-      email: user.email,
-      role: user.role,
+      email: 'testuser123@x.com',
+      role: 'standard',
       account_active: user.account_active
     }
   end
@@ -37,22 +36,16 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'GET #new' do
-    it 'returns a success response' do
-      get :new
-      expect(response).to be_successful
-    end
-  end
-
   describe 'POST #create_user' do
-    it 'with valide params' do
+    it 'with valid params' do
       post :create_user, params: { user: valid_attributes }, session: valid_session
-      expect(user).to be_valid
+      expect(response).to redirect_to(users_path)
+      expect(flash[:notice]).to be_present
     end
 
-    it 'redirects to the Users Path' do
-      post :create_user, params: { user: valid_attributes }
-      expect(response).to have_http_status(200)
+    it 'with invalid params' do
+      post :create_user, params: { user: valid_attributes.except!(:email) }, session: valid_session
+      expect(response).to redirect_to(root_path)
     end
   end
 

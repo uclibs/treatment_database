@@ -39,7 +39,7 @@ RSpec.describe TreatmentReportsController, type: :controller do
       treatment_proposal_housing_narrative: 'Treatment Propsal Housing Narrative',
       treatment_proposal_storage_and_handling_notes: 'Treatment Proposal Storage Handling and Notes',
       treatment_proposal_total_treatment_time: 30,
-      conservators_note: "Conservator's Note",
+      abbreviated_treatment_report: "Conservator's Note",
       conservation_record_id: conservation_record.id
     }
   end
@@ -84,7 +84,7 @@ RSpec.describe TreatmentReportsController, type: :controller do
           treatment_proposal_housing_narrative: 'Treatment Propsal Housing Narrative',
           treatment_proposal_storage_and_handling_notes: 'Treatment Proposal Storage Handling and Notes',
           treatment_proposal_total_treatment_time: 30,
-          conservators_note: "Conservator's Note"
+          abbreviated_treatment_report: "Conservator's Note"
         }
       end
       it 'updates the Treatment Report' do

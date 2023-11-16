@@ -43,7 +43,7 @@ td {
 	<th>Database ID</th>
 	<td><b><%= @conservation_record.id %></b></td>
 	<td>Date Received</td>
-	<td><b><%= @conservation_record.date_recieved_in_preservation_services %></b></td>
+	<td><b><%= @conservation_record.date_received_in_preservation_services %></b></td>
       </tr>
       <tr>
 	<th>Department</th>
@@ -114,6 +114,6 @@ td {
    <br>
 </div>
 <div class="a4">
-  Conservator's Note
-  <b><%=simple_format(@conservation_record.treatment_report.conservators_note)%></b>
+  Abbreviated Treatment Report
+  <%=simple_format(@conservation_record.treatment_report.abbreviated_treatment_report)%>
 </div>

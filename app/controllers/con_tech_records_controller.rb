@@ -8,7 +8,12 @@ class ConTechRecordsController < ApplicationController
   def create
     @conservation_record = ConservationRecord.find(params[:conservation_record_id])
     @con_tech_record = @conservation_record.con_tech_records.create(create_params)
-    redirect_to conservation_record_path(@conservation_record)
+    if @con_tech_record.valid?
+      redirect_to conservation_record_path(@conservation_record)
+    else
+      redirect_to conservation_record_path(@conservation_record),
+                  notice: "Conservator/Technician record not saved: #{@con_tech_record.errors.full_messages[0]}"
+    end
   end
 
   def destroy

@@ -14,11 +14,12 @@ RSpec.describe ExternalRepairRecordsController, type: :controller do
   let(:conservation_record) { create(:conservation_record) }
   let(:user) { create(:user, role: 'standard') }
   let(:repair_type) { create(:controlled_vocabulary) }
-  let(:vendor) { create(:vendor) }
   let(:valid_attributes) do
     {
       conservation_record_id: conservation_record.id,
-      repair_type: repair_type.id
+      performed_by_vendor_id: '1',
+      repair_type: repair_type.id,
+      other_note: 'Some other note'
     }
   end
 

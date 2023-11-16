@@ -39,7 +39,6 @@ RSpec.describe SearchController, type: :controller do
     create(:conservation_record, item_record_number: 'i1001')
     get :results, params: { search: 'i1001' }
     expect(response.body).to have_text('Searching for i1001')
-    expect(response.body).to have_link('Show', count: 2)
   end
 
   it 'shows no results when looking up non-extant id' do

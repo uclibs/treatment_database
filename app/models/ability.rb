@@ -39,13 +39,14 @@ class Ability
     when 'admin'
       can :manage, :all
       can :assign_roles, User
-      can :create, User
-      can :crud, [ControlledVocabulary]
+      can :crud, [ControlledVocabulary, StaffCode]
     when 'standard'
-      can :view_pdfs, [ConservationRecord]
-      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord]
+      can :view_pdfs, ConservationRecord
+      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, StaffCode, CostReturnReport, Report]
     when 'read_only'
-      can :read, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord]
+      can :view_pdfs, ConservationRecord
+      can :read, ConservationRecord
+      can :index, ConservationRecord
     end
   end
 end
