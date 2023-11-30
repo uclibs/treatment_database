@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Admin User Tests', type: :feature do
+RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:user) { create(:user, role: 'admin') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms', department: 2) }
@@ -77,7 +77,6 @@ RSpec.describe 'Admin User Tests', type: :feature do
     select('Admin', from: 'Role')
     click_on 'Update User'
     expect(page).to have_content('Haritha Vytla')
-
     # View Activity
 
     visit conservation_records_path
