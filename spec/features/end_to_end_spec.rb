@@ -62,7 +62,7 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   end
 end
 
-RSpec.describe 'Standard User Tests', type: :feature do
+RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
   let(:user) { create(:user, role: 'standard') }
   let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
@@ -199,7 +199,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
   end
 end
 
-RSpec.describe 'Admin User Tests', type: :feature do
+RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   let(:user) { create(:user, role: 'admin') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let(:vocabulary) { create(:controlled_vocabulary) }
@@ -402,5 +402,17 @@ RSpec.describe 'Admin User Tests', type: :feature do
     expect(page).to have_content('Haritha Vytla deleted the in house repair record')
     expect(page).to_not have_content('Haritha Vytla created the treatment report')
     expect(page).to have_content('Haritha Vytla updated the treatment report')
+
+    # Check that details page shows diff data
+    visit conservation_records_path
+    click_link(conservation_record.title, match: :prefer_exact)
+    fill_in 'treatment_report_description_binding', with: 'Half leather tightjoint, tight back binding'
+    click_button('Save Treatment Report')
+    expect(page).to have_content('Treatment Record updated successfully!')
+    visit activity_index_path
+    expect(page).to have_content('Haritha Vytla updated the treatment report')
+    first('tr').click_link('Details')
+    expect(page).to have_content('Full leather tightjoint, tight back binding')
+    expect(page).to have_content('Half leather tightjoint, tight back binding')
   end
 end
