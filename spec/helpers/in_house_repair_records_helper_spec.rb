@@ -12,7 +12,7 @@ RSpec.describe InHouseRepairRecordsHelper, type: :helper do
     create(:in_house_repair_record,
            performed_by_user_id: user.id,
            repair_type: repair_type.id,
-           conservation_record: conservation_record,
+           conservation_record:,
            other_note: 'Please check spine',
            staff_code_id: '1')
   end

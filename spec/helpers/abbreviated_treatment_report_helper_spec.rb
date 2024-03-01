@@ -21,7 +21,7 @@ RSpec.describe AbbreviatedTreatmentReportHelper, type: :helper do
     create(:in_house_repair_record,
            performed_by_user_id: user.id,
            repair_type: repair_type.id,
-           conservation_record: conservation_record,
+           conservation_record:,
            minutes_spent: 2,
            staff_code_id: 1)
   end
