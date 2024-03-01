@@ -202,6 +202,14 @@ GEM
       net-protocol
     net-ssh (7.2.1)
     nio4r (2.7.0)
+    nokogiri (1.16.2-aarch64-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.2-arm-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.2-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.2-x86-linux)
+      racc (~> 1.4)
     nokogiri (1.16.2-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.16.2-x86_64-linux)
@@ -301,11 +309,11 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.31.1)
       parser (>= 3.3.0.4)
-    rubocop-rails (2.23.1)
+    rubocop-rails (2.24.0)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-      rubocop-ast (>= 1.30.0, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
     ruby-progressbar (1.13.0)
     rubyzip (2.3.2)
     sass (3.7.4)
@@ -350,6 +358,10 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    sqlite3 (1.7.2-aarch64-linux)
+    sqlite3 (1.7.2-arm-linux)
+    sqlite3 (1.7.2-arm64-darwin)
+    sqlite3 (1.7.2-x86-linux)
     sqlite3 (1.7.2-x86_64-darwin)
     sqlite3 (1.7.2-x86_64-linux)
     sshkit (1.22.0)
@@ -389,9 +401,11 @@ GEM
     zeitwerk (2.6.13)
 
 PLATFORMS
-  x86_64-darwin-21
-  x86_64-darwin-22
-  x86_64-darwin-23
+  aarch64-linux
+  arm-linux
+  arm64-darwin
+  x86-linux
+  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
@@ -447,4 +461,4 @@ RUBY VERSION
    ruby 3.3.0p0
 
 BUNDLED WITH
-   2.2.33
+   2.5.3
