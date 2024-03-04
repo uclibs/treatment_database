@@ -10,9 +10,10 @@ class ExternalRepairRecordsController < ApplicationController
     @repair_record = @conservation_record.external_repair_records.create(create_params)
 
     if @repair_record.valid?
-      redirect_to conservation_record_path(@conservation_record)
+      redirect_to "#{conservation_record_path(@conservation_record)}#external-repairs"
     else
-      redirect_to conservation_record_path(@conservation_record), notice: "External repair not saved: #{@repair_record.errors.full_messages[0]}"
+      redirect_to "#{conservation_record_path(@conservation_record)}#external-repairs",
+                  notice: "External repair not saved: #{@repair_record.errors.full_messages[0]}"
     end
   end
 
@@ -20,7 +21,7 @@ class ExternalRepairRecordsController < ApplicationController
     @conservation_record = ConservationRecord.find(params[:conservation_record_id])
     @repair_record = @conservation_record.external_repair_records.find(params[:id])
     @repair_record.destroy
-    redirect_to conservation_record_path(@conservation_record)
+    redirect_to "#{conservation_record_path(@conservation_record)}#external-repairs"
   end
 
   private

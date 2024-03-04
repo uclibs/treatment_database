@@ -9,9 +9,9 @@ class ConTechRecordsController < ApplicationController
     @conservation_record = ConservationRecord.find(params[:conservation_record_id])
     @con_tech_record = @conservation_record.con_tech_records.create(create_params)
     if @con_tech_record.valid?
-      redirect_to conservation_record_path(@conservation_record)
+      redirect_to "#{conservation_record_path(@conservation_record)}#conservators-and-technicians"
     else
-      redirect_to conservation_record_path(@conservation_record),
+      redirect_to "#{conservation_record_path(@conservation_record)}#conservators-and-technicians",
                   notice: "Conservator/Technician record not saved: #{@con_tech_record.errors.full_messages[0]}"
     end
   end
@@ -20,7 +20,7 @@ class ConTechRecordsController < ApplicationController
     @conservation_record = ConservationRecord.find(params[:conservation_record_id])
     @con_tech_record = @conservation_record.con_tech_records.find(params[:id])
     @con_tech_record.destroy
-    redirect_to conservation_record_path(@conservation_record)
+    redirect_to "#{conservation_record_path(@conservation_record)}#conservators-and-technicians"
   end
 
   private
