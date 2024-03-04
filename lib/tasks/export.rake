@@ -12,7 +12,7 @@ namespace :export do
     staff = [0]
     err = [0]
 
-    ConservationRecord.all.each do |h|
+    ConservationRecord.find_each do |h|
       ihrr.push h.in_house_repair_records.count if h.in_house_repair_records.count.positive?
       staff.push h.con_tech_records.count if h.con_tech_records.count.positive?
       err.push h.external_repair_records.count if h.external_repair_records.count.positive?
@@ -117,7 +117,7 @@ namespace :export do
 
     def in_house_repair_record_array(conservation_record, ihrr)
       records = []
-      conservation_record.in_house_repair_records.all.each do |i|
+      conservation_record.in_house_repair_records.find_each do |i|
         records << [user_display_name(i.performed_by_user_id),
                     i.minutes_spent.to_s,
                     i.conservation_record_id.to_s,
@@ -134,7 +134,7 @@ namespace :export do
 
     def external_repair_record_array(conservation_record, err)
       records = []
-      conservation_record.external_repair_records.all.each do |i|
+      conservation_record.external_repair_records.find_each do |i|
         records << [i.id.to_s,
                     controlled_vocabulary_lookup(i.repair_type) || '',
                     controlled_vocabulary_lookup(i.performed_by_vendor_id) || '',
@@ -151,7 +151,7 @@ namespace :export do
 
     def staff_array(conservation_record, staff)
       records = []
-      conservation_record.con_tech_records.all.each do |i|
+      conservation_record.con_tech_records.find_each do |i|
         records << [i.id.to_s,
                     user_display_name(i.performed_by_user_id),
                     i.created_at.to_s,
@@ -235,7 +235,7 @@ namespace :export do
         # write headers
         csv << (cons_headings + ihrr_csv.flatten + crr_headings + err_csv.flatten + staff_csv.flatten + tr_headings)
         # write data, line by line
-        ConservationRecord.all.each do |conservation_record|
+        ConservationRecord.find_each do |conservation_record|
           csv << [conservation_record_array(conservation_record) + in_house_repair_record_array(conservation_record,
                                                                                                 ihrr) + cost_return_report_array(conservation_record) + external_repair_record_array(conservation_record,
                                                                                                                                                                                      err) + staff_array(conservation_record,

@@ -59,7 +59,7 @@ end
 
 def staff_code_lookup(code)
   if code.present?
-    StaffCode.find_by(code: code).id
+    StaffCode.find_by(code:).id
   else
     '4'
   end
