@@ -26,7 +26,14 @@ RSpec.describe ExternalRepairRecordsController, type: :controller do
   describe 'POST #create' do
     it 'creates a new in house repair record' do
       post :create, params: { external_repair_record: valid_attributes, conservation_record_id: conservation_record.id }
-      expect(response).to redirect_to(conservation_record)
+      expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#external-repairs")
+    end
+
+    it 'validates for required params' do
+      valid_attributes.delete(:repair_type)
+      post :create, params: { external_repair_record: valid_attributes, conservation_record_id: conservation_record.id }
+      expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#external-repairs")
+      expect(subject.request.flash[:notice]).to have_content('External repair not save')
     end
   end
 
@@ -36,6 +43,7 @@ RSpec.describe ExternalRepairRecordsController, type: :controller do
       expect do
         delete :destroy, params: { id: external_repair_record.to_param, conservation_record_id: conservation_record.id }
       end.to change(ExternalRepairRecord, :count).by(-1)
+      expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#external-repairs")
     end
   end
 end

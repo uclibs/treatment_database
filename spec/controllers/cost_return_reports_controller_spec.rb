@@ -30,7 +30,7 @@ RSpec.describe CostReturnReportsController, type: :controller do
       it 'creates a new cost return report record' do
         conservation_record = create(:conservation_record)
         post :create, params: { conservation_record_id: conservation_record.id, cost_return_report: valid_attributes }
-        expect(response).to redirect_to(conservation_record_path(conservation_record))
+        expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#cost-and-return-information")
       end
     end
   end
@@ -41,6 +41,7 @@ RSpec.describe CostReturnReportsController, type: :controller do
       expect do
         delete :destroy, params: { conservation_record_id: conservation_record.id, id: cost_return_report.to_param }
       end.to change(CostReturnReport, :count).by(-1)
+      expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#cost-and-return-information")
     end
   end
 
@@ -60,6 +61,7 @@ RSpec.describe CostReturnReportsController, type: :controller do
       it 'updates Cost Return Report' do
         cost_return_report = CostReturnReport.create! valid_attributes
         put :update, params: { conservation_record_id: conservation_record.id, id: cost_return_report.to_param, cost_return_report: new_attributes }
+        expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#cost-and-return-information")
         cost_return_report.reload
         expect(cost_return_report.repair_estimate).to eq(110.10)
         expect(cost_return_report.repair_cost).to eq(130.10)

@@ -49,7 +49,7 @@ RSpec.describe TreatmentReportsController, type: :controller do
       it 'creates a new conservation record' do
         conservation_record = create(:conservation_record)
         post :create, params: { conservation_record_id: conservation_record.id, treatment_report: valid_attributes }
-        expect(response).to redirect_to(conservation_record_path(conservation_record))
+        expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#treatment-report-tab")
       end
     end
   end
@@ -90,6 +90,7 @@ RSpec.describe TreatmentReportsController, type: :controller do
       it 'updates the Treatment Report' do
         treatment_report = TreatmentReport.create! valid_attributes
         put :update, params: { conservation_record_id: conservation_record.id, id: treatment_report.to_param, treatment_report: new_attributes }
+        expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#treatment-report-tab")
         treatment_report.reload
         expect(treatment_report.description_primary_support).to eq('Description Support')
       end
