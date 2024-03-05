@@ -6,7 +6,7 @@ class SearchController < ApplicationController
   def results
     @search_string = params[:search]
     @records = case @search_string
-               when /^i\d{1,}/
+               when /^[a-zA-Z]+\d{1,}/
                  ConservationRecord.where(item_record_number: @search_string)
                when /^\d+$/
                  ConservationRecord.where(id: @search_string)
