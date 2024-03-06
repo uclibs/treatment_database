@@ -12,8 +12,7 @@
 
 table {
   text-align: left;
-  font-size: 4vh;
-  font-size: 12px;
+  font-size: 12pt;
   display: inline;
 }
 
@@ -24,10 +23,10 @@ table {
 }
 
 .image img {
-  width: 100%; 
+  width: 98%; 
   object-fit: contain;
    position:fixed;
-   left:0px;
+   left:10px;
    bottom:0px;
 }
 
@@ -53,22 +52,25 @@ table {
         <td><%= @conservation_record.id %></td>
         <td><%= controlled_vocabulary_lookup(@conservation_record.department) %></td>
         <td><%= @conservation_record.call_number %></td>
-        <td><%= @conservation_record.date_received_in_preservation_services %></td>
-        <td><%= date_returned(@conservation_record) %></td>
+        <td><%= @conservation_record&.date_received_in_preservation_services&.strftime('%m/%d/%Y') %></td>
+        <td><%= date_returned(@conservation_record)&.strftime('%m/%d/%Y') %></td>
       </tr>
+    <table width="100%">
       <tr>
         <th>Title</th>
       </tr>
       <tr>
         <td><%= @conservation_record.title %></td>
       </tr>
+      </table>
+    <table width="100%">
       <tr>
         <th>Imprint</th>
-	<th>Author</th>
+      	<th>Author</th>
       </tr>
       <tr>
-	<td><%= @conservation_record.imprint %></td>
-	<td><%= @conservation_record.author %></td>
+      	<td><%= @conservation_record.imprint %></td>
+      	<td><%= @conservation_record.author %></td>
       </tr>
     </table>
   </div>
