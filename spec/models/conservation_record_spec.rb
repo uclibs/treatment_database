@@ -41,4 +41,8 @@ RSpec.describe ConservationRecord, type: :model do
     expect(ConservationRecord.new(department: '1', title: 'Some test title', author: 'Earnest Hemingway', imprint: 'Uc Press',
                                   call_number: 'PA2323')).to_not be_valid
   end
+
+  it 'is tracked by paper trail' do
+    is_expected.to be_versioned
+  end
 end
