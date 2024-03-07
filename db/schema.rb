@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_05_164303) do
+ActiveRecord::Schema.define(version: 2024_03_07_145522) do
 
   create_table "abbreviated_treatment_reports", force: :cascade do |t|
     t.integer "conservation_record_id"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2023_04_05_164303) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "favorite", default: false
   end
 
   create_table "cost_return_reports", force: :cascade do |t|

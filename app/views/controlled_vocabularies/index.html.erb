@@ -14,6 +14,7 @@
       <th>Vocabulary</th>
       <th>Key</th>
       <th>Active</th>
+      <th>Favorite</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -24,6 +25,7 @@
         <td><%= controlled_vocabulary.vocabulary %></td>
         <td><%= link_to controlled_vocabulary.key, controlled_vocabulary %></td>
         <td><%= controlled_vocabulary.active %></td>
+        <td><%= controlled_vocabulary.favorite %></td>
       </tr>
     <% end %>
   </tbody>

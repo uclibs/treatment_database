@@ -7,7 +7,8 @@ RSpec.describe 'controlled_vocabularies/show', type: :view do
     @controlled_vocabulary = assign(:controlled_vocabulary, ControlledVocabulary.create!(
                                                               vocabulary: 'Vocabulary',
                                                               key: 'Key',
-                                                              active: false
+                                                              active: false,
+                                                              favorite: true
                                                             ))
   end
 
@@ -16,5 +17,6 @@ RSpec.describe 'controlled_vocabularies/show', type: :view do
     expect(rendered).to match(/Vocabulary/)
     expect(rendered).to match(/Key/)
     expect(rendered).to match(/false/)
+    expect(rendered).to match(/true/)
   end
 end

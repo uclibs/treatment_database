@@ -17,7 +17,7 @@ class ConservationRecordsController < ApplicationController
   # GET /conservation_records/1.json
   def show
     @users = User.all
-    @repair_types = ControlledVocabulary.where(vocabulary: 'repair_type', active: true)
+    @repair_types = ControlledVocabulary.where(vocabulary: 'repair_type', active: true).order(favorite: :desc)
     @contract_conservators = ControlledVocabulary.where(vocabulary: 'contract_conservator', active: true)
     @housing = ControlledVocabulary.where(vocabulary: 'housing', active: true)
     @in_house_repairs = @conservation_record.in_house_repair_records

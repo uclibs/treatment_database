@@ -91,6 +91,13 @@ RSpec.describe ConservationRecordsController, type: :controller do
       get :show, params: { id: conservation_record.to_param }
       expect(response).to be_successful
     end
+
+    it 'returns repair_types object ordered by favorites' do
+      ControlledVocabulary.find(49).update(favorite: true)
+      conservation_record = ConservationRecord.create! valid_attributes
+      get :show, params: { id: conservation_record.to_param }
+      expect(controller.view_assigns['repair_types']).to start_with(ControlledVocabulary.find(49))
+    end
   end
 
   describe 'GET #new' do

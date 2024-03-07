@@ -268,6 +268,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     select 'repair_type', from: 'Vocabulary'
     fill_in 'Key', with: 'key_string'
     check 'Active'
+    check 'Favorite'
     click_button 'Create Controlled vocabulary'
 
     expect(page).to have_content('Controlled vocabulary was successfully created')

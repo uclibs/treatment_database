@@ -32,7 +32,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   # ControlledVocabulary. As you add validations to ControlledVocabulary, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { vocabulary: 'repair_type', key: 'Wash', active: true }
+    { vocabulary: 'repair_type', key: 'Wash', active: true, favorite: true }
   end
 
   let(:invalid_attributes) do
@@ -119,7 +119,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   describe 'PUT #update' do
     context 'with valid params' do
       let(:new_attributes) do
-        { vocabulary: 'something', key: 'else', active: false }
+        { vocabulary: 'something', key: 'else', active: false, favorite: true }
       end
 
       it 'updates the requested controlled_vocabulary' do
@@ -129,6 +129,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
         expect(controlled_vocabulary.vocabulary).to eq('something')
         expect(controlled_vocabulary.key).to eq('else')
         expect(controlled_vocabulary.active).to eq(false)
+        expect(controlled_vocabulary.favorite).to eq(true)
       end
 
       it 'redirects to the controlled_vocabulary' do
