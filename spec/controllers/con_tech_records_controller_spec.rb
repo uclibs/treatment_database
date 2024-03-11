@@ -23,7 +23,7 @@ RSpec.describe ConTechRecordsController, type: :controller do
   describe 'POST #create' do
     it 'creates a new conservators and technicians record' do
       post :create, params: { con_tech_record: valid_attributes, conservation_record_id: conservation_record.id }
-      expect(response).to redirect_to(conservation_record)
+      expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#conservators-and-technicians")
     end
   end
 
@@ -33,6 +33,7 @@ RSpec.describe ConTechRecordsController, type: :controller do
       expect do
         delete :destroy, params: { id: con_tech_record.to_param, conservation_record_id: conservation_record.id }
       end.to change(ConTechRecord, :count).by(-1)
+      expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#conservators-and-technicians")
     end
   end
 end

@@ -40,7 +40,7 @@ RSpec.describe InHouseRepairRecordsController, type: :controller do
   describe 'POST #create' do
     it 'creates a new in house repair record' do
       post :create, params: { in_house_repair_record: valid_attributes, conservation_record_id: conservation_record.id }
-      expect(response).to redirect_to(conservation_record)
+      expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#in-house-repairs")
     end
 
     it 'does not have valid staff code to create in house repair record' do
@@ -55,6 +55,7 @@ RSpec.describe InHouseRepairRecordsController, type: :controller do
       expect do
         delete :destroy, params: { id: in_house_repair_record.to_param, conservation_record_id: conservation_record.id }
       end.to change(InHouseRepairRecord, :count).by(-1)
+      expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#in-house-repairs")
     end
   end
 end

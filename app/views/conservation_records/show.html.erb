@@ -63,7 +63,7 @@
     <p></p>
 
     <div class="header">
-      <h3>In-House Repairs</h3>
+      <h3 id="in-house-repairs">In-House Repairs</h3>
       <% if can? :crud, InHouseRepairRecord %>
         <button type="button" class="btn btn-primary cta-btn" data-toggle="modal" data-target="#inHouseRepairModal">
           Add In-House Repairs
@@ -96,7 +96,7 @@
 
     <br />
     <div class="header">
-      <h3>External Repairs</h3>
+      <h3 id="external-repairs">External Repairs</h3>
       <% if can? :crud, ExternalRepairRecord %>
         <button type="button" class="btn btn-primary cta-btn" data-toggle="modal" data-target="#externalRepairModal">
           Add External Repair
@@ -128,7 +128,7 @@
     <% end %>
      <br />
     <div class="header">
-      <h3>Conservators and Technicians</h3>
+      <h3 id="conservators-and-technicians">Conservators and Technicians</h3>
       <% if can? :crud, ConTechRecord %>
         <button type="button" class="btn btn-primary cta-btn" data-toggle="modal" data-target="#ConservatorsTechniciansModal">
           Add Conservators and Technicians
@@ -183,7 +183,7 @@
 
   <br>
   <div class="header">
-    <h3>Cost and Return Information</h3>
+    <h3 id="cost-and-return-information">Cost and Return Information</h3>
   </div>
   <%= form_with(model: [@conservation_record, @conservation_record.cost_return_report], class: 'disable_input') do |f| %>
 
@@ -243,15 +243,15 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="RepairedBy">Repaired By</label>
-            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { :class => 'form-control' }) %>
+            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { :class => 'form-control', :required=> true }) %>
         </div>
         <div class="form-group">
           <label>Repair Type</label>
-          <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control' } %>
+          <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control', :required=> true } %>
         </div>
         <div class="form-group">
           <label>Minutes Spent</label>
-          <%= form.number_field :minutes_spent, class: "form-control", placeholder: "Minutes" %>
+          <%= form.number_field :minutes_spent, class: "form-control", placeholder: "Minutes", required: true %>
         </div>
         <div class="form-group">
           <label>Other Note</label>
@@ -259,7 +259,7 @@
         </div>
         <div class="form-group"> 
           <label>Staff Code</label>
-          <%= form.select :staff_code_id, options_from_collection_for_select(@staff_codes, "id", "code"), { prompt: 'Select Staff Code' }, { :class => 'form-control' } %>
+          <%= form.select :staff_code_id, options_from_collection_for_select(@staff_codes, "id", "code"), { prompt: 'Select Staff Code' }, { :class => 'form-control', required: true } %>
         </div>
        </div>
       <div class="modal-footer">
@@ -285,12 +285,12 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="RepairedBy">Repaired By</label>
-            <%= form.select(:performed_by_vendor_id, options_from_collection_for_select(@contract_conservators, "id", "key"), { prompt: 'Select Vendor' }, { :class => 'form-control' }) %>
+            <%= form.select(:performed_by_vendor_id, options_from_collection_for_select(@contract_conservators, "id", "key"), { prompt: 'Select Vendor' }, { :class => 'form-control', :required => true }) %>
           </div>
 
           <div class="form-group">
             <label>Repair Type</label>
-            <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control' } %>
+            <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control', :required => true } %>
           </div>
           <div class="form-group">
             <label>Other Note</label>
@@ -320,7 +320,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="ConservationandTechnicians">Conservators and Technicians</label>
-            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { :class => 'form-control' }) %>
+            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { :class => 'form-control', :required => true }) %>
           </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
