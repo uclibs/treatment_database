@@ -21,6 +21,8 @@ RSpec.describe 'controlled_vocabularies/new', type: :view do
       assert_select 'input[name=?]', 'controlled_vocabulary[key]'
 
       assert_select 'input[name=?]', 'controlled_vocabulary[active]'
+
+      assert_select 'input[name=?]', 'controlled_vocabulary[favorite]'
     end
   end
 end

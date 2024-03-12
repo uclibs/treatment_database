@@ -14,5 +14,11 @@
   <strong>Active:</strong>
   <%= @controlled_vocabulary.active %>
 </p>
+
+<p>
+  <strong>Favorite:</strong>
+  <%= @controlled_vocabulary.favorite %>
+</p>
+
 <%= link_to 'Edit', edit_controlled_vocabulary_path(@controlled_vocabulary) %> |
 <%= link_to 'Return to List', controlled_vocabularies_path %>

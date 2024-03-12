@@ -91,6 +91,38 @@ RSpec.describe ConservationRecordsController, type: :controller do
       get :show, params: { id: conservation_record.to_param }
       expect(response).to be_successful
     end
+
+    it 'returns repair_types select options ordered by favorites' do
+      term = ControlledVocabulary.find_by(key: 'Training')
+      term.update(favorite: true)
+      conservation_record = ConservationRecord.create! valid_attributes
+      get :show, params: { id: conservation_record.to_param }
+      expect(controller.view_assigns['repair_types']).to start_with(term)
+    end
+
+    it 'returns housing select options ordered by favorites' do
+      term = ControlledVocabulary.find_by(key: 'Tuxedo Box')
+      term.update(favorite: true)
+      conservation_record = ConservationRecord.create! valid_attributes
+      get :show, params: { id: conservation_record.to_param }
+      expect(controller.view_assigns['housing']).to start_with(term)
+    end
+
+    it 'returns contract_conservators select options ordered by favorites' do
+      term = ControlledVocabulary.find_by(key: 'Richard Baker')
+      term.update(favorite: true)
+      conservation_record = ConservationRecord.create! valid_attributes
+      get :show, params: { id: conservation_record.to_param }
+      expect(controller.view_assigns['contract_conservators']).to start_with(term)
+    end
+
+    it 'returns departments select options ordered by favorites' do
+      term = ControlledVocabulary.find_by(key: 'Chem-Bio Library')
+      term.update(favorite: true)
+      conservation_record = ConservationRecord.create! valid_attributes
+      get :show, params: { id: conservation_record.to_param }
+      expect(controller.view_assigns['departments']).to start_with(term)
+    end
   end
 
   describe 'GET #new' do

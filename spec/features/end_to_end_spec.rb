@@ -268,6 +268,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     select 'repair_type', from: 'Vocabulary'
     fill_in 'Key', with: 'key_string'
     check 'Active'
+    check 'Favorite'
     click_button 'Create Controlled vocabulary'
 
     expect(page).to have_content('Controlled vocabulary was successfully created')
@@ -307,6 +308,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
     select('Haritha Vytla', from: 'in_house_repair_record_performed_by_user_id', match: :first)
+    # get list of repair_types and check that favorite is first option
+    repair_types = find('#in_house_repair_record_repair_type').all('option').collect(&:text)
+    expect(repair_types[1..]).to start_with('updated_key_string')
     select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
     fill_in('in_house_repair_record_other_note', with: 'Some Other note for the in-house repair')
     fill_in('in_house_repair_record_minutes_spent', with: '2')
