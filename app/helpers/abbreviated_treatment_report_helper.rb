@@ -24,4 +24,23 @@ module AbbreviatedTreatmentReportHelper
       "#{sum} minutes"
     end
   end
+
+  def convert_legacy_treatment_report_to_rtf(treatment_report)
+    return unless treatment_report && treatment_report.abbreviated_treatment_report.present?
+
+    # Check if an abbreviated treatment report already exists
+    abbreviated_treatment_report = AbbreviatedTreatmentReport.find_or_create_by(conservation_record_id: treatment_report.conservation_record_id) do |atr|
+      # Convert simple text to rich text format
+      atr.content = treatment_report.abbreviated_treatment_report
+    end
+
+    # Update content if the record already exists
+    abbreviated_treatment_report.update(content: treatment_report.abbreviated_treatment_report)
+
+    # Clear the simple text content from TreatmentReport
+    treatment_report.update!(abbreviated_treatment_report: nil)
+
+    abbreviated_treatment_report
+  end
+
 end

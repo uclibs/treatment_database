@@ -10,13 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_05_164303) do
+ActiveRecord::Schema.define(version: 2024_03_21_202559) do
 
   create_table "abbreviated_treatment_reports", force: :cascade do |t|
     t.integer "conservation_record_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "content"
+    t.text "content_html"
+    t.integer "treatment_report_id"
     t.index ["conservation_record_id"], name: "index_abbreviated_treatment_reports_on_conservation_record_id"
+    t.index ["treatment_report_id"], name: "index_abbreviated_treatment_reports_on_treatment_report_id"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -186,6 +190,7 @@ ActiveRecord::Schema.define(version: 2023_04_05_164303) do
   end
 
   add_foreign_key "abbreviated_treatment_reports", "conservation_records"
+  add_foreign_key "abbreviated_treatment_reports", "treatment_reports"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "con_tech_records", "conservation_records"

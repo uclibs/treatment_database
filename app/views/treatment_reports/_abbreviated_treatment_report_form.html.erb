@@ -3,14 +3,16 @@
   <h3>Abbreviated Treatment Report</h3>
 </div>
 
-  <%= form_with(model: [@conservation_record, @conservation_record.treatment_report], class: 'disable_input') do |f| %>
-    <div class="form-group">
-      <p>
-        <%= f.text_area :abbreviated_treatment_report, class: 'form-control' %>
-      </p>
-
-      <p>
-        <%= f.submit 'Save Abbreviated Treatment Report', class: 'btn btn-primary' %>
-    </div>
-  <% end %>
-</div>
+<%= form_with(model: @abbreviated_treatment_report, local: false, class: 'disable_input', id: 'abbreviatedTreatmentReportForm') do |f| %>
+  <div class="form-group">
+    <div id="successMessage" class="alert alert-success" style="display: none;"></div>
+    <div id="errorMessages" class="alert alert-danger" style="display: none;"></div>
+    <p>
+      <%= f.label :content %>
+      <%= f.text_area :content, class: 'tinymce form-control' %>
+    </p>
+    <p>
+      <%= f.button 'Save Abbreviated Treatment Report', type: 'button', class: 'btn btn-primary', id: 'saveAbbreviatedTreatmentReport' %>
+    </p>
+  </div>
+<% end %>

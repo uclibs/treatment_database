@@ -50,6 +50,12 @@ gem 'devise'
 
 gem 'activestorage', '>= 5.2.6.3'
 
+# Active Text allows us to use rich text format for text fields.
+gem 'active_text'
+
+# TinyMCE is a WYSIWYG editor to be used with active_text.
+gem 'tinymce-rails'
+
 gem 'bootstrap', '~> 4.3.1'
 
 gem 'jquery-rails'

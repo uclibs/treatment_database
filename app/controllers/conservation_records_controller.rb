@@ -83,27 +83,38 @@ class ConservationRecordsController < ApplicationController
 
   def treatment_report
     @conservation_record = ConservationRecord.find(params[:id])
+
     send_data build_pdf('treatment_report_pdf'), filename: "#{@conservation_record.title.truncate(25, omission: '')}_treatment_report.pdf",
                                                  type: 'application/pdf', disposition: 'inline'
   end
 
   def abbreviated_treatment_report
     @conservation_record = ConservationRecord.find(params[:id])
-    send_data build_pdf('abbreviated_treatment_report_pdf'),
+    content_html = @conservation_record.abbreviated_treatment_report.body.to_s
+    send_data build_pdf( format='abbreviated_treatment_report_pdf', content_html = content_html),
               filename: "#{@conservation_record.title.truncate(25, omission: '')}_abbreviated_treatment_report.pdf",
               type: 'application/pdf', disposition: 'inline'
   end
 
-  def build_pdf(format)
-    html = render_to_string "conservation_records/#{format}", layout: false
+  def build_pdf(format, content_html)
+    # Render the HTML template with the rich text content
+    html = render_to_string "conservation_records/#{format}", layout: false, locals: { content_html: content_html }
+
+    # Use the HTML content to generate the PDF
     kit = PDFKit.new(html, page_size: 'Letter')
     kit.to_pdf
   end
 
-  def as_html(conservation_record)
-    render template: 'conservation_records/conservation_worksheet',
-           locals: { @conservation_record => conservation_record }
-  end
+  # commented out as suspected unused method
+  #
+  # def as_html(conservation_record)
+  #   # Assuming abbreviated_treatment_report is the rich text content attribute
+  #   content_html = conservation_record.abbreviated_treatment_report.content.body.to_s
+  #
+  #   render template: 'conservation_records/conservation_worksheet',
+  #          locals: { conservation_record: conservation_record, content_html: content_html }
+  # end
+
 
   private
 

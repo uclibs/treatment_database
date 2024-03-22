@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class TreatmentReportsController < ApplicationController
+  before_action :convert_legacy_treatment_report, except: [:destroy]
+
   def create
     @treatment_report = TreatmentReport.new(treatment_report_params)
     @treatment_report.conservation_record_id = params[:conservation_record_id]
@@ -19,6 +21,11 @@ class TreatmentReportsController < ApplicationController
   end
 
   private
+
+  def convert_legacy_treatment_report
+    treatment_report = TreatmentReport.find(params[:id])
+    convert_legacy_treatment_report_to_rtf(treatment_report)
+  end
 
   def treatment_report_params
     params.require(:treatment_report).permit(:description_general_remarks,
@@ -45,7 +52,6 @@ class TreatmentReportsController < ApplicationController
                                              :treatment_proposal_housing_provided_id,
                                              :treatment_proposal_housing_narrative,
                                              :treatment_proposal_storage_and_handling_notes,
-                                             :treatment_proposal_total_treatment_time,
-                                             :abbreviated_treatment_report)
+                                             :treatment_proposal_total_treatment_time)
   end
 end
