@@ -11,8 +11,6 @@ gem 'rails', '~> 6.1.7.7'
 gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -65,6 +63,15 @@ gem 'paper_trail'
 gem 'pagy'
 
 gem 'brakeman', '~> 5.1', '>= 5.1.1'
+
+gem 'trix'
+
+# Replaces Webpacker
+gem 'jsbundling-rails'
+
+# Replaces sass-rails, which used Sprockets
+gem 'cssbundling-rails'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

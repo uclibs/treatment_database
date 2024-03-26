@@ -1,3 +1,4 @@
 //= link_tree ../images
-//= link_directory ../javascripts .js
-//= link_directory ../stylesheets .css
+// Removed due to handling via Webpack
+// //= link_directory ../javascripts .js
+// //= link_tree ../builds

@@ -127,6 +127,8 @@ GEM
       thor (~> 1.2)
       tins (~> 1.32)
     crass (1.0.6)
+    cssbundling-rails (1.4.0)
+      railties (>= 6.0.0)
     database_cleaner (2.0.2)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.1.0)
@@ -167,6 +169,8 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
+    jsbundling-rails (1.3.0)
+      railties (>= 6.0.0)
     json (2.7.1)
     language_server-protocol (3.17.0.3)
     listen (3.9.0)
@@ -317,17 +321,6 @@ GEM
       rubocop-ast (>= 1.31.1, < 2.0)
     ruby-progressbar (1.13.0)
     rubyzip (2.3.2)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-    sass-rails (5.1.0)
-      railties (>= 5.2.0)
-      sass (~> 3.1)
-      sprockets (>= 2.8, < 4.0)
-      sprockets-rails (>= 2.0, < 4.0)
-      tilt (>= 1.1, < 3)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -378,6 +371,8 @@ GEM
     timeout (0.4.1)
     tins (1.32.1)
       sync
+    trix (0.10.1)
+      rails
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -425,6 +420,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   coffee-rails (~> 4.2)
   coveralls_reborn
+  cssbundling-rails
   database_cleaner
   devise
   dotenv-rails
@@ -432,6 +428,7 @@ DEPENDENCIES
   factory_bot_rails
   jbuilder (~> 2.5)
   jquery-rails
+  jsbundling-rails
   mysql2
   nokogiri (>= 1.13)
   pagy
@@ -445,13 +442,13 @@ DEPENDENCIES
   rspec_junit_formatter
   rubocop
   rubocop-rails
-  sass-rails (~> 5.0)
   selenium-webdriver (~> 4.18.1)
   simplecov
   simplecov-lcov
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3
+  trix
   turbolinks (~> 5)
   tzinfo-data
   uglifier (>= 1.3.0)
