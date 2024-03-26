@@ -72,7 +72,6 @@ gem 'jsbundling-rails'
 # Replaces sass-rails, which used Sprockets
 gem 'cssbundling-rails'
 
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'bcrypt_pbkdf'
