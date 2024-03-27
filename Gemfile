@@ -11,8 +11,10 @@ gem 'rails', '~> 6.1.7.7'
 gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 4.0'
+
+# Replaces Uglifier as compressor for JavaScript assets
+gem 'terser'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 

@@ -25,7 +25,8 @@ Rails.application.configure do
   config.public_file_server.enabled = true
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = Uglifier.new(harmony: true)
+  # Replaces Uglifier as compressor for JavaScript assets
+  config.assets.js_compressor = :terser
 
   # config.assets.css_compressor = :sass
 
@@ -101,9 +102,6 @@ Rails.application.configure do
 
   # Needed for mail to work in production
   config.action_mailer.smtp_settings = { enable_starttls_auto: false }
-
-  # Change the Uglifier parsing engine
-  config.assets.js_compressor = Uglifier.new(harmony: true)
 
   # Configure AWS XRay
   # config.xray = {
