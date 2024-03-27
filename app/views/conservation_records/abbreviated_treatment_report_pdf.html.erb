@@ -114,6 +114,7 @@ td {
    <br>
 </div>
 <div class="a4">
-  Abbreviated Treatment Report
-  <%=simple_format(@conservation_record.treatment_report.abbreviated_treatment_report)%>
+	Abbreviated Treatment Report
+	<%= @conservation_record.treatment_report.abbreviated_treatment_report.body %>
 </div>
+
