@@ -55,6 +55,7 @@ table {
         <td><%= @conservation_record&.date_received_in_preservation_services&.strftime('%m/%d/%Y') %></td>
         <td><%= date_returned(@conservation_record)&.strftime('%m/%d/%Y') %></td>
       </tr>
+    </table>
     <table width="100%">
       <tr>
         <th>Title</th>
@@ -74,7 +75,6 @@ table {
       </tr>
     </table>
   </div>
-
   <div class="image">
     <img src="<%= @base_64_form_image %>" alt="Image of conservation worksheet form." />
   </div>
