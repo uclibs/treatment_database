@@ -5,10 +5,17 @@ import * as ActiveStorage from "@rails/activestorage";
 // Turbolinks
 import Turbolinks from "turbolinks";
 
+// Import jQuery and make it globally available
+import $ from 'jquery';
+window.jQuery = $;
+window.$ = $;
+
 // External libraries
-import "jquery";
 import "popper.js";
 import "bootstrap";
+
+
+
 
 // Trix editor and ActionText
 import "trix";

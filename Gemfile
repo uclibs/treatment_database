@@ -52,7 +52,9 @@ gem 'activestorage', '>= 5.2.6.3'
 
 gem 'bootstrap', '~> 4.3.1'
 
-gem 'jquery-rails'
+# Front end dependency management is now being handled through package.json.
+# The following are removed from the Gemfile:
+# 'jquery-rails'
 
 gem 'pdfkit'
 
