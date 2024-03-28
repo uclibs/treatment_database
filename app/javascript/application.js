@@ -11,15 +11,16 @@ window.jQuery = $;
 window.$ = $;
 
 // External libraries
+import "./tinymce_init.js"
 import "popper.js";
 import "bootstrap";
 
 
 
-
-// Trix editor and ActionText
-import "trix";
+// ActionText
 import "@rails/actiontext";
+
+// Stylesheets
 import "./stylesheets/application.scss";
 
 // Start Rails UJS and Active Storage

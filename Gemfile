@@ -68,8 +68,6 @@ gem 'pagy'
 
 gem 'brakeman', '~> 5.1', '>= 5.1.1'
 
-gem 'trix'
-
 # Replaces Webpacker
 gem 'jsbundling-rails'
 

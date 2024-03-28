@@ -6,11 +6,12 @@
   <%= form_with(model: [@conservation_record, @conservation_record.treatment_report], class: 'disable_input') do |f| %>
     <div class="form-group">
       <p>
-        <%= f.text_area :abbreviated_treatment_report, class: 'form-control' %>
+        <%= f.text_area :abbreviated_treatment_report, id: 'tinymce-editor', class: 'form-control' %>
       </p>
 
       <p>
         <%= f.submit 'Save Abbreviated Treatment Report', class: 'btn btn-primary' %>
+      </p>
     </div>
   <% end %>
-</div>
+
