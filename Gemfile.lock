@@ -373,8 +373,6 @@ GEM
     timeout (0.4.1)
     tins (1.32.1)
       sync
-    trix (0.10.1)
-      rails
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -449,7 +447,6 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   sqlite3
   terser
-  trix
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)
