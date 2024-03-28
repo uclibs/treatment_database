@@ -11,10 +11,10 @@ gem 'rails', '~> 6.1.7.7'
 gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+
+# Replaces Uglifier as compressor for JavaScript assets
+gem 'terser'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
@@ -52,7 +52,9 @@ gem 'activestorage', '>= 5.2.6.3'
 
 gem 'bootstrap', '~> 4.3.1'
 
-gem 'jquery-rails'
+# Front end dependency management is now being handled through package.json.
+# The following are removed from the Gemfile:
+# 'jquery-rails'
 
 gem 'pdfkit'
 
@@ -66,11 +68,19 @@ gem 'pagy'
 
 gem 'brakeman', '~> 5.1', '>= 5.1.1'
 
+gem 'trix'
+
+# Replaces Webpacker
+gem 'jsbundling-rails'
+
+# Replaces sass-rails, which used Sprockets
+gem 'cssbundling-rails'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'bcrypt_pbkdf'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'capistrano', '3.17.1'
+  gem 'capistrano', '3.18.1'
   gem 'capistrano-bundler', '~> 1.6', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-rvm', require: false
@@ -94,7 +104,8 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
-  # Easy installation and use of chromedriver to run system tests with Chrome
+  # allows you to save_and_open_page in tests
+  gem 'launchy'
 end
 
 group :production do

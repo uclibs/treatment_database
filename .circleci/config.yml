@@ -1,9 +1,12 @@
 # Ruby CircleCI 2.0 configuration file
 #
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+# This configuration file sets up the continuous integration pipeline for a Ruby on Rails project.
+# It includes steps for installing dependencies, setting up the database, and running tests.
 #
 version: 2.1
+
 executors:
+  # Defines a reusable environment for publishing Docker images.
   docker-publisher:
     environment:
       IMAGE_NAME: treatment-database-app
@@ -11,6 +14,8 @@ executors:
       - image: docker:20.10.14-git
 
 orbs:
+  # Orbs are reusable snippets of code that can be shared across projects.
+  # Here we use predefined orbs for Ruby, Node.js, browser tools, and Coveralls.
   ruby: circleci/ruby@2.1.1
   node: circleci/node@5.0.2
   browser-tools: circleci/browser-tools@1.4.7
@@ -19,24 +24,22 @@ orbs:
 jobs:
   build:
     docker:
-      # specify the version you desire here
+      # Defines the primary Docker image to use in the build environment.
       - image: cimg/ruby:3.3.0-browsers
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
     environment:
+      # Environment variables for Bundler and RSpec.
       BUNDLE_PATH: vendor/bundle
       BUNDLE_JOBS: 4
       BUNDLE_RETRY: 3
       RAILS_ENV: test
       RACK_ENV: test
       SPEC_OPTS: --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress
+      # General working environment variables.
       WORKING_PATH: /tmp
       UPLOAD_PATH: /tmp
       CACHE_PATH: /tmp/cache
+      # Enables Coveralls parallel build web notification.
       COVERALLS_PARALLEL: true
 
 
@@ -46,12 +49,16 @@ jobs:
       - checkout
       - browser-tools/install-browser-tools
 
+      # Restores Ruby dependencies from cache to speed up the build.
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            - v1-ruby-dependencies-{{ checksum "Gemfile.lock" }}
+            # Fallback to the latest cache for this branch
+            - v1-ruby-dependencies-{{ .Branch }}-
+            # General fallback
+            - v1-ruby-dependencies-
 
+      # Configures Bundler based on the Gemfile.lock version.
       - run:
           name: Configure Bundler
           command: |
@@ -59,6 +66,7 @@ jobs:
             source $BASH_ENV
             gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
 
+      # Installs Ruby and system dependencies.
       - run:
           name: Install Dependencies
           no_output_timeout: 15m
@@ -67,15 +75,45 @@ jobs:
             sudo apt-get update
             sudo apt-get install xvfb libfontconfig wkhtmltopdf
 
+      # Caches Ruby dependencies.
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+          key: v1-ruby-dependencies-{{ checksum "Gemfile.lock" }}
+
+      # Restores JavaScript dependencies from cache.
+      - restore_cache:
+          keys:
+            - v2-js-dependencies-{{ checksum "yarn.lock" }}
+            - v2-js-dependencies-{{ .Branch }}-
+            - v2-js-dependencies-
+
+      # Installs JavaScript dependencies using Yarn.
+      - run:
+          name: Install JavaScript Dependencies
+          command: yarn install
+
+      # Builds JavaScript assets.
+      - run:
+          name: Build JavaScript Assets
+          command: yarn build
+
+      # Builds CSS assets.
+      - run:
+          name: Build CSS Assets
+          command: yarn build:css
+
+      # Caches JavaScript dependencies to speed up future builds.
+      - save_cache:
+          paths:
+            - node_modules
+          key: v2-js-dependencies-{{ checksum "yarn.lock" }}
 
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
+      # Runs static analysis tools.
       - run:
           name: Rubocop
           command: |
@@ -95,7 +133,8 @@ jobs:
           name: Run Bundle-audit
           command: bundle exec bundle audit check --update
 
-      # run tests!
+      # Executes tests in parallel
+      # This step runs the RSpec tests across multiple containers to speed up the test suite.
       - run:
           name: Run rspec in parallel
           command: |
@@ -103,12 +142,16 @@ jobs:
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
             #bundle exec rspec --out /tmp/test-results/rspec.xml $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
+      # Uploads coverage data to Coveralls
+      # This step is triggered once all parallel test jobs are finished.
+      # It aggregates coverage data and uploads it to Coveralls for analysis and reporting.
       - coveralls/upload:
           parallel_finished: true
           path_to_lcov: /home/circleci/treatment_database/coverage/lcov/treatment_database.lcov
 
 workflows:
   version: 2
+  # Defines the workflow named "ci"
   ci:
     jobs:
       - build
