@@ -41,10 +41,18 @@ RSpec.describe ActivityController, type: :controller do
   end
 
   describe 'GET #show' do
+    let(:conservation_record) { create(:conservation_record) }
+
     it 'returns a success response' do
       version = PaperTrail::Version.create! valid_attributes
       get :show, params: { id: version.to_param }
       expect(response).to be_successful
+    end
+
+    it 'returns change details', versioning: true do
+      conservation_record.update(title: 'The Oddysee')
+      changes = conservation_record.versions.last.changeset.reject { |k, _v| (k.to_sym == :updated_at) }
+      expect(changes).to(eq('title' => ['The Illiad', 'The Oddysee']))
     end
   end
 end

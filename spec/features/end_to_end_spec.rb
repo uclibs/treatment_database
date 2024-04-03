@@ -62,7 +62,7 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   end
 end
 
-RSpec.describe 'Standard User Tests', type: :feature do
+RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
   let(:user) { create(:user, role: 'standard') }
   let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
@@ -199,7 +199,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
   end
 end
 
-RSpec.describe 'Admin User Tests', type: :feature do
+RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   let(:user) { create(:user, role: 'admin') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let(:vocabulary) { create(:controlled_vocabulary) }
@@ -268,6 +268,7 @@ RSpec.describe 'Admin User Tests', type: :feature do
     select 'repair_type', from: 'Vocabulary'
     fill_in 'Key', with: 'key_string'
     check 'Active'
+    check 'Favorite'
     click_button 'Create Controlled vocabulary'
 
     expect(page).to have_content('Controlled vocabulary was successfully created')
@@ -307,6 +308,9 @@ RSpec.describe 'Admin User Tests', type: :feature do
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
     select('Haritha Vytla', from: 'in_house_repair_record_performed_by_user_id', match: :first)
+    # get list of repair_types and check that favorite is first option
+    repair_types = find('#in_house_repair_record_repair_type').all('option').collect(&:text)
+    expect(repair_types[1..]).to start_with('updated_key_string')
     select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
     fill_in('in_house_repair_record_other_note', with: 'Some Other note for the in-house repair')
     fill_in('in_house_repair_record_minutes_spent', with: '2')
@@ -402,5 +406,17 @@ RSpec.describe 'Admin User Tests', type: :feature do
     expect(page).to have_content('Haritha Vytla deleted the in house repair record')
     expect(page).to_not have_content('Haritha Vytla created the treatment report')
     expect(page).to have_content('Haritha Vytla updated the treatment report')
+
+    # Check that details page shows diff data
+    visit conservation_records_path
+    click_link(conservation_record.title, match: :prefer_exact)
+    fill_in 'treatment_report_description_binding', with: 'Half leather tightjoint, tight back binding'
+    click_button('Save Treatment Report')
+    expect(page).to have_content('Treatment Record updated successfully!')
+    visit activity_index_path
+    expect(page).to have_content('Haritha Vytla updated the treatment report')
+    first('tr').click_link('Details')
+    expect(page).to have_content('Full leather tightjoint, tight back binding')
+    expect(page).to have_content('Half leather tightjoint, tight back binding')
   end
 end

@@ -35,4 +35,8 @@ RSpec.describe InHouseRepairRecord, type: :model do
   it 'is not valid without a staff_code id' do
     expect(InHouseRepairRecord.new(conservation_record_id: @conservation_record.id, performed_by_user_id: 2, repair_type: 1)).to_not be_valid
   end
+
+  it 'is tracked by paper trail' do
+    is_expected.to be_versioned
+  end
 end

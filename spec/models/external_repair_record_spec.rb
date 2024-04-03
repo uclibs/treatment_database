@@ -22,4 +22,8 @@ RSpec.describe ExternalRepairRecord, type: :model do
     expect(ExternalRepairRecord.new(conservation_record_id: @conservation_record.id, performed_by_vendor_id: 2)).to_not be_valid
     expect(ExternalRepairRecord.new(performed_by_vendor_id: '1')).to_not be_valid
   end
+
+  it 'is tracked by paper trail' do
+    is_expected.to be_versioned
+  end
 end

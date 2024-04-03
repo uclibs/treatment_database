@@ -54,6 +54,6 @@ RSpec.describe 'conservation_records/index', type: :view do
   it 'displays a pagination widget' do
     @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
     render
-    expect(rendered).to have_text('Prev1Next')
+    expect(rendered).to have_text('<1>')
   end
 end

@@ -8,19 +8,19 @@ executors:
     environment:
       IMAGE_NAME: treatment-database-app
     docker:
-      - image: docker:20.10.7-git
+      - image: docker:20.10.14-git
 
 orbs:
-  ruby: circleci/ruby@2.0.0
+  ruby: circleci/ruby@2.1.1
   node: circleci/node@5.0.2
-  browser-tools: circleci/browser-tools@1.3.0
+  browser-tools: circleci/browser-tools@1.4.7
   coveralls: coveralls/coveralls@1.0.6
 
 jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: cimg/ruby:3.0.5-browsers
+      - image: cimg/ruby:3.3.0-browsers
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -44,8 +44,7 @@ jobs:
 
     steps:
       - checkout
-      - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
+      - browser-tools/install-browser-tools
 
       - restore_cache:
           keys:

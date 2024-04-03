@@ -13,7 +13,7 @@ FactoryBot.define do
 
     factory :conservation_record_with_cost_return_report do
       after(:create) do |conservation_record|
-        create(:cost_return_report, conservation_record: conservation_record)
+        create(:cost_return_report, conservation_record:)
       end
     end
   end

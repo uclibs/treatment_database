@@ -7,7 +7,7 @@ RSpec.describe 'conservation_records/treatment_report_pdf', type: :view do
     department_id = ControlledVocabulary.find_by(vocabulary: 'department', key: 'Engineering Library').id
     assign(:conservation_record, create(:conservation_record, department: department_id))
     conservation_record_id = ConservationRecord.last.id
-    assign(:treatment_report, create(:treatment_report, conservation_record_id: conservation_record_id))
+    assign(:treatment_report, create(:treatment_report, conservation_record_id:))
   end
 
   it 'renders new treatment_report_pdf form' do

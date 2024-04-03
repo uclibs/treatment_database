@@ -7,14 +7,15 @@ class TreatmentReportsController < ApplicationController
     @treatment_report.save
 
     flash
-    redirect_to conservation_record_path(@treatment_report.conservation_record), notice: 'Treatment record saved successfully!'
+    redirect_to "#{conservation_record_path(@treatment_report.conservation_record)}#treatment-report-tab", notice: 'Treatment record saved successfully!'
   end
 
   def update
     @treatment_report = TreatmentReport.find(params[:id])
 
     @treatment_report.update(treatment_report_params)
-    redirect_to conservation_record_path(@treatment_report.conservation_record), notice: 'Treatment Record updated successfully!'
+    redirect_to "#{conservation_record_path(@treatment_report.conservation_record)}#treatment-report-tab",
+                notice: 'Treatment Record updated successfully!'
   end
 
   private

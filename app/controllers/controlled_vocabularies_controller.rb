@@ -62,6 +62,6 @@ class ControlledVocabulariesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def controlled_vocabulary_params
-    params.require(:controlled_vocabulary).permit(:vocabulary, :key, :active)
+    params.require(:controlled_vocabulary).permit(:vocabulary, :key, :active, :favorite)
   end
 end

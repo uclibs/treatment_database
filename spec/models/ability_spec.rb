@@ -11,6 +11,15 @@ describe 'User', type: :model do
     context 'when is an admin' do
       let(:user) { build(:user, role: 'admin') }
       it { is_expected.to be_able_to(:manage, User.new) }
+      it { is_expected.to be_able_to(:manage, ConservationRecord.new) }
+      it { is_expected.to be_able_to(:manage, ControlledVocabulary.new) }
+      it { is_expected.to be_able_to(:manage, ExternalRepairRecord.new) }
+      it { is_expected.to be_able_to(:manage, InHouseRepairRecord.new) }
+      it { is_expected.to be_able_to(:manage, StaffCode.new) }
+      it { is_expected.to be_able_to(:manage, CostReturnReport.new) }
+      it { is_expected.to be_able_to(:manage, ConTechRecord.new) }
+      it { is_expected.to be_able_to(:manage, Report.new) }
+      it { is_expected.to be_able_to(:manage, :activity) }
     end
 
     context 'when is a standard user' do
@@ -68,6 +77,9 @@ describe 'User', type: :model do
       it { is_expected.to be_able_to(:create, Report.new) }
       it { is_expected.to be_able_to(:read, Report.new) }
       it { is_expected.to be_able_to(:destroy, Report.new) }
+
+      it { is_expected.to be_able_to(:index, :activity) }
+      it { is_expected.to be_able_to(:show, :activity) }
     end
 
     context 'when is a read_only user' do
@@ -126,6 +138,9 @@ describe 'User', type: :model do
       it { is_expected.not_to be_able_to(:read, Report.new) }
       it { is_expected.not_to be_able_to(:update, Report.new) }
       it { is_expected.not_to be_able_to(:destroy, Report.new) }
+
+      it { is_expected.not_to be_able_to(:index, :activity) }
+      it { is_expected.not_to be_able_to(:show, :activity) }
     end
   end
 end
