@@ -4,12 +4,18 @@
 require 'spec_helper'
 Rails.env = 'test'
 require File.expand_path('../config/environment', __dir__)
+
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
+
 require 'factory_bot'
 require 'rspec/rails'
 require 'paper_trail/frameworks/rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
+
+# Have active record check the schema before running tests, and update it if necessary
+require 'active_record'
+ActiveRecord::Migration.maintain_test_schema!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -35,6 +41,19 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
+  # We are now using jsbundling-rails, so we need to build the JS before running the tests
+  config.before(:suite) do
+    `./bin/rails javascript:build`
+  end
+
+  # If we need to compile assets for system tests, we do so here
+  config.before(:suite) do
+    if config.files_to_run.any? { |file| file =~ %r{spec/system} }
+      puts 'Compiling JavaScript assets...'
+      system('bin/rails javascript:build')
+    end
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = Rails.root.join('spec/fixtures').to_s
 
