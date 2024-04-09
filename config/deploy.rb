@@ -43,6 +43,32 @@ task :ruby_update_check do
 end
 
 namespace :deploy do
+  desc 'Ensure Node.js and Yarn are installed'
+  task :ensure_node_yarn do
+    on roles(:web) do
+      execute "node -v || { echo 'Node.js is not installed'; exit 1; }"
+      execute "yarn -v || { echo 'Yarn is not installed'; exit 1; }"
+    end
+  end
+
+  desc 'Install JavaScript dependencies'
+  task :yarn_install do
+    on roles(:web) do
+      within release_path do
+        execute("cd #{release_path} && yarn install")
+      end
+    end
+  end
+
+  desc 'Build JavaScript assets'
+  task :build_javascript do
+    on roles(:web) do
+      within release_path do
+        execute("cd #{release_path} && ./bin/rails javascript:build")
+      end
+    end
+  end
+
   task :confirmation do
     stage = fetch(:stage).upcase
     branch = fetch(:branch)
@@ -66,6 +92,11 @@ namespace :deploy do
     end
   end
 end
+
+# Hooks to run the tasks at the correct point in the deployment process
+before 'deploy:assets:precompile', 'deploy:yarn_install'
+before 'deploy:assets:precompile', 'deploy:build_javascript'
+before 'deploy:yarn_install', 'deploy:ensure_node_yarn'
 
 Capistrano::DSL.stages.each do |stage|
   after stage, 'deploy:confirmation'
