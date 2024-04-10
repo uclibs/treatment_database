@@ -26,6 +26,10 @@ table {
   display: block; 
   margin-left: 40px; 
 }
+
+ul {
+list-style: none;
+}
 </style>
 <div class="a4">
   <div class="banner section">
@@ -37,19 +41,17 @@ table {
       <tr>
         <th>Database ID</th>
         <th>Item Record #</th>
-	<th>Date Received in Pres.</th>
-	<th>Conservator</th>
+      	<th>Date Received in Pres.</th>
+      	<th>Conservators &amp; Technicians</th>
       </tr>
       <tr>
         <td><%= @conservation_record.id %></td>
         <td><%= @conservation_record.item_record_number %></td>
         <td><%= @conservation_record.date_received_in_preservation_services %></td>
+        <td>
+          <%= @conservation_record.con_tech_records.map { |name| generate_con_tech_string(name, nil) }.join(', ').html_safe %>
+        </td>
       </tr>
-      <tr><td><br></td></tr>
-      <tr>
-	<th>Technicians</th>
-      </tr>
-      <tr><td><br></td></tr>
       <tr>
 	<th>Department</th>
 	<th>Call Number</th>
