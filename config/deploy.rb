@@ -58,10 +58,10 @@ namespace :deploy do
     ========================================================================
 
     WARN
-    ask :value, "Sure you want to continue deploying `#{branch}` on #{stage}? (Y)"
+    ask :value, "Sure you want to continue deploying `#{branch}` on #{stage}? (Y or Yes)"
 
-    if fetch(:value) != 'Y'
-      puts "\nDeploy cancelled!"
+    unless fetch(:value).match?(/\A(?i:yes|y)\z/)
+      puts "\nNo confirmation - deploy cancelled!"
       exit
     end
   end

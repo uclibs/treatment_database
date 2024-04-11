@@ -88,14 +88,24 @@ bundle exec rspec
 docker exec -it treatment_database bundle exec rspec
 ```
 
-## Generating PDFs
+## Deploy Instructions
 
-In several areas of the application we generate PDF reports. To accomplish this we use the gem PDFKit, which requires us to have the wkhtmltopdf library installed. You'll need to aquire wkhtmltopdf from their [download page](https://wkhtmltopdf.org/downloads.html). Alternatively, if you are using package manage I'd recommend installing it with that.
+Use Capistrano for deploying to QA and Production environments; local deploy not supported.
 
-If you're running in a headless linux environment you'll likely the X virtual frame buffer. You can install this with yum and other popular package managers.
+### QA deploy
 
-Finally, you'll need to add the following script to your bin `/usr/local/bin/wkhtmltopdf.sh`
+1. Connect from VPN or on-campus network.
+1. On local terminal, type `cap qa deploy`
+1. When prompted, type apache username.
+1. When prompted, type apache password.
 
-```bash
-xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf "$@"
-```
+Capistrano will deploy the `qa` branch by default from the github repository for QA deploys. Switch branches for deploy to QA by altering [/config/deploy/qa.rb](https://github.com/uclibs/treatment_database/blob/qa/config/deploy/qa.rb#L5) (branch must be pushed to remote).
+
+### Production deploy
+
+1. Connect from VPN or on-campus network.
+1. On local terminal, type `cap production deploy`
+1. When prompted, type apache username.
+1. When prompted, type apache password.
+
+Capistrano will deploy the `main` branch from the github repository by default for Production deploys.
