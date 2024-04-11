@@ -2,7 +2,7 @@
 
 set :rails_env, :production
 set :bundle_without, %w[development test].join(' ')
-set :branch, 'qa'
+set :branch, '360-p2-make-field-use-active-text'
 set :default_env, path: '$PATH:/usr/local/bin'
 set :bundle_path, -> { shared_path.join('vendor/bundle') }
 append :linked_dirs, '.bundle', 'tmp', 'log'
