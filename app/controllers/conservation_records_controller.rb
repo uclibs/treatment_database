@@ -66,6 +66,9 @@ class ConservationRecordsController < ApplicationController
   # DELETE /conservation_records/1
   # DELETE /conservation_records/1.json
   def destroy
+    puts "***********************"
+    puts "deleting the record.  Params are:  #{params.inspect}"
+    puts "************************"
     @conservation_record.destroy
     respond_to do |format|
       format.html { redirect_to conservation_records_url, notice: 'Conservation record was successfully destroyed.' }

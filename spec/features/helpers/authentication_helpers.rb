@@ -1,6 +1,7 @@
 module AuthenticationHelpers
   def it_logs_out_the_user_successfully(username)
     # Clicking the user's name to open dropdown menu
+    save_and_open_page
     find('button', text: username).click
 
     begin

@@ -16,7 +16,6 @@ Capybara.javascript_driver = :selenium_chrome_headless_sandboxless
 RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
     visit root_path
-    save_and_open_page
     expect(page).to have_link('Log in')
     expect(page).not_to have_link('Sign up')
   end
