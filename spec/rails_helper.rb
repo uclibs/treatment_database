@@ -2,14 +2,16 @@
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
-Rails.env = 'test'
-require File.expand_path('../config/environment', __dir__)
 
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
+require File.expand_path('../config/environment', __dir__)
 
-require 'factory_bot'
+# Require feature helper files after Rails and other setups have been loaded
+Dir[Rails.root.join('spec/features/helpers/**/*.rb')].each { |f| require f }
+
 require 'rspec/rails'
+require 'factory_bot'
 require 'paper_trail/frameworks/rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -87,4 +89,7 @@ RSpec.configure do |config|
 
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
+
+  # Custom helpers
+  config.include AuthenticationHelpers, type: :feature
 end

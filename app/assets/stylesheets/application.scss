@@ -1,4 +1,6 @@
-@import "bootstrap";
+// Import Bootstrap from node_modules in your SCSS file
+@import "~bootstrap/scss/bootstrap";
+
 @import "**/*";
 
 .navbar {

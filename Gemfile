@@ -15,7 +15,6 @@ gem 'sqlite3' # SQLite as the database for Active Record, suitable for developme
 gem 'puma' # Puma as the app server
 
 # Front-end assets
-gem 'bootstrap', '~> 4.3.1' # Styling framework
 gem 'coffee-rails', '~> 4.2' # CoffeeScript support
 gem 'dotenv-rails' # Load environment variables from `.env`
 gem 'jsbundling-rails' # JavaScript bundling with esbuild, Webpack, or rollup.js

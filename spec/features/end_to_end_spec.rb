@@ -59,6 +59,9 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
     expect(page).to have_no_button('Add Conservators and Technicians')
     expect(page).to have_button('Save Treatment Report', disabled: true)
     expect(page).to have_button('Save Cost and Return Information', disabled: true)
+
+    # Logout
+    it_logs_out_the_user_successfully(user.display_name)
   end
 end
 
@@ -196,6 +199,10 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     visit conservation_records_path
     find("a[id='delete_conservation_record_#{conservation_record.id}']").click
     expect(page).to have_content('Conservation record was successfully destroyed.')
+
+    # Logout
+    it_logs_out_the_user_successfully(user.display_name)
+
   end
 end
 
@@ -418,5 +425,8 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     first('tr').click_link('Details')
     expect(page).to have_content('Full leather tightjoint, tight back binding')
     expect(page).to have_content('Half leather tightjoint, tight back binding')
+
+    # Logout
+    it_logs_out_the_user_successfully(user.display_name)
   end
 end

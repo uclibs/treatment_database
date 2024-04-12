@@ -7,4 +7,16 @@ module.exports = {
         path: path.resolve(__dirname, 'app/assets/builds'),
         filename: 'application.js',
     },
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.(svg|eot|woff|woff2|ttf)$/,
+                type: 'asset/resource'
+            },
+        ],
+    },
 };
