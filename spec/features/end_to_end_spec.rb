@@ -16,6 +16,7 @@ Capybara.javascript_driver = :selenium_chrome_headless_sandboxless
 RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
     visit root_path
+    save_and_open_page
     expect(page).to have_link('Log in')
     expect(page).not_to have_link('Sign up')
   end
@@ -197,10 +198,12 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
 
     # Delete conservation record
     visit conservation_records_path
+    save_and_open_page
     find("a[id='delete_conservation_record_#{conservation_record.id}']").click
     expect(page).to have_content('Conservation record was successfully destroyed.')
 
     # Logout
+    save_and_open_page
     it_logs_out_the_user_successfully(user.display_name)
 
   end

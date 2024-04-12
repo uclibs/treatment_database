@@ -5,7 +5,6 @@ import Turbolinks from "turbolinks";
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 Rails.start();
 ActiveStorage.start();

@@ -63,4 +63,7 @@ Rails.application.configure do
   config.require_master_key = false
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # Allow connecting to example.com
+  config.hosts << "www.example.com"
 end

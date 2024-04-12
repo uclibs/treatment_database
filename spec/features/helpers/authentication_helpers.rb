@@ -14,6 +14,6 @@ module AuthenticationHelpers
     end
 
     expect(page).to_not have_content(username)
-    expect(page).to have_content('Sign In')
+    expect(page).to have_content('Log in')
   end
 end

@@ -1,7 +1,8 @@
 // Import Bootstrap from node_modules in your SCSS file
-@import "~bootstrap/scss/bootstrap";
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
-@import "**/*";
+@import "partials/conservation_records";
+@import "partials/search";
 
 .navbar {
   margin-bottom: 20px;
