@@ -49,9 +49,7 @@ def sign_in(user)
 end
 
 RSpec.configure do |config|
-  # rspec-expectations config goes here. You can use an alternate
-  # assertion/expectation library such as wrong or the stdlib/minitest
-  # assertions if you prefer.
+  # rspec-expectations config goes here.
 
   config.before do |example|
     if example.metadata[:type] == :feature && Capybara.current_driver != :rack_test
