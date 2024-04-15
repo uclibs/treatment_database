@@ -50,7 +50,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 4.1.0' # RSpec for Rails
   gem 'rubocop', require: false # Ruby code style checking
   gem 'rubocop-rails' # Rails-specific analysis for RuboCop
-  gem 'selenium-webdriver' # Browser automation for testing
+  gem 'selenium-webdriver', '~> 4.18.1' # Browser automation for testing
 end
 
 # Development-only tools

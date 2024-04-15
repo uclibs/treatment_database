@@ -21,7 +21,7 @@ rails db:migrate
 rails db:seed # Optional: Seed the database with initial data
 
 # Compile JavaScript assets
-./bin/rails javascript:build
+yarn build
 
 # Start the Rails server
 rails server

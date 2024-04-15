@@ -429,7 +429,7 @@ DEPENDENCIES
   rubocop
   rubocop-rails
   sass-rails (~> 5.0)
-  selenium-webdriver
+  selenium-webdriver (~> 4.18.1)
   simplecov
   simplecov-lcov
   spring

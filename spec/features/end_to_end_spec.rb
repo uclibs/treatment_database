@@ -65,7 +65,7 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   end
 end
 
-RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
+RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true do
   let(:user) { create(:user, role: 'standard') }
   let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
@@ -104,6 +104,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
+    fill_in 'Date received in preservation services', with: '01-01-2024'
     select('PLCH', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
     fill_in 'Author', with: conservation_record.author
@@ -198,7 +199,9 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     # Delete conservation record
     visit conservation_records_path
     save_and_open_page
-    find("a[id='delete_conservation_record_#{conservation_record.id}']").click
+    page.accept_confirm do
+      find("a[id='delete_conservation_record_#{conservation_record.id}']").click
+    end
     expect(page).to have_content('Conservation record was successfully destroyed.')
 
     # Logout
