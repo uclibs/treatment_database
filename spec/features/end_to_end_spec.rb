@@ -1,17 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'capybara'
-
-Capybara.register_driver :selenium_chrome_headless_sandboxless do |app|
-  browser_options = Selenium::WebDriver::Chrome::Options.new
-  browser_options.args << '--headless'
-  browser_options.args << '--disable-gpu'
-  browser_options.args << '--no-sandbox'
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
-end
-Capybara.default_driver = :rack_test # This is a faster driver
-Capybara.javascript_driver = :selenium_chrome_headless_sandboxless
 
 RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
@@ -21,25 +10,24 @@ RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   end
 end
 
-RSpec.describe 'Read Only User Tests', type: :feature, js: true do
+RSpec.describe 'Read Only User Tests', type: :feature do
   let(:user) { create(:user, role: 'read_only') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
-  it 'allows User to login and show Conservation Records' do
-    # Login
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
-    expect(page).to have_content('Conservation Records')
-    expect(page).to have_link('Conservation Records')
 
+  before do
+    conservation_record
+    login_as(user)
+  end
+
+  include_examples 'cannot create conservation records'
+  include_examples 'cannot edit conservation records'
+
+  it 'allows User to login and show Conservation Records' do
     # Show Conservation Records
     click_on 'Conservation Records'
     expect(page).to have_content('Conservation Records')
-    expect(page).to have_no_link('Add Conservation Record')
+
     expect(page).to have_no_link('Destroy')
-    expect(page).to have_no_link('Edit', text: 'Edit', exact_text: true)
     expect(page).to have_no_link('Show')
 
     # CRUD
@@ -67,14 +55,15 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
   let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
+  before do
+    conservation_record
+    login_as(user)
+  end
+
+  include_examples 'can create conservation records'
+  include_examples 'can edit conservation records'
+
   it 'allows User to login and show Conservation Records' do
-    # Login
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
-    expect(page).to have_link('Conservation Records')
     expect(page).to have_no_link('Users')
     expect(page).to have_no_link('Activity')
     expect(page).to have_no_link('Vocabularies')
@@ -85,34 +74,6 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     expect(page).to_not have_link('Destroy')
     expect(page).to_not have_link('Show')
     expect(page).to have_link('New Conservation Record')
-
-    # Edit Conservation Record
-    visit conservation_records_path
-    click_link(conservation_record.title, match: :prefer_exact)
-    click_link('Edit Conservation Record')
-    expect(page).to have_content('Editing Conservation Record')
-    # Check that selected shows on edit
-    fill_in 'Imprint', with: 'University of Cincinnati Press'
-    click_on 'Update Conservation record'
-    expect(page).to have_content('Conservation record was successfully updated')
-    expect(page).to have_content('University of Cincinnati Press')
-
-    # Add New Conservation Record
-    visit conservation_records_path
-    click_on 'New Conservation Record'
-    expect(page).to have_content('New Conservation Record')
-    select('PLCH', from: 'Department', match: :first)
-    fill_in 'Title', with: conservation_record.title
-    fill_in 'Author', with: conservation_record.author
-    fill_in 'Imprint', with: conservation_record.imprint
-    fill_in 'Call number', with: conservation_record.call_number
-    fill_in 'Item record number', with: conservation_record.item_record_number
-    click_on 'Create Conservation record'
-    expect(page).to have_content('Conservation record was successfully created')
-    expect(page).to have_content(conservation_record.title)
-    expect(page).to have_link('Edit Conservation Record')
-    click_on 'Edit Conservation Record'
-    expect(page).to have_select('conservation_record_department', selected: 'PLCH')
 
     # In_House Repair
     visit conservation_records_path
@@ -167,7 +128,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     fill_in 'treatment_report_treatment_proposal_total_treatment_time', with: 10
     click_button('Save Treatment Report')
     expect(page).to have_content('Treatment Record updated successfully!')
-    click_on 'Condition'
+    click_on 'Treatment Proposal'
     expect(page).to have_select('treatment_report_treatment_proposal_housing_need_id', selected: 'Portfolio')
     expect(page).to have_select('treatment_report_treatment_proposal_housing_provided_id', selected: 'Portfolio')
 
@@ -189,12 +150,14 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     # Search for item record number
     fill_in 'Search', with: conservation_record.item_record_number
     click_button 'Search'
-    expect(page).to have_content("Searching for #{conservation_record.item_record_number}")
+    expect(page).to have_content("Item Record Number #{conservation_record.item_record_number}")
     expect(page).to have_content(conservation_record.title)
 
     # Delete conservation record
     visit conservation_records_path
-    find("a[id='delete_conservation_record_#{conservation_record.id}']").click
+    accept_confirm do
+      find("a[id='delete_conservation_record_#{conservation_record.id}']").click
+    end
     expect(page).to have_content('Conservation record was successfully destroyed.')
   end
 end
@@ -205,15 +168,15 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   let(:vocabulary) { create(:controlled_vocabulary) }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
-  it 'allows User to login and show Conservation Records' do
-    # Login
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
-    expect(page).to have_link('Conservation Records')
+  before do
+    conservation_record
+    login_as(user)
+  end
 
+  include_examples 'can create conservation records'
+  include_examples 'can edit conservation records'
+
+  it 'allows User to login and show Conservation Records' do
     # Show Conservation Records
     click_on 'Conservation Records'
     expect(page).to have_content('Conservation Records')
@@ -221,11 +184,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to_not have_link('Show')
     expect(page).to have_link('New Conservation Record')
     expect(page).to have_content(conservation_record.title)
-
-    # Edit Conservation Record
-    visit conservation_records_path
-    click_link(conservation_record.title, match: :prefer_exact)
-    expect(page).to have_content('Edit Conservation Record')
 
     # Create User
     visit conservation_records_path
@@ -282,26 +240,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Controlled vocabulary was successfully updated.')
     expect(page).to have_content('updated_key_string')
 
-    # Add New Conservation Record
-    visit conservation_records_path
-    click_on 'New Conservation Record'
-    expect(page).to have_content('New Conservation Record')
-    select('PLCH', from: 'Department', match: :first)
-    fill_in 'Title', with: conservation_record.title
-    fill_in 'Author', with: conservation_record.author
-    fill_in 'Imprint', with: conservation_record.imprint
-    fill_in 'Call number', with: conservation_record.call_number
-    fill_in 'Item record number', with: conservation_record.item_record_number
-    click_on 'Create Conservation record'
-    expect(page).to have_content('Conservation record was successfully created')
-    expect(page).to have_content(conservation_record.title)
-    expect(page).to have_link('Edit Conservation Record')
-
-    # Edit the existing Conservation Record
-
-    click_on 'Edit Conservation Record'
-    expect(page).to have_content('Editing Conservation Record')
-
     # Create In_House Repair
     visit conservation_records_path
     click_link(conservation_record.title, match: :prefer_exact)
@@ -319,7 +257,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Mend paper performed by Haritha Vytla in 2 minutes. Other note: Some Other note for the in-house repair')
 
     # Delete In-house repair
-    find("a[id='delete_in_house_repair_record_1']").click
+    accept_confirm do
+      find("a[id='delete_in_house_repair_record_1']").click
+    end
     expect(page).not_to have_content('Mend paper performed by Haritha Vytla')
 
     # Create External Repair
@@ -332,7 +272,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Wash performed by Amanda Buck. Other note: Some Other note for the external repair')
 
     # Delete external repair
-    find("a[id='delete_external_repair_record_1']").click
+    accept_confirm do
+      find("a[id='delete_external_repair_record_1']").click
+    end
     expect(page).not_to have_content('Wash performed by Amanda Buck')
 
     # Conservators and Technicians
@@ -384,18 +326,15 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content(conservation_record.title)
 
     # Download Conservation Worksheet
-    click_on 'Download Conservation Worksheet'
-    expect(page.status_code).to eq(200)
+    check_pdf_link('Download Conservation Worksheet')
 
     # Download Treatment Report
     visit conservation_record_path(conservation_record)
-    click_on 'Download Treatment Report'
-    expect(page.status_code).to eq(200)
+    check_pdf_link('Download Treatment Report')
 
     # Download Abbreviated Treatment Report
     visit conservation_record_path(conservation_record)
-    first(:link, 'Download Abbreviated Treatment Report').click
-    expect(page.status_code).to eq(200)
+    check_pdf_link('Download Abbreviated Treatment Report')
 
     # Verify logged activity
     visit activity_index_path
@@ -415,7 +354,10 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Treatment Record updated successfully!')
     visit activity_index_path
     expect(page).to have_content('Haritha Vytla updated the treatment report')
-    first('tr').click_link('Details')
+
+    within('table tbody') do
+      first('tr').click_link('Details')
+    end
     expect(page).to have_content('Full leather tightjoint, tight back binding')
     expect(page).to have_content('Half leather tightjoint, tight back binding')
   end

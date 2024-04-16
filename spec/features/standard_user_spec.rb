@@ -7,15 +7,15 @@ RSpec.describe 'Standard User Tests', type: :feature do
   let(:conservation_record) { create(:conservation_record, department: 'ARB Library', title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
-  it 'allows User to login and show Conservation Records' do
-    # Login
+  before do
+    conservation_record
+    login_as(user)
+  end
 
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
-    expect(page).to have_link('Conservation Records')
+  include_examples 'can create conservation records'
+  include_examples 'can edit conservation records'
+
+  it 'allows User to login and show Conservation Records' do
     expect(page).to have_no_link('Users')
     expect(page).to have_no_link('Activity')
     expect(page).to have_no_link('Vocabularies')
@@ -27,33 +27,6 @@ RSpec.describe 'Standard User Tests', type: :feature do
     expect(page).to_not have_link('Destroy')
     expect(page).to_not have_link('Show')
     expect(page).to have_link('New Conservation Record')
-
-    # Edit Conservation Record
-
-    visit conservation_records_path
-    click_link(conservation_record.title, match: :prefer_exact)
-    expect(page).to have_content('Edit Conservation Record')
-
-    # Add New Conservation Record
-
-    visit conservation_records_path
-    click_on 'New Conservation Record'
-    expect(page).to have_content('New Conservation Record')
-    select('ARB Library', from: 'Department', match: :first)
-    fill_in 'Title', with: conservation_record.title
-    fill_in 'Author', with: conservation_record.author
-    fill_in 'Imprint', with: conservation_record.imprint
-    fill_in 'Call number', with: conservation_record.call_number
-    fill_in 'Item record number', with: conservation_record.item_record_number
-    click_on 'Create Conservation record'
-    expect(page).to have_content('Conservation record was successfully created')
-    expect(page).to have_content(conservation_record.title)
-    expect(page).to have_link('Edit Conservation Record')
-
-    # Edit the existing Conservation Record
-
-    click_on 'Edit Conservation Record'
-    expect(page).to have_content('Editing Conservation Record')
 
     # Show Staff Codes
 
