@@ -1,12 +1,36 @@
 # frozen_string_literal: true
-# pdf_download_helpers.rb includes helper methods specific to testing
-# PDF download functionalities within the application. Currently, this
-# file provides utilities to trigger and verify the download of PDFs,
-# such as ensuring that a PDF download initiates when a user clicks a
-# download button. This functionality is critical for validating that
-# our document generation systems work as expected across various user
-# interactions. While the scope of this helper is presently focused on
-# download checks, it is designed to be extensible. Future enhancements
-# may include additional checks for the content and formatting of
-# downloaded PDFs, which would further solidify the reliability of our
-# document handling features.
+
+require 'net/http'
+require 'uri'
+
+module PDFDownloadHelpers
+  def verify_pdf_link_response(link_text)
+    link = find_link(link_text)
+    uri = URI(link[:href])
+
+    response = fetch_response(uri)
+
+    log_response_details(response) if response.code != '200'
+
+    expect(response.code).to eq('200')
+  end
+
+  private
+
+  # Handles all redirects and fetches the final response
+  def fetch_response(uri)
+    response = Net::HTTP.get_response(uri)
+    while response.is_a?(Net::HTTPRedirection)
+      uri = URI(response['location'])
+      response = Net::HTTP.get_response(uri)
+    end
+    response
+  end
+
+  # Logs response details if not 200 OK
+  def log_response_details(response)
+    puts "Accessing URL: #{response.uri}"
+    puts 'Unexpected response body for debugging:'
+    puts response.body[0..2000] # Print the first 2000 characters of the body for deeper insight
+  end
+end
