@@ -1,11 +1,12 @@
 # frozen_string_literal: true
-# standard_user_context.rb establishes a shared RSpec context used for
-# testing functionalities available to standard users. This includes
-# actions like creating, viewing, editing, and deleting records, which
-# are permitted for standard users but executed under specific constraints
-# compared to administrators. The context ensures that a standard user
-# is correctly authenticated at the start of each test, providing a
-# clean and consistent testing environment. This file is critical for
-# validating the application's core functionality from the perspective
-# of most end-users, ensuring that standard user privileges and restrictions
-# are correctly implemented and maintained.
+
+# Sets up and logs in an admin user for tests, using aggregate_failures to
+# report all login-related issues at once.
+RSpec.shared_context "standard user context", shared_context: :metadata do
+  let(:user) { create(:user, role: 'standard') }
+
+  before(:each) do
+    user
+    log_in_as_user(user)
+  end
+end
