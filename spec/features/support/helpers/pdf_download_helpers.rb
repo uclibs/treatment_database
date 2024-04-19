@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'net/http'
 require 'uri'
 
@@ -32,4 +34,3 @@ module PDFDownloadHelpers
     puts response.body[0..2000] # Print the first 2000 characters of the body for deeper insight
   end
 end
-

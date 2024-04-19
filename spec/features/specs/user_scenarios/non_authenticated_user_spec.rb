@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # non_authenticated_user_spec.rb focuses on the behavior of the
 # application when accessed by users who are not logged in. The primary
 # purpose of this spec is to ensure that non-authenticated users are
