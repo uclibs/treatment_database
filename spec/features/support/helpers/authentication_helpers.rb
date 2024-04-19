@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 module AuthenticationHelpers
   def login_as(user)
     visit new_user_session_path
@@ -10,3 +9,4 @@ module AuthenticationHelpers
     expect(page).to have_link('Conservation Records')
   end
 end
+
