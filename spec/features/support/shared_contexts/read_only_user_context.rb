@@ -2,7 +2,7 @@
 
 # Sets up and logs in an admin user for tests, using aggregate_failures to
 # report all login-related issues at once.
-RSpec.shared_context "read-only user context", shared_context: :metadata do
+RSpec.shared_context 'read-only user context', shared_context: :metadata do
   let(:user) { create(:user, role: 'read_only') }
 
   before(:each) do
