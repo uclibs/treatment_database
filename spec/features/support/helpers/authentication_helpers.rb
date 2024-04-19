@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # authentication_helpers.rb contains a set of helper methods designed
 # to assist in managing user authentication across various RSpec tests.
 # These methods facilitate common authentication tasks such as logging
@@ -10,3 +11,8 @@
 # duplication and increase the maintainability of our tests. This setup
 # allows for easy updates and extensions as the authentication requirements
 # of the application evolve.
+
+require 'rails_helper'
+
+module AuthenticationHelpers
+end
