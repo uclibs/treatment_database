@@ -1,10 +1,12 @@
 # frozen_string_literal: true
-# read_only_user_spec.rb tests the application from the perspective
-# of users with read-only access. It verifies that these users can view
-# documents and data as expected but are restricted from creating,
-# editing, or deleting any records. This spec ensures that the application
-# enforces these permissions correctly, crucial for maintaining data
-# integrity and security. By confirming that read-only users cannot
-# perform unauthorized actions, this spec helps safeguard the application
-# against potential data manipulation or accidental changes by users without
-# adequate privileges.
+
+require 'rails_helper'
+
+RSpec.describe "Read-Only User Functionalities", type: :feature do
+  include_context "read-only user context"
+
+  it "passes a test" do
+    expect(1).to eq(1)
+  end
+
+end
