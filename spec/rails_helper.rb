@@ -2,7 +2,6 @@
 
 # This file is part of the RSpec configuration when 'rails generate rspec:install' is run.
 # It sets up the test environment for RSpec.
-
 require 'dotenv'
 Dotenv.load('.env.test') # Make sure this is the first thing after requiring dotenv
 
@@ -84,5 +83,5 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :feature
 
   config.include AuthenticationHelpers, type: :feature
-  config.include PDFDownloadHelper, type: :feature
+  config.include PDFDownloadHelpers, type: :feature
 end

@@ -51,6 +51,7 @@ RSpec.describe 'Read Only User Tests', type: :feature do
 end
 
 RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
+  let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:user) { create(:user, role: 'standard') }
   let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
@@ -163,6 +164,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
 end
 
 RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
+  let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:user) { create(:user, role: 'admin') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let(:vocabulary) { create(:controlled_vocabulary) }
@@ -329,11 +331,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     check_pdf_link('Download Conservation Worksheet')
 
     # Download Treatment Report
-    visit conservation_record_path(conservation_record)
-    check_pdf_link('Download Treatment Report')
+     check_pdf_link('Download Treatment Report')
 
     # Download Abbreviated Treatment Report
-    visit conservation_record_path(conservation_record)
     check_pdf_link('Download Abbreviated Treatment Report')
 
     # Verify logged activity
@@ -354,7 +354,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Treatment Record updated successfully!')
     visit activity_index_path
     expect(page).to have_content('Haritha Vytla updated the treatment report')
-
     within('table tbody') do
       first('tr').click_link('Details')
     end
