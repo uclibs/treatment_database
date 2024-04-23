@@ -16,6 +16,7 @@ module AuthenticationHelpers
   def validate_login_success
     check_successful_sign_in
     check_no_error_messages
+    user_should_be_on_conservation_records_page
   end
 
   def check_successful_sign_in
@@ -27,5 +28,10 @@ module AuthenticationHelpers
     expect(page).to_not have_content('Invalid Email or password.')
     expect(page).to_not have_content('Log in')
     expect(page).to_not have_content('You are already signed in.')
+  end
+
+  def user_should_be_on_conservation_records_page
+    expect(page).to have_current_path(conservation_records_path)
+    expect(page).to have_content('Conservation Records')
   end
 end
