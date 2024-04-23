@@ -40,7 +40,7 @@ class Ability
       can :manage, :all
     when 'standard'
       can :view_pdfs, ConservationRecord
-      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, StaffCode, CostReturnReport, Report, :activity]
+      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, StaffCode, CostReturnReport]
     when 'read_only'
       can :view_pdfs, ConservationRecord
       can :read, ConservationRecord
