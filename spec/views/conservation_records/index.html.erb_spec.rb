@@ -61,5 +61,4 @@ RSpec.describe 'conservation_records/index', type: :view do
     expect(rendered).to have_css('a[aria-label="Previous"]', text: '<')
     expect(rendered).to have_css('a[aria-label="Next"]', text: '>')
   end
-
 end
