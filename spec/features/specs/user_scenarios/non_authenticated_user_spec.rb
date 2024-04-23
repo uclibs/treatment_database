@@ -1,11 +1,35 @@
 # frozen_string_literal: true
 
-# non_authenticated_user_spec.rb focuses on the behavior of the
-# application when accessed by users who are not logged in. The primary
-# purpose of this spec is to ensure that non-authenticated users are
-# correctly redirected to the login screen and that they do not have
-# access to any application functionalities beyond this point. This
-# file plays a crucial role in securing the application by verifying
-# that proper access controls are in place, preventing unauthorized
-# access to sensitive data and features. Tests within this file
-# confirm the robustness of the application's authentication gates.
+require 'rails_helper'
+
+RSpec.describe 'Non-Authenticated User Access', type: :feature do
+  let(:record) { FactoryBot.create(:conservation_record) }
+
+  it 'prevents non-authenticated users from accessing Conservation Records page' do
+    prevents_anonymous_access(conservation_records_path)
+  end
+
+  it 'prevents non-authenticated users from accessing a specific Conservation Record page' do
+    prevents_anonymous_access(conservation_record_path(record.id))
+  end
+
+  it 'prevents non-authenticated users from accessing Controlled Vocabularies page' do
+    prevents_anonymous_access(controlled_vocabularies_path)
+  end
+
+  it 'prevents non-authenticated users from accessing Users page' do
+    prevents_anonymous_access(users_path)
+  end
+
+  it 'prevents non-authenticated users from accessing Activity page' do
+    prevents_anonymous_access('/activity')
+  end
+
+  it 'prevents non-authenticated users from accessing Staff Codes page' do
+    prevents_anonymous_access(staff_codes_path)
+  end
+
+  it 'prevents non-authenticated users from accessing Reports page' do
+    prevents_anonymous_access(reports_path)
+  end
+end

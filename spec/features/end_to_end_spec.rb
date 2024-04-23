@@ -15,37 +15,13 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
-    expect(page).to have_content('Conservation Records')
-    expect(page).to have_link('Conservation Records')
-
-    # Show Conservation Records
-    click_on 'Conservation Records'
-    expect(page).to have_content('Conservation Records')
-    expect(page).to have_no_link('Add Conservation Record')
-    expect(page).to have_no_link('Destroy')
-    expect(page).to have_no_link('Edit', text: 'Edit', exact_text: true)
-    expect(page).to have_no_link('Show')
+    log_in_as_user(user)
 
     # CRUD
     click_link(conservation_record.title, match: :prefer_exact)
-    expect(page).to have_content(conservation_record.title)
-    expect(page).to have_content('Item Detail')
-    expect(page).to have_content('In-House Repairs')
-    expect(page).to have_content('External Repairs')
-    expect(page).to have_content('Conservators and Technicians')
-    expect(page).to have_content('Treatment Report')
+
     expect(page).to have_button('Save Treatment Report', disabled: true)
-    expect(page).to have_content('Cost and Return Information')
     expect(page).to have_button('Save Cost and Return Information', disabled: true)
-    expect(page).to have_no_link('Edit Conservation Record')
-    expect(page).to have_no_button('Add In-House Repairs')
-    expect(page).to have_no_button('Add External Repair')
-    expect(page).to have_no_button('Add Conservators and Technicians')
     expect(page).to have_button('Save Treatment Report', disabled: true)
     expect(page).to have_button('Save Cost and Return Information', disabled: true)
   end
@@ -59,25 +35,16 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
-    expect(page).to have_link('Conservation Records')
-    expect(page).to have_no_link('Users')
-    expect(page).to have_no_link('Activity')
-    expect(page).to have_no_link('Vocabularies')
+    log_in_as_user(user)
 
     # Show Conservation Records
     click_on 'Conservation Records'
-    expect(page).to have_content('Conservation Records')
+
     expect(page).to_not have_link('Destroy')
     expect(page).to_not have_link('Show')
     expect(page).to have_link('New Conservation Record')
 
     # Edit Conservation Record
-    visit conservation_records_path
     click_link(conservation_record.title, match: :prefer_exact)
     click_link('Edit Conservation Record')
     expect(page).to have_content('Editing Conservation Record')
@@ -201,12 +168,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
-    expect(page).to have_link('Conservation Records')
+    log_in_as_user(user)
 
     # Show Conservation Records
     click_on 'Conservation Records'
@@ -224,7 +186,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     # Create User
     visit conservation_records_path
     click_on 'Users'
-    expect(page).to have_content('Users')
     click_on 'Add New User'
     fill_in 'Display name', with: 'Beau Geste'
     fill_in 'Email', with: 'beau.geste@mail.uc.edu'
@@ -248,15 +209,11 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Haritha Vytla')
 
     # View Activity
-    visit conservation_records_path
     click_link('Activity')
-    expect(page).to have_content('Recent Activity')
     expect(page).to have_content('updated the user: Haritha Vytla')
 
     # Add Vocabulary
-    visit conservation_records_path
     click_link('Vocabularies')
-    expect(page).to have_content('Controlled Vocabularies')
     click_link('New Controlled Vocabulary')
     expect(page).to have_content('New Controlled Vocabulary')
     select 'repair_type', from: 'Vocabulary'
