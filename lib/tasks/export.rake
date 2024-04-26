@@ -19,8 +19,6 @@ namespace :export do
     end
 
     # set headers for repeat fields
-    err_csv = []
-
     def err_headings(ordinal)
       ["External Repair Record id #{ordinal + 1}",
        "External Repair repair_type #{ordinal + 1}",
@@ -30,11 +28,9 @@ namespace :export do
        "External Repair other_note #{ordinal + 1}"]
     end
 
-    err.max.times.each do |ordinal|
-      err_csv.push err_headings(ordinal)
+    err_csv = err.max.times.map do |ordinal|
+      err_headings(ordinal)
     end
-
-    ihrr_csv = []
 
     def ihrr_headings(ordinal)
       ["In House Repair performed_by_user_id #{ordinal + 1}",
@@ -45,8 +41,8 @@ namespace :export do
        "In House Repair staff_code #{ordinal + 1}"]
     end
 
-    ihrr.max.times.each do |ordinal|
-      ihrr_csv.push ihrr_headings(ordinal)
+    ihrr_csv = ihrr.max.times.map do |ordinal|
+      ihrr_headings(ordinal)
     end
 
     staff_csv = []

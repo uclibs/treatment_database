@@ -8,7 +8,7 @@ RSpec.describe ReportsController, type: :controller do
 
   before do
     ActiveJob::Base.queue_adapter = :test
-    user = create(:user, role: 'standard')
+    user = create(:user, role: 'admin')
     sign_in(user)
   end
 
