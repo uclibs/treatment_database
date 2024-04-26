@@ -1,17 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'capybara'
-
-Capybara.register_driver :selenium_chrome_headless_sandboxless do |app|
-  browser_options = Selenium::WebDriver::Chrome::Options.new
-  browser_options.args << '--headless'
-  browser_options.args << '--disable-gpu'
-  browser_options.args << '--no-sandbox'
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
-end
-Capybara.default_driver = :rack_test # This is a faster driver
-Capybara.javascript_driver = :selenium_chrome_headless_sandboxless
 
 RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
@@ -63,6 +52,7 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
 end
 
 RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
+  let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:user) { create(:user, role: 'standard') }
   let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
@@ -101,6 +91,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
+    fill_in 'Date received in preservation services', with: '04/15/2024'
     select('PLCH', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
     fill_in 'Author', with: conservation_record.author
@@ -167,7 +158,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     fill_in 'treatment_report_treatment_proposal_total_treatment_time', with: 10
     click_button('Save Treatment Report')
     expect(page).to have_content('Treatment Record updated successfully!')
-    click_on 'Condition'
+    click_on 'Treatment Proposal'
     expect(page).to have_select('treatment_report_treatment_proposal_housing_need_id', selected: 'Portfolio')
     expect(page).to have_select('treatment_report_treatment_proposal_housing_provided_id', selected: 'Portfolio')
 
@@ -194,12 +185,15 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
 
     # Delete conservation record
     visit conservation_records_path
-    find("a[id='delete_conservation_record_#{conservation_record.id}']").click
+    accept_confirm do
+      find("a[id='delete_conservation_record_#{conservation_record.id}']").click
+    end
     expect(page).to have_content('Conservation record was successfully destroyed.')
   end
 end
 
 RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
+  let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:user) { create(:user, role: 'admin') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let(:vocabulary) { create(:controlled_vocabulary) }
@@ -286,6 +280,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
+    fill_in 'Date received in preservation services', with: '04/15/2024'
     select('PLCH', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
     fill_in 'Author', with: conservation_record.author
@@ -319,7 +314,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Mend paper performed by Haritha Vytla in 2 minutes. Other note: Some Other note for the in-house repair')
 
     # Delete In-house repair
-    find("a[id='delete_in_house_repair_record_1']").click
+    accept_confirm do
+      find("a[id='delete_in_house_repair_record_1']").click
+    end
     expect(page).not_to have_content('Mend paper performed by Haritha Vytla')
 
     # Create External Repair
@@ -332,7 +329,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Wash performed by Amanda Buck. Other note: Some Other note for the external repair')
 
     # Delete external repair
-    find("a[id='delete_external_repair_record_1']").click
+    accept_confirm do
+      find("a[id='delete_external_repair_record_1']").click
+    end
     expect(page).not_to have_content('Wash performed by Amanda Buck')
 
     # Conservators and Technicians
@@ -384,18 +383,13 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content(conservation_record.title)
 
     # Download Conservation Worksheet
-    click_on 'Download Conservation Worksheet'
-    expect(page.status_code).to eq(200)
+    verify_pdf_link_response('Download Conservation Worksheet')
 
     # Download Treatment Report
-    visit conservation_record_path(conservation_record)
-    click_on 'Download Treatment Report'
-    expect(page.status_code).to eq(200)
+    verify_pdf_link_response('Download Treatment Report')
 
     # Download Abbreviated Treatment Report
-    visit conservation_record_path(conservation_record)
-    first(:link, 'Download Abbreviated Treatment Report').click
-    expect(page.status_code).to eq(200)
+    verify_pdf_link_response('Download Abbreviated Treatment Report')
 
     # Verify logged activity
     visit activity_index_path
@@ -415,7 +409,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Treatment Record updated successfully!')
     visit activity_index_path
     expect(page).to have_content('Haritha Vytla updated the treatment report')
-    first('tr').click_link('Details')
+    first('tbody tr').click_link('Details')
     expect(page).to have_content('Full leather tightjoint, tight back binding')
     expect(page).to have_content('Half leather tightjoint, tight back binding')
   end
