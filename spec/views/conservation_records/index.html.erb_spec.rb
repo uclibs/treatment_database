@@ -5,9 +5,11 @@ require 'rails_helper'
 RSpec.describe 'conservation_records/index', type: :view do
   include Devise::Test::ControllerHelpers
   include Pagy::Backend
+
   before do
     StaffCode.create(code: 'C', points: 10)
-    @conservation_record1 = ConservationRecord.create(
+
+    @conservation_record1 = ConservationRecord.create!(
       date_received_in_preservation_services: Date.new,
       department: 'Department',
       title: 'Title',
@@ -17,7 +19,7 @@ RSpec.describe 'conservation_records/index', type: :view do
       item_record_number: 'Item Record Number',
       digitization: false
     )
-    @conservation_record2 = ConservationRecord.create(
+    @conservation_record2 = ConservationRecord.create!(
       date_received_in_preservation_services: Date.new,
       department: 'Department',
       title: 'Title',

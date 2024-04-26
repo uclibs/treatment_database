@@ -39,6 +39,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
+    fill_in 'Date received in preservation services', with: '04/15/2024'
     select('ARB Library', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
     fill_in 'Author', with: conservation_record.author
