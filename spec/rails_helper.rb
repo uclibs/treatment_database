@@ -91,4 +91,7 @@ RSpec.configure do |config|
   # Load seeds before running tests to ensure that test environment reflects
   # production seed data.
   Rails.application.load_seed
+
+  # Set Capybara's default max wait time to 5 seconds
+  Capybara.default_max_wait_time = 5
 end
