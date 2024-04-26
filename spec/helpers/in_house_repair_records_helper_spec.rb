@@ -14,7 +14,7 @@ RSpec.describe InHouseRepairRecordsHelper, type: :helper do
            repair_type: repair_type.id,
            conservation_record:,
            other_note: 'Please check spine',
-           staff_code_id: '1')
+           staff_code_id: staff_code.id)
   end
 
   it 'generates an in house repair string' do

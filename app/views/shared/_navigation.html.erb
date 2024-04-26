@@ -30,6 +30,11 @@
              <%= link_to('Reports', reports_path, class: 'nav-link') %>
           </li>
         <% end %>
+        <% if can? :read, StaffCode %>
+          <li class="nav-item">
+            <%= link_to('Staff Codes', staff_codes_path, class: 'nav-link') %>
+          </li>
+        <% end %>
         <% if user_signed_in? %>
           <li class="nav-item">
             <%= form_with url: search_path, method: :get, local: true, class: "form-inline" do |f| %>

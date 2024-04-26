@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'StaffCodes', type: :request do
   before do
-    user = create(:user, role: 'standard')
+    user = create(:user, role: 'admin')
     sign_in user
   end
 

@@ -17,6 +17,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     click_button 'Log in'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
+    expect(page).to have_link('Staff Codes')
 
     # Show Conservation Records
 
@@ -41,12 +42,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_link('Show')
     expect(page).to have_link('New Staff Code')
 
-    # Edit Staff Codes
-
-    visit staff_codes_path
-    click_link('Edit')
-    expect(page).to have_content('Editing Staff Code')
-
     # Add Staff Codes
 
     visit staff_codes_path
@@ -57,11 +52,11 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     click_on 'Create Staff code'
     expect(page).to have_content('Staff code was successfully created')
     expect(page).to have_content(staff_code.code)
+
     expect(page).to have_link('Edit')
 
     # Edit the existing Staff Code
-
-    click_link 'Edit'
+    find('a[href$="/edit"]', exact_text: 'Edit', visible: true).click
     expect(page).to have_content('Editing Staff Code')
 
     # Edit Users
