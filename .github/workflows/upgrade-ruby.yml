@@ -40,7 +40,7 @@ jobs:
 
       - name: Create Pull Request
         id: create-pull-request
-        uses: peter-evans/create-pull-request@v4.0.4
+        uses: peter-evans/create-pull-request@v6.0.5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "Upgraded Ruby from ${{ steps.check-ruby-version.outputs.CURRENT_RUBY_VERSION }} to ${{ steps.check-ruby-version.outputs.LATEST_RUBY_VERSION }}"
