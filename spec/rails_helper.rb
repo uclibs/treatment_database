@@ -7,13 +7,17 @@ Dotenv.load('.env.test') # Make sure this is the first thing after requiring dot
 
 # Set the environment to test if it is not already set
 Rails.env = 'test' if Rails.env.development?
+
+# This file is copied to spec/ when you run 'rails generate rspec:install'
+require 'spec_helper'
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../config/environment', __dir__)
+
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 # Load Rails and core components
-require File.expand_path('../config/environment', __dir__)
 
 # Requires the standard RSpec helpers.
-require 'spec_helper'
 require 'rspec/rails'
 
 # Additional requires for test-specific functionalities.
@@ -82,13 +86,19 @@ RSpec.configure do |config|
   # Include FactoryBot syntax to simplify calls to factories.
   config.include FactoryBot::Syntax::Methods
 
-  # Load seeds before running tests to ensure that test environment reflects
-  # production seed data.
-  Rails.application.load_seed
+  # Include Rails URL helpers globally in RSpec
+  config.include Rails.application.routes.url_helpers
 
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :feature
   config.include AuthenticationHelpers, type: :feature
   config.include PDFDownloadHelpers, type: :feature
+
+  # Load seeds before running tests to ensure that test environment reflects
+  # production seed data.
+  Rails.application.load_seed
+
+  # Set Capybara's default max wait time to 5 seconds
+  Capybara.default_max_wait_time = 5
 end

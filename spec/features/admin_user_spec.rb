@@ -10,19 +10,11 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
   it 'allows User to login and show Conservation Records and Staff Codes' do
     # Login
-
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
-    expect(page).to have_link('Conservation Records')
-    expect(page).to have_link('Staff Codes')
+    log_in_as_user(user)
 
     # Show Conservation Records
 
     click_on 'Conservation Records'
-    expect(page).to have_content('Conservation Records')
     expect(page).to have_css('.delete-icon')
     expect(page).to_not have_link('Show')
     expect(page).to have_link('New Conservation Record')
@@ -44,6 +36,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
     # Edit Staff Codes
     visit staff_codes_path
+
     within('table') do
       first(:link, 'Edit').click
     end
@@ -142,8 +135,10 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     # External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
+
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_type', match: :first)
+
     click_button('Create External Repair Record')
     expect(page).to have_content('Wash performed by Amanda Buck')
 

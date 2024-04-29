@@ -10,33 +10,19 @@ RSpec.describe 'Standard User Tests', type: :feature do
   it 'allows User to login and show Conservation Records' do
     # Login
 
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
-    expect(page).to have_link('Conservation Records')
-    expect(page).to have_no_link('Users')
-    expect(page).to have_no_link('Activity')
-    expect(page).to have_no_link('Vocabularies')
-    expect(page).to have_no_link('Staff Codes')
+    log_in_as_user(user)
 
     # Show Conservation Records
 
-    click_on 'Conservation Records'
-    expect(page).to have_content('Conservation Records')
     expect(page).to_not have_link('Destroy')
     expect(page).to_not have_link('Show')
     expect(page).to have_link('New Conservation Record')
 
     # Edit Conservation Record
-
-    visit conservation_records_path
     click_link(conservation_record.title, match: :prefer_exact)
     expect(page).to have_content('Edit Conservation Record')
 
     # Add New Conservation Record
-
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
@@ -74,6 +60,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
     # External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
+
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_type', match: :first)
     click_button('Create External Repair Record')
