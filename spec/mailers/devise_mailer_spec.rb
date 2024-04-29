@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe Devise::Mailer, type: :mailer do
   # This test verifies that the Devise mailer, which inherits from our ApplicationMailer,
@@ -24,7 +24,7 @@ RSpec.describe Devise::Mailer, type: :mailer do
 
     it 'includes link to reset password' do
       expect(mail.body.encoded)
-        .to match(/http:\/\/localhost:3000\/users\/password\/edit/)
+        .to match(%r{http://localhost:3000/users/password/edit})
     end
   end
 end
