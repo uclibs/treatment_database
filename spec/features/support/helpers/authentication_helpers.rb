@@ -33,9 +33,4 @@ module AuthenticationHelpers
     expect(page).to have_current_path(conservation_records_path)
     expect(page).to have_selector('h1', text: 'Conservation Records')
   end
-
-  def user_should_be_on_conservation_records_page
-    expect(page).to have_current_path(conservation_records_path)
-    expect(page).to have_content('Conservation Records')
-  end
 end
