@@ -20,18 +20,17 @@ module AuthenticationHelpers
   end
 
   def check_successful_sign_in
-    expect(page).to have_content('Signed in successfully')
-    expect(page).to have_content('Conservation Records')
+    expect(flash_notice).to have_content('Signed in successfully')
   end
 
   def check_no_error_messages
-    expect(page).to_not have_content('Invalid Email or password.')
+    expect(flash_alert).to_not have_content('Invalid Email or password.')
     expect(page).to_not have_content('Log in')
-    expect(page).to_not have_content('You are already signed in.')
+    expect(flash_notice).to_not have_content('You are already signed in.')
   end
 
   def user_should_be_on_conservation_records_page
     expect(page).to have_current_path(conservation_records_path)
-    expect(page).to have_content('Conservation Records')
+    expect(page).to have_selector('h1', text: 'Conservation Records')
   end
 end
