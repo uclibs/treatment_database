@@ -212,7 +212,7 @@ RSpec.describe ConservationRecordsController, type: :controller do
     it 'redirects to the conservation_records list' do
       conservation_record = ConservationRecord.create! valid_attributes
       delete :destroy, params: { id: conservation_record.to_param }
-      expect(response).to redirect_to(conservation_records_url)
+      expect(response).to redirect_to(conservation_records_path)
     end
   end
 
