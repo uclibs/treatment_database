@@ -16,6 +16,7 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 # Load Rails and core components
+
 require 'rspec/rails'
 
 # Additional requires for test-specific functionalities.
