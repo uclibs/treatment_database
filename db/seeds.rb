@@ -8,6 +8,14 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 class AddSeedObjects < ActiveRecord::Migration[5.1]
+
+  # Add new Staff Codes
+  StaffCode.create([
+                     { code: 'test', points: 5 },
+                     { code: 'another test', points: 2 }
+                   ])
+
+
   User.create(
     [{
       email: 'johngreen@example.com',
