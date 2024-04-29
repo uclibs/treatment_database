@@ -80,6 +80,7 @@ RSpec.configure do |config|
 
   # Include Rails URL helpers globally in RSpec
   config.include Rails.application.routes.url_helpers
+
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :feature
@@ -89,4 +90,7 @@ RSpec.configure do |config|
   # Load seeds before running tests to ensure that test environment reflects
   # production seed data.
   Rails.application.load_seed
+
+  # Set Capybara's default max wait time to 5 seconds
+  Capybara.default_max_wait_time = 5
 end
