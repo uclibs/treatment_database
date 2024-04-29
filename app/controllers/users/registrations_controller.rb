@@ -12,6 +12,5 @@ class Users::RegistrationsController < Devise::RegistrationsController # rubocop
   def new
     flash[:notice] = 'Contact admin to request account'
     redirect_to new_user_session_path and return
-    super
   end
 end
