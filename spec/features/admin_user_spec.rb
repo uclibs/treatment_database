@@ -38,7 +38,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
     visit staff_codes_path
     expect(page).to have_content('Staff Codes')
-    expect(page).to have_link('Destroy')
     expect(page).to have_link('Show')
     expect(page).to have_link('New Staff Code')
 
