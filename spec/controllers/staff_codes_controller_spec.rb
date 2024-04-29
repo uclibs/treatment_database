@@ -154,7 +154,7 @@ RSpec.describe StaffCodesController, type: :controller do
     it 'redirects to the staff_codes list' do
       staff_code = StaffCode.create! valid_attributes
       delete :destroy, params: { id: staff_code.to_param }, session: valid_session
-      expect(response).to redirect_to(staff_codes_url)
+      expect(response).to redirect_to(staff_codes_path)
     end
   end
 end
