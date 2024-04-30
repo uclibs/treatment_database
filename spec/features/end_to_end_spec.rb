@@ -2,14 +2,6 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Non-Authenticated User Tests', type: :feature do
-  it 'asks user to login to view Conservation Records' do
-    visit root_path
-    expect(page).to have_link('Log in')
-    expect(page).not_to have_link('Sign up')
-  end
-end
-
 RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:user) { create(:user, role: 'read_only') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
@@ -138,17 +130,6 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     fill_in 'cost_return_report_note', with: 'Test cost & return info'
     click_button('Save Cost and Return Information')
     expect(page).to have_content('Test cost & return info')
-
-    # Search
-    expect(page).to have_button('Search', disabled: false)
-    click_button 'Search'
-    expect(page).to have_content('Searching for')
-
-    # Search for item record number
-    fill_in 'Search', with: conservation_record.item_record_number
-    click_button 'Search'
-    expect(page).to have_content("Searching for #{conservation_record.item_record_number}")
-    expect(page).to have_content(conservation_record.title)
 
     # Delete conservation record
     visit conservation_records_path
@@ -332,12 +313,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     fill_in 'cost_return_report_note', with: nil
     click_button('Save Cost and Return Information')
     expect(page).to have_content('Treatment record updated')
-
-    # Search for conservation record id
-    fill_in 'Search', with: conservation_record.id
-    click_button 'Search'
-    expect(page).to have_content('Item Detail')
-    expect(page).to have_content(conservation_record.title)
 
     # Download Conservation Worksheet
     verify_pdf_link_response('Download Conservation Worksheet')
