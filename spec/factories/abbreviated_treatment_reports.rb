@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :abbreviated_treatment_report do
-    conservation_record { nil }
+    association :conservation_record
   end
 end
