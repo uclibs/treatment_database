@@ -5,6 +5,8 @@ require 'rails_helper'
 RSpec.describe 'Non-Authenticated User Access', type: :feature do
   let(:record) { FactoryBot.create(:conservation_record) }
 
+  it_behaves_like 'has a non_authenticated user header'
+
   it 'prevents non-authenticated users from accessing Conservation Records page' do
     prevents_anonymous_access(conservation_records_path)
   end

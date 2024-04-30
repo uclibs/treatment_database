@@ -17,7 +17,6 @@ require File.expand_path('../config/environment', __dir__)
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 # Load Rails and core components
 
-# Requires the standard RSpec helpers.
 require 'rspec/rails'
 
 # Additional requires for test-specific functionalities.
@@ -88,7 +87,6 @@ RSpec.configure do |config|
 
   # Include Rails URL helpers globally in RSpec
   config.include Rails.application.routes.url_helpers
-
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :feature

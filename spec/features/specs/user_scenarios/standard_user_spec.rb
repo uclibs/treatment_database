@@ -5,8 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Standard User Functionalities', type: :feature do
   include_context 'standard user context'
 
-  let(:activity_path) { Rails.application.routes.url_helpers.activity_path }
-
+  it_behaves_like 'has a standard user header'
   it_behaves_like 'index page access for authenticated users'
   it_behaves_like 'view conservation record details'
   it_behaves_like 'view staff codes'
