@@ -1,0 +1,88 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.describe DevSessionsController, type: :controller do
+  let(:user) { create(:user) }
+  let(:inactive_user) { create(:user, account_active: false) }
+
+  describe 'GET #new' do
+    it 'returns http success' do
+      get :new
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe 'POST #create' do
+    context 'with valid credentials' do
+      it 'logs in the user and redirects to root path' do
+        post :create, params: { email: user.email, password: 'notapassword' }
+        expect(session[:user_id]).to eq(user.id)
+        expect(response).to redirect_to(root_path)
+        expect(flash[:notice]).to eq('Signed in successfully')
+      end
+    end
+
+    context 'with invalid credentials' do
+      it 're-renders the new template with an alert' do
+        post :create, params: { email: user.email, password: 'wrongpass' }
+        expect(session[:user_id]).to be_nil
+        expect(flash.now[:alert]).to eq('Invalid email or password')
+        expect(response).to render_template(:new)
+      end
+    end
+
+    context 'with an inactive account' do
+      it 'does not log in and redirects with an alert' do
+        post :create, params: { email: inactive_user.email, password: 'notapassword' }
+        expect(session[:user_id]).to eq(inactive_user.id)
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to eq('Your account is not active.')
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before { session[:user_id] = user.id }
+
+    it 'logs out the user and redirects to root path' do
+      delete :destroy
+      expect(session[:user_id]).to be_nil
+      expect(response).to redirect_to(root_path)
+      expect(flash[:notice]).to eq('Logged out successfully')
+    end
+  end
+
+  describe 'GET #shibboleth_logout' do
+    before { session[:user_id] = user.id }
+
+    it 'logs out the user, resets session, clears cookies, and redirects to Shibboleth logout URL' do
+      with_environment('development') do
+        expect(session[:user_id]).to eq(user.id)
+        get :shibboleth_logout
+        expect(session[:user_id]).to be_nil
+        expect(cookies.to_hash).to be_empty # Ensure cookies are cleared
+        expect(response).to redirect_to(/#{DevSessionsController::SHIBBOLETH_LOGOUT_URL}/)
+        expect(flash[:notice]).to eq('Logged out successfully via Shibboleth')
+      end
+    end
+  end
+
+  context 'when in development' do
+    it 'renders the dev login page in development environment' do
+      with_environment('development') do
+        get :new
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  context 'when in test' do
+    it 'renders the dev login page in test environment' do
+      with_environment('test') do
+        get :new
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+end

@@ -39,6 +39,9 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <%= link_to "Edit account", edit_user_path(current_user), class: 'dropdown-item' %>
               <%= link_to('Logout', logout_path, method: :delete, class: 'dropdown-item') %>
+              <% if Rails.env.development? || Rails.env.test? %>
+                <%= link_to('Log out via Shibboleth', shibboleth_logout_path, method: :delete, class: 'dropdown-item') %>
+              <% end %>
             </div>
           </li>
         <% end %>

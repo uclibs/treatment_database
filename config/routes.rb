@@ -1,23 +1,29 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Admin namespace for user management
-  namespace :admin do
-    resources :users # Admins can manage users (CRUD) via the admin/users namespace
+  # Development and Test environment-specific routes
+  if Rails.env.development? || Rails.env.test?
+    resources :dev_sessions, only: %i[new create destroy]
+    delete 'logout', to: 'dev_sessions#destroy', as: :logout
+    delete 'shibboleth_logout', to: 'dev_sessions#shibboleth_logout', as: :shibboleth_logout
+  else
+    # In production, logout should point to SessionsController
+    delete 'logout', to: 'sessions#destroy', as: :logout
   end
 
-  # Routes for user management (excluding create, which is handled by admins)
+  # Admin namespace for managing users
+  namespace :admin do
+    resources :users # Admins can manage users (CRUD)
+  end
+
+  # User management (handled outside admin, excluding create)
   resources :users, only: %i[edit update show]
 
-  # Session management
+  # Shibboleth authentication and sessions
   resources :sessions, only: %i[new create destroy]
-  delete 'logout', to: 'sessions#destroy', as: :logout
+  get 'auth/shibboleth/callback', to: 'sessions#shibboleth_callback', as: :shibboleth_callback
 
-  resources :staff_codes, except: [:destroy]
-  resources :reports
-  resources :controlled_vocabularies, except: [:destroy]
-  resources :activity
-
+  # Resources that require detailed management and associations
   resources :conservation_records do
     resources :in_house_repair_records
     resources :external_repair_records
@@ -27,14 +33,24 @@ Rails.application.routes.draw do
     resources :cost_return_reports
   end
 
+  # Miscellaneous resource routes
+  resources :staff_codes, except: [:destroy]
+  resources :reports do
+    get 'download_csv', on: :collection
+  end
+  resources :controlled_vocabularies, except: [:destroy]
+  resources :activity
+
+  # Search routes
   get 'search/help'
   get 'search', to: 'search#results', as: 'search'
+
+  # Root and front routes
   root 'front#index'
   get 'front/index'
+
+  # Conservation records-specific actions
   get 'conservation_records/:id/conservation_worksheet', to: 'conservation_records#conservation_worksheet', as: 'conservation_worksheet'
   get 'conservation_records/:id/treatment_report', to: 'conservation_records#treatment_report', as: 'treatment_report'
   get 'conservation_records/:id/abbreviated_treatment_report', to: 'conservation_records#abbreviated_treatment_report', as: 'abbreviated_treatment_report'
-  get 'reports/download_csv'
-
-  get 'auth/shibboleth/callback', to: 'callbacks#shibboleth', as: :shibboleth_callback
 end
