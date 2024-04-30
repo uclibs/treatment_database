@@ -26,4 +26,7 @@ Rails.application.routes.draw do
   get 'conservation_records/:id/treatment_report', to: 'conservation_records#treatment_report', as: 'treatment_report'
   get 'conservation_records/:id/abbreviated_treatment_report', to: 'conservation_records#abbreviated_treatment_report', as: 'abbreviated_treatment_report'
   get 'reports/download_csv'
+
+  get 'auth/shibboleth/callback', to: 'callbacks#shibboleth', as: :shibboleth_callback
+  delete 'logout', to: 'sessions#destroy', as: :logout
 end
