@@ -3,12 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe ExternalRepairRecordsController, type: :controller do
-  include Devise::Test::ControllerHelpers
   render_views
 
   before do
     user = create(:user, role: 'standard')
-    sign_in user
+    controller_login_as(user)
   end
 
   let(:conservation_record) { create(:conservation_record) }

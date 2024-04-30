@@ -4,48 +4,46 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    # Define abilities for the passed in user here. For example:
-    #
-    #   user ||= User.new # guest user (not logged in)
-    #   if user.admin?
-    #     can :manage, :all
-    #   else
-    #     can :read, :all
-    #   end
-    #
-    # The first argument to `can` is the action you are giving the user
-    # permission to do.
-    # If you pass :manage it will apply to every action. Other common actions
-    # here are :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on.
-    # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-    # class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the
-    # objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, :published => true
-    #
-    # See the wiki for details:
-    # https://github.com/ryanb/cancan/wiki/Defining-Abilities
     user ||= User.new # guest user (not logged in)
+    define_alias_actions
+    assign_permissions_for(user)
+  end
 
+  private
+
+  def define_alias_actions
     alias_action :create, :read, :update, :destroy, to: :crud
     alias_action :treatment_report, :abbreviated_treatment_report, :conservation_worksheet, to: :view_pdfs
+  end
 
+  def assign_permissions_for(user)
     case user.role
     when 'admin'
-      can :manage, :all
-      cannot :destroy, StaffCode
+      admin_permissions
     when 'standard'
-      can :view_pdfs, ConservationRecord
-      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, CostReturnReport]
-    when 'read_only'
-      can :view_pdfs, ConservationRecord
-      can :read, ConservationRecord
-      can :index, ConservationRecord
+      standard_permissions(user)
+    else
+      read_only_permissions(user)
     end
+  end
+
+  def admin_permissions
+    can :manage, :all
+    cannot :destroy, StaffCode
+  end
+
+  def standard_permissions(user)
+    can :view_pdfs, ConservationRecord
+    can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, CostReturnReport]
+    can %i[read update], User, id: user.id
+    cannot :index, User
+  end
+
+  def read_only_permissions(user)
+    can :view_pdfs, ConservationRecord
+    can :read, ConservationRecord
+    can :index, ConservationRecord
+    can %i[read update], User, id: user.id
+    cannot :index, User
   end
 end

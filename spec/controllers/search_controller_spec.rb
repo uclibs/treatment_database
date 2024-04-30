@@ -3,20 +3,16 @@
 require 'rails_helper'
 
 RSpec.describe SearchController, type: :controller do
-  include Devise::Test::ControllerHelpers
   render_views
 
   before do
     user = create(:user, role: 'admin')
-    sign_in_user(user)
+    controller_login_as(user)
+    controller_stub_authorization(user)
     create(:conservation_record)
     create(:conservation_record, item_record_number: 'i1001')
     create(:conservation_record, item_record_number: 'notcat2817')
     create(:conservation_record, title: 'Third Title')
-  end
-
-  def sign_in_user(user)
-    sign_in user
   end
 
   it 'can search for documents by database id' do

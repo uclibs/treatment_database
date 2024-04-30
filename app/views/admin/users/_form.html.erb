@@ -1,0 +1,38 @@
+<%= form_with(model: [:admin, @user], local: true) do |form| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= form.label :display_name %>
+    <%= form.text_field :display_name, class: 'form-control' %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :email %>
+    <%= form.text_field :email, class: 'form-control' %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :role %>
+		<%= form.collection_select(:role, User::ROLES, :to_s, lambda{|i| i.to_s.humanize}, {}, {:class=>'form-control'}) %>
+  </div>
+
+  <div class="field form-check">
+		<%= form.check_box :account_active, class: 'form-check-input' %>
+    <%= form.label :account_active, class: 'form-check-label' %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit class: 'btn btn-primary'%>
+  </div>
+<% end %>

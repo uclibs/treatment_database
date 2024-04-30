@@ -37,7 +37,7 @@ RUN chown $RAILS_USER  $RAILS_ROOT
 COPY scripts/wkhtmltopdf.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/wkhtmltopdf.sh
 
-#Create user and exit if the user exist .Then add to sudo users
+#Create user and exit if the user exist .Then add to sudo users-delete-this-folder
 RUN adduser $RAILS_USER sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 

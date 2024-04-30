@@ -11,7 +11,7 @@ gem 'dotenv-rails' # Loads environment variables from .env
 # Core Rails gems
 gem 'activestorage' # Handles file uploads in Rails applications
 gem 'mutex_m' # Being removed from Ruby soon, required for activestorage
-gem 'rails', '~> 6.1.7' # The Rails framework
+gem 'rails', '~> 6.1' # The Rails framework
 gem 'sprockets-rails', '~> 3.4' # Sprockets adapter for Rails, needed for deploy:assets:precompile steps
 gem 'sqlite3', '~> 1.4' # SQLite3 database adapter for ActiveRecord
 
@@ -38,8 +38,8 @@ gem 'sassc-rails', '~> 2.1' # SASSC adapter for Rails, needed for Bootstrap 5
 gem 'turbolinks', '~> 5' # Makes navigating your site faster by using AJAX to load only the HTML needed
 
 # Authentication and Authorization
+gem 'bcrypt', '~> 3.1.7' # A Ruby binding for the OpenBSD bcrypt() password hashing algorithm
 gem 'cancancan' # Authorization library for Ruby on Rails which restricts what resources a given user is allowed to access
-gem 'devise' # Flexible authentication solution for Rails with Warden
 
 # Additional Functionality
 gem 'nokogiri' # HTML, XML, SAX, and Reader parser
@@ -101,6 +101,7 @@ group :test do
   gem 'launchy' # Opens a given URL in a browser
   gem 'rack-test' # Small, simple testing API for Rack apps
   gem 'rspec-rails', '~> 6.0.0' # RSpec for Rails 6+
+  gem 'shoulda-matchers', '~> 5.0' # Provides RSpec with additional matchers
 end
 
 group :production do

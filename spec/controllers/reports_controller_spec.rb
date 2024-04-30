@@ -3,14 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe ReportsController, type: :controller do
-  include Devise::Test::ControllerHelpers
   include_context 'rake' # This job relies on rake tasks
   render_views
 
   before do
     ActiveJob::Base.queue_adapter = :test
     user = create(:user, role: 'admin')
-    sign_in(user)
+    controller_login_as(user)
+    controller_stub_authorization(user)
   end
 
   describe 'GET #index' do

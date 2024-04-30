@@ -1,32 +1,29 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  after_initialize :default_role, :activate_new_account
+  has_secure_password
 
   ROLES = %w[admin standard read_only].freeze
 
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  validates :email,
+            format: { with: /\A[a-zA-Z0-9_-]+@(ucmail\.uc\.edu|uc\.edu)\z/i, message: 'must be a valid email ending with @ucmail.uc.edu or @uc.edu' },
+            presence: true,
+            uniqueness: true
 
-  validates :display_name, :email, :role, presence: true
+  validates :display_name,
+            presence: true,
+            format: { with: /\A[a-zA-Z0-9\s\-_]+\z/, message: 'can only contain letters, numbers, spaces, hyphens, and underscores' }
 
-  def default_role
-    self.role ||= 'read_only'
-  end
+  validates :username,
+            format: { with: /\A[a-zA-Z0-9_-]+\z/, message: 'can only contain letters, numbers, dashes, and underscores' },
+            presence: true,
+            uniqueness: true
 
-  def activate_new_account
-    return unless account_active.nil?
-
-    self.account_active = true
-  end
-
-  def active_for_authentication?
-    # Uncomment the below debug statement to view the properties of the returned self model values.
-    # logger.debug self.to_yaml
-
-    super && account_active?
+  validates :role,
+            presence: true,
+            inclusion: { in: ROLES }
+  def active?
+    account_active?
   end
 
   has_paper_trail

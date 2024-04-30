@@ -3,11 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe AbbreviatedTreatmentReportsController, type: :controller do
-  include Devise::Test::ControllerHelpers
   render_views
   before do
     user = create(:user, role: 'admin')
-    sign_in(user)
+    controller_login_as(user)
   end
   describe 'POST #create' do
     it 'creates a new conservation record' do

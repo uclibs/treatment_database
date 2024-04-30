@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Admin User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
     visit root_path
-    expect(page).to have_link('Log in')
+    expect(page).to have_link('Login')
     expect(page).not_to have_link('Sign up')
   end
 end

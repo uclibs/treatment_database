@@ -7,14 +7,22 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms', department: 'ARB Library') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
+  before do
+    user
+    conservation_record
+    staff_code
+  end
+
   it 'allows User to login and show Conservation Records' do
     # Login
 
-    visit new_user_session_path
+    visit new_session_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
+    click_button 'Login'
+    sleep 5
+
+    expect(page).to have_content('Logged in successfully')
     expect(page).to have_link('Conservation Records')
 
     # Show Conservation Records

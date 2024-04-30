@@ -27,8 +27,8 @@ describe 'User', type: :model do
 
       it { is_expected.not_to be_able_to(:index, User.new) }
       it { is_expected.not_to be_able_to(:create, User.new) }
-      it { is_expected.not_to be_able_to(:read, User.new) }
-      it { is_expected.not_to be_able_to(:update, User.new) }
+      it { is_expected.to be_able_to(:read, User.new) }
+      it { is_expected.to be_able_to(:update, User.new) }
       it { is_expected.not_to be_able_to(:destroy, User.new) }
 
       it { is_expected.to be_able_to(:index, ConservationRecord.new) }
@@ -87,8 +87,8 @@ describe 'User', type: :model do
 
       it { is_expected.not_to be_able_to(:index, User.new) }
       it { is_expected.not_to be_able_to(:create, User.new) }
-      it { is_expected.not_to be_able_to(:read, User.new) }
-      it { is_expected.not_to be_able_to(:update, User.new) }
+      it { is_expected.to be_able_to(:read, User.new) }
+      it { is_expected.to be_able_to(:update, User.new) }
       it { is_expected.not_to be_able_to(:destroy, User.new) }
 
       it { is_expected.to be_able_to(:index, ConservationRecord.new) }

@@ -1,0 +1,53 @@
+  <div id="navbarSupportedContent" class="d-flex w-100 justify-content-between">
+    <ul class="navbar-nav w-100 d-flex w-100 justify-content-between">
+      <li class="nav-item">
+        <%= link_to 'Treatment Database', root_path, class: 'navbar-brand' %>
+      </li>
+      <% if can? :read, ConservationRecord %>
+        <li class="nav-item">
+          <%= link_to('Conservation Records', conservation_records_path, class: 'nav-link') %>
+        </li>
+      <% end %>
+      <% if can? :read, ControlledVocabulary %>
+        <li class="nav-item">
+          <%= link_to('Vocabularies', controlled_vocabularies_path, class: 'nav-link') %>
+        </li>
+      <% end %>
+      <% if can? :manage, User %>
+        <li class="nav-item">
+          <%= link_to('Users', admin_users_path, class: 'nav-link') %>
+        </li>
+        <li class="nav-item">
+          <%= link_to('Activity', activity_index_path, class: 'nav-link') %>
+        </li>
+      <% end %>
+      <% if can? :manage, Report %>
+        <li class="nav-item">
+          <%= link_to('Reports', reports_path, class: 'nav-link') %>
+        </li>
+      <% end %>
+      <% if can? :read, StaffCode %>
+        <li class="nav-item">
+          <%= link_to('Staff Codes', staff_codes_path, class: 'nav-link') %>
+        </li>
+      <% end %>
+      <li class="nav-item">
+        <form class="form-inline d-flex justify-content-center align-items-center w-100" action="/search" accept-charset="UTF-8" method="get">
+          <input id="search" placeholder="Search" class="form-control mr-2" type="text" name="search">
+          <a class="search-help-icon align-self-center mr-2" href="/search/help">(?)</a>
+          <button type="submit" class="btn btn-primary my-2 my-sm-0 mr-1">Search</button>
+        </form>
+      </li>
+      <li class="nav-item">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= current_user.display_name %>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <%= link_to("Edit account", edit_user_path(current_user), class: 'dropdown-item') %>
+            <%= link_to('Logout', logout_path, method: :delete, class: 'dropdown-item') %>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>

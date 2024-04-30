@@ -26,7 +26,6 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe ControlledVocabulariesController, type: :controller do
-  include Devise::Test::ControllerHelpers
   render_views
   # This should return the minimal set of attributes required to create a valid
   # ControlledVocabulary. As you add validations to ControlledVocabulary, be sure to
@@ -44,13 +43,10 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   # ControlledVocabulariesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  def sign_in_user(user)
-    sign_in user
-  end
-
   before do
     user = create(:user, role: 'admin')
-    sign_in_user(user)
+    controller_login_as(user)
+    controller_stub_authorization(user)
   end
 
   describe 'GET #index' do

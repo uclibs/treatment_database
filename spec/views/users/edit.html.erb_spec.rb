@@ -4,12 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'users/edit.html.erb', type: :view do
   before(:each) do
-    @user = assign(:user, User.create!(
-                            display_name: 'Test User 1',
-                            email: 'testuser@example.com',
-                            role: 'reader',
-                            password: 'testpass'
-                          ))
+    @user = assign(:user, create(:user))
   end
 
   it 'renders the edit user form' do
