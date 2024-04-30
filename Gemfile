@@ -46,7 +46,7 @@ gem 'devise' # Flexible authentication solution for Rails with Warden
 
 # Additional Functionality
 gem 'nokogiri' # HTML, XML, SAX, and Reader parser
-gem 'pagy' # Pagination library that is fast, lightweight, and flexible
+gem 'pagy', '~> 9.0' # Pagination library that is fast, lightweight, and flexible
 gem 'paper_trail' # Track changes to your models' data
 gem 'pdfkit' # Uses wkhtmltopdf to generate PDFs from HTML
 gem 'rexml', '>= 3.3.6' # XML processing library, now a direct dependency for security management
@@ -54,6 +54,10 @@ gem 'wkhtmltopdf-binary', '>= 0.12.6.7' # Enables PDF generation from HTML
 
 # Windows specific timezone data
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby] # Timezone data for Windows
+
+gem 'show_me_the_cookies' # Cookie inspection for tests
+
+gem 'omniauth-shibboleth' # Provides Shibboleth-based SSO authentication
 
 group :development, :test do
   # Debugging tools
@@ -63,7 +67,6 @@ group :development, :test do
   gem 'factory_bot_rails' # A fixtures replacement with a straightforward definition syntax
   gem 'rails-controller-testing' # Adds missing helper methods for controller tests in Rails 5
   gem 'rspec_junit_formatter' # Outputs RSpec results in JUnit format
-  gem 'rspec-rails', '~> 6.0.0' # RSpec for Rails 6+
   gem 'selenium-webdriver', '~> 4.18.1' # WebDriver for testing web applications
 
   # Coverage and code analysis
@@ -100,6 +103,8 @@ group :test do
   gem 'capybara', '>= 2.15' # Integration testing tool for rack-based web applications
   gem 'database_cleaner-active_record' # Strategies for cleaning databases in Ruby
   gem 'launchy' # Opens a given URL in a browser
+  gem 'rack-test' # Small, simple testing API for Rack apps
+  gem 'rspec-rails', '~> 6.0.0' # RSpec for Rails 6+
 end
 
 group :production do
