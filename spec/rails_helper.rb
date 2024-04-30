@@ -80,7 +80,6 @@ RSpec.configure do |config|
 
   # Include Rails URL helpers globally in RSpec
   config.include Rails.application.routes.url_helpers
-
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :feature
