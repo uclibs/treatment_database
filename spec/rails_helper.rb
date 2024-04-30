@@ -6,6 +6,7 @@ require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
 require 'factory_bot'
 require 'rspec/rails'
+
 require 'paper_trail/frameworks/rspec'
 require 'capistrano-spec'
 
@@ -98,6 +99,11 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   config.include FactoryBot::Syntax::Methods
 
+  Rails.application.load_seed
+  config.include Devise::Test::ControllerHelpers, type: :helper # may not be necessary
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
+
+  # Allow cookies to be set in feature tests (for UC Shibboleth testing)
+  config.include ShowMeTheCookies, type: :feature
 end
