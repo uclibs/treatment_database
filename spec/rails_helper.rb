@@ -72,7 +72,10 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   Rails.application.load_seed
-
+  config.include Devise::Test::ControllerHelpers, type: :helper # may not be necessary
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
+
+  # Allow cookies to be set in feature tests (for UC Shibboleth testing)
+  config.include ShowMeTheCookies, type: :feature
 end
