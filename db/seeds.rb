@@ -8,7 +8,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 class AddSeedObjects < ActiveRecord::Migration[5.1]
-
   File.readlines('db/types_of_repairs.txt').each do |line|
     ControlledVocabulary.create(
       vocabulary: 'repair_type',

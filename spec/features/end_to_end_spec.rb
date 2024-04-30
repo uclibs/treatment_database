@@ -15,7 +15,7 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
 
   it 'allows User to login and show Conservation Records' do
-    visit new_session_path
+    visit new_dev_session_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     click_button 'Log in'
@@ -59,7 +59,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_session_path
+    visit new_dev_session_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
     click_button 'Log in'
@@ -205,7 +205,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_session_path
+    visit new_dev_session_path
     expect(page).to have_content('Please log in to continue')
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
@@ -232,7 +232,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).to have_content('Users')
     click_on 'Add New User'
     expect(page).to have_content('Create New User')
-    fill_in 'Display name', with: 'Beau Geste'
+    fill_in 'Display Name', with: 'Beau Geste'
     fill_in 'Email', with: 'beau.geste@uc.edu'
     fill_in 'User Password', with: 'notapassword'
     fill_in 'User Password Confirmation', with: 'notapassword'

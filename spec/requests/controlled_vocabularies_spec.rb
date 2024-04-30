@@ -53,7 +53,7 @@ RSpec.describe 'ControlledVocabularies', type: :request do
     context 'when user is not logged in' do
       it 'redirects to login page' do
         get controlled_vocabularies_path
-        expect(response).to redirect_to(new_session_path)
+        expect(response).to redirect_to(new_dev_session_path)
         expect(flash[:alert]).to eq('You need to sign in before continuing.')
       end
     end
@@ -120,9 +120,8 @@ RSpec.describe 'ControlledVocabularies', type: :request do
 
     context 'when user is not logged in' do
       it 'redirects to login page' do
-        request_logout
         get controlled_vocabulary_path(controlled_vocabulary)
-        expect(response).to redirect_to(new_session_path)
+        expect(response).to redirect_to(new_dev_session_path)
         expect(flash[:alert]).to eq('You need to sign in before continuing.')
       end
     end
