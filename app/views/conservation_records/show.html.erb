@@ -6,7 +6,7 @@
   <% end %>
 </div>
 
-<%= link_to 'Download Conservation Worksheet', conservation_worksheet_path(@conservation_record), target: "_blank" %>
+<%= link_to 'Download Conservation Worksheet', conservation_worksheet_conservation_record_path(@conservation_record), target: "_blank" %>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
@@ -177,7 +177,7 @@
   </div>
 
   <div class="header">
-    <%= link_to 'Download Abbreviated Treatment Report', abbreviated_treatment_report_path(@conservation_record), target: '_blank' %>
+    <%= link_to 'Download Abbreviated Treatment Report', abbreviated_treatment_report_conservation_record_path(@conservation_record), target: '_blank' %>
   </div>
 
   <br>
