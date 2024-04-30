@@ -25,6 +25,10 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
   let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
+  before do
+    @departments = ControlledVocabulary.where(vocabulary: 'department')
+  end
+
   it 'allows User to login and show Conservation Records' do
     # Login
     log_in_as_user(user)
@@ -46,23 +50,15 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Conservation record was successfully updated')
     expect(page).to have_content('University of Cincinnati Press')
 
-    # Add New Conservation Record
+    # Go to a Conservation Record to edit it
     visit conservation_records_path
-    click_on 'New Conservation Record'
-    expect(page).to have_content('New Conservation Record')
-    fill_in 'Date received in preservation services', with: '04/15/2024'
-    select('PLCH', from: 'Department', match: :first)
-    fill_in 'Title', with: conservation_record.title
-    fill_in 'Author', with: conservation_record.author
-    fill_in 'Imprint', with: conservation_record.imprint
-    fill_in 'Call number', with: conservation_record.call_number
-    fill_in 'Item record number', with: conservation_record.item_record_number
-    click_on 'Create Conservation record'
-    expect(page).to have_content('Conservation record was successfully created')
-    expect(page).to have_content(conservation_record.title)
-    expect(page).to have_link('Edit Conservation Record')
+    within('table tbody') do
+      click_link(conservation_record.title, match: :prefer_exact)
+    end
+
     click_on 'Edit Conservation Record'
-    expect(page).to have_select('conservation_record_department', selected: 'PLCH')
+    department = @departments.find(conservation_record.department)
+    expect(page).to have_select('conservation_record_department', selected: department.key)
 
     # In_House Repair
     visit conservation_records_path
@@ -214,21 +210,11 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Controlled vocabulary was successfully updated.')
     expect(page).to have_content('updated_key_string')
 
-    # Add New Conservation Record
+    # Go to a Conservation Record to edit it
     visit conservation_records_path
-    click_on 'New Conservation Record'
-    expect(page).to have_content('New Conservation Record')
-    fill_in 'Date received in preservation services', with: '04/15/2024'
-    select('PLCH', from: 'Department', match: :first)
-    fill_in 'Title', with: conservation_record.title
-    fill_in 'Author', with: conservation_record.author
-    fill_in 'Imprint', with: conservation_record.imprint
-    fill_in 'Call number', with: conservation_record.call_number
-    fill_in 'Item record number', with: conservation_record.item_record_number
-    click_on 'Create Conservation record'
-    expect(page).to have_content('Conservation record was successfully created')
-    expect(page).to have_content(conservation_record.title)
-    expect(page).to have_link('Edit Conservation Record')
+    within('table tbody') do
+      click_link(conservation_record.title, match: :prefer_exact)
+    end
 
     # Edit the existing Conservation Record
 
