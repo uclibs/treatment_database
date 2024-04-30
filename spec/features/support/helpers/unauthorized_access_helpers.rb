@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# frozen string literal: true
-
 require 'rails_helper'
 
 module AuthenticationHelpers
