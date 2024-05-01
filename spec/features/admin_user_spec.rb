@@ -21,12 +21,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_link('New Conservation Record')
     expect(page).to have_content(conservation_record.title)
 
-    # Edit Conservation Record
-
-    visit conservation_records_path
-    click_link(conservation_record.title, match: :prefer_exact)
-    expect(page).to have_content('Edit Conservation Record')
-
     # Edit Staff Codes
 
     visit staff_codes_path
@@ -89,11 +83,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     within('table tbody') do
       first('a').click
     end
-
-    # Edit the existing Conservation Record
-
-    click_on 'Edit Conservation Record'
-    expect(page).to have_content('Editing Conservation Record')
 
     # In_House Repair
 

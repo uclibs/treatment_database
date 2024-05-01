@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# spec/support/shared_examples/conservation_records.rb
-
 require 'rails_helper'
 
 RSpec.shared_examples 'creates new conservation records' do
