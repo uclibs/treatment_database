@@ -7,7 +7,7 @@ FactoryBot.define do
       # Try to find an existing department entry or create a new one if none exists
       department_vocab = ControlledVocabulary.find_by(vocabulary: 'department', key: 'specific_department_key')
       department_vocab ||= FactoryBot.create(:controlled_vocabulary, vocabulary: 'department', key: 'specific_department_key', active: true)
-      department_vocab.id  # Explicitly return the ID
+      department_vocab.id # Explicitly return the ID
     end
     title { 'The Illiad' }
     author { 'James Joyce' }
