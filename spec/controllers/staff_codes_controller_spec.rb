@@ -142,19 +142,4 @@ RSpec.describe StaffCodesController, type: :controller do
       end
     end
   end
-
-  describe 'DELETE #destroy' do
-    it 'destroys the requested staff_code' do
-      staff_code = StaffCode.create! valid_attributes
-      expect do
-        delete :destroy, params: { id: staff_code.to_param }, session: valid_session
-      end.to change(StaffCode, :count).by(-1)
-    end
-
-    it 'redirects to the staff_codes list' do
-      staff_code = StaffCode.create! valid_attributes
-      delete :destroy, params: { id: staff_code.to_param }, session: valid_session
-      expect(response).to redirect_to(staff_codes_url)
-    end
-  end
 end
