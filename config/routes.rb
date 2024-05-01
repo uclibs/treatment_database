@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :staff_codes
+  resources :staff_codes, except: [:destroy]
   post 'users', to: 'users#create_user'
   resources :reports
   devise_for :users, controllers: { registrations: 'users/registrations' }

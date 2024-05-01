@@ -55,11 +55,11 @@ describe 'User', type: :model do
       it { is_expected.to be_able_to(:update, InHouseRepairRecord.new) }
       it { is_expected.to be_able_to(:destroy, InHouseRepairRecord.new) }
 
-      it { is_expected.to be_able_to(:index, StaffCode.new) }
-      it { is_expected.to be_able_to(:create, StaffCode.new) }
-      it { is_expected.to be_able_to(:read, StaffCode.new) }
-      it { is_expected.to be_able_to(:update, StaffCode.new) }
-      it { is_expected.to be_able_to(:destroy, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:index, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:create, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:read, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:update, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:destroy, StaffCode.new) }
 
       it { is_expected.to be_able_to(:index, CostReturnReport.new) }
       it { is_expected.to be_able_to(:create, CostReturnReport.new) }
