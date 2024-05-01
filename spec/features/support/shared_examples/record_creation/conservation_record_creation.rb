@@ -5,6 +5,10 @@ require 'rails_helper'
 RSpec.shared_examples 'creates new conservation records' do
   let(:conservation_record) { build(:conservation_record) }
 
+  before do
+    FactoryBot.create(:controlled_vocabulary, vocabulary: 'department', key: 'PLCH', value: 'Preservation Library Collections and Conservation', active: true)
+  end
+
   it 'creates a new conservation record' do
     click_on 'New Conservation Record'
     expect(page).to have_selector('h1', text: 'New Conservation Record')
