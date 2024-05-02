@@ -9,6 +9,7 @@ RSpec.describe 'Admin User Functionalities', type: :feature do
   it_behaves_like 'index page access for authenticated users'
   it_behaves_like 'view conservation record details'
   it_behaves_like 'creates new conservation records'
+  it_behaves_like 'edits conservation records'
   it_behaves_like 'view controlled vocabularies'
   it_behaves_like 'view user management'
   it_behaves_like 'view activity'

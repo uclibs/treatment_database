@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
-# spec/support/shared_examples/conservation_records.rb
-
 require 'rails_helper'
 
 RSpec.shared_examples 'creates new conservation records' do
   let(:conservation_record) { build(:conservation_record) }
+
+  before do
+    FactoryBot.create(:controlled_vocabulary, vocabulary: 'department', key: 'PLCH', active: true)
+  end
 
   it 'creates a new conservation record' do
     click_on 'New Conservation Record'

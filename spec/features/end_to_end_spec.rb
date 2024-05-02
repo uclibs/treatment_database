@@ -40,26 +40,6 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     expect(page).to_not have_link('Show')
     expect(page).to have_link('New Conservation Record')
 
-    # Edit Conservation Record
-    click_link(conservation_record.title, match: :prefer_exact)
-    click_link('Edit Conservation Record')
-    expect(page).to have_content('Editing Conservation Record')
-    # Check that selected shows on edit
-    fill_in 'Imprint', with: 'University of Cincinnati Press'
-    click_on 'Update Conservation record'
-    expect(page).to have_content('Conservation record was successfully updated')
-    expect(page).to have_content('University of Cincinnati Press')
-
-    # Go to a Conservation Record to edit it
-    visit conservation_records_path
-    within('table tbody') do
-      click_link(conservation_record.title, match: :prefer_exact)
-    end
-
-    click_on 'Edit Conservation Record'
-    department = @departments.find(conservation_record.department)
-    expect(page).to have_select('conservation_record_department', selected: department.key)
-
     # In_House Repair
     visit conservation_records_path
     click_link(conservation_record.title, match: :prefer_exact)
@@ -155,11 +135,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_link('New Conservation Record')
     expect(page).to have_content(conservation_record.title)
 
-    # Edit Conservation Record
-    visit conservation_records_path
-    click_link(conservation_record.title, match: :prefer_exact)
-    expect(page).to have_content('Edit Conservation Record')
-
     # Create User
     visit conservation_records_path
     click_on 'Users'
@@ -209,17 +184,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     click_on 'Update Controlled vocabulary'
     expect(page).to have_content('Controlled vocabulary was successfully updated.')
     expect(page).to have_content('updated_key_string')
-
-    # Go to a Conservation Record to edit it
-    visit conservation_records_path
-    within('table tbody') do
-      click_link(conservation_record.title, match: :prefer_exact)
-    end
-
-    # Edit the existing Conservation Record
-
-    click_on 'Edit Conservation Record'
-    expect(page).to have_content('Editing Conservation Record')
 
     # Create In_House Repair
     visit conservation_records_path
