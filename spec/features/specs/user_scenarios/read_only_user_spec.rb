@@ -34,6 +34,10 @@ RSpec.describe 'Read-Only User Functionalities', type: :feature do
     prevents_unauthorized_access(staff_codes_path)
   end
 
+  it 'prevents read-only users from accessing New Staff Code page' do
+    prevents_unauthorized_access(new_staff_code_path)
+  end
+
   it 'prevents read-only users from accessing Reports page' do
     prevents_unauthorized_access(reports_path)
   end

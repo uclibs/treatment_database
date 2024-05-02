@@ -14,5 +14,6 @@ RSpec.describe 'Admin User Functionalities', type: :feature do
   it_behaves_like 'view user management'
   it_behaves_like 'view activity'
   it_behaves_like 'view staff codes'
+  it_behaves_like 'creates new staff codes'
   it_behaves_like 'view reports'
 end
