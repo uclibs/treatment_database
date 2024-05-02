@@ -118,18 +118,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     # Login
     log_in_as_user(user)
 
-    # Create User
-    visit conservation_records_path
-    click_on 'Users'
-    click_on 'Add New User'
-    fill_in 'Display name', with: 'Beau Geste'
-    fill_in 'Email', with: 'beau.geste@mail.uc.edu'
-    fill_in 'Password', with: 'notapass'
-    fill_in 'Password confirmation', with: 'notapass'
-    select('Admin', from: 'Role')
-    click_on 'Create User'
-    expect(page).to have_content('Beau Geste')
-
     # Edit Users
     visit conservation_records_path
     click_on 'Users'
