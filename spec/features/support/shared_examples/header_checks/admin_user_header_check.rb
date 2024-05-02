@@ -22,6 +22,7 @@ RSpec.shared_examples 'has an admin user header', type: :feature do
     expect(@navbar).to have_link('Users', href: '/users')
     expect(@navbar).to have_link('Activity', href: '/activity')
     expect(@navbar).to have_link('Reports', href: '/reports')
+    expect(@navbar).to have_link('Staff Codes', href: '/staff_codes')
   end
 
   it 'shows the user dropdown with the admin\'s name and provides dropdown links' do
