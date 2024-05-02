@@ -6,8 +6,7 @@ RSpec.shared_examples 'creates new conservation records' do
   let(:conservation_record) { build(:conservation_record) }
 
   before do
-    FactoryBot.create(:controlled_vocabulary, vocabulary: 'department', key: 'PLCH', value: 'Preservation Library Collections and Conservation',
-                                              active: true)
+    FactoryBot.create(:controlled_vocabulary, vocabulary: 'department', key: 'PLCH', active: true)
   end
 
   it 'creates a new conservation record' do

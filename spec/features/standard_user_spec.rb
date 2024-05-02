@@ -17,37 +17,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
     expect(page).to_not have_link('Destroy')
     expect(page).to_not have_link('Show')
     expect(page).to have_link('New Conservation Record')
-
-    # Show Staff Codes
-
-    visit staff_codes_path
-    expect(page).to have_content('Staff Codes')
-    expect(page).not_to have_link('Destroy')
-    expect(page).to have_link('Show')
-    expect(page).to have_link('New Staff Code')
-
-    # Edit Staff Codes
-
-    visit staff_codes_path
-    first('a', text: 'Edit').click
-    expect(page).to have_content('Editing Staff Code')
-
-    # Add Staff Codes
-
-    visit staff_codes_path
-    click_link 'New Staff Code'
-    expect(page).to have_content('New Staff Code')
-    fill_in 'Code', with: staff_code.code
-    fill_in 'Points', with: staff_code.points
-    click_on 'Create Staff code'
-    expect(page).to have_content('Staff code was successfully created')
-    expect(page).to have_content(staff_code.code)
-    expect(page).to have_link('Edit')
-
-    # Edit the existing Staff Code
-
-    click_link 'Edit'
-    expect(page).to have_content('Editing Staff Code')
+    expect(page).not_to have_link('Staff Codes')
 
     # In_House Repair
 
