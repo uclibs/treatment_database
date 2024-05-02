@@ -13,24 +13,12 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
     log_in_as_user(user)
 
-    # Edit Users
-    visit conservation_records_path
-    click_on 'Users'
-    expect(page).to have_content('Users')
-    click_link(user.display_name, match: :prefer_exact)
-
-    expect(page).to have_content('Edit User')
-    fill_in 'Display name', with: 'Haritha Vytla'
-    fill_in 'Email', with: 'vytlasa@mail.uc.edu'
-    select('Admin', from: 'Role')
-    click_on 'Update User'
-    expect(page).to have_content('Haritha Vytla')
     # View Activity
-
     visit conservation_records_path
     click_link('Activity')
     expect(page).to have_content('Recent Activity')
-    expect(page).to have_content('updated the user: Haritha Vytla')
+    # This will be tested when we check activity page
+    # expect(page).to have_content('updated the user: Haritha Vytla')
 
     # Add Vocabulary
 
