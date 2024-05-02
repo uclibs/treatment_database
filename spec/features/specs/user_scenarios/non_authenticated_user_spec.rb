@@ -40,6 +40,10 @@ RSpec.describe 'Non-Authenticated User Access', type: :feature do
     prevents_anonymous_access(staff_codes_path)
   end
 
+  it 'prevents anonymous users from accessing New Staff Code page' do
+    prevents_anonymous_access(new_staff_code_path)
+  end
+
   it 'prevents anonymous users from accessing Reports page' do
     prevents_anonymous_access(reports_path)
   end
