@@ -3,7 +3,12 @@
 FactoryBot.define do
   factory :conservation_record do
     date_received_in_preservation_services { '2019-06-11' }
-    department { ControlledVocabulary.where(vocabulary: 'department').order(Arel.sql('random()')).first.id }
+    department do
+      # Try to find an existing department entry or create a new one if none exists
+      department_vocab = ControlledVocabulary.find_by(vocabulary: 'department', key: 'specific_department_key')
+      department_vocab ||= FactoryBot.create(:controlled_vocabulary, vocabulary: 'department', key: 'specific_department_key', active: true)
+      department_vocab.id # Explicitly return the ID
+    end
     title { 'The Illiad' }
     author { 'James Joyce' }
     imprint { 'Dutton' }

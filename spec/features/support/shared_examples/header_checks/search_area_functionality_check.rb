@@ -38,6 +38,6 @@ RSpec.shared_examples 'Navbar Search Behavior' do
   end
 
   def create_conservation_record
-    FactoryBot.create(:conservation_record)
+    FactoryBot.create(:conservation_record, title: 'The Three Bears', item_record_number: 'i123456')
   end
 end
