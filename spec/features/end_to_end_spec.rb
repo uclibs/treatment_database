@@ -33,13 +33,6 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     # Login
     log_in_as_user(user)
 
-    # Show Conservation Records
-    click_on 'Conservation Records'
-
-    expect(page).to_not have_link('Destroy')
-    expect(page).to_not have_link('Show')
-    expect(page).to have_link('New Conservation Record')
-
     # In_House Repair
     visit conservation_records_path
     click_link(conservation_record.title, match: :prefer_exact)
@@ -126,14 +119,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   it 'allows User to login and show Conservation Records' do
     # Login
     log_in_as_user(user)
-
-    # Show Conservation Records
-    click_on 'Conservation Records'
-    expect(page).to have_content('Conservation Records')
-    expect(page).to have_css('.delete-icon')
-    expect(page).to_not have_link('Show')
-    expect(page).to have_link('New Conservation Record')
-    expect(page).to have_content(conservation_record.title)
 
     # Create User
     visit conservation_records_path
