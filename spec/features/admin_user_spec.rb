@@ -15,7 +15,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
     # Edit the existing Staff Code
     visit staff_codes_path
-    find('a[href$="/edit"]', exact_text: 'Edit', visible: true).click
+    find('a[href$="/edit"]', exact_text: 'Edit', visible: true).first.click
     expect(page).to have_content('Editing Staff Code')
 
     # Cannot delete staff codes
