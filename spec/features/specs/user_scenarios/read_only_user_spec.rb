@@ -13,6 +13,11 @@ RSpec.describe 'Read-Only User Functionalities', type: :feature do
     prevents_unauthorized_access(new_conservation_record_path)
   end
 
+  it 'prevents read-only users from accessing Edit Conservation Records page' do
+    conservation_record = create(:conservation_record)
+    prevents_unauthorized_access(edit_conservation_record_path(conservation_record))
+  end
+
   it 'prevents read-only users from accessing Controlled Vocabularies page' do
     prevents_unauthorized_access(controlled_vocabularies_path)
   end

@@ -7,16 +7,21 @@ RSpec.describe 'Non-Authenticated User Access', type: :feature do
 
   it_behaves_like 'has a non_authenticated user header'
 
-  it 'prevents anonymous users from accessing New Conservation Records page' do
-    prevents_anonymous_access(new_conservation_record_path)
-  end
-
   it 'prevents anonymous users from accessing Conservation Records page' do
     prevents_anonymous_access(conservation_records_path)
   end
 
   it 'prevents anonymous users from accessing a specific Conservation Record page' do
     prevents_anonymous_access(conservation_record_path(record.id))
+  end
+
+  it 'prevents anonymous users from accessing New Conservation Records page' do
+    prevents_anonymous_access(new_conservation_record_path)
+  end
+
+  it 'prevents anonymous users from accessing Edit Conservation Records page' do
+    conservation_record = create(:conservation_record)
+    prevents_anonymous_access(edit_conservation_record_path(conservation_record))
   end
 
   it 'prevents anonymous users from accessing Controlled Vocabularies page' do
