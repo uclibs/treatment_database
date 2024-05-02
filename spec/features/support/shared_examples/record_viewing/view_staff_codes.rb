@@ -5,14 +5,13 @@ require 'rails_helper'
 RSpec.shared_examples 'view staff codes' do
   it 'allows viewing the staff codes page' do
     within('nav.navbar') do
-      # The staff codes path does not have a link in the header for any user.
-      expect(page).to_not have_link(nil, href: staff_codes_path)
+      expect(page).to have_link(nil, href: staff_codes_path)
     end
     visit staff_codes_path
     expect(page).to have_selector('h1', text: 'Staff Codes')
     expect(page).to have_content('Code Points')
     expect(page).to have_link('New Staff Code', href: '/staff_codes/new')
-    expect(page).to have_link('Destroy')
+    expect(page).not_to have_link('Destroy')
     expect(page).to have_link('Show')
   end
 end

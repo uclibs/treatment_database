@@ -37,5 +37,6 @@ RSpec.shared_examples 'has a read_only user header', type: :feature do
     expect(@navbar).to_not have_link('Users', href: '/users')
     expect(@navbar).to_not have_link('Activity', href: '/activity')
     expect(@navbar).to_not have_link('Reports', href: '/reports')
+    expect(@navbar).to_not have_link('Staff Codes', href: '/staff_codes')
   end
 end
