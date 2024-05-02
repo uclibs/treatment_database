@@ -13,14 +13,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
     log_in_as_user(user)
 
-    # Edit the existing Staff Code
-    visit staff_codes_path
-    find('a[href$="/edit"]', exact_text: 'Edit', visible: true).first.click
-    expect(page).to have_content('Editing Staff Code')
-
-    # Cannot delete staff codes
-    expect(page).to_not have_link('Delete')
-
     # Edit Users
     visit conservation_records_path
     click_on 'Users'

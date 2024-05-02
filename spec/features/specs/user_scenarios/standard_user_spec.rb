@@ -19,6 +19,11 @@ RSpec.describe 'Standard User Functionalities', type: :feature do
     prevents_unauthorized_access(new_staff_code_path)
   end
 
+  it 'prevents standard users from accessing Edit Staff Code page' do
+    staff_code = create(:staff_code)
+    prevents_unauthorized_access(edit_staff_code_path(staff_code))
+  end
+
   it 'prevents standard users from accessing Controlled Vocabularies page' do
     prevents_unauthorized_access(controlled_vocabularies_path)
   end
