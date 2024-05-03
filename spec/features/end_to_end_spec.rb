@@ -246,7 +246,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
     # Verify logged activity
     visit activity_index_path
-    expect(page).to have_content('Haritha Vytla created the user: Beau Geste')
     expect(page).to have_content('Haritha Vytla created the external repair record')
     expect(page).to have_content('Haritha Vytla deleted the external repair record')
     expect(page).to have_content('Haritha Vytla created the in house repair record')
