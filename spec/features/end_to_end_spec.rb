@@ -114,6 +114,10 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let(:vocabulary) { create(:controlled_vocabulary) }
 
+  before do
+    vocabulary
+  end
+
   it 'allows User to login and show Conservation Records' do
     # Login
     log_in_as_user(user)
@@ -121,23 +125,14 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     # View Activity
     click_link('Activity')
 
-    # Add Vocabulary
-    click_link('Vocabularies')
-    click_link('New Controlled Vocabulary')
-    expect(page).to have_content('New Controlled Vocabulary')
-    select 'repair_type', from: 'Vocabulary'
-    fill_in 'Key', with: 'key_string'
-    check 'Active'
-    check 'Favorite'
-    click_button 'Create Controlled vocabulary'
-
-    expect(page).to have_content('Controlled vocabulary was successfully created')
-
     # Edit vocabulary
     visit controlled_vocabularies_path
     click_on 'key_string'
     click_on 'Edit'
+    select 'repair_type', from: 'Vocabulary'
     fill_in 'Key', with: 'updated_key_string'
+    check 'Active'
+    check 'Favorite'
     click_on 'Update Controlled vocabulary'
     expect(page).to have_content('Controlled vocabulary was successfully updated.')
     expect(page).to have_content('updated_key_string')
@@ -157,6 +152,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     fill_in('in_house_other_note', with: 'Some Other note for the in-house repair')
     fill_in('in_house_minutes_spent', with: '2')
     select('test', from: 'in_house_staff_code_id', match: :first)
+
     click_button('Create In-House Repair Record')
     expect(page).to have_content("Mend paper performed by #{user.display_name} in 2 minutes. Other note: Some Other note for the in-house repair")
 

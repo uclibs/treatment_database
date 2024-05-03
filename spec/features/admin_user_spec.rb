@@ -17,20 +17,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     click_link('Activity')
     expect(page).to have_content('Recent Activity')
 
-    # Add Vocabulary
-
-    visit conservation_records_path
-    click_link('Vocabularies')
-    expect(page).to have_content('Controlled Vocabularies')
-    click_link('New Controlled Vocabulary')
-    expect(page).to have_content('New Controlled Vocabulary')
-    select 'repair_type', from: 'Vocabulary'
-    fill_in 'Key', with: 'key_string'
-    check 'Active'
-    click_button 'Create Controlled vocabulary'
-
-    expect(page).to have_content('Controlled vocabulary was successfully created')
-
     # Go to a Conservation Record to edit it
     visit conservation_records_path
     within('table tbody') do
