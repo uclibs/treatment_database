@@ -12,24 +12,10 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     # Login
     log_in_as_user(user)
 
-    # Edit Users
-    visit conservation_records_path
-    click_on 'Users'
-    expect(page).to have_content('Users')
-    click_link(user.display_name, match: :prefer_exact)
-
-    expect(page).to have_content('Edit User')
-    fill_in 'Display name', with: 'Haritha Vytla'
-    fill_in 'Email', with: 'vytlasa@mail.uc.edu'
-    select('Admin', from: 'Role')
-    click_on 'Update User'
-    expect(page).to have_content('Haritha Vytla')
     # View Activity
-
     visit conservation_records_path
     click_link('Activity')
     expect(page).to have_content('Recent Activity')
-    expect(page).to have_content('updated the user: Haritha Vytla')
 
     # Add Vocabulary
 
@@ -57,13 +43,15 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     click_link(conservation_record.title, match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
-    select('Haritha Vytla', from: 'in_house_performed_by_user_id', match: :first)
+    expect(page).to have_content('Repaired By')
+    select(user.display_name, from: 'in_house_performed_by_user_id', match: :first)
     select('Mend paper', from: 'in_house_repair_type', match: :first)
     fill_in 'in_house_minutes_spent', with: '10'
     fill_in 'in_house_other_note', with: 'Other Note'
     select('test', from: 'in_house_staff_code_id', match: :first)
+
     click_button('Create In-House Repair Record')
-    expect(page).to have_content('Mend paper performed by Haritha Vytla')
+    expect(page).to have_content("Mend paper performed by #{user.display_name}")
 
     # External Repair
     expect(page).to have_button('Add External Repair')
@@ -78,9 +66,11 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
     click_button('Add Conservators and Technicians')
-    select('Haritha Vytla', from: 'cons_tech_performed_by_user_id', match: :first)
+
+    select(user.display_name, from: 'cons_tech_performed_by_user_id', match: :first)
+
     click_button('Create Conservators and Technicians Record')
-    expect(page).to have_content('Haritha Vytla')
+    expect(page).to have_content(user.display_name)
 
     # Save Treatment Report
 

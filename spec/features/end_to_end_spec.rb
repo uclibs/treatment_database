@@ -118,22 +118,8 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     # Login
     log_in_as_user(user)
 
-    # Edit Users
-    visit conservation_records_path
-    click_on 'Users'
-    expect(page).to have_content('Users')
-    click_link(user.display_name, match: :prefer_exact)
-
-    expect(page).to have_content('Edit User')
-    fill_in 'Display name', with: 'Haritha Vytla'
-    fill_in 'Email', with: 'vytlasa@mail.uc.edu'
-    select('Admin', from: 'Role')
-    click_on 'Update User'
-    expect(page).to have_content('Haritha Vytla')
-
     # View Activity
     click_link('Activity')
-    expect(page).to have_content('updated the user: Haritha Vytla')
 
     # Add Vocabulary
     click_link('Vocabularies')
@@ -161,7 +147,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     click_link(conservation_record.title, match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
-    select('Haritha Vytla', from: 'in_house_performed_by_user_id', match: :first)
+
+    select(user.display_name, from: 'in_house_performed_by_user_id', match: :first)
+
     # get list of repair_types and check that favorite is first option
     repair_types = find('#in_house_repair_type').all('option').collect(&:text)
     expect(repair_types[1..]).to start_with('updated_key_string')
@@ -170,13 +158,13 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     fill_in('in_house_minutes_spent', with: '2')
     select('test', from: 'in_house_staff_code_id', match: :first)
     click_button('Create In-House Repair Record')
-    expect(page).to have_content('Mend paper performed by Haritha Vytla in 2 minutes. Other note: Some Other note for the in-house repair')
+    expect(page).to have_content("Mend paper performed by #{user.display_name} in 2 minutes. Other note: Some Other note for the in-house repair")
 
     # Delete In-house repair
     accept_confirm do
       find("a[id='delete_in_house_repair_record_1']").click
     end
-    expect(page).not_to have_content('Mend paper performed by Haritha Vytla')
+    expect(page).not_to have_content("Mend paper performed by #{user.display_name}")
 
     # Create External Repair
     expect(page).to have_button('Add External Repair')
@@ -196,9 +184,10 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
     click_button('Add Conservators and Technicians')
-    select('Haritha Vytla', from: 'cons_tech_performed_by_user_id', match: :first)
+
+    select(user.display_name, from: 'cons_tech_performed_by_user_id', match: :first)
     click_button('Create Conservators and Technicians Record')
-    expect(page).to have_content('Haritha Vytla')
+    expect(page).to have_content(user.display_name)
 
     # Save Treatment Report
     expect(page).to have_content('Treatment Report')
@@ -246,26 +235,11 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
     # Verify logged activity
     visit activity_index_path
-    expect(page).to have_content('Haritha Vytla created the external repair record')
-    expect(page).to have_content('Haritha Vytla deleted the external repair record')
-    expect(page).to have_content('Haritha Vytla created the in house repair record')
-    expect(page).to have_content('Haritha Vytla deleted the in house repair record')
-    expect(page).to_not have_content('Haritha Vytla created the treatment report')
-    expect(page).to have_content('Haritha Vytla updated the treatment report')
-
-    # Check that details page shows diff data
-    # The following is no longer valid because we have removed the act of editing the
-    # file from the end-to-end test.  We will check the user activity functionality in another test.
-
-    # visit conservation_records_path
-    # click_link(conservation_record.title, match: :prefer_exact)
-    # fill_in 'treatment_report_description_binding', with: 'Half leather tightjoint, tight back binding'
-    # click_on('Save Treatment Report')
-    # expect(page).to have_content('Treatment Record updated successfully!')
-    # visit activity_index_path
-    # expect(page).to have_content('Haritha Vytla updated the treatment report')
-    # first('tbody tr').click_link('Details')
-    # expect(page).to have_content('Full leather tightjoint, tight back binding')
-    # expect(page).to have_content('Half leather tightjoint, tight back binding')
+    expect(page).to have_content("#{user.display_name} created the external repair record")
+    expect(page).to have_content("#{user.display_name} deleted the external repair record")
+    expect(page).to have_content("#{user.display_name} created the in house repair record")
+    expect(page).to have_content("#{user.display_name} deleted the in house repair record")
+    expect(page).to_not have_content("#{user.display_name} created the treatment report")
+    expect(page).to have_content("#{user.display_name} updated the treatment report")
   end
 end

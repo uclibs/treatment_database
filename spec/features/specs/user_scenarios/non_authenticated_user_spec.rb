@@ -36,6 +36,11 @@ RSpec.describe 'Non-Authenticated User Access', type: :feature do
     prevents_anonymous_access(new_user_path)
   end
 
+  it 'prevents anonymous users from accessing Edit User page' do
+    user = create(:user)
+    prevents_anonymous_access(edit_user_path(user))
+  end
+
   it 'prevents anonymous users from accessing Activity page' do
     prevents_anonymous_access('/activity')
   end
