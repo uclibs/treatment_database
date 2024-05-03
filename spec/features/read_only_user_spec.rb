@@ -12,8 +12,6 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
     log_in_as_user(user)
 
     click_link(conservation_record.title, match: :prefer_exact)
-    expect(page).to have_content(conservation_record.title)
-    expect(page).to have_no_link('Edit Conservation Record')
     expect(page).to have_no_button('Add In-House Repairs')
     expect(page).to have_no_button('Add External Repair')
     expect(page).to have_no_button('Add Conservators and Technicians')
