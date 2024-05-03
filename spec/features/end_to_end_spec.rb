@@ -23,7 +23,6 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:user) { create(:user, role: 'standard') }
   let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
-  let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
   before do
     @departments = ControlledVocabulary.where(vocabulary: 'department')
@@ -114,7 +113,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   let(:user) { create(:user, role: 'admin') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let(:vocabulary) { create(:controlled_vocabulary) }
-  let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
   it 'allows User to login and show Conservation Records' do
     # Login

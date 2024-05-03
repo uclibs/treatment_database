@@ -12,7 +12,6 @@ RSpec.describe 'Standard User Tests', type: :feature do
     log_in_as_user(user)
 
     # In_House Repair
-
     visit conservation_records_path
     click_link(conservation_record.title, match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
