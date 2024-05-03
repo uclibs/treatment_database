@@ -10,7 +10,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
   it 'allows User to login and show Conservation Records and Staff Codes' do
     # Login
-
     log_in_as_user(user)
 
     # Edit Users
