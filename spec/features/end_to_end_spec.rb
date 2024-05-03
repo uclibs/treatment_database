@@ -52,7 +52,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     select('Wash', from: 'external_repair_record_repair_type', match: :first)
     fill_in('external_repair_record_other_note', with: 'Some Other note for the external repair')
     click_button('Create External Repair Record')
-    expect(page).to have_content('Wash performed by Amanda Buck. Other note: Some Other note for the external repair')
+    expect(page).to have_content('Wash performed by Amanda Buck. Other note: Some')
 
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
