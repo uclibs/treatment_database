@@ -7,6 +7,10 @@ RSpec.describe 'Standard User Tests', type: :feature do
   let(:conservation_record) { create(:conservation_record, department: 'ARB Library', title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
+  before do
+    staff_code
+  end
+
   it 'allows User to login and show Conservation Records' do
     # Login
     log_in_as_user(user)
@@ -22,7 +26,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
     fill_in 'in_house_minutes_spent', with: '23'
     select('test', from: 'in_house_staff_code_id', match: :first)
     click_button('Create In-House Repair Record')
-    expect(page).to have_content('Soft slipcase performed by Chuck Greenman')
+    expect(page).to have_content('Soft slipcase performed by Chuck Greenman', wait: 3)
 
     # External Repair
     expect(page).to have_button('Add External Repair')

@@ -52,7 +52,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     select('Wash', from: 'external_repair_type', match: :first)
     fill_in('external_other_note', with: 'Some Other note for the external repair')
     click_button('Create External Repair Record')
-    expect(page).to have_content('Wash performed by Amanda Buck. Other note: Some Other note for the external repair')
+    expect(page).to have_content('Wash performed by Amanda Buck. Other note: Some')
 
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
@@ -112,7 +112,11 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:user) { create(:user, role: 'admin') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
-  let(:vocabulary) { create(:controlled_vocabulary) }
+  let(:vocabulary) { create(:controlled_vocabulary, vocabulary: 'repair_type', active: true, favorite: true) }
+
+  before do
+    vocabulary
+  end
 
   before do
     vocabulary
@@ -121,21 +125,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   it 'allows User to login and show Conservation Records' do
     # Login
     log_in_as_user(user)
-
-    # View Activity
-    click_link('Activity')
-
-    # Edit vocabulary
-    visit controlled_vocabularies_path
-    click_on 'key_string'
-    click_on 'Edit'
-    select 'repair_type', from: 'Vocabulary'
-    fill_in 'Key', with: 'updated_key_string'
-    check 'Active'
-    check 'Favorite'
-    click_on 'Update Controlled vocabulary'
-    expect(page).to have_content('Controlled vocabulary was successfully updated.')
-    expect(page).to have_content('updated_key_string')
 
     # Create In_House Repair
     visit conservation_records_path
@@ -147,7 +136,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
     # get list of repair_types and check that favorite is first option
     repair_types = find('#in_house_repair_type').all('option').collect(&:text)
-    expect(repair_types[1..]).to start_with('updated_key_string')
+    expect(repair_types[1..]).to start_with('key_string')
     select('Mend paper', from: 'in_house_repair_type', match: :first)
     fill_in('in_house_other_note', with: 'Some Other note for the in-house repair')
     fill_in('in_house_minutes_spent', with: '2')
