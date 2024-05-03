@@ -31,6 +31,10 @@ RSpec.describe 'Read-Only User Functionalities', type: :feature do
     prevents_unauthorized_access(users_path)
   end
 
+  it 'prevents read-only users from accessing New User page' do
+    prevents_unauthorized_access(new_user_path)
+  end
+
   it 'prevents read-only users from accessing Activity page' do
     prevents_unauthorized_access('/activity')
   end
