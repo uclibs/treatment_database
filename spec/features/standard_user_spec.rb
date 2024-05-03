@@ -9,7 +9,6 @@ RSpec.describe 'Standard User Tests', type: :feature do
 
   it 'allows User to login and show Conservation Records' do
     # Login
-
     log_in_as_user(user)
 
     # In_House Repair
