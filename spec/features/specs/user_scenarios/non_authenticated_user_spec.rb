@@ -28,6 +28,10 @@ RSpec.describe 'Non-Authenticated User Access', type: :feature do
     prevents_anonymous_access(controlled_vocabularies_path)
   end
 
+  it 'prevents anonymous users from accessing New Controlled Vocabulary page' do
+    prevents_anonymous_access(new_controlled_vocabulary_path)
+  end
+
   it 'prevents anonymous users from accessing Edit Controlled Vocabulary page' do
     controlled_vocabulary = create(:controlled_vocabulary)
     prevents_anonymous_access(edit_controlled_vocabulary_path(controlled_vocabulary))

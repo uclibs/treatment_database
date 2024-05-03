@@ -22,6 +22,10 @@ RSpec.describe 'Read-Only User Functionalities', type: :feature do
     prevents_unauthorized_access(controlled_vocabularies_path)
   end
 
+  it 'prevents read-only users from accessing New Controlled Vocabulary page' do
+    prevents_unauthorized_access(new_controlled_vocabulary_path)
+  end
+
   it 'prevents read-only users from accessing Edit Controlled Vocabulary page' do
     controlled_vocabulary = create(:controlled_vocabulary)
     prevents_unauthorized_access(edit_controlled_vocabulary_path(controlled_vocabulary))
