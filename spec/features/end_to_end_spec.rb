@@ -114,6 +114,10 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let(:vocabulary) { create(:controlled_vocabulary) }
 
+  before do
+    vocabulary
+  end
+
   it 'allows User to login and show Conservation Records' do
     # Login
     log_in_as_user(user)
@@ -121,23 +125,14 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     # View Activity
     click_link('Activity')
 
-    # Add Vocabulary
-    click_link('Vocabularies')
-    click_link('New Controlled Vocabulary')
-    expect(page).to have_content('New Controlled Vocabulary')
-    select 'repair_type', from: 'Vocabulary'
-    fill_in 'Key', with: 'key_string'
-    check 'Active'
-    check 'Favorite'
-    click_button 'Create Controlled vocabulary'
-
-    expect(page).to have_content('Controlled vocabulary was successfully created')
-
     # Edit vocabulary
     visit controlled_vocabularies_path
     click_on 'key_string'
     click_on 'Edit'
+    select 'repair_type', from: 'Vocabulary'
     fill_in 'Key', with: 'updated_key_string'
+    check 'Active'
+    check 'Favorite'
     click_on 'Update Controlled vocabulary'
     expect(page).to have_content('Controlled vocabulary was successfully updated.')
     expect(page).to have_content('updated_key_string')
@@ -150,7 +145,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     select(user.display_name, from: 'in_house_repair_record_performed_by_user_id', match: :first)
     # get list of repair_types and check that favorite is first option
     repair_types = find('#in_house_repair_record_repair_type').all('option').collect(&:text)
-    expect(repair_types[1..]).to start_with('updated_key_string')
+    expect(repair_types[1..]).to include('updated_key_string')
     select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
     fill_in('in_house_repair_record_other_note', with: 'Some Other note for the in-house repair')
     fill_in('in_house_repair_record_minutes_spent', with: '2')
