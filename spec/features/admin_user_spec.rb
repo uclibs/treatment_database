@@ -16,8 +16,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     visit conservation_records_path
     click_link('Activity')
     expect(page).to have_content('Recent Activity')
-    # This will be tested when we check activity page
-    # expect(page).to have_content('updated the user: Haritha Vytla')
 
     # Add Vocabulary
 
@@ -45,13 +43,13 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     click_link(conservation_record.title, match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
-    select('Haritha Vytla', from: 'in_house_repair_record_performed_by_user_id', match: :first)
+    select(user.display_name, from: 'in_house_repair_record_performed_by_user_id', match: :first)
     select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
     fill_in 'in_house_repair_record_minutes_spent', with: '10'
     fill_in 'in_house_repair_record_other_note', with: 'Other Note'
     select('test', from: 'in_house_repair_record_staff_code_id', match: :first)
     click_button('Create In-House Repair Record')
-    expect(page).to have_content('Mend paper performed by Haritha Vytla')
+    expect(page).to have_content("Mend paper performed by #{user.display_name}")
 
     # External Repair
     expect(page).to have_button('Add External Repair')
@@ -65,9 +63,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
     click_button('Add Conservators and Technicians')
-    select('Haritha Vytla', from: 'con_tech_record_performed_by_user_id', match: :first)
+    select(user.display_name, from: 'con_tech_record_performed_by_user_id', match: :first)
     click_button('Create Conservators and Technicians Record')
-    expect(page).to have_content('Haritha Vytla')
+    expect(page).to have_content(user.display_name)
 
     # Save Treatment Report
 
