@@ -32,6 +32,10 @@ RSpec.describe 'Standard User Functionalities', type: :feature do
     prevents_unauthorized_access(users_path)
   end
 
+  it 'prevents standard users from accessing New User page' do
+    prevents_unauthorized_access(new_user_path)
+  end
+
   it 'prevents standard users from accessing Activity page' do
     prevents_unauthorized_access('/activity')
   end
