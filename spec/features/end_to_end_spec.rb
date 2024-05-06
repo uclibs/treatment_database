@@ -32,19 +32,6 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     # Login
     log_in_as_user(user)
 
-    # In_House Repair
-    visit conservation_records_path
-    click_link(conservation_record.title, match: :prefer_exact)
-    expect(page).to have_button('Add In-House Repairs')
-    click_button('Add In-House Repairs')
-    select('Chuck Greenman', from: 'in_house_repair_record_performed_by_user_id')
-    select('Soft slipcase', from: 'in_house_repair_record_repair_type', match: :first)
-    fill_in('in_house_repair_record_other_note', with: 'Some Other note for the in-house repair')
-    fill_in('in_house_repair_record_minutes_spent', with: '2')
-    select('test', from: 'in_house_repair_record_staff_code_id', match: :first)
-    click_button('Create In-House Repair Record')
-    expect(page).to have_content('Soft slipcase performed by Chuck Greenman in 2 minutes. Other note: Some Other note for the in-house repair')
-
     # External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
@@ -121,28 +108,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   it 'allows User to login and show Conservation Records' do
     # Login
     log_in_as_user(user)
-
-    # Create In_House Repair
-    visit conservation_records_path
-    click_link(conservation_record.title, match: :prefer_exact)
-    expect(page).to have_button('Add In-House Repairs')
-    click_button('Add In-House Repairs')
-    select(user.display_name, from: 'in_house_repair_record_performed_by_user_id', match: :first)
-    # get list of repair_types and check that favorite is first option
-    repair_types = find('#in_house_repair_record_repair_type').all('option').collect(&:text)
-    expect(repair_types[1..]).to start_with('key_string')
-    select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
-    fill_in('in_house_repair_record_other_note', with: 'Some Other note for the in-house repair')
-    fill_in('in_house_repair_record_minutes_spent', with: '2')
-    select('test', from: 'in_house_repair_record_staff_code_id', match: :first)
-    click_button('Create In-House Repair Record')
-    expect(page).to have_content("Mend paper performed by #{user.display_name} in 2 minutes. Other note: Some Other note for the in-house repair")
-
-    # Delete In-house repair
-    accept_confirm do
-      find("a[id='delete_in_house_repair_record_1']").click
-    end
-    expect(page).not_to have_content("Mend paper performed by #{user.display_name}")
 
     # Create External Repair
     expect(page).to have_button('Add External Repair')

@@ -8,7 +8,7 @@ RSpec.describe 'Read-Only User Functionalities', type: :feature do
   it_behaves_like 'index page access for authenticated users'
   it_behaves_like 'view conservation record details'
   it_behaves_like 'has a read_only user header'
-  it_behaves_like 'displays conservation records for read-only users correctly'
+  it_behaves_like 'can read but not edit conservation records'
 
   it 'prevents read-only users from accessing New Conservation Records page' do
     prevents_unauthorized_access(new_conservation_record_path)

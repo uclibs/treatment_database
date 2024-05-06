@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.shared_examples 'displays conservation records for read-only users correctly' do
+RSpec.shared_examples 'can read but not edit conservation records' do
   let(:cons_record) { create(:conservation_record) }
 
   before do
