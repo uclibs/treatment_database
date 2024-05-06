@@ -39,7 +39,7 @@ RSpec.shared_examples 'displays conservation records for read-only users correct
     visit conservation_record_path(cons_record)
     expect(page).to have_selector('h1', text: cons_record.title)
     expect(page).to have_selector('form.disable_input')
-    all('form.disabled_input').each do |form|
+    all('form.disable_input').each do |form| # There are several forms on the page
       within(form) do
         # Check disabled state for all input, textarea, and select elements
         %w[input textarea select].each do |element_type|
