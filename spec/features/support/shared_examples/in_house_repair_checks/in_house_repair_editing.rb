@@ -13,4 +13,3 @@ RSpec.shared_examples 'edits in-house repairs' do
     # Currently there is no funtionality to edit an in-house repair.
   end
 end
-

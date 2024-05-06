@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def add_in_house_repair(conservation_record)
   visit conservation_records_path
   click_link(conservation_record.title, match: :prefer_exact)

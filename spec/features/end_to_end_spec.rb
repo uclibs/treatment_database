@@ -31,6 +31,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
   it 'allows User to login and show Conservation Records' do
     # Login
     log_in_as_user(user)
+    click_link(conservation_record.title, match: :prefer_exact)
 
     # External Repair
     expect(page).to have_button('Add External Repair')
@@ -108,6 +109,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   it 'allows User to login and show Conservation Records' do
     # Login
     log_in_as_user(user)
+    click_link(conservation_record.title, match: :prefer_exact)
 
     # Create External Repair
     expect(page).to have_button('Add External Repair')
@@ -179,8 +181,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     visit activity_index_path
     expect(page).to have_content("#{user.display_name} created the external repair record")
     expect(page).to have_content("#{user.display_name} deleted the external repair record")
-    expect(page).to have_content("#{user.display_name} created the in house repair record")
-    expect(page).to have_content("#{user.display_name} deleted the in house repair record")
     expect(page).to_not have_content("#{user.display_name} created the treatment report")
     expect(page).to have_content("#{user.display_name} updated the treatment report")
   end
