@@ -23,6 +23,16 @@ class InHouseRepairRecordsController < ApplicationController
     redirect_to "#{conservation_record_path(@conservation_record)}#in-house-repairs"
   end
 
+  def edit; end
+
+  def update
+    if @in_house_repair_record.update(create_params)
+      redirect_to "#{conservation_record_path(@conservation_record)}#in-house-repairs"
+    else
+      render :edit
+    end
+  end
+
   private
 
   def create_params

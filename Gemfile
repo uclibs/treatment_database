@@ -52,6 +52,8 @@ gem 'pdfkit'
 
 gem 'dotenv-rails'
 
+gem 'stimulus-rails'
+
 gem 'cancancan'
 
 gem 'paper_trail'

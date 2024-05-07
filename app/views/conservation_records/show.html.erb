@@ -77,12 +77,25 @@
         </div>
       </div>
     <% else %>
-      <ul class="list-group">
+      <ul class="list-group" data-controller="modal">
         <% @in_house_repairs.each_with_index do |repair, i| %>
           <li class="list-group-item">
             <%= generate_in_house_repair_string(repair, i) %>
-
-            <% if can? :crud, InHouseRepairRecord %>
+              <% if can? :crud, InHouseRepairRecord %>
+                <%= link_to '#',
+                            id: "edit_in_house_repair_record_#{repair.id}",
+                            class: 'btn btn-primary justify-content-right',
+                            data: {
+                              controller: "in_house_modal",
+                              action: "click->in_house_modal#populate",
+                              modal_user_id: repair.performed_by_user_id,
+                              modal_repair_type: repair.repair_type,
+                              modal_minutes_spent: repair.minutes_spent,
+                              modal_other_note: repair.other_note,
+                              modal_staff_code_id: repair.staff_code_id
+                            } do %>
+                  Edit
+                <% end %>
               <%= link_to [repair.conservation_record, repair], id: "delete_in_house_repair_record_#{repair.id}", method: :delete, data: {confirm: "Are you sure?"} do %>
                 <button class="btn btn-danger justify-content-right">
                   <%= image_tag "delete.png", class: "delete-icon", alt: "Delete" %>
@@ -228,49 +241,49 @@
   <% end %>
 </div>
 <br />
-
-<div class="modal fade" id="inHouseRepairModal" tabindex="-1" role="dialog" aria-labelledby="inHouseRepairModal" aria-hidden="true">
+<div data-controller="in_house_modal">
+  <div class="modal fade" id="inHouseRepairModal" tabindex="-1" role="dialog" aria-labelledby="inHouseRepairModal" aria-hidden="true" >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">In-House Repair</h5>
+        <h5 class="modal-title" id="modalLabel">In-House Repair</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
-      <%= form_with(model: [@conservation_record, @conservation_record.in_house_repair_records.build]) do |form| %>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="RepairedBy">Repaired By</label>
-            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { :class => 'form-control', :required=> true }) %>
+      <%= form_with(model: [@conservation_record, @in_house_repair_record || @conservation_record.in_house_repair_records.build], local: true) do |form| %>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="performed_by_user_id">Repaired By</label>
+            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { class: 'form-control', required: true, data: { modal_target: "performedByUserId" } }) %>
+          </div>
+          <div class="form-group">
+            <label>Repair Type</label>
+            <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control', :required=> true } %>
+          </div>
+          <div class="form-group">
+            <label>Minutes Spent</label>
+            <%= form.number_field :minutes_spent, class: "form-control", placeholder: "Minutes", required: true %>
+          </div>
+          <div class="form-group">
+            <label>Other Note</label>
+            <%= form.text_field :other_note, class: "form-control", placeholder: "Other Notes" %>
+          </div>
+          <div class="form-group">
+            <label>Staff Code</label>
+            <%= form.select :staff_code_id, options_from_collection_for_select(@staff_codes, "id", "code"), { prompt: 'Select Staff Code' }, { :class => 'form-control', required: true } %>
+          </div>
         </div>
-        <div class="form-group">
-          <label>Repair Type</label>
-          <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control', :required=> true } %>
-        </div>
-        <div class="form-group">
-          <label>Minutes Spent</label>
-          <%= form.number_field :minutes_spent, class: "form-control", placeholder: "Minutes", required: true %>
-        </div>
-        <div class="form-group">
-          <label>Other Note</label>
-          <%= form.text_field :other_note, class: "form-control", placeholder: "Other Notes" %>
-        </div>
-        <div class="form-group"> 
-          <label>Staff Code</label>
-          <%= form.select :staff_code_id, options_from_collection_for_select(@staff_codes, "id", "code"), { prompt: 'Select Staff Code' }, { :class => 'form-control', required: true } %>
-        </div>
-       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <%= form.submit "Create In-House Repair Record", class: "btn btn-primary" %>
-        <% end %>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= form.submit (@in_house_repair_record.new_record? ? "Create In-House Repair Record" : "Update In-House Repair Record"), class: "btn btn-primary" %>
+      <% end %>
       </div>
     </div>
   </div>
 </div>
-
+</div>
 <div class="modal fade" id="externalRepairModal" tabindex="-1" role="dialog" aria-labelledby="externalRepairModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -328,6 +341,7 @@
         </div>
       <% end %>
     </div>
+  </div>
   </div>
 </div>
 

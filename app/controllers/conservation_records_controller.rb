@@ -21,6 +21,7 @@ class ConservationRecordsController < ApplicationController
     @contract_conservators = ControlledVocabulary.where(vocabulary: 'contract_conservator', active: true).order(favorite: :desc)
     @housing = ControlledVocabulary.where(vocabulary: 'housing', active: true).order(favorite: :desc)
     @in_house_repairs = @conservation_record.in_house_repair_records
+    @in_house_repair_record = InHouseRepairRecord.new # This ensures it's never nil
     @external_repairs = @conservation_record.external_repair_records
     @con_tech_records = @conservation_record.con_tech_records
     @staff_codes = StaffCode.all

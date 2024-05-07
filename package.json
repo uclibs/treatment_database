@@ -1,5 +1,7 @@
 {
   "name": "treatment_database",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2"
+  }
 }
