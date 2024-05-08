@@ -118,10 +118,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     vocabulary
   end
 
-  before do
-    vocabulary
-  end
-
   it 'allows User to login and show Conservation Records' do
     # Login
     log_in_as_user(user)
