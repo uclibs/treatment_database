@@ -10,6 +10,8 @@ RSpec.describe 'Admin User Functionalities', type: :feature do
   it_behaves_like 'view conservation record details'
   it_behaves_like 'creates new conservation records'
   it_behaves_like 'edits conservation records'
+  it_behaves_like 'creates new in-house repairs'
+  it_behaves_like 'deletes in-house repairs'
   it_behaves_like 'view controlled vocabularies'
   it_behaves_like 'creates new controlled vocabularies'
   it_behaves_like 'edits controlled vocabularies'

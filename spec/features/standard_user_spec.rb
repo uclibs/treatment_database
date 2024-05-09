@@ -14,19 +14,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
   it 'allows User to login and show Conservation Records' do
     # Login
     log_in_as_user(user)
-
-    # In_House Repair
-    visit conservation_records_path
     click_link(conservation_record.title, match: :prefer_exact)
-    expect(page).to have_button('Add In-House Repairs')
-    click_button('Add In-House Repairs')
-    select('Chuck Greenman', from: 'in_house_repair_record_performed_by_user_id')
-    select('Soft slipcase', from: 'in_house_repair_record_repair_type', match: :first)
-    fill_in 'in_house_repair_record_other_note', with: 'Other Note'
-    fill_in 'in_house_repair_record_minutes_spent', with: '23'
-    select('test', from: 'in_house_repair_record_staff_code_id', match: :first)
-    click_button('Create In-House Repair Record')
-    expect(page).to have_content('Soft slipcase performed by Chuck Greenman', wait: 3)
 
     # External Repair
     expect(page).to have_button('Add External Repair')
