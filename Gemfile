@@ -62,7 +62,6 @@ gem 'brakeman', '~> 5.1', '>= 5.1.1'
 
 gem 'bigdecimal', '~> 3'
 
-#
 gem 'show_me_the_cookies' # Cookie inspection for tests
 
 gem 'omniauth-shibboleth' # Provides Shibboleth-based SSO authentication
