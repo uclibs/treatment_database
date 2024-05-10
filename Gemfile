@@ -51,7 +51,6 @@ gem 'wkhtmltopdf-binary', '>= 0.12.6.7' # Enables PDF generation from HTML
 # Windows specific timezone data
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby] # Timezone data for Windows
 
-#
 gem 'show_me_the_cookies' # Cookie inspection for tests
 
 gem 'omniauth-shibboleth' # Provides Shibboleth-based SSO authentication
