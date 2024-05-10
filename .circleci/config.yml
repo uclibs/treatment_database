@@ -19,7 +19,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: cimg/ruby:3.3.1
+      - image: cimg/ruby:3.3.3
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -71,7 +71,16 @@ jobs:
             echo "Node.js version: $(node --version)"
 
       - run:
-          name: Install Dependencies
+          name: Install Yarn
+          command: |
+            source $BASH_ENV
+            nvm use
+            npm install -g yarn
+            echo "Yarn installed successfully."
+            echo "Yarn version: $(yarn --version)"
+
+      - run:
+          name: Install Gemfile Dependencies
           no_output_timeout: 15m
           shell: /bin/bash -eo pipefail
           command: |
@@ -83,6 +92,22 @@ jobs:
             sudo apt-get install -y xvfb libfontconfig wkhtmltopdf
 
             echo "Installation steps completed successfully."
+
+      - run:
+          name: Install Yarn Dependencies
+          command: |
+            echo "Installing Yarn dependencies..."
+            source $BASH_ENV
+            nvm use
+            yarn install
+
+      - run:
+          name: Run Yarn Build
+          command: |
+            echo "Running Yarn build..."
+            source $BASH_ENV
+            nvm use
+            yarn build
 
       - save_cache:
           paths:

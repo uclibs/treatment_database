@@ -6,3 +6,4 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+Rails.root.glob('lib/capistrano/tasks/*.rake').each { |file| load file }
