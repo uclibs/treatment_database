@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Custom module to integrate NVM with Capistrano
+require_relative '../lib/capistrano/tasks/nvm_integration'
+
 # config valid for current version and patch releases of Capistrano
 lock '~> 3.17.1'
 
@@ -42,30 +45,11 @@ task :ruby_update_check do
   end
 end
 
-namespace :deploy do
-  task :confirmation do
-    stage = fetch(:stage).upcase
-    branch = fetch(:branch)
-    puts <<-WARN
+# Use nvm on the default task to ensure the correct Node version is used
+NVMIntegration.wrap_with_nvm('deploy:compile_assets')
 
-    ========================================================================
-
-      *** Deploying to branch `#{branch}` to #{stage} server ***
-
-      WARNING: You're about to perform actions on #{stage} server(s)
-      Please confirm that all your intentions are kind and friendly
-
-    ========================================================================
-
-    WARN
-    ask :value, "Sure you want to continue deploying `#{branch}` on #{stage}? (Y or Yes)"
-
-    unless fetch(:value).match?(/\A(?i:yes|y)\z/)
-      puts "\nNo confirmation - deploy cancelled!"
-      exit
-    end
-  end
-end
-
-before 'deploy:starting', 'deploy:confirmation'
 after 'git:create_release', 'nvm:load'
+before 'deploy:starting', 'deploy:confirmation'
+after 'deploy:confirmation', 'deploy:clear_assets'
+before 'deploy:compile_assets', 'yarn:install'
+after 'deploy:compile_assets', 'yarn:build'
