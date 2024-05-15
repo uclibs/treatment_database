@@ -2,6 +2,7 @@
 # Copying over from ucrate's "static_controller_spec.rb" file.
 # We dont' currently have a static controller.
 
+#i think we only need this if we want to redirect the user if they are already logged in?
 
 require 'rails_helper'
 describe StaticController do
