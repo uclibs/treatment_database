@@ -6,7 +6,6 @@ require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
 require 'factory_bot'
 require 'rspec/rails'
-
 require 'paper_trail/frameworks/rspec'
 require 'capistrano-spec'
 
