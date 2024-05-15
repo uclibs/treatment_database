@@ -5,7 +5,7 @@ FactoryBot.define do
     sequence(:display_name) { |n| "Name #{n}" }
     sequence(:email) { |n| "user#{n}@example.com" }
     password { 'notapassword' }
-    role { 'standard' }
+    # dont think we need : role { 'standard' }
     account_active { true }
   end
 end
@@ -16,7 +16,7 @@ end
 #         count { 1 }
 #         person_pid { nil }
 #       end
-#       email { 'sixplus2@test.com' }
+# *****      email { 'sixplus2@test.com' }
 #       password { '12345678' }
 #       first_name { 'Fake' }
 #       last_name { 'User' }
