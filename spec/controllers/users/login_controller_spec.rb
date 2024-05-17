@@ -12,6 +12,8 @@ describe StaticController do
     before do
       controller.stub(:current_user).and_return(user)
     end
+
+    #keep to make sure we want our spec to look for the username on the page...and
     it 'redirects to dashboard when already logged in' do
       get :login
       expect(response).to redirect_to(Hyrax::Engine.routes.url_helpers.dashboard_path)
