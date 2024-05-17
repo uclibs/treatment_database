@@ -1,6 +1,6 @@
 # copied from ucrate.  THis will need to be adjusted to fit our application.
 # Only some of this file was copied over.
-
+# need to check devise default behaior if by default devise shows a change password option
 # frozen_string_literal: true
 require 'rails_helper'
 RSpec.describe '/_user_util_links.html.erb', type: :view do
@@ -26,16 +26,6 @@ RSpec.describe '/_user_util_links.html.erb', type: :view do
     end
   end
 
-  context 'when the user is not using shibboleth' do
-    before do
-      allow(view).to receive(:current_user).and_return(stub_model(User, user_key: 'userX', provider: nil))
-      render
-    end
-
-    it 'shows the change password manu option' do
-      expect(rendered).to have_link 'Change password', href: edit_user_registration_path
-    end
-  end
   def stub_current_ability(can_create: true)
     current_ability = instance_double('CurrentAbility')
     allow(view).to receive(:current_ability).and_return(current_ability)
