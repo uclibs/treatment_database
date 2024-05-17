@@ -104,4 +104,4 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # wkhtmltopdf uclibs fork
-gem 'wkhtmltopdf-binary', git: 'https://github.com/uclibs/wkhtmltopdf_binary_gem', branch: '153/oracle-linux-support'
+gem 'wkhtmltopdf-binary', '>= 0.12.6.7'
