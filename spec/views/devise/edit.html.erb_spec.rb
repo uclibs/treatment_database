@@ -4,6 +4,7 @@
 
 require 'rails_helper'
 
+# leave for now... need to be modified though
 RSpec.describe 'devise/registrations/edit.html.erb', type: :view do
   let(:resource) { stub_model(User, user_key: 'mjg') }
   let(:resource_name) { :user }
