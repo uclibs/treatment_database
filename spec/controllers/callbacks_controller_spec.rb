@@ -59,12 +59,6 @@ describe CallbacksController do
 
       it 'updates the shibboleth attributes' do
         get provider
-        # expect(assigns(:user).title).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["title"])
-        # expect(assigns(:user).telephone).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["telephoneNumber"])
-        # expect(assigns(:user).first_name).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["givenName"])
-        # expect(assigns(:user).last_name).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["sn"])
-        # expect(assigns(:user).uc_affiliation).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["uceduPrimaryAffiliation"])
-        # expect(assigns(:user).ucdepartment).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["ou"])
         expect(assigns(:user).mail).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["email"])
       end
     end
@@ -84,13 +78,7 @@ describe CallbacksController do
 
       it 'updates the shibboleth attributes' do
         get provider
-        # expect(assigns(:user).title).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["title"])
-        # expect(assigns(:user).telephone).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["telephoneNumber"])
-        # expect(assigns(:user).first_name).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["givenName"])
-        # expect(assigns(:user).last_name).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["sn"])
-        # expect(assigns(:user).uc_affiliation).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["uceduPrimaryAffiliation"])
-        # expect(assigns(:user).ucdepartment).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["ou"])
          expect(assigns(:user).mail).to eq(request.env["omniauth.auth"]["extra"]["raw_info"]["email"])
       end
     end
-  end
+end
