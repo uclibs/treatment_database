@@ -17,7 +17,7 @@ RSpec.describe 'devise/registrations/edit.html.erb', type: :view do
     render
   end
 
-  it "does not allow the user to cancel their account" do
+  it 'does not allow the user to cancel their account' do
     expect(rendered).not_to have_content('Cancel my account')
   end
 end

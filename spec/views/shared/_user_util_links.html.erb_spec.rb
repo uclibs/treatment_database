@@ -2,6 +2,7 @@
 # Only some of this file was copied over.
 # need to check devise default behaior if by default devise shows a change password option
 # frozen_string_literal: true
+
 require 'rails_helper'
 RSpec.describe '/_user_util_links.html.erb', type: :view do
   let(:join_date) { 5.days.ago }
@@ -31,6 +32,7 @@ RSpec.describe '/_user_util_links.html.erb', type: :view do
     allow(view).to receive(:current_ability).and_return(current_ability)
     allow(current_ability).to receive(:can_create_any_work?).and_return(can_create)
   end
+
   def stub_create_work_presenter(many_works: true)
     create_work_presenter = instance_double('CreateWorkPresenter')
     allow(view).to receive(:create_work_presenter).and_return(create_work_presenter)

@@ -42,13 +42,13 @@ describe 'UC account workflow', type: :feature do
     it 'shows a shibboleth login link if shibboleth is enabled' do
       AUTH_CONFIG['shibboleth_enabled'] = true
       visit new_user_session_path
-      expect(page).to have_link('Central Login form', href: user_shibboleth_omniauth_authorize_path(locale: locale))
+      expect(page).to have_link('Central Login form', href: user_shibboleth_omniauth_authorize_path(locale:))
     end
     # do we need this for local development?
     it 'does not show a shibboleth login link if shibboleth is disabled' do
       AUTH_CONFIG['shibboleth_enabled'] = false
       visit new_user_session_path
-      expect(page).not_to have_link('Central Login form', href: user_shibboleth_omniauth_authorize_path(locale: locale))
+      expect(page).not_to have_link('Central Login form', href: user_shibboleth_omniauth_authorize_path(locale:))
     end
   end
 
@@ -65,7 +65,7 @@ describe 'UC account workflow', type: :feature do
         expect(page).to have_link('UC Central Login username', href: 'https://www.uc.edu/distance/Student_Orientation/One_Stop_Student_Resources/central-log-in-.html')
       end
     end
-    #- need to talk with Glen about how to run (or not) shibboleth in development
+    # - need to talk with Glen about how to run (or not) shibboleth in development
     context 'when shibboleth is not enabled' do
       before do
         AUTH_CONFIG['shibboleth_enabled'] = false
@@ -77,7 +77,7 @@ describe 'UC account workflow', type: :feature do
     end
   end
 
-  #keep all below
+  # keep all below
   describe 'shibboleth password management' do
     it 'hides the password change fields for shibboleth users' do
       login_as(user)
@@ -92,14 +92,14 @@ describe 'UC account workflow', type: :feature do
   describe 'home page login button' do
     it 'shows the correct login link' do
       visit root_path
-      expect(page).to have_link('Login', href: login_path + '?locale=en')
+      expect(page).to have_link('Login', href: "#{login_path}?locale=en")
     end
   end
 
   # it should redirect to root page automatically after logout.
   # Do we need the cookie ?
   describe 'a user using a UC Shibboleth login' do
-    it "redirects to the UC Shibboleth logout page after logout" do
+    it 'redirects to the UC Shibboleth logout page after logout' do
       create_cookie('login_type', 'shibboleth')
       visit('/users/sign_out')
       expect(page).to have_content("You have been logged out of the University of Cincinnati's Login Service")
