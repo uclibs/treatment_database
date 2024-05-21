@@ -12,7 +12,7 @@ executors:
 
 orbs:
   ruby: circleci/ruby@2.1.1
-  node: circleci/node@5.0.2
+  node: circleci/node@4.7.0
   browser-tools: circleci/browser-tools@1.4.7
   coveralls: coveralls/coveralls@1.0.6
 
@@ -51,10 +51,6 @@ jobs:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run:
-          name: Install Node.js
-          command: |
-            curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - && sudo apt-get install -y nodejs
 
       - run:
           name: Configure Bundler
