@@ -60,12 +60,16 @@ jobs:
             gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
 
       - run:
-          name: Install Dependencies
+          name: Install Node.js and Dependencies
           no_output_timeout: 15m
           command: |
+            curl -sL https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+            source $NVM_DIR/nvm.sh
+            nvm install 12.22.12
+            nvm use 12.22.12
             bundle install --jobs=4 --retry=3
             sudo apt-get update
-            sudo apt-get install xvfb libfontconfig wkhtmltopdf
+            sudo apt-get install -y xvfb libfontconfig wkhtmltopdf
 
       - save_cache:
           paths:
