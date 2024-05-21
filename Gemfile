@@ -33,7 +33,7 @@ gem 'rubocop'
 gem 'simplecov', require: false
 gem 'simplecov-lcov', require: false
 
-gem 'nokogiri', '>= 1.13'
+gem 'nokogiri'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
