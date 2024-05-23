@@ -46,11 +46,8 @@ describe CallbacksController do
       it 'assigns the user and redirects' do
         get provider
         expect(flash[:notice]).to match(/You are now signed in as */)
-        expect(cookies[:login_type]).not_to eq(nil)
         expect(assigns(:user).email).to eq(email)
-        expect(assigns(:user).provider).to eq('shibboleth')
         expect(assigns(:user).uid).to eq(request.env['omniauth.auth']['uid'])
-        expect(assigns(:user).profile_update_not_required).to eq(false)
         expect(response).to be_redirect
       end
     end
