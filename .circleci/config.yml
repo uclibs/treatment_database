@@ -12,7 +12,6 @@ executors:
 
 orbs:
   ruby: circleci/ruby@2.1.1
-  node: circleci/node@5.0.2
   browser-tools: circleci/browser-tools@1.4.7
   coveralls: coveralls/coveralls@1.0.6
 
@@ -20,7 +19,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: cimg/ruby:3.3.0-browsers
+      - image: cimg/ruby:3.3.1
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -60,12 +59,21 @@ jobs:
             gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
 
       - run:
-          name: Install Dependencies
+          name: Install Node.js and Dependencies
           no_output_timeout: 15m
           command: |
-            bundle install
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> $BASH_ENV
+            source $BASH_ENV
+            nvm install 12.22.12
+            nvm use 12.22.12
+            node --version
+            npm --version
+            bundle install --jobs=4 --retry=3
             sudo apt-get update
-            sudo apt-get install xvfb libfontconfig wkhtmltopdf
+            sudo apt-get install -y xvfb libfontconfig wkhtmltopdf
 
       - save_cache:
           paths:

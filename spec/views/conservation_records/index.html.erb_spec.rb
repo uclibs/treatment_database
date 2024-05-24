@@ -55,7 +55,7 @@ RSpec.describe 'conservation_records/index', type: :view do
   it 'displays a pagination widget' do
     # Only 2 records, so the pagy widget should be disabled
     render
-    expect(rendered).to have_css('nav.pagy-bootstrap-nav')
+    expect(rendered).to have_css('nav.pagy-bootstrap.nav')
     expect(rendered).to have_css('li.page-item.prev.disabled')
     expect(rendered).to have_css('li.page-item.next.disabled')
     expect(rendered).to have_css('a[aria-label="Previous"]', text: '<')
