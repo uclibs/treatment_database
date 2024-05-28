@@ -26,4 +26,6 @@ Rails.application.routes.draw do
   get 'conservation_records/:id/treatment_report', to: 'conservation_records#treatment_report', as: 'treatment_report'
   get 'conservation_records/:id/abbreviated_treatment_report', to: 'conservation_records#abbreviated_treatment_report', as: 'abbreviated_treatment_report'
   get 'reports/download_csv'
+
+  mount Flipper::UI.app(Flipper) => '/flipper' if Rails.env.development?
 end
