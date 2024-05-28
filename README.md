@@ -76,6 +76,11 @@ Then:
 docker-compose up
 ```
 
+## Environment Setup
+To set up your development environment:
+1. Copy the `.env.example` file to `.env.development` and `.env.test` and fill in the necessary values.
+
+
 ## Running the Tests
 
 The treatment database has a test suite built with rspec, running it is simple, just call the following in the project directory:
