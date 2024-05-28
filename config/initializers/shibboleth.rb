@@ -8,5 +8,5 @@
 #   # do something else
 # end
 
-shibboleth_config = YAML.safe_load(ERB.new(File.read(Rails.root.join('config', 'shibboleth.yml'))).result)
+shibboleth_config = YAML.safe_load(ERB.new(Rails.root.join('config/shibboleth.yml').read).result)
 SHIBBOLETH_ENABLED = shibboleth_config[Rails.env]['shibboleth_enabled']

@@ -10,7 +10,7 @@ RSpec.describe 'Shibboleth Configuration' do
   end
 
   shared_examples 'correctly parses shibboleth config' do |environment|
-    let(:shibboleth_config) { YAML.safe_load(ERB.new(File.read(Rails.root.join('config', 'shibboleth.yml'))).result) }
+    let(:shibboleth_config) { YAML.safe_load(ERB.new(Rails.root.join('config/shibboleth.yml').read).result) }
 
     it "parses the ERB content correctly for #{environment}" do
       allow(ENV).to receive(:[]).and_call_original
@@ -30,16 +30,14 @@ RSpec.describe 'Shibboleth Configuration' do
   end
 
   describe 'SHIBBOLETH_ENABLED' do
-
-
     context 'when the configuration is set to true' do
-      let(:shibboleth_config) {
+      let(:shibboleth_config) do
         {
-          'development' => {'shibboleth_enabled' => 'true'},
-          'test' => {'shibboleth_enabled' => 'true'},
-          'production' => {'shibboleth_enabled' => 'true'}
+          'development' => { 'shibboleth_enabled' => 'true' },
+          'test' => { 'shibboleth_enabled' => 'true' },
+          'production' => { 'shibboleth_enabled' => 'true' }
         }
-      }
+      end
       before do
         allow(YAML).to receive(:safe_load).and_return(shibboleth_config)
       end
@@ -51,13 +49,13 @@ RSpec.describe 'Shibboleth Configuration' do
     end
 
     context 'when the configuration is set to false' do
-      let(:shibboleth_config) {
+      let(:shibboleth_config) do
         {
-          'development' => {'shibboleth_enabled' => 'false'},
-          'test' => {'shibboleth_enabled' => 'false'},
-          'production' => {'shibboleth_enabled' => 'false'}
+          'development' => { 'shibboleth_enabled' => 'false' },
+          'test' => { 'shibboleth_enabled' => 'false' },
+          'production' => { 'shibboleth_enabled' => 'false' }
         }
-      }
+      end
       before do
         allow(YAML).to receive(:safe_load).and_return(shibboleth_config)
       end
