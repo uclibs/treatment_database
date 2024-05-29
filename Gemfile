@@ -73,6 +73,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'ed25519'
   gem 'factory_bot_rails'
+  gem 'launchy'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails', '~> 4.1.0'
   gem 'rubocop-rails'

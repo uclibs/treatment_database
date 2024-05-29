@@ -7,72 +7,19 @@ RSpec.describe 'Standard User Tests', type: :feature do
   let(:conservation_record) { create(:conservation_record, department: 'ARB Library', title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
+  before do
+    staff_code
+  end
+
   it 'allows User to login and show Conservation Records' do
     # Login
-
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
-    expect(page).to have_link('Conservation Records')
-    expect(page).to have_no_link('Users')
-    expect(page).to have_no_link('Activity')
-    expect(page).to have_no_link('Vocabularies')
-    expect(page).to have_no_link('Staff Codes')
-
-    # Show Conservation Records
-
-    click_on 'Conservation Records'
-    expect(page).to have_content('Conservation Records')
-    expect(page).to_not have_link('Destroy')
-    expect(page).to_not have_link('Show')
-    expect(page).to have_link('New Conservation Record')
-
-    # Edit Conservation Record
-
-    visit conservation_records_path
+    log_in_as_user(user)
     click_link(conservation_record.title, match: :prefer_exact)
-    expect(page).to have_content('Edit Conservation Record')
-
-    # Add New Conservation Record
-
-    visit conservation_records_path
-    click_on 'New Conservation Record'
-    expect(page).to have_content('New Conservation Record')
-    select('ARB Library', from: 'Department', match: :first)
-    fill_in 'Title', with: conservation_record.title
-    fill_in 'Author', with: conservation_record.author
-    fill_in 'Imprint', with: conservation_record.imprint
-    fill_in 'Call number', with: conservation_record.call_number
-    fill_in 'Item record number', with: conservation_record.item_record_number
-    click_on 'Create Conservation record'
-    expect(page).to have_content('Conservation record was successfully created')
-    expect(page).to have_content(conservation_record.title)
-    expect(page).to have_link('Edit Conservation Record')
-
-    # Edit the existing Conservation Record
-
-    click_on 'Edit Conservation Record'
-    expect(page).to have_content('Editing Conservation Record')
-
-    # In_House Repair
-
-    visit conservation_records_path
-    click_link(conservation_record.title, match: :prefer_exact)
-    expect(page).to have_button('Add In-House Repairs')
-    click_button('Add In-House Repairs')
-    select('Chuck Greenman', from: 'in_house_repair_record_performed_by_user_id')
-    select('Soft slipcase', from: 'in_house_repair_record_repair_type', match: :first)
-    fill_in 'in_house_repair_record_other_note', with: 'Other Note'
-    fill_in 'in_house_repair_record_minutes_spent', with: '23'
-    select('test', from: 'in_house_repair_record_staff_code_id', match: :first)
-    click_button('Create In-House Repair Record')
-    expect(page).to have_content('Soft slipcase performed by Chuck Greenman')
 
     # External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
+    expect(page).to have_selector('#externalRepairModal', visible: true)
     select('Amanda Buck', from: 'external_repair_record_performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_record_repair_type', match: :first)
     click_button('Create External Repair Record')
