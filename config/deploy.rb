@@ -43,7 +43,6 @@ task :ruby_update_check do
 end
 
 namespace :deploy do
-  before 'starting', 'deploy:check_env_vars' # Make sure that the environment variables are set
   task :confirmation do
     stage = fetch(:stage).upcase
     branch = fetch(:branch)
