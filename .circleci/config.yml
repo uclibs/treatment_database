@@ -59,21 +59,30 @@ jobs:
             gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
 
       - run:
-          name: Install Node.js and Dependencies
-          no_output_timeout: 15m
+          name: Install NVM and Node.js
           command: |
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --install' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> $BASH_ENV
             source $BASH_ENV
-            nvm install 12.22.12
-            nvm use 12.22.12
-            node --version
-            npm --version
+            echo "Node Version Manager (NVM) installed successfully."
+            echo "NVM version: $(nvm --version)"
+            echo "Node.js version: $(node --version)"
+
+      - run:
+          name: Install Dependencies
+          no_output_timeout: 15m
+          shell: /bin/bash -eo pipefail
+          command: |
+            echo "Installing Ruby gems..."
             bundle install --jobs=4 --retry=3
+
+            echo "Installing required system packages..."
             sudo apt-get update
             sudo apt-get install -y xvfb libfontconfig wkhtmltopdf
+
+            echo "Installation steps completed successfully."
 
       - save_cache:
           paths:

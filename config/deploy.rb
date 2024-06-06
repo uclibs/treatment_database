@@ -67,6 +67,5 @@ namespace :deploy do
   end
 end
 
-Capistrano::DSL.stages.each do |stage|
-  after stage, 'deploy:confirmation'
-end
+before 'deploy:starting', 'deploy:confirmation'
+after 'git:create_release', 'nvm:load'
