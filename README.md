@@ -17,7 +17,7 @@ install Ruby 3.3.1:
 <br/>
 With rvm:
 ```
-rvm reinstall 3.3.1 --with-openssl-dir=`brew --prefix openssl@1.1` --with-opt-dir=`brew --prefix openssl@1.1
+rvm reinstall 3.3.1 --with-openssl-dir=`brew --prefix openssl@1.1` --with-opt-dir=`brew --prefix openssl@1.1`
 ```
 With rbenv:
 ```
