@@ -20,11 +20,13 @@ require 'simplecov-lcov'
 require 'coveralls'
 
 SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_filter '/spec/' # Exclude all files in the spec directory
+  add_filter '/lib/tasks/' # Exclude all files in the lib/tasks directory
+  add_filter '/lib/capistrano/' # Exclude all files in the lib/capistrano directory
+end
 
 SimpleCov.at_exit do
-  SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
-  SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
     [
       SimpleCov::Formatter::HTMLFormatter,
