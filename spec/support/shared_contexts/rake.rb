@@ -9,7 +9,7 @@
 RSpec.shared_context 'rake', shared_context: :metadata do
   before(:all) do
     Rails.application.load_tasks
-    # Rails.root.glob('lib/capistrano/tasks/*.rake').each { |file| load file }
+    Rails.root.glob('lib/capistrano/tasks/*.rake').each { |file| load file }
   end
 
   after(:each) do
