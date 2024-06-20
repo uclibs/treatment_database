@@ -3,6 +3,7 @@
 namespace :yarn do
   desc 'Install yarn packages'
   task :install do
+    puts "Capistrano version: #{fetch(:capistrano_version)}"
     on roles(:all) do
       within release_path do
         execute :echo, 'Sourcing NVM and running yarn install'

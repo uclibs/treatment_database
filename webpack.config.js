@@ -4,7 +4,7 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
-  const publicPath = isProduction ? '/treatment_database/build/' : '/build/';
+  const publicPath = `${process.env.RAILS_RELATIVE_URL_ROOT}/build/`;
 
   return {
     devtool: 'source-map',
