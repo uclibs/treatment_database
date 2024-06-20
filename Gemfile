@@ -59,7 +59,7 @@ group :development, :test do
   gem 'factory_bot_rails' # A fixtures replacement with a straightforward definition syntax
   gem 'rails-controller-testing' # Adds missing helper methods for controller tests in Rails 5
   gem 'rspec_junit_formatter' # Outputs RSpec results in JUnit format
-  gem 'rspec-rails', '~> 4.1.0' # RSpec for Rails 5+
+  gem 'rspec-rails', '~> 6.0.0' # RSpec for Rails 6+
   gem 'selenium-webdriver', '~> 4.18.1' # WebDriver for testing web applications
 
   # Coverage and code analysis
@@ -81,6 +81,7 @@ group :development do
   gem 'capistrano-bundler', '~> 1.6', require: false # Capistrano integration for Bundler
   gem 'capistrano-rails', '~> 1.4', require: false # Integrates Rails with Capistrano
   gem 'capistrano-rvm', require: false # RVM integration for Capistrano
+  gem 'capistrano-spec' # RSpec matchers for Capistrano
 
   # Security tools
   gem 'bundler-audit' # Patch-level verification for Bundler dependencies

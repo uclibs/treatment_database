@@ -99,6 +99,7 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
+    capistrano-spec (0.6.3)
     capybara (3.40.0)
       addressable
       matrix
@@ -295,20 +296,20 @@ GEM
       ipaddr
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.0)
+    rspec-expectations (3.13.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-mocks (3.13.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-rails (4.1.2)
-      actionpack (>= 4.2)
-      activesupport (>= 4.2)
-      railties (>= 4.2)
-      rspec-core (~> 3.10)
-      rspec-expectations (~> 3.10)
-      rspec-mocks (~> 3.10)
-      rspec-support (~> 3.10)
+    rspec-rails (6.0.4)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      railties (>= 6.1)
+      rspec-core (~> 3.12)
+      rspec-expectations (~> 3.12)
+      rspec-mocks (~> 3.12)
+      rspec-support (~> 3.12)
     rspec-support (3.13.1)
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
@@ -438,6 +439,7 @@ DEPENDENCIES
   capistrano-bundler (~> 1.6)
   capistrano-rails (~> 1.4)
   capistrano-rvm
+  capistrano-spec
   capybara (>= 2.15)
   coveralls_reborn
   csv (~> 3.3)
@@ -465,7 +467,7 @@ DEPENDENCIES
   rb-readline
   resolv-replace (~> 0.1.1)
   rinda (~> 0.2.0)
-  rspec-rails (~> 4.1.0)
+  rspec-rails (~> 6.0.0)
   rspec_junit_formatter
   rubocop
   rubocop-rails
