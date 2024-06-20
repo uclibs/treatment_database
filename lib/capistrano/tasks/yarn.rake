@@ -5,6 +5,7 @@ namespace :yarn do
   task :install do
     puts "Capistrano version: #{fetch(:capistrano_version)}"
     on roles(:all) do
+      puts "Capistrano version: #{fetch(:capistrano_version)}"
       within release_path do
         execute :echo, 'Sourcing NVM and running yarn install'
         execute [
