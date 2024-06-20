@@ -2,7 +2,6 @@
 
 class DataExportJob < ApplicationJob
   require 'rake'
-  TreatmentDatabase::Application.load_tasks
 
   queue_as :default
 
