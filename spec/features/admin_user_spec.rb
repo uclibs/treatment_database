@@ -130,26 +130,26 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     click_link(conservation_record.title, match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
-    select('Haritha Vytla', from: 'in_house_repair_record_performed_by_user_id', match: :first)
-    select('Mend paper', from: 'in_house_repair_record_repair_type', match: :first)
-    fill_in 'in_house_repair_record_minutes_spent', with: '10'
-    fill_in 'in_house_repair_record_other_note', with: 'Other Note'
-    select('test', from: 'in_house_repair_record_staff_code_id', match: :first)
+    select('Haritha Vytla', from: 'in_house_performed_by_user_id', match: :first)
+    select('Mend paper', from: 'in_house_repair_type', match: :first)
+    fill_in 'in_house_minutes_spent', with: '10'
+    fill_in 'in_house_other_note', with: 'Other Note'
+    select('test', from: 'in_house_staff_code_id', match: :first)
     click_button('Create In-House Repair Record')
     expect(page).to have_content('Mend paper performed by Haritha Vytla')
 
     # External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
-    select('Amanda Buck', from: 'external_repair_record_performed_by_vendor_id', match: :first)
-    select('Wash', from: 'external_repair_record_repair_type', match: :first)
+    select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
+    select('Wash', from: 'external_repair_type', match: :first)
     click_button('Create External Repair Record')
     expect(page).to have_content('Wash performed by Amanda Buck')
 
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
     click_button('Add Conservators and Technicians')
-    select('Haritha Vytla', from: 'con_tech_record_performed_by_user_id', match: :first)
+    select('Haritha Vytla', from: 'cons_tech_performed_by_user_id', match: :first)
     click_button('Create Conservators and Technicians Record')
     expect(page).to have_content('Haritha Vytla')
 
