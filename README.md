@@ -3,31 +3,25 @@
 This is a web application originally developed for the Preservation Lab at the University of Cincinnati. Provided that you have Ruby on Rails installed you can run this application on your local machine or server.
 
 ## Prerequisites
-- a current version of nvm
+
 - Node >= 20.14.0
 - Yarn >= 1.22.17
-- Ruby 3.3.1
-- Rails 6.1.7.7
+- Ruby 3.3.3
+- Rails ~> 6.1.7
 
 ### Notes:
 
 #### Ruby Version Management
-As of the new release of Ruby version 3.3.1, you need to use the following command to
-install Ruby 3.3.1:
-<br/>
-With rvm:
+With rbenv and homebrew:
 ```
-rvm reinstall 3.3.1 --with-openssl-dir=`brew --prefix openssl@1.1` --with-opt-dir=`brew --prefix openssl@1.1`
-```
-With rbenv:
-```
-CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1) --with-opt-dir=$(brew --prefix openssl@1.1)" rbenv install 3.3.1 && rbenv rehash
+brew upgrade ruby-build # Latest version of ruby-build is needed to install Ruby 3.3.3
+rbenv install 3.3.3
 ```
 
 #### Node Version Management
 
 This project uses nvm (Node Version Manager) to manage Node.js versions. The `.nvmrc` file is configured to use the
-latest LTS version of Node, 20.14.0, to ensure compatibility with the latest features and security updates. 
+latest LTS version of Node, 20.14.0, to ensure compatibility with the latest features and security updates.
 
 When running locally, you will need to set the node version with `nvm use` as described below under "Installation".  
 For deployment, the `.nvmrc` file will be used to set the node version and the deployment script will automatically
@@ -39,22 +33,19 @@ use the correct version.
 git clone github.com/uclibs/treatment_database
 nvm install # Installs the node version listed in .nvmrc
 nvm use # Directs to the correct node version listed in .nvmrc
-bundle install
+bundle install # Installs the Ruby gems
+yarn install # Installs the node modules
+yarn build # Builds the front-end assets
 ```
 
-## Prepare the database.
+## Preparing the database.
 
 ```bash
 rails db:migrate
 rails db:seed
 rails server
-rails db:seed # (Optional, for example works)
+rails db:seed # (Optional, for example works used in development)
 ```
-### Important:
-Running the db:seed is not sufficient to populate the database with the necessary data. You will need to import the data
-for the controlled vocaublary and users.
-See [wiki](https://github.com/uclibs/treatment_database/wiki/Migration) for migration steps.
-
 ## Running the Tests
 
 The treatment database has a test suite built with rspec, running it is simple, just call the following in the project directory:

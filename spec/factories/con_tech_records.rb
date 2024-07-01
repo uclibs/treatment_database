@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :con_tech_record do
-    performed_by_user_id { create(:user) }
+    performed_by_user_id { create(:user).id }
     conservation_record { create(:conservation_record) }
   end
 end
