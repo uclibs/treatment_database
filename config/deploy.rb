@@ -43,7 +43,7 @@ task :ruby_update_check do
 end
 
 after 'git:create_release', 'nvm:load'
+after 'nvm:load', 'nvm:setup'
 before 'deploy:starting', 'deploy:confirmation'
 after 'deploy:confirmation', 'deploy:clear_assets'
 after 'deploy:updated', 'yarn:build'
-before 'deploy:compile_assets', 'nvm:setup'
