@@ -68,7 +68,6 @@ jobs:
             source $BASH_ENV
             nvm install $(cat .nvmrc)
             nvm use $(cat .nvmrc)
-            source $BASH_ENV
             echo "Node Version Manager (NVM) installed successfully."
             echo "NVM version: $(nvm --version)"
             echo "Node.js version: $(node --version)"
