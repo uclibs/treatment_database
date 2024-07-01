@@ -65,6 +65,8 @@ jobs:
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --install' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> $BASH_ENV
+            nvm install $(cat .nvmrc)
+            nvm use $(cat .nvmrc)
             source $BASH_ENV
             echo "Node Version Manager (NVM) installed successfully."
             echo "NVM version: $(nvm --version)"
@@ -84,6 +86,8 @@ jobs:
           no_output_timeout: 15m
           shell: /bin/bash -eo pipefail
           command: |
+            source $BASH_ENV
+            nvm use
             echo "Installing Ruby gems..."
             bundle install --jobs=4 --retry=3
 
