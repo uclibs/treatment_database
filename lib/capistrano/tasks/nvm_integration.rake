@@ -4,7 +4,6 @@ namespace :nvm do
   task :setup do
     on roles(:web) do
       SSHKit.config.command_map.prefix[:rake] ||= []
-      @original_prefix = SSHKit.config.command_map.prefix[:rake].dup
 
       begin
         execute :echo, 'Checking .nvmrc presence...'
