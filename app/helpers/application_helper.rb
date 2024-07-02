@@ -19,8 +19,8 @@ module ApplicationHelper
   # Use like: <%= image_tag webpack_image_path('delete.png'), class: 'delete-icon', alt: 'Delete' %>
   # Exact image_name to be passed in can be determined from the manifest.json file in the public/build directory
   def webpack_image_path(image_name)
-    # Determine the base path based on the environment
-    base_path = Rails.env.production? ? '/treatment_database/build' : '/build'
+    base_url_root = ENV['RAILS_RELATIVE_URL_ROOT'] || ''
+    base_path = "#{base_url_root}/build"
 
     manifest_path = Rails.public_path.join('build/manifest.json')
     manifest = JSON.parse(File.read(manifest_path))
