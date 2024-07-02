@@ -9,6 +9,8 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'factory_bot'
 require 'rspec/rails'
 require 'paper_trail/frameworks/rspec'
+require 'capistrano-spec'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -18,7 +20,7 @@ require 'paper_trail/frameworks/rspec'
 # run twice. It is recommended that you do not name files matching this glob to
 # end with _spec.rb. You can configure this pattern with the --pattern
 # option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
-#
+
 # Auto-require all Ruby files in the spec/support directory.
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
@@ -31,8 +33,14 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
-  # Add shared context "rake" to rake task tests
   config.include_context 'rake', type: :task
+  config.include_context 'job', type: :job
+
+  # Load all Capistrano tasks before running any tests
+  config.before(:suite) do
+    Rails.application.load_tasks
+    Rails.root.glob('lib/capistrano/tasks/*.rake').each { |file| load file }
+  end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = Rails.root.join('spec/fixtures').to_s

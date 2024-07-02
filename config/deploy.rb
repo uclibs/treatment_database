@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # config valid for current version and patch releases of Capistrano
-lock '~> 3.17.1'
+lock '~> 3.19'
 
 set :application, 'treatment_database'
 set :repo_url, 'https://github.com/uclibs/treatment_database.git'
@@ -42,30 +42,8 @@ task :ruby_update_check do
   end
 end
 
-namespace :deploy do
-  task :confirmation do
-    stage = fetch(:stage).upcase
-    branch = fetch(:branch)
-    puts <<-WARN
-
-    ========================================================================
-
-      *** Deploying to branch `#{branch}` to #{stage} server ***
-
-      WARNING: You're about to perform actions on #{stage} server(s)
-      Please confirm that all your intentions are kind and friendly
-
-    ========================================================================
-
-    WARN
-    ask :value, "Sure you want to continue deploying `#{branch}` on #{stage}? (Y or Yes)"
-
-    unless fetch(:value).match?(/\A(?i:yes|y)\z/)
-      puts "\nNo confirmation - deploy cancelled!"
-      exit
-    end
-  end
-end
-
-before 'deploy:starting', 'deploy:confirmation'
 after 'git:create_release', 'nvm:load'
+after 'nvm:load', 'nvm:setup'
+before 'deploy:starting', 'deploy:confirmation'
+after 'deploy:confirmation', 'deploy:clear_assets'
+after 'deploy:updated', 'yarn:build'

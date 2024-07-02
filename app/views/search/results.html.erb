@@ -22,7 +22,7 @@
           <% if can? :crud, ConservationRecord %>
           <%= link_to [conservation_record], method: :delete, data: {confirm: "Are you sure?"} do %>
              <button class="btn btn-danger justify-content-right">
-                <%= image_tag "delete.png", class: "delete-icon", alt: "Delete" %>
+               <%= image_tag webpack_image_path('delete.png'), class: 'delete-icon', alt: 'Delete' %>
              </button>
           <% end %>
          </td>
