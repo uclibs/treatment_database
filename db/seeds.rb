@@ -98,4 +98,29 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
       }
     ]
   )
+
+  StaffCode.create(
+    [
+      {
+        code: 'C',
+        points: 20
+      },
+      {
+        code: 'T',
+        points: 10
+      },
+      {
+        code: 'S',
+        points: 4
+      },
+      {
+        code: 'V',
+        points: 0
+      },
+      {
+        code: 'A',
+        points: 15
+      }
+    ]
+  )
 end
