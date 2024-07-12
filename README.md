@@ -47,13 +47,9 @@ bundle install
 ```bash
 rails db:migrate
 rails db:seed
+rails db:seed # (Optional, for example works, accounts, and vocabularies)
 rails server
-rails db:seed # (Optional, for example works)
 ```
-### Important:
-Running the db:seed is not sufficient to populate the database with the necessary data. You will need to import the data
-for the controlled vocaublary and users.
-See [wiki](https://github.com/uclibs/treatment_database/wiki/Migration) for migration steps.
 
 ## Running the Tests
 
