@@ -12,6 +12,7 @@ require 'rails_helper'
 #   let(:join_date) { 5.days.ago }
 #   let(:can_create_file) { true }
 #   let(:can_create_collection) { true }
+#
 #   before do
 #     allow(view).to receive(:user_signed_in?).and_return(true)
 #     allow(view).to receive(:current_user).and_return(stub_model(User, user_key: 'userX'))
