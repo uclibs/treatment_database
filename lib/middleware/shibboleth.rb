@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Middleware
   class Shibboleth
     def initialize(app)
@@ -22,4 +24,3 @@ module Middleware
     end
   end
 end
-

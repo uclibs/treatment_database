@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 class CallbacksController < ApplicationController
   # Authenticate user not yet defined
   # skip_before_action :authenticate_user!, only: [:shibboleth]
 
   def shibboleth
-
     # This is a placeholder for the Shibboleth callback.
-    render plain: "Shibboleth callback received"
+    render plain: 'Shibboleth callback received'
 
     # Possible implementation of Shibboleth callback:
     # shib_attributes = request.env['Shib-Attributes']
