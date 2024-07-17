@@ -64,7 +64,6 @@ group :development, :test do
   gem 'factory_bot_rails' # A fixtures replacement with a straightforward definition syntax
   gem 'rails-controller-testing' # Adds missing helper methods for controller tests in Rails 5
   gem 'rspec_junit_formatter' # Outputs RSpec results in JUnit format
-  gem 'rspec-rails', '~> 6.0.0' # RSpec for Rails 6+
   gem 'selenium-webdriver', '~> 4.18.1' # WebDriver for testing web applications
 
   # Coverage and code analysis
@@ -100,6 +99,8 @@ end
 group :test do
   gem 'capybara', '>= 2.15' # Integration testing tool for rack-based web applications
   gem 'launchy' # Opens a given URL in a browser
+  gem 'rack-test' # Small, simple testing API for Rack apps
+  gem 'rspec-rails', '~> 6.0.0' # RSpec for Rails 6+
 end
 
 group :production do

@@ -403,7 +403,7 @@ GEM
     zeitwerk (2.6.16)
 
 PLATFORMS
-  arm64-darwin
+  arm64-darwin-23
 
 DEPENDENCIES
   abbrev (~> 0.1.2)
@@ -444,6 +444,7 @@ DEPENDENCIES
   pdfkit
   puma
   racc (~> 1.8)
+  rack-test
   rails (~> 6.1.7)
   rails-controller-testing
   rb-readline
