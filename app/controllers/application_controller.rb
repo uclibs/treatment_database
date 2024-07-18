@@ -2,22 +2,29 @@
 
 class ApplicationController < ActionController::Base
   include Pagy::Backend
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :authenticate_user!
   before_action :set_paper_trail_whodunnit
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:notice] = exception.message
-    redirect_to root_url
+    redirect_to conservation_records_path
   end
 
-  protected
+  private
 
-  def after_sign_in_path_for(resource)
-    stored_location_for(resource) || conservation_records_path
+  def authenticate_user!
+    unless user_signed_in?
+      redirect_to root_path, notice: 'You must be logged in to access this page.'
+    end
   end
 
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:display_name])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:role])
+  def user_signed_in?
+    session[:user_id].present?
   end
+
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if user_signed_in?
+  end
+
+  helper_method :current_user, :user_signed_in?
 end

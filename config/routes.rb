@@ -28,5 +28,6 @@ Rails.application.routes.draw do
   get 'reports/download_csv'
 
   get 'auth/shibboleth/callback', to: 'callbacks#shibboleth', as: :shibboleth_callback
+  get 'login', to: 'sessions#create', as: :login
   delete 'logout', to: 'sessions#destroy', as: :logout
 end
