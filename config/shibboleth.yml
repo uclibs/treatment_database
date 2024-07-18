@@ -1,6 +1,0 @@
-development:
-  shibboleth_enabled: <%= ENV['SHIBBOLETH_SSO_ENABLED'] || 'false' %>
-test:
-  shibboleth_enabled: <%= ENV['SHIBBOLETH_SSO_ENABLED'] || 'false' %>
-production:
-  shibboleth_enabled: <%= ENV['SHIBBOLETH_SSO_ENABLED'] || 'false' %>
