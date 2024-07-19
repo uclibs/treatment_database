@@ -1,24 +1,22 @@
 # frozen_string_literal: true
 
 class CallbacksController < ApplicationController
-  # Authenticate user not yet defined
   skip_before_action :authenticate_user!, only: [:shibboleth]
 
   def shibboleth
-    # This is a placeholder for the Shibboleth callback.
-    render plain: 'Shibboleth callback received'
+    auth = request.env['omniauth.auth']
+    shibboleth_attributes = {
+      email: auth.info.email,
+      username: auth.uid,
+    }
+    user = User.find_by(username: shibboleth_attributes[:username])
 
-    # Possible implementation of Shibboleth callback:
-    # shib_attributes = request.env['Shib-Attributes']
-    # email = shib_attributes[:email]
-    # username = shib_attributes[:username]
-    #
-    # user = User.find(email: email) do |user|
-    #   user.username = username
-    #   # Assign other user attributes as needed
-    # end
-    #
-    # session[:user_id] = user.id
-    # redirect_to root_path
+    if user
+      user.update(email: shibboleth_attributes[:email])
+      session[:user_id] = user.id
+      redirect_to root_path, notice: "Welcome, #{user.display_name}. You have successfully logged in."
+    else
+      redirect_to root_path, alert: 'User not found. Please contact the system administrator.'
+    end
   end
 end

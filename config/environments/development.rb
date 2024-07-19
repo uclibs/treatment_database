@@ -63,4 +63,8 @@ Rails.application.configure do
   config.require_master_key = false
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # Configure the Shibboleth SSO settings for development environment
+  config.shibboleth_idp_entity_id = 'https://idp.testshib.org/idp/shibboleth'
+  config.shibboleth_metadata_uri = 'https://www.testshib.org/metadata/testshib-providers.xml'
 end

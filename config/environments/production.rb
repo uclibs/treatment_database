@@ -67,4 +67,8 @@ Rails.application.configure do
   # Configure SMTP settings for email. STARTTLS is disabled (set to false) as required
   # by the mail server configuration or policy.
   config.action_mailer.smtp_settings = { enable_starttls_auto: false }
+
+  # Configure the Shibboleth SSO settings for production environment
+  config.shibboleth_idp_entity_id = 'https://your-idp.example.com/idp/shibboleth'
+  config.shibboleth_metadata_uri = 'https://your-idp.example.com/idp/shibboleth-metadata.xml'
 end

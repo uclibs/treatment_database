@@ -39,11 +39,12 @@ gem 'turbolinks', '~> 5' # Makes navigating your site faster by using AJAX to lo
 
 # Authentication and Authorization
 gem 'cancancan' # Authorization library for Ruby on Rails which restricts what resources a given user is allowed to access
-gem 'devise' # Flexible authentication solution for Rails with Warden
+gem 'omniauth' # A generalized Rack framework for multiple-provider authentication
+gem 'omniauth-shibboleth' # Provides Shibboleth-based SSO authentication
 
 # Additional Functionality
 gem 'nokogiri' # HTML, XML, SAX, and Reader parser
-gem 'pagy', '~> 9.0' # Pagination library that is fast, lightweight, and flexible
+gem 'pagy', '~> 8.0' # Pagination library that is fast, lightweight, and flexible
 gem 'paper_trail' # Track changes to your models' data
 gem 'pdfkit' # Uses wkhtmltopdf to generate PDFs from HTML
 gem 'wkhtmltopdf-binary', '>= 0.12.6.7' # Enables PDF generation from HTML
@@ -53,7 +54,6 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby] # Timezone data fo
 
 gem 'show_me_the_cookies' # Cookie inspection for tests
 
-gem 'omniauth-shibboleth' # Provides Shibboleth-based SSO authentication
 
 group :development, :test do
   # Debugging tools

@@ -52,7 +52,7 @@
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <% if !user_signed_in? %>
       <li class="nav-item">
-        <%= link_to('Log in', new_user_session_path, class: 'nav-link') %>
+        <%= link_to 'Login', login_path %>
       </li>
       <% else %>
       <li class="nav-item">
@@ -61,8 +61,8 @@
             <%= current_user.display_name %>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <%= link_to("Edit account", edit_user_registration_path, class: 'dropdown-item') %>
-            <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item') %>
+            <%= link_to("Edit account", user_settings_path, class: 'dropdown-item') %>
+            <%= link_to 'Logout', logout_path, method: :delete, class: 'dropdown-item' %>
           </div>
         </div>
       </li>

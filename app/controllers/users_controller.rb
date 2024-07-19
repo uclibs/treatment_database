@@ -1,10 +1,17 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: [:sign_up_instructions]
+
   load_and_authorize_resource
 
   def index
     @users = User.all
+  end
+
+  # This is a placeholder action for the user settings page
+  def settings
   end
 
   def new
