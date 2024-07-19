@@ -6,7 +6,7 @@ This is a web application originally developed for the Preservation Lab at the U
 
 - Node >= 20.14.0
 - Yarn >= 1.22.17
-- Ruby 3.3.3
+- Ruby 3.3.4
 - Rails ~> 6.1.7
 
 ### Notes:
@@ -14,8 +14,8 @@ This is a web application originally developed for the Preservation Lab at the U
 #### Ruby Version Management
 With rbenv and homebrew:
 ```
-brew upgrade ruby-build # Latest version of ruby-build is needed to install Ruby 3.3.3
-rbenv install 3.3.3
+brew upgrade ruby-build # Latest version of ruby-build is needed to install Ruby 3.3.4
+rbenv install 3.3.4
 ```
 
 #### Node Version Management
