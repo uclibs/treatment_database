@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class SessionsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:create, :destroy]
+  skip_before_action :authenticate_user!, only: %i[create destroy]
 
   # This user actually exists in our local and test databases, so it should be able to log in until we get Shibboleth
   # connected, at which point he should not be able to log in because he's not in our SSO database.  His
   # display name should be "Chuck Greenman", not "Test User".  This is a placeholder for the Shibboleth
   # attributes as I expect them to be implemented.
-  @temp_user_info = { email: 'chuck@chuck.codes', username: "chuck12", first_name: "Test", last_name: "User" } # Placeholder
+  @temp_user_info = { email: 'chuck@chuck.codes', username: 'chuck12', first_name: 'Test', last_name: 'User' } # Placeholder
 
   def create
     # This will later be replaced with Shibboleth attributes  The commented out lines

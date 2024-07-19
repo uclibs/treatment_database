@@ -12,7 +12,6 @@ RSpec.describe CallbacksController, type: :controller do
   end
 end
 
-
 # 4/30 copied directly from ucrate controller spec for our own transition to Shibboleth.
 # We will need to modify these tests to fit our own application.
 # Callbacks are functions that handle the response from an external service such as Shibboleth.
