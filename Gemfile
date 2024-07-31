@@ -95,6 +95,7 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15' # Integration testing tool for rack-based web applications
+  gem 'database_cleaner-active_record' # Strategies for cleaning databases in Ruby
   gem 'launchy' # Opens a given URL in a browser
 end
 

@@ -451,6 +451,7 @@ DEPENDENCIES
   coveralls_reborn
   csv (~> 3.3)
   database_cleaner
+  database_cleaner-active_record
   devise
   dotenv-rails
   drb (~> 2.2)
