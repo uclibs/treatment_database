@@ -4,6 +4,11 @@ require 'rails_helper'
 
 RSpec.describe 'Report Generation', type: :feature, js: true do
   let(:user) { create(:user, role: 'admin') }
+
+  before do
+    user
+  end
+
   it 'executes data export task on button click' do
     visit new_user_session_path
     fill_in 'Email', with: user.email

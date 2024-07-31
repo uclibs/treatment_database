@@ -8,8 +8,6 @@ describe 'Deployment tasks' do
   end
 
   it 'checks correct environment' do
-    allow(ENV).to receive(:[]).and_call_original
-    allow(ENV).to receive(:[]).with('RAILS_ENV').and_return('test')
     expect(Rails.env.test?).to be true
   end
 end

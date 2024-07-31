@@ -1,13 +1,19 @@
 # frozen_string_literal: true
 
+Rails.env = 'test'
+
 require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 require 'factory_bot'
 require 'paper_trail/frameworks/rspec'
 require 'capistrano-spec'
+require 'capybara/rails'
+require 'selenium-webdriver'
+
+Capybara.javascript_driver = :selenium_chrome_headless
+
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -24,6 +30,7 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
+  config.include Devise::Test::IntegrationHelpers, type: :feature
   config.include_context 'rake', type: :task
   config.include_context 'job', type: :job
 
@@ -31,12 +38,12 @@ RSpec.configure do |config|
     Rails.application.load_tasks
     Rails.root.glob('lib/capistrano/tasks/*.rake').each { |file| load file }
     DatabaseCleaner.clean_with(:truncation)
-    Rails.application.load_seed # Ensure seeds are loaded after truncation
   end
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
+    Rails.application.load_seed
   end
 
   config.before(:each, js: true) do

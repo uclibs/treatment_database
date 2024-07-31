@@ -3,7 +3,11 @@
 FactoryBot.define do
   factory :conservation_record do
     date_received_in_preservation_services { '2019-06-11' }
-    department { ControlledVocabulary.where(vocabulary: 'department').order(Arel.sql('random()')).first.id }
+    department do
+      ControlledVocabulary.find_or_create_by(vocabulary: 'department', active: true) do |cv|
+        cv.key = 'some_key'
+      end.id
+    end
     title { 'The Illiad' }
     author { 'James Joyce' }
     imprint { 'Dutton' }

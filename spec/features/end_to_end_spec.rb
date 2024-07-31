@@ -24,14 +24,29 @@ end
 RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:user) { create(:user, role: 'read_only') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
+
+  before do
+    user
+    conservation_record
+  end
+
   it 'allows User to login and show Conservation Records' do
     # Login
     visit new_user_session_path
+    expect(page).to have_content('Log in')
     fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
+    fill_in 'Password', with: user.password
     click_button 'Log in'
-    expect(page).to have_content('Signed in successfully')
+    new_user = User.find_by(email: user.email)
+    puts "$$$$$$$$$$$$$$$$User: #{new_user.email}"
+    puts "#{new_user.role}"
+    puts "#{new_user.display_name}"
+    puts "#{new_user.id}"
+    puts "#{new_user.encrypted_password}"
+    puts "#{new_user.account_active}"
+    save_and_open_page
     expect(page).to have_content('Conservation Records')
+    expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
 
     # Show Conservation Records
