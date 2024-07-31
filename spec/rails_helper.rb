@@ -10,10 +10,10 @@ require 'factory_bot'
 require 'paper_trail/frameworks/rspec'
 require 'capistrano-spec'
 require 'capybara/rails'
-require 'selenium-webdriver'
-
+require 'capybara/rspec'
+require 'selenium/webdriver'
+Capybara.server = :puma, { Silent: true }
 Capybara.javascript_driver = :selenium_chrome_headless
-
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -47,7 +47,12 @@ RSpec.configure do |config|
   end
 
   config.before(:each, js: true) do
+    Capybara.server = :puma, { Silent: true }
     DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each, type: :system, js: true) do
+    driven_by(:selenium_chrome_headless)
   end
 
   config.before(:each, type: :feature) do

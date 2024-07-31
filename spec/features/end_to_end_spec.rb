@@ -21,7 +21,7 @@ RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   end
 end
 
-RSpec.describe 'Read Only User Tests', type: :feature, js: true do
+RSpec.describe 'Read Only User Tests', type: :feature, versioning: true do
   let(:user) { create(:user, role: 'read_only') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
 
@@ -35,16 +35,8 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
     visit new_user_session_path
     expect(page).to have_content('Log in')
     fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
+    fill_in 'Password', with: 'notapassword'
     click_button 'Log in'
-    new_user = User.find_by(email: user.email)
-    puts "$$$$$$$$$$$$$$$$User: #{new_user.email}"
-    puts "#{new_user.role}"
-    puts "#{new_user.display_name}"
-    puts "#{new_user.id}"
-    puts "#{new_user.encrypted_password}"
-    puts "#{new_user.account_active}"
-    save_and_open_page
     expect(page).to have_content('Conservation Records')
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
@@ -59,19 +51,22 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
 
     # CRUD
     click_link(conservation_record.title, match: :prefer_exact)
+    # Wait for the form fields to be disabled
+    using_wait_time 5 do
+      expect(page).to have_button('Save Treatment Report')
+    end
     expect(page).to have_content(conservation_record.title)
     expect(page).to have_content('Item Detail')
     expect(page).to have_content('In-House Repairs')
     expect(page).to have_content('External Repairs')
     expect(page).to have_content('Conservators and Technicians')
     expect(page).to have_content('Treatment Report')
-    expect(page).to have_button('Save Treatment Report', disabled: true)
     expect(page).to have_content('Cost and Return Information')
-    expect(page).to have_button('Save Cost and Return Information', disabled: true)
     expect(page).to have_no_link('Edit Conservation Record')
     expect(page).to have_no_button('Add In-House Repairs')
     expect(page).to have_no_button('Add External Repair')
     expect(page).to have_no_button('Add Conservators and Technicians')
+    save_and_open_page
     expect(page).to have_button('Save Treatment Report', disabled: true)
     expect(page).to have_button('Save Cost and Return Information', disabled: true)
   end

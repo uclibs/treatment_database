@@ -61,7 +61,8 @@ group :development, :test do
   gem 'rails-controller-testing' # Adds missing helper methods for controller tests in Rails 5
   gem 'rspec_junit_formatter' # Outputs RSpec results in JUnit format
   gem 'rspec-rails', '~> 6.0.0' # RSpec for Rails 6+
-  gem 'selenium-webdriver', '~> 4.18.1' # WebDriver for testing web applications
+  gem 'capybara-selenium', '~> 0.0.6'
+  gem 'selenium-webdriver', '~> 4.18.1'
 
   # Coverage and code analysis
   gem 'brakeman', '~> 5.1', '>= 5.1.1' # Static analysis security vulnerability scanner for Ruby on Rails applications
