@@ -9,19 +9,11 @@ require 'rspec/rails'
 require 'factory_bot'
 require 'paper_trail/frameworks/rspec'
 require 'capistrano-spec'
-require 'capybara/rails'
-require 'capybara/rspec'
-require 'selenium/webdriver'
-Capybara.server = :puma, { Silent: true }
-Capybara.javascript_driver = :selenium_chrome
-
-# Add additional requires below this line. Rails is not loaded until this point!
 
 # Auto-require all Ruby files in the spec/support directory.
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
-# If you are not using ActiveRecord, you can remove these lines.
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -33,39 +25,87 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :feature
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :view
   config.include_context 'rake', type: :task
   config.include_context 'job', type: :job
 
-  config.before(:suite) do
-    Rails.application.load_tasks
-    Rails.root.glob('lib/capistrano/tasks/*.rake').each { |file| load file }
-    DatabaseCleaner.clean_with(:truncation)
+  # Disable transactional fixtures, as we're using DatabaseCleaner
+  config.use_transactional_fixtures = false
+
+
+
+  config.before do |example|
+    if example.metadata[:type] == :feature && Capybara.current_driver != :rack_test
+      DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.start
+    end
   end
 
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.start
+  # Load database seeds once for the entire test suite
+  Rails.application.load_seed
+
+  # Clean the database using truncation before the entire test suite
+  config.before(:suite) do
+    if config.use_transactional_fixtures?
+      raise(<<-MSG)
+        Delete line `config.use_transactional_fixtures = true` from rails_helper.rb
+        (or set it to false) to prevent uncommitted transactions being used in
+        JavaScript-dependent specs.
+
+        During testing, the app-under-test that the browser driver connects to
+        uses a different database connection to the database connection used by
+        the spec. The app's database connection would not be able to access
+        uncommitted transaction data setup over the spec's database connection.
+      MSG
+    end
+
+    # Clean the database before running tests
+    DatabaseCleaner.clean_with(:truncation)
+
+    # Load Rake tasks and custom tasks if needed
+    Rails.application.load_tasks
+    Rails.root.glob('lib/capistrano/tasks/*.rake').each { |file| load file }
+
+    # Load database seeds
     Rails.application.load_seed
   end
 
+  config.before do |example|
+    if example.metadata[:type] == :feature && Capybara.current_driver != :rack_test
+      DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.start
+    end
+  end
+
+  # Use truncation for JS-enabled feature tests
   config.before(:each, js: true) do
-    Capybara.server = :puma, { Silent: true }
     DatabaseCleaner.strategy = :truncation
   end
 
+  # Use truncation for system tests, which typically use an external browser
   config.before(:each, type: :system, js: true) do
     driven_by(:selenium_chrome_headless)
-  end
-
-  config.before(:each, type: :feature) do
     DatabaseCleaner.strategy = :truncation
   end
 
+  # Custom strategy for versioning specs
   config.before(:each, versioning: true) do
-    PaperTrail.request.enable_model(User) # Enable versioning for specific models
+    # Enable versioning for specific models as needed
+    PaperTrail.request.enable_model(User)
   end
 
-  config.after(:each) do
+  # Because of seed data issues, use truncation for controller tests
+  config.before(:each, type: :controller) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  # Append after to ensure cleaning occurs after Capybara's cleanup
+  config.append_after(:each) do
+    # Reset sessions and mocks after each test
     Capybara.reset_sessions!
     RSpec::Mocks.space.reset_all
     DatabaseCleaner.clean

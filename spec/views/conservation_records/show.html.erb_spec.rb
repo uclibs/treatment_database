@@ -5,19 +5,20 @@ require 'rails_helper'
 RSpec.describe 'conservation_records/show', type: :view do
 
   before(:each) do
-    @conservation_record = assign(:conservation_record, ConservationRecord.create!(
-                                                          date_received_in_preservation_services: Date.new,
-                                                          department: ControlledVocabulary.where(vocabulary: 'department', active: true).first.id,
-                                                          title: 'Title',
-                                                          author: 'Author',
-                                                          imprint: 'Imprint',
-                                                          call_number: 'Call Number',
-                                                          item_record_number: 'Item Record Number',
-                                                          digitization: false,
-                                                          treatment_report: TreatmentReport.create,
-                                                          abbreviated_treatment_report: AbbreviatedTreatmentReport.create,
-                                                          cost_return_report: CostReturnReport.create
-                                                        ))
+    # @conservation_record = assign(:conservation_record, ConservationRecord.create!(
+    #                                                       date_received_in_preservation_services: Date.new,
+    #                                                       department: ControlledVocabulary.where(vocabulary: 'department', active: true).first.id,
+    #                                                       title: 'Title',
+    #                                                       author: 'Author',
+    #                                                       imprint: 'Imprint',
+    #                                                       call_number: 'Call Number',
+    #                                                       item_record_number: 'Item Record Number',
+    #                                                       digitization: false,
+    #                                                       treatment_report: TreatmentReport.create,
+    #                                                       abbreviated_treatment_report: AbbreviatedTreatmentReport.create,
+    #                                                       cost_return_report: CostReturnReport.create
+    #                                                     ))
+    @conservation_record = create(:conservation_record)
     @in_house_repairs = []
     @external_repairs = []
     @con_tech_records = []
