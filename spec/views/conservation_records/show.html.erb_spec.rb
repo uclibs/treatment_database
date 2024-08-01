@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'conservation_records/show', type: :view do
-  include Devise::Test::ControllerHelpers
 
   before(:each) do
     @conservation_record = assign(:conservation_record, ConservationRecord.create!(

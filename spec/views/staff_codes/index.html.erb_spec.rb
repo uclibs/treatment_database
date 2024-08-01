@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'staff_codes/index', type: :view do
-  include Devise::Test::ControllerHelpers
 
   before(:each) do
     assign(:staff_codes, [

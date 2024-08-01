@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'conservation_records/index', type: :view do
-  include Devise::Test::ControllerHelpers
   include Pagy::Backend
   before do
     StaffCode.create(code: 'C', points: 10)

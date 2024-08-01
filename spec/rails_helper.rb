@@ -13,7 +13,7 @@ require 'capybara/rails'
 require 'capybara/rspec'
 require 'selenium/webdriver'
 Capybara.server = :puma, { Silent: true }
-Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.javascript_driver = :selenium_chrome
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -31,6 +31,8 @@ end
 
 RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :feature
+  config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Devise::Test::ControllerHelpers, type: :controller
   config.include_context 'rake', type: :task
   config.include_context 'job', type: :job
 
@@ -57,6 +59,10 @@ RSpec.configure do |config|
 
   config.before(:each, type: :feature) do
     DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each, versioning: true) do
+    PaperTrail.request.enable_model(User) # Enable versioning for specific models
   end
 
   config.after(:each) do

@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe ConTechRecordsController, type: :controller do
-  include Devise::Test::ControllerHelpers
   render_views
 
   before do

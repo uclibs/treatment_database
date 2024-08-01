@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'users/index.html.erb', type: :view do
-  include Devise::Test::ControllerHelpers
   before(:each) do
     assign(:users, [
              User.create!(

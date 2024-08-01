@@ -26,7 +26,6 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe ConservationRecordsController, type: :controller do
-  include Devise::Test::ControllerHelpers
   render_views
 
   before do

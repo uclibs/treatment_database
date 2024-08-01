@@ -66,7 +66,6 @@ RSpec.describe 'Read Only User Tests', type: :feature, versioning: true do
     expect(page).to have_no_button('Add In-House Repairs')
     expect(page).to have_no_button('Add External Repair')
     expect(page).to have_no_button('Add Conservators and Technicians')
-    save_and_open_page
     expect(page).to have_button('Save Treatment Report', disabled: true)
     expect(page).to have_button('Save Cost and Return Information', disabled: true)
   end

@@ -26,7 +26,6 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe StaffCodesController, type: :controller do
-  include Devise::Test::ControllerHelpers
   # This should return the minimal set of attributes required to create a valid
   # StaffCode. As you add validations to StaffCode, be sure to
   # adjust the attributes here as well.

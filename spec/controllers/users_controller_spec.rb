@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  include Devise::Test::ControllerHelpers
   let(:user) { create(:user, role: 'admin') }
   before do
     sign_in user

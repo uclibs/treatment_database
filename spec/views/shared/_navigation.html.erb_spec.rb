@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'shared/_navigation.html.erb', type: :view do
-  include Devise::Test::ControllerHelpers
 
   context 'when user is admin' do
     before do

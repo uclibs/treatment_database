@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe ReportsController, type: :controller do
-  include Devise::Test::ControllerHelpers
   include_context 'rake' # This job relies on rake tasks
   render_views
 
