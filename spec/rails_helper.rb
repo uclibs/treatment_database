@@ -32,8 +32,6 @@ RSpec.configure do |config|
   # Disable transactional fixtures, as we're using DatabaseCleaner
   config.use_transactional_fixtures = false
 
-
-
   config.before do |example|
     if example.metadata[:type] == :feature && Capybara.current_driver != :rack_test
       DatabaseCleaner.strategy = :truncation
