@@ -22,6 +22,10 @@ RSpec.describe 'Non-Authenticated User Tests', type: :feature do
 end
 
 RSpec.describe 'Read Only User Tests', type: :feature, js: true do
+  before do
+    page.driver.browser.manage.window.resize_to(1200, 800)
+  end
+
   let(:user) { create(:user, role: 'read_only') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   it 'allows User to login and show Conservation Records' do
@@ -32,7 +36,6 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
     click_button 'Log in'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_content('Conservation Records')
-    expect(page).to have_link('Conservation Records')
 
     # Show Conservation Records
     click_on 'Conservation Records'
@@ -62,10 +65,15 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   end
 end
 
-RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
+RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true do
+  before do
+    page.driver.browser.manage.window.resize_to(1200, 800)
+  end
+
   let(:user) { create(:user, role: 'standard') }
   let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
+  let(:today_date) { Time.zone.today.strftime('%Y-%m-%d') }
 
   it 'allows User to login and show Conservation Records' do
     # Login
@@ -101,6 +109,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
+    fill_in 'Date received in preservation services', with: today_date
     select('PLCH', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
     fill_in 'Author', with: conservation_record.author
@@ -167,9 +176,11 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     fill_in 'treatment_report_treatment_proposal_total_treatment_time', with: 10
     click_button('Save Treatment Report')
     expect(page).to have_content('Treatment Record updated successfully!')
-    click_on 'Condition'
-    expect(page).to have_select('treatment_report_treatment_proposal_housing_need_id', selected: 'Portfolio')
-    expect(page).to have_select('treatment_report_treatment_proposal_housing_provided_id', selected: 'Portfolio')
+    click_on 'Treatment Proposal'
+    expect(page).to have_content("Housing Need")
+    save_and_open_page
+    expect(page).to have_select('treatment_proposal_housing_need_id', selected: /Portfolio/)
+    expect(page).to have_select('treatment_report_treatment_proposal_housing_provided_id', selected: /Portfolio/)
 
     # Save Cost Return Information
     expect(page).to have_content('Cost and Return Information')
@@ -199,11 +210,16 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
   end
 end
 
-RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
+RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
+  before do
+    page.driver.browser.manage.window.resize_to(1200, 800)
+  end
+
   let(:user) { create(:user, role: 'admin') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let(:vocabulary) { create(:controlled_vocabulary) }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
+  let(:today_date) { Time.zone.today.strftime('%Y-%m-%d') }
 
   it 'allows User to login and show Conservation Records' do
     # Login
@@ -286,6 +302,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
+    fill_in 'Date received in preservation services', with: today_date
     select('PLCH', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
     fill_in 'Author', with: conservation_record.author

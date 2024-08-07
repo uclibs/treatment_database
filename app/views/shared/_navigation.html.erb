@@ -1,72 +1,87 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-  <div>
-    <div id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <%= link_to 'Treatment Database', root_path, class: 'navbar-brand' %>
-        </li>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <!-- Navbar Brand -->
+    <a class="navbar-brand" href="/">Treatment Database</a>
+
+    <!-- Toggle button for mobile view -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
         <% if user_signed_in? %>
-         <% if can? :read, ConservationRecord %>
-          <li class="nav-item">
-            <%= link_to('Conservation Records', conservation_records_path, class: 'nav-link') %>
-          </li>
-         <% end %>
+          <% if can? :read, ConservationRecord %>
+            <li class="nav-item no-divider">
+              <%= link_to 'Conservation Records', conservation_records_path, class: 'nav-link' %>
+            </li>
+          <% end %>
         <% end %>
+
         <% if can? :read, ControlledVocabulary %>
+          <li class="nav-item divider"></li>
           <li class="nav-item">
-            <%= link_to('Vocabularies', controlled_vocabularies_path, class: 'nav-link') %>
+            <%= link_to 'Vocabularies', controlled_vocabularies_path, class: 'nav-link' %>
           </li>
         <% end %>
+
         <% if can? :manage, User %>
+          <li class="nav-item divider"></li>
           <li class="nav-item">
-            <%= link_to('Users', users_path, class: 'nav-link') %>
+            <%= link_to 'Users', users_path, class: 'nav-link' %>
           </li>
+          <li class="nav-item divider"></li>
           <li class="nav-item">
-             <%= link_to('Activity', activity_index_path, class: 'nav-link') %>
+            <%= link_to 'Activity', activity_index_path, class: 'nav-link' %>
           </li>
         <% end %>
+
         <% if can? :manage, Report %>
+          <li class="nav-item divider"></li>
           <li class="nav-item">
-             <%= link_to('Reports', reports_path, class: 'nav-link') %>
+            <%= link_to 'Reports', reports_path, class: 'nav-link' %>
           </li>
         <% end %>
+
         <% if can? :read, StaffCode %>
+          <li class="nav-item divider"></li>
           <li class="nav-item">
-            <%= link_to('Staff Codes', staff_codes_path, class: 'nav-link') %>
+            <%= link_to 'Staff Codes', staff_codes_path, class: 'nav-link' %>
           </li>
         <% end %>
+
+        <!-- Search Form -->
         <% if user_signed_in? %>
-          <li class="nav-item">
-            <%= form_with url: search_path, method: :get, local: true, class: "form-inline" do |f| %>
-              <h6> <%= f.label :search %> </h6>
-              <%= f.text_field :search, id: :search, value: params[:search], placeholder: "Search", class: "form-control mr-sm-2" %>
-              <%= link_to '(?)', search_help_path, class: 'search-help-icon' %>
-              <%= f.submit "Search", name: nil, class: "btn btn-primary my-2 my-sm-0" %>
+          <li class="nav-item d-flex align-items-center me-1">
+            <%= form_with url: search_path, method: :get, local: true, class: "d-flex align-items-center no-divider" do |f| %>
+              <%= f.label :search, class: 'visually-hidden' %>
+              <%= f.text_field :search, id: :search, value: params[:search], placeholder: "Search", class: "form-control me-2" %>
+              <%= link_to '(?)', search_help_path, class: 'search-help-icon me-2' %>
+              <%= f.submit "Search", name: nil, class: "btn btn-primary" %>
             <% end %>
           </li>
         <% end %>
       </ul>
+
+      <!-- Right-aligned User Dropdown -->
+      <ul class="navbar-nav ms-auto d-flex align-items-center">
+        <% if !user_signed_in? %>
+          <li class="nav-item no-divider">
+            <%= link_to 'Log in', new_user_session_path, class: 'nav-link' %>
+          </li>
+        <% else %>
+          <li class="nav-item dropdown no-divider">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= current_user.display_name %>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+              <%= link_to "Edit account", edit_user_registration_path, class: 'dropdown-item' %>
+              <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
     </div>
-  </div>
-  <div>
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <% if !user_signed_in? %>
-      <li class="nav-item">
-        <%= link_to('Log in', new_user_session_path, class: 'nav-link') %>
-      </li>
-      <% else %>
-      <li class="nav-item">
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= current_user.display_name %>
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <%= link_to("Edit account", edit_user_registration_path, class: 'dropdown-item') %>
-            <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item') %>
-          </div>
-        </div>
-      </li>
-      <% end %>
-    </ul>
   </div>
 </nav>

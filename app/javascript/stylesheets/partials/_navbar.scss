@@ -1,0 +1,25 @@
+.navbar-nav {
+  display: flex; /* Use flexbox for the navbar */
+  align-items: center; /* Center items vertically */
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav .divider {
+  width: 2px;
+  height: 1.5rem; /* Adjust height as needed */
+  background-color: #aaa; /* Color of the divider */
+  border-radius: 1px; /* Rounded corners */
+  margin: 0 0.2rem; /* Space on both sides of the divider */
+}
+
+.dropdown-menu .dropdown-item {
+  border: none;                 /* Remove border for dropdown items */
+}
+
+.dropdown-menu .dropdown-item:not(:last-child) {
+  border-bottom: 1px solid #ddd; /* Add divider between dropdown items */
+}

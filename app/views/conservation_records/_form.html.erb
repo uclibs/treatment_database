@@ -13,42 +13,42 @@
   <br>
 
   <div class="form-block">
-    <div class="form-group">
+    <div class="mb-3">
       <%= form.label :date_received_in_preservation_services %> <span class="required">*</span>
       <%= form.date_field :date_received_in_preservation_services, class: 'form-control', required: true %>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
       <%= form.label :department %> <span class="required">*</span>
       <%= form.select(:department, options_from_collection_for_select(@departments, "id", "key", @conservation_record.department), { prompt: 'Select Department' }, { class: 'form-control', required: true }) %>
     </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :title %> <span class="required">*</span>
     <%= form.text_field :title, class: 'form-control', required: true %>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :author %>
     <%= form.text_field :author, class: 'form-control' %>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :imprint %>
     <%= form.text_field :imprint, class: 'form-control' %>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :call_number %>
     <%= form.text_field :call_number, class: 'form-control' %>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :item_record_number %> <span class="required">*</span>
     <%= form.text_field :item_record_number, class: 'form-control', required: true %>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :digitization %>
     <%= form.check_box :digitization, class: 'btn btn-primary' %>
   </div>
