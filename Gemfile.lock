@@ -117,8 +117,6 @@ GEM
       tins (~> 1.32)
     crass (1.0.6)
     csv (3.3.0)
-    database_cleaner (2.0.2)
-      database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.2.0)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
@@ -439,7 +437,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   coveralls_reborn
   csv (~> 3.3)
-  database_cleaner
+  database_cleaner-active_record
   devise
   dotenv-rails
   drb (~> 2.2)

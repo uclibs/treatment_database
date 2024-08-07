@@ -56,7 +56,6 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw] # Debugging tool for Ruby
 
   # Testing libraries
-  gem 'database_cleaner' # Strategies for cleaning databases in Ruby
   gem 'factory_bot_rails' # A fixtures replacement with a straightforward definition syntax
   gem 'rails-controller-testing' # Adds missing helper methods for controller tests in Rails 5
   gem 'rspec_junit_formatter' # Outputs RSpec results in JUnit format
@@ -95,6 +94,7 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15' # Integration testing tool for rack-based web applications
+  gem 'database_cleaner-active_record' # Strategies for cleaning databases in Ruby
   gem 'launchy' # Opens a given URL in a browser
 end
 

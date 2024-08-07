@@ -43,7 +43,6 @@ require 'byebug'
 
 require 'devise'
 
-require 'database_cleaner'
 def sign_in(user)
   post user_session_path \
     'user[email]' => user.email,
@@ -52,19 +51,6 @@ end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here.
-
-  config.before do |example|
-    if example.metadata[:type] == :feature && Capybara.current_driver != :rack_test
-      DatabaseCleaner.strategy = :truncation
-    else
-      DatabaseCleaner.strategy = :transaction
-      DatabaseCleaner.start
-    end
-  end
-
-  config.after do
-    DatabaseCleaner.clean
-  end
 
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
