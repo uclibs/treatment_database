@@ -26,7 +26,7 @@ RSpec.feature 'Navbar', type: :feature do
     expect(page).to have_content('Conservation Records')
   end
 
-  scenario 'displays links when the screen is wide', js:true do
+  scenario 'displays links when the screen is wide', js: true do
     # Simulate a large screen
     page.driver.browser.manage.window.resize_to(1200, 800)
 

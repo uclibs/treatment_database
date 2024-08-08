@@ -10,6 +10,7 @@ require 'factory_bot'
 require 'rspec/rails'
 require 'paper_trail/frameworks/rspec'
 require 'capistrano-spec'
+require_relative 'support/download_helper'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -35,11 +36,18 @@ end
 RSpec.configure do |config|
   config.include_context 'rake', type: :task
   config.include_context 'job', type: :job
+  config.include DownloadHelper, type: :feature
 
   # Load all Capistrano tasks before running any tests
   config.before(:suite) do
     Rails.application.load_tasks
     Rails.root.glob('lib/capistrano/tasks/*.rake').each { |file| load file }
+  end
+
+  config.around(:each, type: :feature) do |example|
+    setup_download_directory
+    example.run
+    setup_download_directory
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
