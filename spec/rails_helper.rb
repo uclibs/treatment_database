@@ -44,7 +44,7 @@ RSpec.configure do |config|
     Rails.root.glob('lib/capistrano/tasks/*.rake').each { |file| load file }
   end
 
-  config.around(:each, type: :feature) do |example|
+  config.around(:each, type: :feature, versioning: true, js: true) do |example|
     setup_download_directory
     example.run
     setup_download_directory

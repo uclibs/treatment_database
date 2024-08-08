@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module DownloadHelper
   DOWNLOAD_DIRECTORY = File.join(Dir.pwd, 'tmp', 'downloads')
 
@@ -17,22 +18,22 @@ module DownloadHelper
   end
 
   def download_and_verify_file(button_text)
-    puts "Inside downlaod_and_verify_file"
+    expect(page).to have_content(button_text)
     initial_file_count = downloaded_files.size
-    puts "Initial file count: #{initial_file_count}"
 
     click_on button_text
 
     # Wait for the file to be downloaded, up to a maximum of 10 seconds
     max_wait_time = 10
-    start_time = Time.now
+    start_time = Time.zone.now
 
-    until downloaded_files.size > initial_file_count || Time.now - start_time > max_wait_time
+    while Time.zone.now - start_time < max_wait_time
       sleep 0.1
+      new_file_count = downloaded_files.size
+      break if new_file_count > initial_file_count
     end
 
     new_file_count = downloaded_files.size
-    puts "New file count: #{new_file_count}"
     expect(new_file_count).to eq(initial_file_count + 1)
     expect(File.size(downloaded_files.last)).to be > 0
   end
