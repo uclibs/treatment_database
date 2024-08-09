@@ -18,9 +18,6 @@ import 'bootstrap';
 // Import custom CSS
 import './stylesheets/application.scss';
 
-// Import custom JavaScript
-import './custom/accountActiveToggleSwitch';
-
 // Import all the images in the images file:
 function importAll(r) {
     r.keys().forEach(r);
