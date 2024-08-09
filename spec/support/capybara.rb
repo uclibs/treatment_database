@@ -3,7 +3,7 @@
 require 'capybara/rspec'
 require 'selenium-webdriver'
 
-RSpec.configure do |config|
+RSpec.configure do |_config|
   Capybara.register_driver :selenium_chrome_headless_sandboxless do |app|
     browser_options = Selenium::WebDriver::Chrome::Options.new
     browser_options.args << '--headless'
