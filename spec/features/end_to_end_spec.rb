@@ -25,10 +25,6 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:user) { create(:user, role: 'read_only') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
 
-  # before do
-  #   page.driver.browser.manage.window.resize_to(1200, 800)
-  # end
-
   it 'allows User to login and show Conservation Records' do
     # Login
     visit new_user_session_path
@@ -72,10 +68,6 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
   let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:today_date) { Time.zone.today.strftime('%Y-%m-%d') }
-
-  # before do
-  #   page.driver.browser.manage.window.resize_to(1200, 800)
-  # end
 
   it 'allows User to login and show Conservation Records' do
     # Login
@@ -219,10 +211,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
   let(:vocabulary) { create(:controlled_vocabulary) }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:today_date) { Time.zone.today.strftime('%Y-%m-%d') }
-
-  # before do
-  #   page.driver.browser.manage.window.resize_to(1200, 800)
-  # end
 
   it 'allows User to login and show Conservation Records' do
     # Login
