@@ -35,6 +35,7 @@ end
 RSpec.configure do |config|
   config.include_context 'rake', type: :task
   config.include_context 'job', type: :job
+  config.include DownloadLinkHelper, type: :feature
 
   # Load all Capistrano tasks before running any tests
   config.before(:suite) do
