@@ -13,29 +13,24 @@
           <% end %>
         <% end %>
         <% if can? :read, ControlledVocabulary %>
-          <li class="nav-item divider">|</li>
           <li class="nav-item">
             <%= link_to('Vocabularies', controlled_vocabularies_path, class: 'nav-link') %>
           </li>
         <% end %>
         <% if can? :manage, User %>
-          <li class="nav-item divider">|</li>
           <li class="nav-item">
             <%= link_to('Users', users_path, class: 'nav-link') %>
           </li>
-          <li class="nav-item divider">|</li>
           <li class="nav-item">
             <%= link_to('Activity', activity_index_path, class: 'nav-link') %>
           </li>
         <% end %>
         <% if can? :manage, Report %>
-          <li class="nav-item divider">|</li>
           <li class="nav-item">
             <%= link_to('Reports', reports_path, class: 'nav-link') %>
           </li>
         <% end %>
         <% if can? :read, StaffCode %>
-          <li class="nav-item divider">|</li>
           <li class="nav-item">
             <%= link_to('Staff Codes', staff_codes_path, class: 'nav-link') %>
           </li>
