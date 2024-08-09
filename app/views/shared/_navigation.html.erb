@@ -54,7 +54,7 @@
         <!-- Search Form -->
         <% if user_signed_in? %>
           <li class="nav-item d-flex align-items-center me-1">
-            <%= form_with url: search_path, method: :get, local: true, class: "d-flex align-items-center no-divider" do |f| %>
+            <%= form_with url: search_path, method: :get, local: true, class: "d-flex align-items-center" do |f| %>
               <%= f.label :search, class: 'visually-hidden' %>
               <%= f.text_field :search, id: :search, value: params[:search], placeholder: "Search", class: "form-control me-2" %>
               <%= link_to '(?)', search_help_path, class: 'search-help-icon me-2' %>
@@ -67,11 +67,11 @@
       <!-- Right-aligned User Dropdown -->
       <ul class="navbar-nav ms-auto d-flex align-items-center">
         <% if !user_signed_in? %>
-          <li class="nav-item no-divider">
+          <li class="nav-item">
             <%= link_to 'Log in', new_user_session_path, class: 'nav-link' %>
           </li>
         <% else %>
-          <li class="nav-item dropdown no-divider">
+          <li class="nav-item dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <%= current_user.display_name %>
             </button>

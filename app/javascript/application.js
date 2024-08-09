@@ -12,10 +12,7 @@ import jQuery from 'jquery';
 window.jQuery = jQuery;
 window.$ = jQuery;
 
-// Import Bootstrap CSS
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-// Import Bootstrap JavaScript
+// Import Bootstrap JavaScript and CSS
 import 'bootstrap';
 
 // Import custom CSS
