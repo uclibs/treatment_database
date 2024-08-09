@@ -19,6 +19,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
     expect(page).to have_no_link('Users')
     expect(page).to have_no_link('Activity')
     expect(page).to have_no_link('Vocabularies')
+    expect(page).to have_no_link('Staff Codes')
 
     # Show Conservation Records
 
@@ -55,63 +56,32 @@ RSpec.describe 'Standard User Tests', type: :feature do
     click_on 'Edit Conservation Record'
     expect(page).to have_content('Editing Conservation Record')
 
-    # Show Staff Codes
-
-    visit staff_codes_path
-    expect(page).to have_content('Staff Codes')
-    expect(page).to have_link('Destroy')
-    expect(page).to have_link('Show')
-    expect(page).to have_link('New Staff Code')
-
-    # Edit Staff Codes
-
-    visit staff_codes_path
-    click_link('Edit')
-    expect(page).to have_content('Editing Staff Code')
-
-    # Add Staff Codes
-
-    visit staff_codes_path
-    click_link 'New Staff Code'
-    expect(page).to have_content('New Staff Code')
-    fill_in 'Code', with: staff_code.code
-    fill_in 'Points', with: staff_code.points
-    click_on 'Create Staff code'
-    expect(page).to have_content('Staff code was successfully created')
-    expect(page).to have_content(staff_code.code)
-    expect(page).to have_link('Edit')
-
-    # Edit the existing Staff Code
-
-    click_link 'Edit'
-    expect(page).to have_content('Editing Staff Code')
-
     # In_House Repair
 
     visit conservation_records_path
     click_link(conservation_record.title, match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
-    select('Chuck Greenman', from: 'in_house_repair_record_performed_by_user_id')
-    select('Soft slipcase', from: 'in_house_repair_record_repair_type', match: :first)
-    fill_in 'in_house_repair_record_other_note', with: 'Other Note'
-    fill_in 'in_house_repair_record_minutes_spent', with: '23'
-    select('test', from: 'in_house_repair_record_staff_code_id', match: :first)
+    select('Chuck Greenman', from: 'in_house_performed_by_user_id')
+    select('Soft slipcase', from: 'in_house_repair_type', match: :first)
+    fill_in 'in_house_other_note', with: 'Other Note'
+    fill_in 'in_house_minutes_spent', with: '23'
+    select('test', from: 'in_house_staff_code_id', match: :first)
     click_button('Create In-House Repair Record')
     expect(page).to have_content('Soft slipcase performed by Chuck Greenman')
 
     # External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
-    select('Amanda Buck', from: 'external_repair_record_performed_by_vendor_id', match: :first)
-    select('Wash', from: 'external_repair_record_repair_type', match: :first)
+    select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
+    select('Wash', from: 'external_repair_type', match: :first)
     click_button('Create External Repair Record')
     expect(page).to have_content('Wash performed by Amanda Buck')
 
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
     click_button('Add Conservators and Technicians')
-    select('John Green', from: 'con_tech_record_performed_by_user_id', match: :first)
+    select('John Green', from: 'cons_tech_performed_by_user_id', match: :first)
     click_button('Create Conservators and Technicians Record')
     expect(page).to have_content('John Green')
 

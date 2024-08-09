@@ -38,9 +38,10 @@ class Ability
     case user.role
     when 'admin'
       can :manage, :all
+      cannot :destroy, StaffCode
     when 'standard'
       can :view_pdfs, ConservationRecord
-      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, StaffCode, CostReturnReport, Report, :activity]
+      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, CostReturnReport]
     when 'read_only'
       can :view_pdfs, ConservationRecord
       can :read, ConservationRecord

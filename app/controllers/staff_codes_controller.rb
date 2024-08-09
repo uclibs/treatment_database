@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class StaffCodesController < ApplicationController
-  before_action :set_staff_code, only: %i[show edit update destroy]
+  before_action :set_staff_code, only: %i[show edit update]
   before_action :authenticate_user!
   load_and_authorize_resource
 
@@ -46,15 +46,6 @@ class StaffCodesController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @staff_code.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /staff_codes/1 or /staff_codes/1.json
-  def destroy
-    @staff_code.destroy
-    respond_to do |format|
-      format.html { redirect_to staff_codes_url, notice: 'Staff code was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

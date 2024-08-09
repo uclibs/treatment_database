@@ -27,10 +27,12 @@ RSpec.describe 'conservation_records/index', type: :view do
       item_record_number: 'Item Record Number',
       digitization: false
     )
+    ids = [@conservation_record1.id, @conservation_record2.id]
+    relation = ConservationRecord.where(id: ids)
+    @pagy, @conservation_records = pagy(relation, items: 100)
   end
 
   it 'renders a list of conservation_records' do
-    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
     render
     assert_select 'td', text: @conservation_record1.id.to_s, count: 1
     assert_select 'td', text: @conservation_record2.id.to_s, count: 1
@@ -46,14 +48,17 @@ RSpec.describe 'conservation_records/index', type: :view do
     @user = create(:user, role: 'read_only')
     @request.env['devise.mapping'] = Devise.mappings[:user]
     sign_in @user
-    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
     render
     expect(rendered).not_to have_button('New Conservation Record')
   end
 
   it 'displays a pagination widget' do
-    @pagy, @conservation_records = pagy(ConservationRecord.all, items: 100)
+    # Only 2 records, so the pagy widget should be disabled
     render
-    expect(rendered).to have_text('<1>')
+    expect(rendered).to have_css('nav.pagy-bootstrap.nav')
+    expect(rendered).to have_css('li.page-item.prev.disabled')
+    expect(rendered).to have_css('li.page-item.next.disabled')
+    expect(rendered).to have_css('a[aria-label="Previous"]', text: '<')
+    expect(rendered).to have_css('a[aria-label="Next"]', text: '>')
   end
 end

@@ -14,4 +14,36 @@ module ApplicationHelper
   rescue ActiveRecord::RecordNotFound
     "User not found (ID: #{id})"
   end
+
+  # Creates and returns the path for an image being handled by webpack
+  # Use like: <%= image_tag webpack_image_path('delete.png'), class: 'delete-icon', alt: 'Delete' %>
+  # Exact image_name to be passed in can be determined from the manifest.json file in the public/build directory
+  def webpack_image_path(image_name)
+    base_url_root = ENV['RAILS_RELATIVE_URL_ROOT'] || ''
+    base_path = "#{base_url_root}/build"
+
+    manifest_path = Rails.public_path.join('build/manifest.json')
+    manifest = JSON.parse(File.read(manifest_path))
+    "#{base_path}/#{manifest[image_name]}"
+  end
+
+  # Creates and returns the path for a stylesheet file being handled by webpack
+  def webpack_stylesheet_path
+    # Determine the base path based on the environment
+    base_path = Rails.env.production? ? '/treatment_database/build' : '/build'
+
+    manifest_path = Rails.public_path.join('build/manifest.json')
+    manifest = JSON.parse(File.read(manifest_path))
+    "#{base_path}/#{manifest['application.css']}"
+  end
+
+  # Creates and returns the path for the javascript file being handled by webpack
+  def webpack_javascript_path
+    # Determine the base path based on the environment
+    base_path = Rails.env.production? ? '/treatment_database/build' : '/build'
+
+    manifest_path = Rails.public_path.join('build/manifest.json')
+    manifest = JSON.parse(File.read(manifest_path))
+    "#{base_path}/#{manifest['application.js']}"
+  end
 end

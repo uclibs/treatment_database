@@ -3,109 +3,102 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.3.0'
+ruby '3.3.3'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.7.7'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
-# Use Puma as the app server
-gem 'puma'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', platforms: :ruby
+# Load environment variables from .env
+gem 'dotenv-rails' # Loads environment variables from .env
 
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
-# Use rails-controller-testing for testing a controller
-gem 'rails-controller-testing'
-# Use coveralls for code-coverage
-# gem 'coveralls', '~> 0.8.22', require: false
-gem 'coveralls_reborn'
-# Use rubocop for static code analysis
-gem 'rubocop'
-# Use simplecov to generate the coveralls report in .html format
-gem 'simplecov', require: false
-gem 'simplecov-lcov', require: false
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+# Core Rails gems
+gem 'activestorage' # Handles file uploads in Rails applications
+gem 'mutex_m' # Being removed from Ruby soon, required for activestorage
+gem 'rails', '~> 6.1.7' # The Rails framework
+gem 'sprockets-rails', '~> 3.4' # Sprockets adapter for Rails, needed for deploy:assets:precompile steps
+gem 'sqlite3', '~> 1.4' # SQLite3 database adapter for ActiveRecord
 
-gem 'nokogiri', '>= 1.13'
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
+# Standard Library Enhancements
+gem 'abbrev', '~> 0.1.2' # Provides abbreviations for strings, useful for command-line apps
+gem 'base64', '~> 0.2.0' # Handling Base64 encoding, explicitly included for upcoming Ruby version changes
+gem 'csv', '~> 3.3' # Ruby's standard CSV library, ensure the latest features and fixes
+gem 'drb', '~> 2.2' # Distributed Ruby, enables communication between Ruby programs on different machines
+gem 'nkf', '~> 0.2.0' # A Japanese text processing library for converting character encodings
+gem 'observer', '~> 0.1.2' # Implements the observer design pattern for event-driven programming
+gem 'racc', '~> 1.8' # A LALR(1) parser generator for Ruby, useful for creating parsers
+gem 'resolv-replace', '~> 0.1.1' # Replaces the default DNS resolver with a Ruby-based resolver
+gem 'rinda', '~> 0.2.0' # Provides a distributed coordination system based on the Linda model
+gem 'syslog', '~> 0.1.2' # Provides a way to send messages to the system logger
 
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
-# Use devise for authentication
-gem 'devise'
+# Server and Performance
+gem 'puma' # A fast, multithreaded, and highly concurrent web server for Ruby/Rack applications
 
-gem 'activestorage', '>= 5.2.6.3'
+# Frontend and Styles
+gem 'bootstrap', '~> 4.3.1' # Front-end framework for developing responsive, mobile-first projects
+gem 'jbuilder', '~> 2.5' # Used for building JSON structures in a builder-style syntax
+gem 'jquery-rails' # Provides jQuery and the jQuery UJS driver for Rails
+gem 'jsbundling-rails' # Manages JavaScript bundling with modern tools like Webpack or esbuild
+gem 'turbolinks', '~> 5' # Makes navigating your site faster by using AJAX to load only the HTML needed
 
-gem 'bootstrap', '~> 4.3.1'
+# Authentication and Authorization
+gem 'cancancan' # Authorization library for Ruby on Rails which restricts what resources a given user is allowed to access
+gem 'devise' # Flexible authentication solution for Rails with Warden
 
-gem 'jquery-rails'
+# Additional Functionality
+gem 'nokogiri' # HTML, XML, SAX, and Reader parser
+gem 'pagy' # Pagination library that is fast, lightweight, and flexible
+gem 'paper_trail' # Track changes to your models' data
+gem 'pdfkit' # Uses wkhtmltopdf to generate PDFs from HTML
+gem 'wkhtmltopdf-binary', '>= 0.12.6.7' # Enables PDF generation from HTML
 
-gem 'pdfkit'
-
-gem 'dotenv-rails'
-
-gem 'cancancan'
-
-gem 'paper_trail'
-
-gem 'pagy'
-
-gem 'brakeman', '~> 5.1', '>= 5.1.1'
+# Windows specific timezone data
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby] # Timezone data for Windows
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'bcrypt_pbkdf'
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'capistrano', '3.17.1'
-  gem 'capistrano-bundler', '~> 1.6', require: false
-  gem 'capistrano-rails', '~> 1.4', require: false
-  gem 'capistrano-rvm', require: false
-  gem 'database_cleaner'
-  gem 'ed25519'
-  gem 'factory_bot_rails'
-  gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '~> 4.1.0'
-  gem 'rubocop-rails'
-  gem 'selenium-webdriver', '~> 4.18.1'
+  # Debugging tools
+  gem 'byebug', platforms: %i[mri mingw x64_mingw] # Debugging tool for Ruby
+
+  # Testing libraries
+  gem 'database_cleaner' # Strategies for cleaning databases in Ruby
+  gem 'factory_bot_rails' # A fixtures replacement with a straightforward definition syntax
+  gem 'rails-controller-testing' # Adds missing helper methods for controller tests in Rails 5
+  gem 'rspec_junit_formatter' # Outputs RSpec results in JUnit format
+  gem 'rspec-rails', '~> 6.0.0' # RSpec for Rails 6+
+  gem 'selenium-webdriver', '~> 4.18.1' # WebDriver for testing web applications
+
+  # Coverage and code analysis
+  gem 'brakeman', '~> 5.1', '>= 5.1.1' # Static analysis security vulnerability scanner for Ruby on Rails applications
+  gem 'coveralls_reborn' # Provides Ruby API for Coveralls.io code coverage reporting
+  gem 'rubocop' # A Ruby static code analyzer and formatter
+  gem 'rubocop-rails' # A RuboCop extension focused on enforcing Rails best practices
+  gem 'simplecov', require: false # Code coverage analysis tool for Ruby
+  gem 'simplecov-lcov', require: false # Formatter for SimpleCov that generates LCOV reports
+
+  # Security dependencies
+  gem 'bcrypt_pbkdf' # A key derivation function for safely storing passwords
+  gem 'ed25519' # Ed25519 elliptic curve public-key signature system
 end
 
 group :development do
-  gem 'bundler-audit'
-  gem 'web-console', '>= 3.3.0'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  # Deployment tools using Capistrano
+  gem 'capistrano' # A remote server automation and deployment tool
+  gem 'capistrano-bundler', require: false # Capistrano integration for Bundler
+  gem 'capistrano-rails', require: false # Integrates Rails with Capistrano
+  gem 'capistrano-rvm', require: false # RVM integration for Capistrano
+  gem 'capistrano-spec' # RSpec matchers for Capistrano
+
+  # Security tools
+  gem 'bundler-audit' # Patch-level verification for Bundler dependencies
+
+  # Development enhancers
+  gem 'spring' # Preloads your application for faster testing and Rake task runs
+  gem 'spring-watcher-listen', '~> 2.0.0' # Listens to file system events for Spring
+  gem 'web-console', '>= 3.3.0' # An interactive console for Rails
 end
 
 group :test do
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
-  # Easy installation and use of chromedriver to run system tests with Chrome
+  gem 'capybara', '>= 2.15' # Integration testing tool for rack-based web applications
+  gem 'launchy' # Opens a given URL in a browser
 end
 
 group :production do
-  # Needed to get console working in production mode
-  # gem 'aws-xray-sdk', require: ['aws-xray-sdk/facets/rails/railtie']
-  gem 'mysql2'
-  gem 'rb-readline'
+  gem 'mysql2' # MySQL database adapter for ActiveRecord
+  gem 'rb-readline' # Pure Ruby Readline implementation
 end
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-
-# wkhtmltopdf uclibs fork
-gem 'wkhtmltopdf-binary', git: 'https://github.com/uclibs/wkhtmltopdf_binary_gem', branch: '153/oracle-linux-support'

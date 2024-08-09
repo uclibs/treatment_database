@@ -20,11 +20,13 @@ require 'simplecov-lcov'
 require 'coveralls'
 
 SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_filter '/spec/' # Exclude all files in the spec directory
+  add_filter '/lib/tasks/' # Exclude all files in the lib/tasks directory
+  add_filter '/lib/capistrano/' # Exclude all files in the lib/capistrano directory
+end
 
 SimpleCov.at_exit do
-  SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
-  SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
     [
       SimpleCov::Formatter::HTMLFormatter,
@@ -49,9 +51,7 @@ def sign_in(user)
 end
 
 RSpec.configure do |config|
-  # rspec-expectations config goes here. You can use an alternate
-  # assertion/expectation library such as wrong or the stdlib/minitest
-  # assertions if you prefer.
+  # rspec-expectations config goes here.
 
   config.before do |example|
     if example.metadata[:type] == :feature && Capybara.current_driver != :rack_test

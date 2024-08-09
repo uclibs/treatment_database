@@ -12,7 +12,6 @@ executors:
 
 orbs:
   ruby: circleci/ruby@2.1.1
-  node: circleci/node@5.0.2
   browser-tools: circleci/browser-tools@1.4.7
   coveralls: coveralls/coveralls@1.0.6
 
@@ -20,7 +19,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: cimg/ruby:3.3.0-browsers
+      - image: cimg/ruby:3.3.3
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -60,12 +59,59 @@ jobs:
             gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
 
       - run:
-          name: Install Dependencies
-          no_output_timeout: 15m
+          name: Install NVM and Node.js
           command: |
-            bundle install
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --install' >> $BASH_ENV
+            echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> $BASH_ENV
+            source $BASH_ENV
+            nvm install $(cat .nvmrc)
+            nvm use $(cat .nvmrc)
+            echo "Node Version Manager (NVM) installed successfully."
+            echo "NVM version: $(nvm --version)"
+            echo "Node.js version: $(node --version)"
+
+      - run:
+          name: Install Yarn
+          command: |
+            source $BASH_ENV
+            nvm use
+            npm install -g yarn
+            echo "Yarn installed successfully."
+            echo "Yarn version: $(yarn --version)"
+
+      - run:
+          name: Install Gemfile Dependencies
+          no_output_timeout: 15m
+          shell: /bin/bash -eo pipefail
+          command: |
+            source $BASH_ENV
+            nvm use
+            echo "Installing Ruby gems..."
+            bundle install --jobs=4 --retry=3
+
+            echo "Installing required system packages..."
             sudo apt-get update
-            sudo apt-get install xvfb libfontconfig wkhtmltopdf
+            sudo apt-get install -y xvfb libfontconfig wkhtmltopdf
+
+            echo "Installation steps completed successfully."
+
+      - run:
+          name: Install Yarn Dependencies
+          command: |
+            echo "Installing Yarn dependencies..."
+            source $BASH_ENV
+            nvm use
+            yarn install
+
+      - run:
+          name: Run Yarn Build
+          command: |
+            echo "Running Yarn build..."
+            source $BASH_ENV
+            nvm use
+            yarn build
 
       - save_cache:
           paths:

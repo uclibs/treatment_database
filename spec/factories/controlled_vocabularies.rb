@@ -5,5 +5,9 @@ FactoryBot.define do
     vocabulary { 'vocabulary_string' }
     key { 'key_string' }
     active { false }
+
+    trait :active do
+      active { true }
+    end
   end
 end

@@ -85,7 +85,7 @@
             <% if can? :crud, InHouseRepairRecord %>
               <%= link_to [repair.conservation_record, repair], id: "delete_in_house_repair_record_#{repair.id}", method: :delete, data: {confirm: "Are you sure?"} do %>
                 <button class="btn btn-danger justify-content-right">
-                  <%= image_tag "delete.png", class: "delete-icon", alt: "Delete" %>
+                  <%= image_tag webpack_image_path('delete.png'), class: 'delete-icon', alt: 'Delete' %>
                 </button>
               <% end %>
             <% end %>
@@ -118,7 +118,7 @@
             <% if can? :crud, ExternalRepairRecord %>
               <%= link_to [repair.conservation_record, repair], id: "delete_external_repair_record_#{repair.id}", method: :delete,  data: {confirm: "Are you sure?"} do %>
                 <button class="btn btn-danger justify-content-right">
-                  <%= image_tag "delete.png", class: "delete-icon", alt: "Delete" %>
+                  <%= image_tag webpack_image_path('delete.png'), class: 'delete-icon', alt: 'Delete' %>
                 </button>
               <% end %>
             <% end %>
@@ -146,11 +146,10 @@
         <% @con_tech_records.each_with_index do |record, i| %>
           <li class="list-group-item">
             <%= generate_con_tech_string(record, i) %>
-
             <% if can? :crud, ConTechRecord %>
               <%= link_to [record.conservation_record, record], method: :delete do %>
                 <button class="btn btn-danger justify-content-right">
-                  <%= image_tag "delete.png", class: "delete-icon", alt: "Delete" %>
+                  <%= image_tag webpack_image_path('delete.png'), class: 'delete-icon', alt: 'Delete' %>
                 </button>
               <% end %>
             <% end %>
@@ -188,37 +187,37 @@
   <%= form_with(model: [@conservation_record, @conservation_record.cost_return_report], class: 'disable_input') do |f| %>
 
     <p>
-      <%= f.label :Shipping_To_Vendor_Cost, "Shipping To Vendor Cost" %>
+      <%= f.label :shipping_cost, "Shipping To Vendor Cost" %>
       <%= f.number_field :shipping_cost, :value => (number_with_precision(f.object.shipping_cost, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
     </p>
 
     <p>
-      <%= f.label :Repair_Cost_Estimate, "Repair Cost Estimate" %>
+      <%= f.label :repair_estimate, "Repair Cost Estimate" %>
       <%= f.number_field :repair_estimate, :value => (number_with_precision(f.object.repair_estimate, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
     </p>
 
     <p>
-      <%= f.label :Actual_Billed_Repair_Cost, "Actual Billed Repair Cost" %>
+      <%= f.label :repair_cost, "Actual Billed Repair Cost" %>
       <%= f.number_field :repair_cost, :value => (number_with_precision(f.object.repair_cost, :precision => 2) || 0), step: 0.01, class: 'form-control' %>
     </p>
 
     <p>
-      <%= f.label :Date_Invoice_Sent_to_Business_Office, "Date Invoice Sent to Business Office" %>
+      <%= f.label :invoice_sent_to_business_office, "Date Invoice Sent to Business Office" %>
       <%= f.date_field(:invoice_sent_to_business_office, class: 'form-control') %>
     </p>
 
     <p>
       <%= f.check_box(:complete) %>
-      <%= f.label("Complete (returned to origin)") %>
+      <%= f.label(:complete, "Complete (returned to origin)") %>
     </p>
 
     <p>
-      <%= f.label :Date_Returned_to_Origin, "Date Returned to Origin" %>
+      <%= f.label :returned_to_origin, "Date Returned to Origin" %>
       <%= f.date_field(:returned_to_origin, class: 'form-control') %>
     </p>
 
     <p>
-      <%= f.label :Note, "Note" %>
+      <%= f.label :note, "Note" %>
       <%= f.text_area :note, class: 'form-control' %>
     </p>
 
@@ -238,28 +237,27 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
       <%= form_with(model: [@conservation_record, @conservation_record.in_house_repair_records.build]) do |form| %>
       <div class="modal-body">
         <div class="form-group">
-          <label for="RepairedBy">Repaired By</label>
-            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { :class => 'form-control', :required=> true }) %>
+          <label for="in_house_performed_by_user_id">Repaired By</label>
+            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { id: 'in_house_performed_by_user_id', :class => 'form-control', :required=> true }) %>
         </div>
         <div class="form-group">
-          <label>Repair Type</label>
-          <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control', :required=> true } %>
+          <label for="in_house_repair_type">Repair Type</label>
+          <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { id: 'in_house_repair_type', :class => 'form-control', :required=> true } %>
         </div>
         <div class="form-group">
-          <label>Minutes Spent</label>
-          <%= form.number_field :minutes_spent, class: "form-control", placeholder: "Minutes", required: true %>
+          <label for="in_house_minutes_spent">Minutes Spent</label>
+          <%= form.number_field :minutes_spent, id: "in_house_minutes_spent", class: "form-control", placeholder: "Minutes", required: true %>
         </div>
         <div class="form-group">
-          <label>Other Note</label>
-          <%= form.text_field :other_note, class: "form-control", placeholder: "Other Notes" %>
+          <label for="in_house_other_note">Other Note</label>
+          <%= form.text_field :other_note, id: "in_house_other_note", class: "form-control", placeholder: "Other Notes" %>
         </div>
         <div class="form-group"> 
-          <label>Staff Code</label>
-          <%= form.select :staff_code_id, options_from_collection_for_select(@staff_codes, "id", "code"), { prompt: 'Select Staff Code' }, { :class => 'form-control', required: true } %>
+          <label for="in_house_staff_code_id">Staff Code</label>
+          <%= form.select :staff_code_id, options_from_collection_for_select(@staff_codes, "id", "code"), { prompt: 'Select Staff Code' }, { id: 'in_house_staff_code_id', :class => 'form-control', required: true } %>
         </div>
        </div>
       <div class="modal-footer">
@@ -280,21 +278,19 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
       <%= form_with(model: [@conservation_record, @conservation_record.external_repair_records.build]) do |form| %>
         <div class="modal-body">
           <div class="form-group">
-            <label for="RepairedBy">Repaired By</label>
-            <%= form.select(:performed_by_vendor_id, options_from_collection_for_select(@contract_conservators, "id", "key"), { prompt: 'Select Vendor' }, { :class => 'form-control', :required => true }) %>
-          </div>
-
-          <div class="form-group">
-            <label>Repair Type</label>
-            <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { :class => 'form-control', :required => true } %>
+            <label for="performed_by_vendor_id">Repaired By</label>
+            <%= form.select(:performed_by_vendor_id, options_from_collection_for_select(@contract_conservators, "id", "key"), { prompt: 'Select Vendor' }, { id: 'performed_by_vendor_id', :class => 'form-control', :required => true }) %>
           </div>
           <div class="form-group">
-            <label>Other Note</label>
-            <%= form.text_field :other_note, class: "form-control", placeholder: "Other Notes" %>
+            <label for="external_repair_type">Repair Type</label>
+            <%= form.select :repair_type, options_from_collection_for_select(@repair_types, "id", "key"), { prompt: 'Select Repair Type' }, { id: 'external_repair_type', :class => 'form-control', :required => true } %>
+          </div>
+          <div class="form-group">
+            <label for="external_other_note">Other Note</label>
+            <%= form.text_field :other_note, id: "external_other_note", class: "form-control", placeholder: "Other Notes" %>
           </div>
         </div>
         <div class="modal-footer">
@@ -319,9 +315,10 @@
       <%= form_with(model: [@conservation_record, @conservation_record.con_tech_records.build]) do |form| %>
         <div class="modal-body">
           <div class="form-group">
-            <label for="ConservationandTechnicians">Conservators and Technicians</label>
-            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { :class => 'form-control', :required => true }) %>
+            <label for="cons_tech_performed_by_user_id">Conservators and Technicians</label>
+            <%= form.select(:performed_by_user_id, options_from_collection_for_select(@users, "id", "display_name"), { prompt: 'Select User' }, { id: 'cons_tech_performed_by_user_id', :class => 'form-control', :required => true }) %>
           </div>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <%= form.submit "Create Conservators and Technicians Record", class: "btn btn-primary" %>

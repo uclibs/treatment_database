@@ -3,6 +3,7 @@
 require_relative 'boot'
 
 require 'rails/all'
+require 'dotenv-rails'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -21,5 +22,7 @@ module TreatmentDatabase
     # the framework and any gems in your application.
     config.active_job.queue_adapter = :inline
     config.active_record.yaml_column_permitted_classes = [ActiveSupport::TimeWithZone, Time, ActiveSupport::TimeZone]
+    config.assets.enabled = false # Disable the asset pipeline and Sprockets
+    config.assets.compile = false # Disable fallback to Sprockets if a precompiled asset is missed
   end
 end

@@ -9,5 +9,8 @@ FactoryBot.define do
     complete { true }
     returned_to_origin { Time.now.utc }
     note { 'This is the note.' }
+
+    # Automatically associate a conservation_record unless one is provided
+    association :conservation_record, factory: :conservation_record
   end
 end

@@ -55,11 +55,11 @@ describe 'User', type: :model do
       it { is_expected.to be_able_to(:update, InHouseRepairRecord.new) }
       it { is_expected.to be_able_to(:destroy, InHouseRepairRecord.new) }
 
-      it { is_expected.to be_able_to(:index, StaffCode.new) }
-      it { is_expected.to be_able_to(:create, StaffCode.new) }
-      it { is_expected.to be_able_to(:read, StaffCode.new) }
-      it { is_expected.to be_able_to(:update, StaffCode.new) }
-      it { is_expected.to be_able_to(:destroy, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:index, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:create, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:read, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:update, StaffCode.new) }
+      it { is_expected.not_to be_able_to(:destroy, StaffCode.new) }
 
       it { is_expected.to be_able_to(:index, CostReturnReport.new) }
       it { is_expected.to be_able_to(:create, CostReturnReport.new) }
@@ -73,13 +73,13 @@ describe 'User', type: :model do
       it { is_expected.to be_able_to(:update, ConTechRecord.new) }
       it { is_expected.to be_able_to(:destroy, ConTechRecord.new) }
 
-      it { is_expected.to be_able_to(:index, Report.new) }
-      it { is_expected.to be_able_to(:create, Report.new) }
-      it { is_expected.to be_able_to(:read, Report.new) }
-      it { is_expected.to be_able_to(:destroy, Report.new) }
+      it { is_expected.not_to be_able_to(:index, Report.new) }
+      it { is_expected.not_to be_able_to(:create, Report.new) }
+      it { is_expected.not_to be_able_to(:read, Report.new) }
+      it { is_expected.not_to be_able_to(:destroy, Report.new) }
 
-      it { is_expected.to be_able_to(:index, :activity) }
-      it { is_expected.to be_able_to(:show, :activity) }
+      it { is_expected.not_to be_able_to(:index, :activity) }
+      it { is_expected.not_to be_able_to(:show, :activity) }
     end
 
     context 'when is a read_only user' do
