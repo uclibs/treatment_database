@@ -12,10 +12,6 @@ import jQuery from 'jquery';
 window.jQuery = jQuery;
 window.$ = jQuery;
 
-// Import Popper
-import Popper from 'popper.js';
-window.Popper = Popper;
-
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 

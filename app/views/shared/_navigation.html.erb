@@ -13,7 +13,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
         <% if user_signed_in? %>
           <% if can? :read, ConservationRecord %>
-            <li class="nav-item no-divider">
+            <li class="nav-item">
               <%= link_to 'Conservation Records', conservation_records_path, class: 'nav-link' %>
             </li>
           <% end %>

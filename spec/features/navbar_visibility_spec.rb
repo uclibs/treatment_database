@@ -40,9 +40,9 @@ RSpec.feature 'Navbar', type: :feature do
 
     # Check for the hamburger button
     expect(page).to have_css('.navbar-toggler')
-
     # Open the hamburger menu
     find('.navbar-toggler').click
+    expect(page).to have_content('Conservation Records')
 
     # Now check for the link presence
     expect(page).to have_link('Conservation Records')

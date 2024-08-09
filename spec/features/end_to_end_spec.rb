@@ -206,7 +206,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
   end
 
   let(:user) { create(:user, role: 'admin') }
-  let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
+  let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let(:vocabulary) { create(:controlled_vocabulary) }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
   let(:today_date) { Time.zone.today.strftime('%Y-%m-%d') }
@@ -394,14 +394,16 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).to have_content('Item Detail')
     expect(page).to have_content(conservation_record.title)
 
-    # Download Conservation Worksheet
-    download_and_verify_file('Download Conservation Worksheet')
+    # Verify the Conservation Worksheet link and return to the original page
+    verify_download_link('Download Conservation Worksheet')
+    expect(page).to have_content(conservation_record.title)
 
-    # Download Treatment Report
-    download_and_verify_file('Download Treatment Report')
+    # Verify the Treatment Report link and return to the original page
+    verify_download_link('Download Treatment Report')
+    expect(page).to have_content(conservation_record.title)
 
-    # Download Abbreviated Treatment Report
-    download_and_verify_file('Download Abbreviated Treatment Report')
+    # Verify the Abbreviated Treatment Report link and return to the original page
+    verify_download_link('Download Abbreviated Treatment Report')
 
     # Verify logged activity
     visit activity_index_path
