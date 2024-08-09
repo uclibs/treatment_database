@@ -1,25 +1,9 @@
-.navbar-nav {
-  display: flex;
-  align-items: flex-start;
-}
+@media (max-width: 992px) {
+  .divider {
+    display: none; /* Hide the navbar dividers on smaller screens */
+  }
 
-.nav-item {
-  display: flex;
-  align-items: flex-start;
-}
-
-.navbar-nav .divider {
-  width: 2px;
-  height: 1.5rem; /* Adjust height as needed */
-  background-color: #ccc; /* Color of the divider */
-  border-radius: 1px; /* Rounded corners */
-  margin: 0 0.2rem; /* Space on both sides of the divider */
-}
-
-.dropdown-menu .dropdown-item {
-  border: none;                 /* Remove border for dropdown items */
-}
-
-.dropdown-menu .dropdown-item:not(:last-child) {
-  border-bottom: 1px solid #ddd; /* Add divider between dropdown items */
+  .nav-item {
+    align-self: flex-start; /* Aligns the items to the start of the flex container */
+  }
 }
