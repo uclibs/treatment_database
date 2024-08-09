@@ -1,17 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'capybara'
-
-Capybara.register_driver :selenium_chrome_headless_sandboxless do |app|
-  browser_options = Selenium::WebDriver::Chrome::Options.new
-  browser_options.args << '--headless'
-  browser_options.args << '--disable-gpu'
-  browser_options.args << '--no-sandbox'
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
-end
-Capybara.default_driver = :rack_test # This is a faster driver
-Capybara.javascript_driver = :selenium_chrome_headless_sandboxless
 
 RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
