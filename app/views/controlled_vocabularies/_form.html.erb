@@ -12,22 +12,22 @@
   <% end %>
 
   <div class="form-block">
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :vocabulary %>
     <%= form.select(:vocabulary, ControlledVocabulary.pluck(:vocabulary).uniq, { include_blank: 'Select Vocabulary' }, {class: 'form-control'}) %>
  </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :key %>
     <%= form.text_field :key, class: 'form-control'%>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :active %>
     <%= form.check_box :active,class: 'btn btn-primary' %>
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     <%= form.label :favorite %>
     <%= form.check_box :favorite,class: 'btn btn-primary' %>
   </div>

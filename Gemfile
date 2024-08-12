@@ -31,10 +31,10 @@ gem 'syslog', '~> 0.1.2' # Provides a way to send messages to the system logger
 gem 'puma' # A fast, multithreaded, and highly concurrent web server for Ruby/Rack applications
 
 # Frontend and Styles
-gem 'bootstrap', '~> 4.3.1' # Front-end framework for developing responsive, mobile-first projects
-gem 'jbuilder', '~> 2.5' # Used for building JSON structures in a builder-style syntax
+gem 'bootstrap', '~> 5.3.3' # Front-end framework for developing responsive, mobile-first projects
 gem 'jquery-rails' # Provides jQuery and the jQuery UJS driver for Rails
 gem 'jsbundling-rails' # Manages JavaScript bundling with modern tools like Webpack or esbuild
+gem 'sassc-rails', '~> 2.1' # SASSC adapter for Rails, needed for Bootstrap 5
 gem 'turbolinks', '~> 5' # Makes navigating your site faster by using AJAX to load only the HTML needed
 
 # Authentication and Authorization

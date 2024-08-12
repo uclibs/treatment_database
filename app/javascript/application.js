@@ -12,11 +12,7 @@ import jQuery from 'jquery';
 window.jQuery = jQuery;
 window.$ = jQuery;
 
-// Import Popper
-import Popper from 'popper.js';
-window.Popper = Popper;
-
-// Import Bootstrap JavaScript
+// Import Bootstrap JavaScript and CSS
 import 'bootstrap';
 
 // Import custom CSS
