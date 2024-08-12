@@ -11,7 +11,13 @@ RSpec.configure do |_config|
     browser_options.args << '--no-sandbox'
     browser_options.prefs['safebrowsing.enabled'] = true
 
-    Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+    # Create the driver with the specified options
+    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+
+    # Set the window size to a typical desktop resolution
+    driver.browser.manage.window.resize_to(1280, 1024)
+
+    driver
   end
 
   Capybara.default_driver = :rack_test
