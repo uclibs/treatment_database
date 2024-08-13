@@ -29,6 +29,8 @@ RSpec.configure do |config|
   config.include_context 'rake', type: :task
   config.include_context 'job', type: :job
   config.include DownloadLinkHelper, type: :feature
+  config.include SystemTestHelper, type: :system
+  config.include AxeHelper, type: :system
 
   config.before(:suite) do
     # Ensure the database is clean and fresh
@@ -43,8 +45,8 @@ RSpec.configure do |config|
     Capybara.reset_sessions!
   end
 
-  config.after(:each, type: :feature) do
-    Capybara.reset_sessions!
+  config.before(:each, type: :system) do |_example|
+    driven_by :selenium_chrome_headless_sandboxless
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
