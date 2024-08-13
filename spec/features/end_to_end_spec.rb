@@ -13,6 +13,7 @@ end
 RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:user) { create(:user, role: 'read_only') }
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
+
   it 'allows User to login and show Conservation Records' do
     # Login
     visit new_user_session_path
@@ -51,10 +52,11 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   end
 end
 
-RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
+RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true do
   let(:user) { create(:user, role: 'standard') }
   let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
+  let(:today_date) { Time.zone.today.strftime('%Y-%m-%d') }
 
   it 'allows User to login and show Conservation Records' do
     # Login
@@ -90,6 +92,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
+    fill_in 'Date received in preservation services', with: today_date
     select('PLCH', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
     fill_in 'Author', with: conservation_record.author
@@ -156,9 +159,10 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
     fill_in 'treatment_report_treatment_proposal_total_treatment_time', with: 10
     click_button('Save Treatment Report')
     expect(page).to have_content('Treatment Record updated successfully!')
-    click_on 'Condition'
-    expect(page).to have_select('treatment_report_treatment_proposal_housing_need_id', selected: 'Portfolio')
-    expect(page).to have_select('treatment_report_treatment_proposal_housing_provided_id', selected: 'Portfolio')
+    click_on 'Treatment Proposal'
+    expect(page).to have_content('Housing Need')
+    expect(page).to have_select('treatment_report_treatment_proposal_housing_need_id', selected: ['Portfolio'])
+    expect(page).to have_select('treatment_report_treatment_proposal_housing_provided_id', selected: ['Portfolio'])
 
     # Save Cost Return Information
     expect(page).to have_content('Cost and Return Information')
@@ -183,16 +187,19 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true do
 
     # Delete conservation record
     visit conservation_records_path
-    find("a[id='delete_conservation_record_#{conservation_record.id}']").click
+    accept_confirm do
+      find("a[id='delete_conservation_record_#{conservation_record.id}']").click
+    end
     expect(page).to have_content('Conservation record was successfully destroyed.')
   end
 end
 
-RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
+RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
   let(:user) { create(:user, role: 'admin') }
-  let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
+  let!(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
   let(:vocabulary) { create(:controlled_vocabulary) }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
+  let(:today_date) { Time.zone.today.strftime('%Y-%m-%d') }
 
   it 'allows User to login and show Conservation Records' do
     # Login
@@ -275,6 +282,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
+    fill_in 'Date received in preservation services', with: today_date
     select('PLCH', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
     fill_in 'Author', with: conservation_record.author
@@ -308,7 +316,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Mend paper performed by Haritha Vytla in 2 minutes. Other note: Some Other note for the in-house repair')
 
     # Delete In-house repair
-    find("a[id='delete_in_house_repair_record_1']").click
+    accept_confirm do
+      find("a[id='delete_in_house_repair_record_1']").click
+    end
     expect(page).not_to have_content('Mend paper performed by Haritha Vytla')
 
     # Create External Repair
@@ -321,7 +331,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Wash performed by Amanda Buck. Other note: Some Other note for the external repair')
 
     # Delete external repair
-    find("a[id='delete_external_repair_record_1']").click
+    accept_confirm do
+      find("a[id='delete_external_repair_record_1']").click
+    end
     expect(page).not_to have_content('Wash performed by Amanda Buck')
 
     # Conservators and Technicians
@@ -372,19 +384,16 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Item Detail')
     expect(page).to have_content(conservation_record.title)
 
-    # Download Conservation Worksheet
-    click_on 'Download Conservation Worksheet'
-    expect(page.status_code).to eq(200)
+    # Verify the Conservation Worksheet link and return to the original page
+    verify_download_link('Download Conservation Worksheet')
+    expect(page).to have_content(conservation_record.title)
 
-    # Download Treatment Report
-    visit conservation_record_path(conservation_record)
-    click_on 'Download Treatment Report'
-    expect(page.status_code).to eq(200)
+    # Verify the Treatment Report link and return to the original page
+    verify_download_link('Download Treatment Report')
+    expect(page).to have_content(conservation_record.title)
 
-    # Download Abbreviated Treatment Report
-    visit conservation_record_path(conservation_record)
-    first(:link, 'Download Abbreviated Treatment Report').click
-    expect(page.status_code).to eq(200)
+    # Verify the Abbreviated Treatment Report link and return to the original page
+    verify_download_link('Download Abbreviated Treatment Report')
 
     # Verify logged activity
     visit activity_index_path
@@ -404,7 +413,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
     expect(page).to have_content('Treatment Record updated successfully!')
     visit activity_index_path
     expect(page).to have_content('Haritha Vytla updated the treatment report')
-    first('tr').click_link('Details')
+    within first('tbody tr') do
+      click_link 'Details'
+    end
     expect(page).to have_content('Full leather tightjoint, tight back binding')
     expect(page).to have_content('Half leather tightjoint, tight back binding')
   end
