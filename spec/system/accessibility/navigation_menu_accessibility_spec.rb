@@ -11,6 +11,7 @@ RSpec.describe 'Navigation Menu Accessibility', type: :system do
   it 'is keyboard accessible' do
     visit root_path
     resize_window_to(768, 1024)
+    expect(page).not_to have_css('.navbar-collapse', visible: true)
     find('.navbar-toggler').send_keys(:enter)
     expect(page).to have_css('.navbar-collapse', visible: true)
   end
