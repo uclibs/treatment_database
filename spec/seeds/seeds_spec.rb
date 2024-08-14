@@ -81,6 +81,5 @@ RSpec.describe 'Database Seeding' do
     it 'seeds the staff code data' do
       expect(StaffCode.count).to be > 0
     end
-
   end
 end
