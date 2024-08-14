@@ -10,6 +10,7 @@ RSpec.describe 'Database Seeding' do
 
   context 'when SEEDABLE is true' do
     before do
+      DatabaseCleaner.clean # Ensure the database is clean before loading seeds
       allow(ENV).to receive(:[]).with('SEEDABLE').and_return('true')
       Rails.application.load_seed # Explicitly load seeds to simulate the environment
     end
@@ -36,6 +37,7 @@ RSpec.describe 'Database Seeding' do
 
   context 'when SEEDABLE is false' do
     before do
+      DatabaseCleaner.clean # Ensure the database is clean before loading seeds
       allow(ENV).to receive(:[]).with('SEEDABLE').and_return('false')
       Rails.application.load_seed # Explicitly load seeds to simulate the environment
     end
@@ -59,6 +61,7 @@ RSpec.describe 'Database Seeding' do
 
   context 'when SEEDABLE is not set' do
     before do
+      DatabaseCleaner.clean # Ensure the database is clean before loading seeds
       allow(ENV).to receive(:[]).with('SEEDABLE').and_return(nil)
       Rails.application.load_seed # Explicitly load seeds to simulate the environment
     end
