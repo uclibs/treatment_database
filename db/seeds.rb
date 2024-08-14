@@ -8,29 +8,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 class AddSeedObjects < ActiveRecord::Migration[5.1]
-  User.create(
-    [{
-      email: 'johngreen@example.com',
-      display_name: 'John Green',
-      password: 'notapass',
-      password_confirmation: 'notapass',
-      role: 'read_only'
-    },
-     {
-       email: 'jkrowling@example.com',
-       display_name: 'JK Rowling',
-       password: 'notapass',
-       password_confirmation: 'notapass',
-       role: 'standard'
-     },
-     {
-       email: 'chuck@chuck.codes',
-       display_name: 'Chuck Greenman',
-       password: 'notapass',
-       password_confirmation: 'notapass',
-       role: 'admin'
-     }]
-  )
 
   File.readlines('db/types_of_repairs.txt').each do |line|
     ControlledVocabulary.create(
@@ -64,41 +41,6 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
     )
   end
 
-  ConservationRecord.create(
-    [
-      {
-        date_received_in_preservation_services: Time.now,
-        department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
-        title: 'Farewell to Arms',
-        author: 'Ernest Hemingway',
-        imprint: 'Scribner',
-        call_number: 'PS3515.E37 F3 1995',
-        item_record_number: 'i58811072',
-        digitization: false
-      },
-      {
-        date_received_in_preservation_services: Time.now - 1.days,
-        department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
-        title: 'Ulysses',
-        author: 'James Joyce',
-        imprint: 'Picador',
-        call_number: 'PR6019.O9 U4 1997',
-        item_record_number: 'i58811073',
-        digitization: true
-      },
-      {
-        date_received_in_preservation_services: Time.now - 2.days,
-        department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
-        title: 'The Great Gatsby',
-        author: 'F. Scott Fitzgerald',
-        imprint: 'Scribner',
-        call_number: 'PS3511.I9 G7 2004',
-        item_record_number: 'i58811074',
-        digitization: true
-      }
-    ]
-  )
-
   StaffCode.create(
     [
       {
@@ -123,4 +65,65 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
       }
     ]
   )
+
+  if Rails.env.development? || Rails.env.test?
+    User.create(
+      [{
+         email: 'johngreen@example.com',
+         display_name: 'John Green',
+         password: 'notapass',
+         password_confirmation: 'notapass',
+         role: 'read_only'
+       },
+       {
+         email: 'jkrowling@example.com',
+         display_name: 'JK Rowling',
+         password: 'notapass',
+         password_confirmation: 'notapass',
+         role: 'standard'
+       },
+       {
+         email: 'chuck@chuck.codes',
+         display_name: 'Chuck Greenman',
+         password: 'notapass',
+         password_confirmation: 'notapass',
+         role: 'admin'
+       }]
+    )
+
+    ConservationRecord.create(
+      [
+        {
+          date_received_in_preservation_services: Time.now,
+          department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
+          title: 'Farewell to Arms',
+          author: 'Ernest Hemingway',
+          imprint: 'Scribner',
+          call_number: 'PS3515.E37 F3 1995',
+          item_record_number: 'i58811072',
+          digitization: false
+        },
+        {
+          date_received_in_preservation_services: Time.now - 1.days,
+          department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
+          title: 'Ulysses',
+          author: 'James Joyce',
+          imprint: 'Picador',
+          call_number: 'PR6019.O9 U4 1997',
+          item_record_number: 'i58811073',
+          digitization: true
+        },
+        {
+          date_received_in_preservation_services: Time.now - 2.days,
+          department: ControlledVocabulary.where(vocabulary: 'department').sample(1).first.id,
+          title: 'The Great Gatsby',
+          author: 'F. Scott Fitzgerald',
+          imprint: 'Scribner',
+          call_number: 'PS3511.I9 G7 2004',
+          item_record_number: 'i58811074',
+          digitization: true
+        }
+      ]
+    )
+  end
 end
