@@ -15,10 +15,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :user_signed_in?, :authenticate_user!, :admin?
 
-  def admin?
-    @current_user.role == 'admin'
-  end
-
   private
 
   def render404

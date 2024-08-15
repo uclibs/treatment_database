@@ -8,6 +8,10 @@ module Authentication
     before_action :check_user_active, if: :user_signed_in?
   end
 
+  def admin?
+    @current_user.role == 'admin'
+  end
+
   private
 
   def authenticate_user!
