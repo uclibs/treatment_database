@@ -250,7 +250,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     fill_in 'Password confirmation', with: 'notapass'
     select('Admin', from: 'Role')
     click_on 'Create User'
-    save_and_open_screenshot
     expect(page).to have_content('Beau Geste')
 
     # Edit Users
@@ -261,7 +260,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
 
     expect(page).to have_content('Edit User')
     fill_in 'Display name', with: 'Haritha Vytla'
-    fill_in 'Email', with: 'vytlasa@mail.uc.edu'
+    fill_in 'Email', with: 'vytlasa@uc.edu'
     select('Admin', from: 'Role')
     click_on 'Update User'
     expect(page).to have_content('Haritha Vytla')

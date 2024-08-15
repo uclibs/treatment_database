@@ -17,7 +17,6 @@ RSpec.describe 'Standard User Tests', type: :feature do
     # Login
 
     visit new_session_path
-    save_and_open_page
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
     click_button 'Login'

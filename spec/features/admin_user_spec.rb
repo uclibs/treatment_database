@@ -78,7 +78,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
     expect(page).to have_content('Edit User')
     fill_in 'Display name', with: 'Haritha Vytla'
-    fill_in 'Email', with: 'vytlasa@mail.uc.edu'
+    fill_in 'Email', with: 'vytlasa@uc.edu'
     select('Admin', from: 'Role')
     click_on 'Update User'
     expect(page).to have_content('Haritha Vytla')

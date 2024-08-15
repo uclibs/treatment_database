@@ -82,4 +82,5 @@ RSpec.configure do |config|
   config.include ViewAuthenticationHelper, type: :view
   config.include RequestAuthenticationHelper, type: :request
   config.include ControllerAuthenticationHelper, type: :controller
+  config.include DownloadLinkHelper, type: :feature
 end
