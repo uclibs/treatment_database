@@ -2,32 +2,33 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Account Active Slider', type: :feature, js: true do
+RSpec.describe 'Account Active Slider', type: :feature, js: true do
   let(:admin_user) { create(:user, role: 'admin') }
   let(:standard_user) { create(:user, role: 'standard', account_active: false) }
 
-  scenario 'user toggles the account active slider and label changes' do
-    log_in_user(admin_user)
-    visit edit_user_path(standard_user)
+  context 'when admin toggles the account active slider' do
+    before do
+      log_in_user(admin_user)
+      visit edit_user_path(standard_user)
+    end
 
-    # Verify initial state
-    expect(find('#accountActiveSwitch')).not_to be_checked
-    expect(find('#accountActiveLabel')).to have_content('Account Inactive')
+    it 'displays the correct initial state' do
+      expect(find('#accountActiveSwitch')).not_to be_checked
+      expect(find('#accountActiveLabel')).to have_content('Account Inactive')
+    end
 
-    # Toggle the switch (simulate clicking the slider)
-    find('#accountActiveSwitch').set(true)
+    it 'updates the label to Account Active when toggled' do
+      expect(find('#accountActiveLabel')).to have_content('Account Inactive')
 
-    # Verify label update
-    expect(find('#accountActiveLabel')).to have_content('Account Active')
+      find('#accountActiveSwitch').set(true)
+      expect(find('#accountActiveLabel')).to have_content('Account Active')
 
-    # Toggle back
-    find('#accountActiveSwitch').set(false)
-
-    # Verify label update again
-    expect(find('#accountActiveLabel')).to have_content('Account Inactive')
+      find('#accountActiveSwitch').set(false)
+      expect(find('#accountActiveLabel')).to have_content('Account Inactive')
+    end
   end
 
-  # Login
+  # Login helper
   def log_in_user(user)
     visit new_user_session_path
     fill_in 'Email', with: user.email
