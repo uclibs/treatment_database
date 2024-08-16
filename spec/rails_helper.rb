@@ -29,6 +29,9 @@ RSpec.configure do |config|
   config.include_context 'rake', type: :task
   config.include_context 'job', type: :job
   config.include DownloadLinkHelper, type: :feature
+  config.include AxeHelper, type: :system
+  config.include WindowResizer, type: :system
+  config.include WindowResizer, type: :feature
 
   config.before(:suite) do
     # Ensure the database is clean and fresh
@@ -43,8 +46,14 @@ RSpec.configure do |config|
     Capybara.reset_sessions!
   end
 
-  config.after(:each, type: :feature) do
-    Capybara.reset_sessions!
+  config.before(:each, type: :system) do |_example|
+    driven_by :selenium_chrome_headless_sandboxless
+    set_default_window_size
+  end
+
+  config.before(:each, type: :feature) do |_example|
+    # Only resize the window if the test is using a browser-based driver
+    set_default_window_size if page.driver.browser.respond_to?(:manage)
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
