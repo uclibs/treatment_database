@@ -44,15 +44,30 @@ yarn build # Builds the front-end assets
 rails db:migrate
 rails db:seed
 rails server
-rails db:seed # (Optional, for example works used in development)
+rails db:seed # This will create a few user accounts for testing. Do not run this in production.
 ```
 ## Running the Tests
 
 The treatment database has a test suite built with rspec, running it is simple, just call the following in the project directory:
 
+### Automated Testing
 ```bash
+# If you haven't already done so, run:
+bundle instal
+yarn instal
+yarn build
+# and then run the tests with:
 bundle exec rspec
 ```
+
+### Manual Testing
+When you ran `rails db:seed`, you created three user accounts:
+- an admin account with the username `chuck@chuck.codes` and password `notapass`
+- a standard user account with the username `jkrowling@example.com` and password `notapass`
+- a read-only user account with the email `johngreen@example.com` and password `notapass`
+
+You can use these accounts to test the application. The admin account has full access to the application, the standard
+user account has access to most features, and the read-only user account can only view the data.
 
 ## Deploy Instructions
 Use Capistrano for deploying to QA and Production environments; local deploy not supported.
