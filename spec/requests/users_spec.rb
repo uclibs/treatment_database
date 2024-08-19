@@ -7,7 +7,8 @@ RSpec.describe UsersController, type: :request do
   let(:user) { create(:user, account_active: false) }
 
   before do
-    sign_in admin_user # Sign in as an admin user
+    controller_login_as admin_user # Sign in as an admin user
+    controller_stub_authorization admin_user # Stub the ability
   end
 
   it 'allows admin to update account_active status' do

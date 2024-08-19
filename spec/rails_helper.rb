@@ -26,10 +26,17 @@ end
 RSpec.configure do |config|
   config.include_context 'rake', type: :task
   config.include_context 'job', type: :job
+
   config.include DownloadLinkHelper, type: :feature
   config.include AxeHelper, type: :system
   config.include WindowResizer, type: :system
   config.include WindowResizer, type: :feature
+  config.include ShowMeTheCookies, type: :feature
+  config.include ViewAuthenticationHelper, type: :view
+  config.include RequestAuthenticationHelper, type: :request
+  config.include ControllerAuthenticationHelper, type: :controller
+
+  config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
     Rails.application.load_tasks
@@ -38,16 +45,13 @@ RSpec.configure do |config|
 
   config.before(:each, type: :feature) do
     Capybara.reset_sessions!
+    # Only resize the window if the test is using a browser-based driver
+    set_default_window_size if page.driver.browser.respond_to?(:manage)
   end
 
   config.before(:each, type: :system) do |_example|
     driven_by :selenium_chrome_headless_sandboxless
     set_default_window_size
-  end
-
-  config.before(:each, type: :feature) do |_example|
-    # Only resize the window if the test is using a browser-based driver
-    set_default_window_size if page.driver.browser.respond_to?(:manage)
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -75,12 +79,5 @@ RSpec.configure do |config|
   config.fixture_path = Rails.root.join('spec/fixtures').to_s
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
-  config.include FactoryBot::Syntax::Methods
 
-  # Allow cookies to be set in feature tests (for UC Shibboleth testing)
-  config.include ShowMeTheCookies, type: :feature
-  config.include ViewAuthenticationHelper, type: :view
-  config.include RequestAuthenticationHelper, type: :request
-  config.include ControllerAuthenticationHelper, type: :controller
-  config.include DownloadLinkHelper, type: :feature
 end
