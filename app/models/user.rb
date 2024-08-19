@@ -22,9 +22,6 @@ class User < ApplicationRecord
   validates :role,
             presence: true,
             inclusion: { in: ROLES }
-  def active?
-    account_active?
-  end
 
   has_paper_trail
 end
