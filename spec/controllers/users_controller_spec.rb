@@ -6,7 +6,6 @@ RSpec.describe UsersController, type: :controller do
   let(:user) { create(:user) }
 
   before do
-    puts "User: #{user.inspect}"
     controller_login_as(user)
     controller_stub_authorization(user)
   end

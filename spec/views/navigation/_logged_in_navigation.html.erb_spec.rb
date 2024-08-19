@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# spec/views/navigation/_logged_in_navigation.html.erb_spec.rb
 require 'rails_helper'
 
 RSpec.describe 'navigation/_logged_in_navigation.html.erb', type: :view do
