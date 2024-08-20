@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+# The Ability class defines user permissions using the CanCanCan gem based on user roles.
+# It includes permission sets for admin, standard, and read_only users, allowing CRUD actions
+# and access to specific models such as ConservationRecord, User, and other related records.
+# Custom actions like viewing PDFs and managing specific records are also defined for each role.
+
 class Ability
   include CanCan::Ability
 
