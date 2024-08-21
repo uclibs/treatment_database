@@ -3,8 +3,8 @@
 }
 
 @media (max-width: 992px) {
-  .nav-item.divider {
-    display: none !important; /* Hide the navbar dividers on smaller screens */
+  .divider {
+    display: none; /* Hide the navbar dividers on smaller screens */
   }
 
   .nav-item {

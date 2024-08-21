@@ -18,7 +18,6 @@ class Ability
     when 'admin'
       can :manage, :all
       cannot :destroy, StaffCode
-      cannot :destroy, User
     when 'standard'
       can :view_pdfs, ConservationRecord
       can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, CostReturnReport]

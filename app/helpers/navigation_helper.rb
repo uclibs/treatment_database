@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Takes the login logic out of our navigation bar and puts it in a helper method
 module NavigationHelper
   AVAILABLE_LINKS = [
     { title: 'Conservation Records', path: :conservation_records_path, permission: [:read, ConservationRecord] },
