@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-# The Ability class defines user permissions using the CanCanCan gem based on user roles.
-# It includes permission sets for admin, standard, and read_only users, allowing CRUD actions
-# and access to specific models such as ConservationRecord, User, and other related records.
-# Custom actions like viewing PDFs and managing specific records are also defined for each role.
-
 class Ability
   include CanCan::Ability
 
@@ -16,24 +11,40 @@ class Ability
 
     case user.role
     when 'admin'
-      can :manage, :all
-      cannot :destroy, StaffCode
+      admin_permissions
     when 'standard'
-      can :view_pdfs, ConservationRecord
-      can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, CostReturnReport]
-      can :index, ConservationRecord
-      # Allow standard users to read and update their own user account, but not index other users
-      can %i[read update], User, id: user.id
-      cannot :index, User
+      standard_permissions(user)
     when 'read_only'
-      can :view_pdfs, ConservationRecord
-      can :read, ConservationRecord
-      can :index, ConservationRecord
-      # Allow read_only users to read and update their own user account, but not index other users
-      can %i[read update], User, id: user.id
-      cannot :index, User
+      read_only_permissions(user)
     else
-      cannot :manage, :all
+      guest_permissions
     end
+  end
+
+  private
+
+  def admin_permissions
+    can :manage, :all
+    cannot :destroy, StaffCode
+  end
+
+  def standard_permissions(user)
+    can :view_pdfs, ConservationRecord
+    can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, CostReturnReport]
+    can :index, ConservationRecord
+    can %i[read update], User, id: user.id
+    cannot :index, User
+  end
+
+  def read_only_permissions(user)
+    can :view_pdfs, ConservationRecord
+    can :read, ConservationRecord
+    can :index, ConservationRecord
+    can %i[read update], User, id: user.id
+    cannot :index, User
+  end
+
+  def guest_permissions
+    cannot :manage, :all
   end
 end
