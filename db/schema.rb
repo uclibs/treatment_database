@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 2024_08_13_181645) do
     t.string "role", default: "read_only", null: false
     t.boolean "account_active", default: true, null: false
     t.string "username", null: false
+    t.index ["display_name"], name: "index_users_on_display_name", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
