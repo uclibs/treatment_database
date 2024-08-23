@@ -39,7 +39,7 @@ class Ability
 
   def read_only_permissions(user)
     can :view_pdfs, ConservationRecord
-    can :read, ConservationRecord
+    can :read, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, CostReturnReport]
     can :index, ConservationRecord
     can %i[read update], User, id: user.id
     cannot :index, User
