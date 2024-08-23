@@ -4,7 +4,7 @@ module SystemAuthenticationHelper
   def system_login_as(user)
     visit new_session_path
     fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapass'
+    fill_in 'Password', with: 'notapassword'
     click_button 'Log in'
   end
 

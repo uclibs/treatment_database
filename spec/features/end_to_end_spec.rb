@@ -61,7 +61,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     # Login
     visit new_session_path
     fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapass'
+    fill_in 'Password', with: 'notapassword'
     click_button 'Log in'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
@@ -204,7 +204,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     # Login
     visit new_session_path
     fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapass'
+    fill_in 'Password', with: 'notapassword'
     click_button 'Log in'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
@@ -229,8 +229,8 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     click_on 'Add New User'
     fill_in 'Display name', with: 'Beau Geste'
     fill_in 'Email', with: 'beau.geste@uc.edu'
-    fill_in 'Password', with: 'notapass'
-    fill_in 'Password confirmation', with: 'notapass'
+    fill_in 'Password', with: 'notapassword'
+    fill_in 'Password confirmation', with: 'notapassword'
     select('Admin', from: 'Role')
     click_on 'Create User'
     expect(page).to have_content('Beau Geste')

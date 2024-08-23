@@ -8,8 +8,8 @@ FactoryBot.define do
 
     sequence(:display_name) { |n| "Name #{n}" }
     sequence(:email) { |n| "user#{n}_#{Time.now.to_i}@uc.edu" }
-    password { 'notapass' }
-    password_confirmation { 'notapass' }
+    password { 'notapassword' }
+    password_confirmation { 'notapassword' }
     role { 'standard' }
     account_active { true }
     username { "user#{n}_#{Time.now.to_i}" }

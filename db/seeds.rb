@@ -12,24 +12,24 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
     [{
       email: 'johngreen@uc.edu',
       display_name: 'John Green',
-      password: 'notapass',
-      password_confirmation: 'notapass',
+      password: 'notapassword',
+      password_confirmation: 'notapassword',
       role: 'read_only',
       username: 'johngreen'
     },
      {
        email: 'jkrowling@uc.edu',
        display_name: 'JK Rowling',
-       password: 'notapass',
-       password_confirmation: 'notapass',
+       password: 'notapassword',
+       password_confirmation: 'notapassword',
        role: 'standard',
         username: 'jkrowling'
      },
      {
        email: 'chuck@uc.edu',
        display_name: 'Chuck Greenman',
-       password: 'notapass',
-       password_confirmation: 'notapass',
+       password: 'notapassword',
+       password_confirmation: 'notapassword',
        role: 'admin',
         username: 'chuck'
      }]

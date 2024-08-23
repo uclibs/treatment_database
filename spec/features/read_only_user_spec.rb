@@ -12,7 +12,7 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
 
     visit new_session_path
     fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapass'
+    fill_in 'Password', with: 'notapassword'
     click_button 'Log in'
 
     expect(page).to have_content('Signed in successfully')

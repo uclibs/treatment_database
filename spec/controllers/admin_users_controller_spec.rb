@@ -13,8 +13,8 @@ RSpec.describe Admin::UsersController, type: :controller do
   let(:valid_attributes) do
     {
       display_name: 'Test User',
-      password: 'notapass',
-      password_confirmation: 'notapass',
+      password: 'notapassword',
+      password_confirmation: 'notapassword',
       email: 'testuser123@uc.edu',
       role: 'standard',
       account_active: user.account_active,
