@@ -5,13 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Standard User Tests', type: :feature do
   let(:user) { create(:user, role: 'standard') }
   let(:conservation_record) { create(:conservation_record, department: 'ARB Library', title: 'Farewell to Arms') }
-  let(:staff_code) { create(:staff_code, code: 'test', points: 10) }
-
-  before do
-    user
-    conservation_record
-    staff_code
-  end
+  let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
   it 'allows User to login and show Conservation Records' do
     # Login

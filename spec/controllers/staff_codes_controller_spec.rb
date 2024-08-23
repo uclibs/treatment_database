@@ -17,8 +17,9 @@ RSpec.describe StaffCodesController, type: :controller do
     }
   end
 
+  let(:user) { create(:user, role: 'admin') }
+
   before do
-    user = create(:user, role: 'admin')
     controller_login_as(user)
     controller_stub_authorization(user)
   end

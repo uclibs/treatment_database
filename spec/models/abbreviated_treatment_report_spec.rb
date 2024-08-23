@@ -7,11 +7,6 @@ RSpec.describe AbbreviatedTreatmentReport, type: :model do
   let(:conservation_record) { create(:conservation_record) }
   let(:abbreviated_treatment_report) { build(:abbreviated_treatment_report, conservation_record:) }
 
-  before do
-    conservation_record
-    abbreviated_treatment_report
-  end
-
   describe 'associations' do
     it 'belongs to a conservation record' do
       expect(abbreviated_treatment_report).to belong_to(:conservation_record)

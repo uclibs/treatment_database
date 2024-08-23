@@ -42,9 +42,9 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   # in order to pass any filters (e.g. authentication) defined in
   # ControlledVocabulariesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+  let(:user) { create(:user, role: 'admin') }
 
   before do
-    user = create(:user, role: 'admin')
     controller_login_as(user)
     controller_stub_authorization(user)
   end
@@ -52,13 +52,13 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   describe 'GET #index' do
     it 'returns a success response' do
       ControlledVocabulary.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      get :index, params: {}
       expect(response).to be_successful
     end
 
     it 'has the correct conent' do
       ControlledVocabulary.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      get :index, params: {}
       expect(response.body).to have_content('Controlled Vocabularies')
       expect(response.body).to have_content('repair_type')
       expect(response.body).to have_content('Wash')
@@ -68,7 +68,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   describe 'GET #show' do
     it 'returns a success response' do
       controlled_vocabulary = ControlledVocabulary.create! valid_attributes
-      get :show, params: { id: controlled_vocabulary.to_param }, session: valid_session
+      get :show, params: { id: controlled_vocabulary.to_param }
       expect(response).to be_successful
       expect(response.body).to have_content('repair_type')
       expect(response.body).to have_content('Wash')
@@ -77,7 +77,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
 
   describe 'GET #new' do
     it 'returns a success response' do
-      get :new, params: {}, session: valid_session
+      get :new, params: {}
       expect(response).to be_successful
     end
   end
@@ -85,7 +85,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
   describe 'GET #edit' do
     it 'returns a success response' do
       controlled_vocabulary = ControlledVocabulary.create! valid_attributes
-      get :edit, params: { id: controlled_vocabulary.to_param }, session: valid_session
+      get :edit, params: { id: controlled_vocabulary.to_param }
       expect(response).to be_successful
     end
   end
@@ -94,19 +94,19 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
     context 'with valid params' do
       it 'creates a new ControlledVocabulary' do
         expect do
-          post :create, params: { controlled_vocabulary: valid_attributes }, session: valid_session
+          post :create, params: { controlled_vocabulary: valid_attributes }
         end.to change(ControlledVocabulary, :count).by(1)
       end
 
       it 'redirects to the created controlled_vocabulary' do
-        post :create, params: { controlled_vocabulary: valid_attributes }, session: valid_session
+        post :create, params: { controlled_vocabulary: valid_attributes }
         expect(response).to redirect_to(ControlledVocabulary.last)
       end
     end
 
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: { controlled_vocabulary: invalid_attributes }, session: valid_session
+        post :create, params: { controlled_vocabulary: invalid_attributes }
         expect(response).to be_successful
       end
     end
@@ -120,7 +120,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
 
       it 'updates the requested controlled_vocabulary' do
         controlled_vocabulary = ControlledVocabulary.create! valid_attributes
-        put :update, params: { id: controlled_vocabulary.to_param, controlled_vocabulary: new_attributes }, session: valid_session
+        put :update, params: { id: controlled_vocabulary.to_param, controlled_vocabulary: new_attributes }
         controlled_vocabulary.reload
         expect(controlled_vocabulary.vocabulary).to eq('something')
         expect(controlled_vocabulary.key).to eq('else')
@@ -130,7 +130,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
 
       it 'redirects to the controlled_vocabulary' do
         controlled_vocabulary = ControlledVocabulary.create! valid_attributes
-        put :update, params: { id: controlled_vocabulary.to_param, controlled_vocabulary: valid_attributes }, session: valid_session
+        put :update, params: { id: controlled_vocabulary.to_param, controlled_vocabulary: valid_attributes }
         expect(flash[:notice]).to eq('Controlled vocabulary was successfully updated.')
         expect(response).to redirect_to(controlled_vocabulary)
       end
@@ -139,7 +139,7 @@ RSpec.describe ControlledVocabulariesController, type: :controller do
     context 'with invalid params' do
       it "returns a success response (i.e. to display the 'edit' template)" do
         controlled_vocabulary = ControlledVocabulary.create! valid_attributes
-        put :update, params: { id: controlled_vocabulary.to_param, controlled_vocabulary: invalid_attributes }, session: valid_session
+        put :update, params: { id: controlled_vocabulary.to_param, controlled_vocabulary: invalid_attributes }
         expect(response).to be_successful
         expect(response).to render_template(:edit)
         expect(response.body).to have_content("Vocabulary can't be blank")

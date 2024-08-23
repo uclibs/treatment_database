@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Admin::UsersController, type: :controller do
   let(:user) { create(:user, role: 'admin') }
+
   before do
     controller_login_as(user)
     controller_stub_authorization(user)

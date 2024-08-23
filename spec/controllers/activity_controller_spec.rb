@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe ActivityController, type: :controller do
+  let(:user) { create(:user, role: 'admin') }
   render_views
 
   before do
-    user = create(:user, role: 'admin')
     controller_login_as(user)
   end
 

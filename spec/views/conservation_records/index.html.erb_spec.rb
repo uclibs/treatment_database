@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'conservation_records/index', type: :view do
   include Pagy::Backend
+
   before do
     create(:staff_code, code: 'C', points: 10)
     @conservation_record1 = create(:conservation_record)

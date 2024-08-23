@@ -7,12 +7,6 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms', department: 'ARB Library') }
   let!(:staff_code) { create(:staff_code, code: 'test', points: 10) }
 
-  before do
-    user
-    conservation_record
-    staff_code
-  end
-
   it 'allows User to login and show Conservation Records' do
     # Login
 

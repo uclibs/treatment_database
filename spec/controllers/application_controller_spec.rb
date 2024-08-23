@@ -10,9 +10,10 @@ describe ApplicationController, type: :controller do
   end
 
   describe 'handling AccessDenied exceptions' do
+    let(:user) { create(:user) }
+
     before do
       routes.draw { get 'index' => 'anonymous#index' }
-      user = create(:user)
       controller_login_as(user)
     end
 

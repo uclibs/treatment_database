@@ -4,11 +4,12 @@ require 'rails_helper'
 
 RSpec.describe ReportsController, type: :controller do
   include_context 'rake' # This job relies on rake tasks
+
+  let(:user) { create(:user, role: 'admin') }
   render_views
 
   before do
     ActiveJob::Base.queue_adapter = :test
-    user = create(:user, role: 'admin')
     controller_login_as(user)
     controller_stub_authorization(user)
   end

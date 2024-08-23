@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe ExternalRepairRecordsController, type: :controller do
+  let(:user) { create(:user, role: 'standard') }
   render_views
 
   before do
-    user = create(:user, role: 'standard')
     controller_login_as(user)
   end
 

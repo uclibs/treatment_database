@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe ConservationRecordsController, type: :controller do
+  let(:user) { create(:user, role: 'admin') }
   render_views
 
   before do
-    user = create(:user, role: 'admin')
     controller_login_as(user)
   end
 
@@ -197,8 +197,9 @@ RSpec.describe ConservationRecordsController, type: :controller do
     end
 
     context 'with read_only user' do
+      let(:read_user) { create(:user, role: 'read_only') }
+
       before do
-        read_user = create(:user, role: 'read_only')
         controller_login_as(read_user)
       end
 
@@ -211,8 +212,9 @@ RSpec.describe ConservationRecordsController, type: :controller do
     end
 
     context 'with standard user' do
+      let(:standard_user) { create(:user, role: 'standard') }
+
       before do
-        standard_user = create(:user, role: 'standard')
         controller_login_as(standard_user)
       end
 
@@ -234,8 +236,9 @@ RSpec.describe ConservationRecordsController, type: :controller do
     end
 
     context 'with read_only user' do
+      let(:read_user) { create(:user, role: 'read_only') }
+
       before do
-        read_user = create(:user, role: 'read_only')
         controller_login_as(read_user)
       end
 
@@ -248,8 +251,9 @@ RSpec.describe ConservationRecordsController, type: :controller do
     end
 
     context 'with standard user' do
+      let(:standard_user) { create(:user, role: 'standard') }
+
       before do
-        standard_user = create(:user, role: 'standard')
         controller_login_as(standard_user)
       end
 
@@ -270,8 +274,9 @@ RSpec.describe ConservationRecordsController, type: :controller do
     end
 
     context 'with read_only user' do
+      let(:read_user) { create(:user, role: 'read_only') }
+
       before do
-        read_user = create(:user, role: 'read_only')
         controller_login_as(read_user)
       end
 
@@ -284,8 +289,9 @@ RSpec.describe ConservationRecordsController, type: :controller do
     end
 
     context 'with standard user' do
+      let(:standard_user) { create(:user, role: 'standard') }
+
       before do
-        standard_user = create(:user, role: 'standard')
         controller_login_as(standard_user)
       end
 
