@@ -13,7 +13,7 @@ class User < ApplicationRecord
   validates :display_name,
             presence: true,
             uniqueness: true,
-            length: { maximum: 20 },
+            length: { maximum: 30 },
             format: { with: /\A[a-zA-Z0-9\s\-._]+\z/, message: 'can only contain letters, numbers, spaces, hyphens, periods, and underscores' }
 
   validates :username,

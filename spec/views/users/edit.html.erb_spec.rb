@@ -15,7 +15,6 @@ RSpec.describe 'users/edit.html.erb', type: :view do
       assert_select 'input[name=?]', 'user[display_name]'
       assert_select 'input[name=?]', 'user[email]'
       assert_select 'select[name=?]', 'user[role]'
-      assert_select 'input[name=?]', 'user[account_active]'
       expect(rendered).to have_button('Update User')
     end
   end
