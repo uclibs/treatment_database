@@ -18,9 +18,9 @@ RSpec.describe 'Standard User Tests', type: :feature do
 
     visit new_session_path
     fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Login'
-    expect(page).to have_content('Logged in successfully')
+    fill_in 'Password', with: 'notapass'
+    click_button 'Log in'
+    expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
     expect(page).to have_no_link('Users')
     expect(page).to have_no_link('Activity')

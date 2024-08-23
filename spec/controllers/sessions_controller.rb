@@ -16,16 +16,16 @@ RSpec.describe SessionsController, type: :controller do
   describe 'POST #create' do
     context 'with valid credentials' do
       it 'logs in the user and redirects to root path' do
-        post :create, params: { email: user.email, password: 'notapassword' }
+        post :create, params: { email: user.email, password: 'notapass' }
         expect(session[:user_id]).to eq(user.id)
         expect(response).to redirect_to(root_path)
-        expect(flash[:notice]).to eq('Logged in successfully')
+        expect(flash[:notice]).to eq('Signed in successfully')
       end
     end
 
     context 'with invalid credentials' do
       it 're-renders the new template with an alert' do
-        post :create, params: { email: user.email, password: 'wrongpassword' }
+        post :create, params: { email: user.email, password: 'wrongpass' }
         expect(session[:user_id]).to be_nil
         expect(flash.now[:alert]).to eq('Invalid email or password')
         expect(response).to render_template(:new)
@@ -34,7 +34,7 @@ RSpec.describe SessionsController, type: :controller do
 
     context 'with an inactive account' do
       it 'does not log in and redirects with an alert' do
-        post :create, params: { email: inactive_user.email, password: 'notapassword' }
+        post :create, params: { email: inactive_user.email, password: 'notapass' }
         expect(session[:user_id]).to eq(inactive_user.id)
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq('Your account is not active.')

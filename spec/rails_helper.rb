@@ -34,6 +34,7 @@ RSpec.configure do |config|
   config.include ShowMeTheCookies, type: :feature
   config.include ViewAuthenticationHelper, type: :view
   config.include RequestAuthenticationHelper, type: :request
+  config.include SystemAuthenticationHelper, type: :system
   config.include ControllerAuthenticationHelper, type: :controller
 
   config.include FactoryBot::Syntax::Methods
@@ -60,7 +61,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before do |example|
-    DatabaseCleaner.strategy = if example.metadata[:type] == :feature && Capybara.current_driver != :rack_test
+    DatabaseCleaner.strategy = if example.metadata[:type] == :system || (example.metadata[:type] == :feature && Capybara.current_driver != :rack_test)
                                  :truncation
                                else
                                  :transaction

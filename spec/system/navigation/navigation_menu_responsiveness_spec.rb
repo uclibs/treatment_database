@@ -5,11 +5,10 @@ require 'rails_helper'
 # frozen_string_literal: true
 
 RSpec.describe 'Navigation Menu', type: :system do
-  include Devise::Test::IntegrationHelpers
-
   context 'when the user is logged out' do
     it 'displays the log in button on large screens' do
       resize_window_to(1024, 768)
+      system_logout
       visit root_path
 
       # Ensure the navbar is visible
@@ -24,6 +23,7 @@ RSpec.describe 'Navigation Menu', type: :system do
 
     it 'displays the log in button on small screens' do
       resize_window_to(375, 667)
+      system_logout
       visit root_path
 
       # Ensure the 'Log in' button is visible on small screens
@@ -38,9 +38,9 @@ RSpec.describe 'Navigation Menu', type: :system do
     let(:user) { create(:user) }
 
     it 'displays the full menu on large screens' do
-      sign_in user
-      visit root_path
       resize_window_to(1024, 768)
+      system_login_as user
+      visit root_path
 
       # Ensure the navbar is expanded and visible
       expect(page).to have_css('.navbar', visible: true)
@@ -54,9 +54,9 @@ RSpec.describe 'Navigation Menu', type: :system do
     end
 
     it 'displays the hamburger menu on small screens' do
-      sign_in user
-      visit root_path
       resize_window_to(375, 667)
+      system_login_as user
+      visit root_path
 
       # Ensure the navbar-toggler (hamburger menu) is visible
       expect(page).to have_css('.navbar-toggler', visible: true)

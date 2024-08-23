@@ -3,14 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe 'navigation/_logged_in_navigation.html.erb', type: :view do
-  include Devise::Test::ControllerHelpers
-
   let(:user) { create(:user, role: user_role) }
 
   before do
-    @request.env['devise.mapping'] = Devise.mappings[:user]
-    sign_in user
-    render
+    view_login_as(user)
+    view_stub_authorization(user)
+    render partial: 'navigation/logged_in_navigation', locals: { current_user: user }
   end
 
   shared_examples 'common links for logged-in users' do
@@ -25,7 +23,7 @@ RSpec.describe 'navigation/_logged_in_navigation.html.erb', type: :view do
       # Check dropdown links
       within('.dropdown-menu') do
         expect(rendered).to have_link('Edit account', href: edit_user_path(user))
-        expect(rendered).to have_link('Logout', href: destroy_user_session_path, method: :delete)
+        expect(rendered).to have_link('Logout', href: logout_path)
       end
     end
   end
@@ -38,7 +36,7 @@ RSpec.describe 'navigation/_logged_in_navigation.html.erb', type: :view do
     it 'displays all admin-specific links' do
       expect(rendered).to have_link('Conservation Records', href: conservation_records_path)
       expect(rendered).to have_link('Vocabularies', href: controlled_vocabularies_path)
-      expect(rendered).to have_link('Users', href: users_path)
+      expect(rendered).to have_link('Users', href: admin_users_path)
       expect(rendered).to have_link('Activity', href: activity_index_path)
       expect(rendered).to have_link('Reports', href: reports_path)
       expect(rendered).to have_link('Staff Codes', href: staff_codes_path)
@@ -53,7 +51,7 @@ RSpec.describe 'navigation/_logged_in_navigation.html.erb', type: :view do
     it 'displays only standard user-specific links' do
       expect(rendered).to have_link('Conservation Records', href: conservation_records_path)
       expect(rendered).not_to have_link('Vocabularies', href: controlled_vocabularies_path)
-      expect(rendered).not_to have_link('Users', href: users_path)
+      expect(rendered).not_to have_link('Users', href: admin_users_path)
       expect(rendered).not_to have_link('Activity', href: activity_index_path)
       expect(rendered).not_to have_link('Reports', href: reports_path)
       expect(rendered).not_to have_link('Staff Codes', href: staff_codes_path)
@@ -68,7 +66,7 @@ RSpec.describe 'navigation/_logged_in_navigation.html.erb', type: :view do
     it 'displays only read-only specific links' do
       expect(rendered).to have_link('Conservation Records', href: conservation_records_path)
       expect(rendered).not_to have_link('Vocabularies', href: controlled_vocabularies_path)
-      expect(rendered).not_to have_link('Users', href: users_path)
+      expect(rendered).not_to have_link('Users', href: admin_users_path)
       expect(rendered).not_to have_link('Activity', href: activity_index_path)
       expect(rendered).not_to have_link('Reports', href: reports_path)
       expect(rendered).not_to have_link('Staff Codes', href: staff_codes_path)

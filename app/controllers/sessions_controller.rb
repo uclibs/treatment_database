@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
   def login_user(user)
     session[:user_id] = user.id
     if user.account_active
-      redirect_to root_path, notice: 'Logged in successfully'
+      redirect_to root_path, notice: 'Signed in successfully'
     else
       redirect_to root_path, alert: 'Your account is not active.'
     end

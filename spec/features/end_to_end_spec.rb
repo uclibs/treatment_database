@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
     visit root_path
-    expect(page).to have_link('Login')
+    expect(page).to have_link('Log in')
     expect(page).not_to have_link('Sign up')
   end
 end
@@ -23,8 +23,8 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
     visit new_session_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
-    click_button 'Login'
-    expect(page).to have_content('Logged in successfully')
+    click_button 'Log in'
+    expect(page).to have_content('Signed in successfully')
     expect(page).to have_content('Conservation Records')
     expect(page).to have_link('Conservation Records')
 
@@ -72,9 +72,9 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     # Login
     visit new_session_path
     fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Login'
-    expect(page).to have_content('Logged in successfully')
+    fill_in 'Password', with: 'notapass'
+    click_button 'Log in'
+    expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
     expect(page).to have_no_link('Users')
     expect(page).to have_no_link('Activity')
@@ -221,9 +221,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     # Login
     visit new_session_path
     fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Login'
-    expect(page).to have_content('Logged in successfully')
+    fill_in 'Password', with: 'notapass'
+    click_button 'Log in'
+    expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
 
     # Show Conservation Records

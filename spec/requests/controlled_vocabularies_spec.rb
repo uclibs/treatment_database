@@ -13,7 +13,6 @@ RSpec.describe 'ControlledVocabularies', type: :request do
     context 'when user is read_only' do
       before do
         request_login_as(read_only_user)
-        request_stub_authorization(read_only_user)
       end
 
       it 'redirects to root path with alert' do
@@ -26,7 +25,6 @@ RSpec.describe 'ControlledVocabularies', type: :request do
     context 'when user is standard' do
       before do
         request_login_as(standard_user)
-        request_stub_authorization(standard_user)
       end
 
       it 'redirects to root path with alert' do
@@ -39,7 +37,6 @@ RSpec.describe 'ControlledVocabularies', type: :request do
     context 'when user is admin' do
       before do
         request_login_as(admin_user)
-        request_stub_authorization(admin_user)
       end
 
       it 'returns the controlled vocabularies page' do
@@ -64,7 +61,6 @@ RSpec.describe 'ControlledVocabularies', type: :request do
     context 'when user is inactive' do
       before do
         request_login_as(inactive_user)
-        request_stub_authorization(inactive_user)
       end
 
       it 'shows an alert' do
@@ -79,7 +75,6 @@ RSpec.describe 'ControlledVocabularies', type: :request do
     context 'when user is read_only' do
       before do
         request_login_as(read_only_user)
-        request_stub_authorization(read_only_user)
       end
 
       it 'redirects to root path with alert' do
@@ -92,7 +87,6 @@ RSpec.describe 'ControlledVocabularies', type: :request do
     context 'when user is standard' do
       before do
         request_login_as(standard_user)
-        request_stub_authorization(standard_user)
       end
 
       it 'redirects to root path with alert' do
@@ -105,7 +99,6 @@ RSpec.describe 'ControlledVocabularies', type: :request do
     context 'when user is admin' do
       before do
         request_login_as(admin_user)
-        request_stub_authorization(admin_user)
       end
 
       it 'returns the controlled vocabulary page' do
@@ -137,7 +130,6 @@ RSpec.describe 'ControlledVocabularies', type: :request do
     context 'when user is inactive' do
       before do
         request_login_as(inactive_user)
-        request_stub_authorization(inactive_user)
       end
 
       it 'redirects to root path with alert' do
