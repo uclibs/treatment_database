@@ -26,6 +26,7 @@ class Ability
   def admin_permissions
     can :manage, :all
     cannot :destroy, StaffCode
+    cannot :destroy, User
   end
 
   def standard_permissions(user)
