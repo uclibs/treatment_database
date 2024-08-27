@@ -100,32 +100,28 @@ jobs:
           name: Ensure coverage directory exists
           command: mkdir -p ~/treatment_database/coverage
 
-      # Run tests in parallel
-      - run:
-          name: Run rspec in parallel
-          command: |
-            mkdir /tmp/test-results
-            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-
       # Log contents of the workspace before persisting
       - run:
           name: List coverage directory contents
           command: ls -la ~/treatment_database/coverage
 
-      # Persist coverage to workspace
+      # Persist coverage and scripts directory to workspace
       - persist_to_workspace:
           root: ~/treatment_database
           paths:
             - coverage/
+            - scripts/  # Ensure the scripts directory is persisted
 
   merge_coverage:
     executor: default-executor
     steps:
       - attach_workspace:
           at: ~/treatment_database
+
+      # Check that the scripts directory is present
       - run:
-          name: Check workspace contents
-          command: ls -la ~/treatment_database/coverage
+          name: Check for merge_coverage script
+          command: ls -la ~/treatment_database/scripts
 
       # Merge coverage results
       - run:
