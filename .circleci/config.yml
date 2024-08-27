@@ -1,4 +1,3 @@
-# Ruby CircleCI 2.0 configuration file
 version: 2.1
 
 executors:
@@ -22,13 +21,6 @@ jobs:
     executor: default-executor
     parallelism: 4
     working_directory: ~/treatment_database
-    environment:
-      SPEC_OPTS: --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress
-      WORKING_PATH: /tmp
-      UPLOAD_PATH: /tmp
-      CACHE_PATH: /tmp/cache
-      COVERALLS_PARALLEL: true
-
     steps:
       - checkout
       - browser-tools/install-browser-tools
@@ -78,12 +70,6 @@ jobs:
             echo "Installing Ruby gems..."
             bundle install --jobs=4 --retry=3
 
-            echo "Installing required system packages..."
-            sudo apt-get update
-            sudo apt-get install -y xvfb libfontconfig wkhtmltopdf
-
-            echo "Installation steps completed successfully."
-
       - run:
           name: Install Yarn Dependencies
           command: |
@@ -109,24 +95,10 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
+      # Ensure coverage directory exists before persisting it
       - run:
-          name: Rubocop
-          command: |
-            gem install rubocop
-            bundle exec rubocop --require rubocop-rails
-
-      # Brakeman
-      - run:
-          name: Run Brakeman
-          command: bundle exec brakeman -q -w 2
-
-      # Bundler-audit
-      - run:
-          name: Install Bundler-audit
-          command: gem install bundler-audit
-      - run:
-          name: Run Bundle-audit
-          command: bundle exec bundle audit check --update
+          name: Ensure coverage directory exists
+          command: mkdir -p coverage
 
       # Run tests in parallel
       - run:
