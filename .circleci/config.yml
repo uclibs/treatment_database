@@ -18,13 +18,7 @@ orbs:
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: cimg/ruby:3.3.3
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
 
     environment:
       BUNDLE_PATH: vendor/bundle
@@ -38,6 +32,7 @@ jobs:
       CACHE_PATH: /tmp/cache
       COVERALLS_PARALLEL: true
 
+    parallelism: 4  # This enables 4 parallel containers
 
     working_directory: ~/treatment_database
 
@@ -48,7 +43,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
@@ -141,7 +135,7 @@ jobs:
           name: Run Bundle-audit
           command: bundle exec bundle audit check --update
 
-      # run tests!
+      # Run tests in parallel
       - run:
           name: Run rspec in parallel
           command: |
@@ -149,9 +143,17 @@ jobs:
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
             #bundle exec rspec --out /tmp/test-results/rspec.xml $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
+      # Merge coverage data across parallel containers
+      - run:
+          name: Merge coverage results
+          command: |
+            mkdir -p coverage
+            simplecov-merge coverage/
+
+      # Upload coverage to Coveralls
       - coveralls/upload:
-          parallel_finished: true
-          path_to_lcov: /home/circleci/treatment_database/coverage/lcov/treatment_database.lcov
+          parallel: true
+          path_to_lcov: coverage/lcov/lcov.info
 
 workflows:
   version: 2
