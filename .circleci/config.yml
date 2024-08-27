@@ -98,7 +98,7 @@ jobs:
       # Ensure coverage directory exists before persisting it
       - run:
           name: Ensure coverage directory exists
-          command: mkdir -p coverage
+          command: mkdir -p ~/treatment_database/coverage
 
       # Run tests in parallel
       - run:
@@ -110,11 +110,11 @@ jobs:
       # Log contents of the workspace before persisting
       - run:
           name: List coverage directory contents
-          command: ls -la coverage
+          command: ls -la ~/treatment_database/coverage
 
       # Persist coverage to workspace
       - persist_to_workspace:
-          root: .
+          root: ~/treatment_database
           paths:
             - coverage/
 
@@ -122,18 +122,22 @@ jobs:
     executor: default-executor
     steps:
       - attach_workspace:
-          at: /workspace
+          at: ~/treatment_database
       - run:
           name: Check workspace contents
-          command: ls -la /workspace
+          command: ls -la ~/treatment_database/coverage
+
+      # Merge coverage results
       - run:
           name: Merge coverage results
           command: |
-            cd /workspace
+            cd ~/treatment_database
             ruby scripts/merge_coverage.rb
+
+      # Upload coverage results to Coveralls
       - coveralls/upload:
           parallel: true
-          path_to_lcov: /workspace/coverage/lcov/lcov.info
+          path_to_lcov: ~/treatment_database/coverage/lcov/lcov.info
 
 workflows:
   version: 2
