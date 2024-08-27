@@ -1,11 +1,16 @@
 # Ruby CircleCI 2.0 configuration file
 version: 2.1
+
 executors:
-  docker-publisher:
-    environment:
-      IMAGE_NAME: treatment-database-app
+  default-executor:
     docker:
-      - image: docker:20.10.14-git
+      - image: cimg/ruby:3.3.3
+    environment:
+      BUNDLE_PATH: vendor/bundle
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+      RAILS_ENV: test
+      RACK_ENV: test
 
 orbs:
   ruby: circleci/ruby@2.1.1
@@ -14,24 +19,15 @@ orbs:
 
 jobs:
   build:
-    docker:
-      - image: cimg/ruby:3.3.3
-
+    executor: default-executor
+    parallelism: 4
+    working_directory: ~/treatment_database
     environment:
-      BUNDLE_PATH: vendor/bundle
-      BUNDLE_JOBS: 4
-      BUNDLE_RETRY: 3
-      RAILS_ENV: test
-      RACK_ENV: test
       SPEC_OPTS: --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress
       WORKING_PATH: /tmp
       UPLOAD_PATH: /tmp
       CACHE_PATH: /tmp/cache
       COVERALLS_PARALLEL: true
-
-    parallelism: 4
-
-    working_directory: ~/treatment_database
 
     steps:
       - checkout
@@ -138,15 +134,32 @@ jobs:
           command: |
             mkdir /tmp/test-results
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            #bundle exec rspec --out /tmp/test-results/rspec.xml $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
-      # Upload coverage to Coveralls
+      # Persist coverage to workspace
+      - persist_to_workspace:
+          root: .
+          paths:
+            - coverage/
+
+  merge_coverage:
+    executor: default-executor
+    steps:
+      - attach_workspace:
+          at: /workspace
+      - run:
+          name: Merge coverage results
+          command: |
+            cd /workspace
+            ruby scripts/merge_coverage.rb
       - coveralls/upload:
           parallel: true
-          path_to_lcov: coverage/lcov/lcov.info
+          path_to_lcov: /workspace/coverage/lcov/lcov.info
 
 workflows:
   version: 2
   ci:
     jobs:
       - build
+      - merge_coverage:
+          requires:
+            - build
