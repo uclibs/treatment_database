@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'bundler/setup' # Ensure all gems are loaded
 require 'simplecov'
 require 'simplecov-lcov'
 require 'coveralls'
