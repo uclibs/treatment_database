@@ -21,30 +21,17 @@ require 'coveralls'
 
 SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
 
-SimpleCov.start 'rails' do
-  command_name "RSpec_#{ENV.fetch('CIRCLE_NODE_INDEX', nil)}" # Ensure each parallel job uses a unique command name
-  coverage_dir "coverage/#{ENV.fetch('CIRCLE_NODE_INDEX', nil)}" # Store results in a unique directory per parallel node
-  add_filter '/spec/' # Exclude all files in the spec directory
-  add_filter '/lib/tasks/' # Exclude all files in the lib/tasks directory
-  add_filter '/lib/capistrano/' # Exclude all files in the lib/capistrano directory
-end
-
-SimpleCov.at_exit do
-  if ENV['CIRCLE_NODE_TOTAL'] && ENV['CIRCLE_NODE_INDEX'] # Check if running in parallel mode
-  else
-    # If not in parallel mode, handle final result formatting for the single process
-    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
-      [
-        SimpleCov::Formatter::HTMLFormatter,
-        SimpleCov::Formatter::LcovFormatter,
-        Coveralls::SimpleCov::Formatter
-      ]
-    )
-  end
+# Find and merge all the coverage results
+SimpleCov.collate Dir["coverage/*"] do
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
+    [
+      SimpleCov::Formatter::HTMLFormatter,
+      SimpleCov::Formatter::LcovFormatter,
+      Coveralls::SimpleCov::Formatter
+    ]
+  )
   SimpleCov.result.format!
 end
-
-Coveralls.wear!('rails')
 
 require 'byebug'
 

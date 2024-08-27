@@ -1,7 +1,4 @@
 # Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
 version: 2.1
 executors:
   docker-publisher:
@@ -32,7 +29,7 @@ jobs:
       CACHE_PATH: /tmp/cache
       COVERALLS_PARALLEL: true
 
-    parallelism: 4  # This enables 4 parallel containers
+    parallelism: 4
 
     working_directory: ~/treatment_database
 
@@ -142,13 +139,6 @@ jobs:
             mkdir /tmp/test-results
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
             #bundle exec rspec --out /tmp/test-results/rspec.xml $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-
-      # Merge coverage data across parallel containers
-      - run:
-          name: Merge coverage results
-          command: |
-            mkdir -p coverage
-            simplecov-merge coverage/
 
       # Upload coverage to Coveralls
       - coveralls/upload:
