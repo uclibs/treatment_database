@@ -107,6 +107,11 @@ jobs:
             mkdir /tmp/test-results
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
+      # Log contents of the workspace before persisting
+      - run:
+          name: List coverage directory contents
+          command: ls -la coverage
+
       # Persist coverage to workspace
       - persist_to_workspace:
           root: .
@@ -118,6 +123,9 @@ jobs:
     steps:
       - attach_workspace:
           at: /workspace
+      - run:
+          name: Check workspace contents
+          command: ls -la /workspace
       - run:
           name: Merge coverage results
           command: |
