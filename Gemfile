@@ -52,8 +52,6 @@ gem 'wkhtmltopdf-binary', '>= 0.12.6.7' # Enables PDF generation from HTML
 # Windows specific timezone data
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby] # Timezone data for Windows
 
-
-
 group :development, :test do
   # Debugging tools
   gem 'byebug', platforms: %i[mri mingw x64_mingw] # Debugging tool for Ruby
