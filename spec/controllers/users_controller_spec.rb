@@ -62,18 +62,18 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST #create_user' do
     it 'creates a new user with valid params' do
       request.env['HTTP_REFERER'] = new_user_path
-      expect {
+      expect do
         post :create_user, params: { user: valid_attributes }
-      }.to change(User, :count).by(1)
+      end.to change(User, :count).by(1)
       expect(response).to redirect_to(users_path)
       expect(flash[:notice]).to be_present
     end
 
     it 'fails to create a user with invalid params' do
       request.env['HTTP_REFERER'] = new_user_path
-      expect {
+      expect do
         post :create_user, params: { user: invalid_attributes }
-      }.not_to change(User, :count)
+      end.not_to change(User, :count)
       expect(response).to redirect_to(new_user_path)
       expect(flash[:notice]).to eq('Email is invalid')
     end
