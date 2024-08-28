@@ -3,7 +3,7 @@
 require 'byebug'
 require 'devise'
 
-require_relative '../simplecov_setup'
+require_relative '../.simplecov_setup'
 
 def sign_in(user)
   post user_session_path \

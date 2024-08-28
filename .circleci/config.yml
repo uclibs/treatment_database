@@ -13,8 +13,8 @@ executors:
 
 orbs:
   ruby: circleci/ruby@2.1.1
-  browser-tools: circleci/browser-tools@1.4.7
-  coveralls: coveralls/coveralls@1.0.6
+  browser-tools: circleci/browser-tools@1.4.8
+  coveralls: coveralls/coveralls@2.2.1
 
 jobs:
   build_and_test:
