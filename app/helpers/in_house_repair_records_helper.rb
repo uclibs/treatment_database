@@ -9,17 +9,17 @@ module InHouseRepairRecordsHelper
     repair_type = controlled_vocabulary_lookup(ihrr.repair_type)
 
     if ind.nil?
-      return "#{repair_type} performed by #{display_name(ihrr)} in #{ihrr.minutes_spent} minutes. #{if ihrr.other_note.present?
-                                                                                                      "Other note: #{ihrr.other_note}"
-                                                                                                    end}. #{if ihrr.staff_code.present?
-                                                                                                              "Staff Code: #{ihrr.staff_code.code}"
-                                                                                                            end}"
+      return "#{repair_type} performed by #{display_name(ihrr)} in #{ihrr.minutes_spent} minutes.#{if ihrr.other_note.present?
+                                                                                                     " Other note: #{ihrr.other_note}."
+                                                                                                   end}#{if ihrr.staff_code.present?
+                                                                                                           " Staff Code: #{ihrr.staff_code.code}"
+                                                                                                         end}"
     end
 
-    "#{ind + 1}. #{repair_type} performed by #{display_name(ihrr)} in #{ihrr.minutes_spent} minutes. #{if ihrr.other_note.present?
-                                                                                                         "Other note: #{ihrr.other_note}"
-                                                                                                       end}. #{if ihrr.staff_code.present?
-                                                                                                                 "Staff Code: #{ihrr.staff_code.code}"
-                                                                                                               end}"
+    "#{ind + 1}. #{repair_type} performed by #{display_name(ihrr)} in #{ihrr.minutes_spent} minutes.#{if ihrr.other_note.present?
+                                                                                                        " Other note: #{ihrr.other_note}."
+                                                                                                      end}#{if ihrr.staff_code.present?
+                                                                                                              " Staff Code: #{ihrr.staff_code.code}"
+                                                                                                            end}"
   end
 end
