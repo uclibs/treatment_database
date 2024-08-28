@@ -4,16 +4,23 @@ require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
   describe 'controlled_vocabulary_lookup' do
-    let(:controlled_vocab) { create :controlled_vocabulary }
+    let(:controlled_vocab) { create(:controlled_vocabulary) }
 
-    it 'returns a controlled vocab object' do
+    it 'returns the key of the controlled vocabulary object when found' do
+      # Ensuring that the ControlledVocabulary record exists
       result = helper.controlled_vocabulary_lookup(controlled_vocab.id)
       expect(result).to eq(controlled_vocab.key)
     end
 
-    it 'returns id missing string if vocab id is nil' do
+    it 'returns "ID Missing" when the vocabulary_id is nil' do
       result = helper.controlled_vocabulary_lookup(nil)
       expect(result).to eq('ID Missing')
+    end
+
+    it 'returns nil when the vocabulary_id does not exist' do
+      # Trying to look up an ID that doesn't exist in the DB
+      result = helper.controlled_vocabulary_lookup(9999)
+      expect(result).to be_nil
     end
   end
 
