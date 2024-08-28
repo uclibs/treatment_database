@@ -52,9 +52,7 @@ gem 'wkhtmltopdf-binary', '>= 0.12.6.7' # Enables PDF generation from HTML
 # Windows specific timezone data
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby] # Timezone data for Windows
 
-# Code Analysis and Testing Tools (outside of development and test groups for CircleCi's functionality)
-gem 'simplecov', require: false # Code coverage analysis tool for Ruby
-gem 'simplecov-lcov', require: false # Formatter for SimpleCov that generates LCOV reports
+
 
 group :development, :test do
   # Debugging tools
@@ -72,6 +70,8 @@ group :development, :test do
   gem 'coveralls_reborn' # Provides Ruby API for Coveralls.io code coverage reporting
   gem 'rubocop' # A Ruby static code analyzer and formatter
   gem 'rubocop-rails' # A RuboCop extension focused on enforcing Rails best practices
+  gem 'simplecov', require: false # Code coverage analysis tool for Ruby
+  gem 'simplecov-lcov', require: false # Formatter for SimpleCov that generates LCOV reports
 
   # Security dependencies
   gem 'bcrypt_pbkdf' # A key derivation function for safely storing passwords
