@@ -43,7 +43,7 @@ RSpec.describe ConTechRecordsController, type: :controller do
         end.to change(ConTechRecord, :count).by(0)
 
         expect(response).to redirect_to("#{conservation_record_path(conservation_record)}#conservators-and-technicians")
-        expect(flash[:notice]).to match(/Conservator\/Technician record not saved/)
+        expect(flash[:notice]).to match(%r{Conservator/Technician record not saved})
       end
     end
   end
