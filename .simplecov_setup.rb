@@ -14,8 +14,8 @@ SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
 
 # Enable merging of results across parallel runs
 SimpleCov.start 'rails' do
-  # enable_coverage :branch
-  merge_timeout 3600 # Ensure there's enough time to merge results across jobs
+  enable_coverage :branch
+  merge_timeout 3600
   add_filter '/spec/'
   add_filter '/lib/tasks/'
   add_filter '/lib/capistrano/'
