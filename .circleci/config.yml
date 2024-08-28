@@ -17,7 +17,7 @@ orbs:
   coveralls: coveralls/coveralls@1.0.6
 
 jobs:
-  build:
+  build_and_test:
     executor: default-executor
     parallelism: 4
     working_directory: ~/treatment_database
@@ -95,35 +95,14 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
-      # Ensure coverage directory exists before persisting it
+      # Run tests in parallel
       - run:
-          name: Ensure coverage directory exists
-          command: mkdir -p ~/treatment_database/coverage
+          name: Run Tests with Parallelism
+          command: |
+            mkdir -p ~/treatment_database/coverage
+            bundle exec rspec --profile --format progress --format RspecJunitFormatter --out ~/treatment_database/test_results/rspec.xml
 
-      # Log contents of the workspace before persisting
-      - run:
-          name: List coverage directory contents
-          command: ls -la ~/treatment_database/coverage
-
-      # Persist coverage and scripts directory to workspace
-      - persist_to_workspace:
-          root: ~/treatment_database
-          paths:
-            - coverage/
-            - scripts/  # Ensure the scripts directory is persisted
-
-  merge_coverage:
-    executor: default-executor
-    steps:
-      - attach_workspace:
-          at: ~/treatment_database
-
-      # Check that the scripts directory is present
-      - run:
-          name: Check for merge_coverage script
-          command: ls -la ~/treatment_database/scripts
-
-      # Merge coverage results
+      # Merge coverage results after tests run
       - run:
           name: Merge coverage results
           command: |
@@ -139,7 +118,4 @@ workflows:
   version: 2
   ci:
     jobs:
-      - build
-      - merge_coverage:
-          requires:
-            - build
+      - build_and_test
