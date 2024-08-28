@@ -102,13 +102,6 @@ jobs:
             mkdir -p ~/treatment_database/coverage
             bundle exec rspec --profile --format progress --format RspecJunitFormatter --out ~/treatment_database/test_results/rspec.xml
 
-      # Merge coverage results after tests run
-      - run:
-          name: Merge coverage results
-          command: |
-            cd ~/treatment_database
-            ruby scripts/merge_coverage.rb
-
       # Upload coverage results to Coveralls
       - coveralls/upload:
           parallel: true
