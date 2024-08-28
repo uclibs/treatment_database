@@ -5,7 +5,16 @@ require 'simplecov-lcov'
 require 'coveralls'
 
 # Configure LCOV Formatter for Coveralls
-SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
+SimpleCov::Formatter::LcovFormatter.config do |config|
+  config.report_with_single_file = true
+  config.output_directory = 'coverage/lcov' # Ensure the LCOV report is stored here
+  config.lcov_file_name = 'lcov.info'       # Set the file name to 'lcov.info'
+end
+
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+                                                                  SimpleCov::Formatter::LcovFormatter,     # Generates LCOV file for Coveralls
+                                                                  SimpleCov::Formatter::HTMLFormatter      # Generates the HTML coverage report
+                                                                ])
 
 # Start SimpleCov for Rails
 SimpleCov.start 'rails' do

@@ -112,7 +112,6 @@ jobs:
       # Upload coverage results to Coveralls
       - coveralls/upload:
           parallel: true
-          path_to_lcov: ~/treatment_database/coverage/lcov/lcov.info
 
 workflows:
   version: 2
