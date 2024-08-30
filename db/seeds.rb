@@ -67,6 +67,7 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
   )
 
   if ENV['SEEDABLE'] == 'true'
+    puts '"SEEDABLE" is true. Performing user data and conservation record seeding.'
     User.create(
       [{
          email: 'johngreen@example.com',
