@@ -46,6 +46,7 @@ gem 'nokogiri' # HTML, XML, SAX, and Reader parser
 gem 'pagy', '~> 9.0' # Pagination library that is fast, lightweight, and flexible
 gem 'paper_trail' # Track changes to your models' data
 gem 'pdfkit' # Uses wkhtmltopdf to generate PDFs from HTML
+gem 'rexml', '>= 3.3.6' # XML processing library, now a direct dependency for security management
 gem 'wkhtmltopdf-binary', '>= 0.12.6.7' # Enables PDF generation from HTML
 
 # Windows specific timezone data
