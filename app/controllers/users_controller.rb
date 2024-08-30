@@ -24,9 +24,9 @@ class UsersController < ApplicationController
         sign_in(@user)
         redirect_to after_sign_in_path_for(@user)
       end
-      flash[:notice] = 'Successfully created User.'
+      flash.now[:notice] = 'Successfully created User.'
     else
-      flash[:notice] = @user.errors.full_messages.first
+      flash.now[:notice] = @user.errors.full_messages.first
       redirect_back fallback_location: root_path
     end
   end
