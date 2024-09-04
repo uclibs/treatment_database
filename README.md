@@ -38,14 +38,38 @@ yarn install # Installs the node modules
 yarn build # Builds the front-end assets
 ```
 
-## Preparing the database.
+## Preparing the Database
+Before you can run the application, you need to set up the database. Follow these steps to prepare the database:
 
-```bash
-rails db:migrate
-rails db:seed
-rails server
-rails db:seed # This will create a few user accounts for testing. Do not run this in production.
+### Migrate the Database
+   Run the database migrations to set up the necessary tables:
 ```
+rails db:create
+rails db:migrate
+```
+### Seed the Database
+#### For Development and Test Environments:
+
+In development and test environments, running the seeds will create some default user accounts and sample conservation records. These are intended for testing and local development purposes.
+```
+rails db:seed
+```
+#### For Production Environments:
+
+In production, the default seed data is not automatically created to avoid adding test accounts and sample data. If you need to seed specific production data, you can manually add it to the db/seeds/production.rb file or run specific tasks designed for production.
+```
+# Example (only if necessary and defined in your seeds):
+RAILS_ENV=production rails db:seed
+Note: Be cautious when seeding in production to avoid inserting unintended data.
+```
+
+### Start the Server
+   Once the database is prepared, you can start the server:
+
+```
+rails server
+```
+
 ## Running the Tests
 
 The treatment database has a test suite built with rspec, running it is simple, just call the following in the project directory:
