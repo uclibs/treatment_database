@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :users, only: %i[edit update show]
 
   # Session management
-  resources :sessions, only: %i[new create destroy]
+  get 'login', to: 'sessions#create', as: :login
   delete 'logout', to: 'sessions#destroy', as: :logout
 
   resources :staff_codes, except: [:destroy]
