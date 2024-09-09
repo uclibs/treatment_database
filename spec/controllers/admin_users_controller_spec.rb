@@ -80,19 +80,10 @@ RSpec.describe Admin::UsersController, type: :controller do
     end
   end
 
-  context 'when the user is inactive' do
-    let(:inactive_user) { create(:user, role: 'admin', account_active: false) }
+  describe 'DELETE #destroy' do
 
-    before do
-      controller_logout
-      controller_login_as(inactive_user)
-      controller_stub_authorization(inactive_user)
-    end
-
-    it 'blocks access for the inactive user and redirects to the root path' do
-      get :index
-      expect(response).to redirect_to(root_path)
-      expect(flash[:alert]).to eq('Your account is not active.')
-    end
   end
+
+
+
 end

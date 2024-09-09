@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
-  let(:user) { create(:user) }
-  let(:inactive_user) { create(:user, account_active: false) }
+  let!(:user) { create(:user) }
+  let!(:inactive_user) { create(:user, account_active: false) }
 
   describe 'GET #new' do
     it 'returns http success' do
@@ -63,9 +63,13 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { controller_login_as(user) }
+    before do
+      controller_login_as(user)
+      session[:user_id] = user.id
+    end
 
     it 'logs out the user and redirects to root path' do
+      expect(session[:user_id]).to eq(user.id)
       delete :destroy
       expect(session[:user_id]).to be_nil
       expect(response).to redirect_to(root_path)
