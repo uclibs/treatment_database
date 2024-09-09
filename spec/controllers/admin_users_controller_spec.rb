@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Admin::UsersController, type: :controller do
   let(:user) { create(:user, role: 'admin') }
+  let(:extra_user) { create(:user) }
 
   before do
     controller_login_as(user)
@@ -81,9 +82,15 @@ RSpec.describe Admin::UsersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    it 'does not allow user deletion and redirects with an alert' do
+      delete :destroy, params: { id: extra_user.id }
 
+      # Ensure the user is not destroyed
+      expect(User.exists?(extra_user.id)).to be_truthy
+
+      # Ensure it redirects to the admin users path with the proper alert
+      expect(response).to redirect_to(admin_users_path)
+      expect(flash[:alert]).to eq('User deletion is not permitted.')
+    end
   end
-
-
-
 end
