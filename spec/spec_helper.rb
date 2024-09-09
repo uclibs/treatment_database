@@ -37,8 +37,6 @@ SimpleCov.at_exit do
   SimpleCov.result.format!
 end
 
-Coveralls.wear!('rails')
-
 require 'byebug'
 
 RSpec.configure do |config|
