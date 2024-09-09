@@ -63,17 +63,34 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before do
-      controller_login_as(user)
-      session[:user_id] = user.id
+    context 'when the user is active' do
+      before do
+        controller_login_as(user)
+        session[:user_id] = user.id
+      end
+
+      it 'logs out the user and redirects to root path' do
+        expect(session[:user_id]).to eq(user.id)
+        delete :destroy
+        expect(session[:user_id]).to be_nil
+        expect(response).to redirect_to(root_path)
+        expect(flash[:notice]).to eq('Logged out successfully')
+      end
     end
 
-    it 'logs out the user and redirects to root path' do
-      expect(session[:user_id]).to eq(user.id)
-      delete :destroy
-      expect(session[:user_id]).to be_nil
-      expect(response).to redirect_to(root_path)
-      expect(flash[:notice]).to eq('Logged out successfully')
+    context 'when the user is inactive' do
+      before do
+        controller_login_as(inactive_user)
+        session[:user_id] = inactive_user.id
+      end
+
+      it 'logs out the user and redirects to root path' do
+        expect(session[:user_id]).to eq(inactive_user.id)
+        delete :destroy
+        expect(session[:user_id]).to be_nil
+        expect(response).to redirect_to(root_path)
+        expect(flash[:notice]).to eq('Logged out successfully')
+      end
     end
   end
 end

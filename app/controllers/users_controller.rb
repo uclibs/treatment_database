@@ -4,6 +4,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user
+  skip_before_action :check_user_active, only: %i[edit update]
 
   load_and_authorize_resource
 
