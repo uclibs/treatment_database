@@ -40,10 +40,30 @@ RSpec.describe SessionsController, type: :controller do
         expect(flash[:alert]).to eq('Your account is not active.')
       end
     end
+
+    context 'with non-existing email' do
+      it 'does not find the user and re-renders the new template with an alert' do
+        post :create, params: { email: 'nonexistent@example.com', password: 'notapassword' }
+        expect(session[:user_id]).to be_nil
+        expect(flash.now[:alert]).to eq('Invalid email or password')
+        expect(response).to render_template(:new)
+      end
+    end
+
+    context 'when user is already logged in' do
+      before { session[:user_id] = user.id }
+
+      it 'does not override the session if already logged in' do
+        post :create, params: { email: user.email, password: 'notapassword' }
+        expect(session[:user_id]).to eq(user.id)
+        expect(response).to redirect_to(root_path)
+        expect(flash[:notice]).to eq('Signed in successfully')
+      end
+    end
   end
 
   describe 'DELETE #destroy' do
-    before { session[:user_id] = user.id }
+    before { controller_login_as(user) }
 
     it 'logs out the user and redirects to root path' do
       delete :destroy
