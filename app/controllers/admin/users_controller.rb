@@ -57,7 +57,7 @@ module Admin
     end
 
     def user_params
-      permitted_attributes = %i[email display_name]
+      permitted_attributes = %i[email password password_confirmation display_name]
       permitted_attributes += %i[role account_active] if admin?
       params.require(:user).permit(permitted_attributes)
     end
