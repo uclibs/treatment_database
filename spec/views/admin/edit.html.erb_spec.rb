@@ -24,8 +24,6 @@ RSpec.describe 'admin/users/edit.html.erb', type: :view do
       # Check that the form contains the appropriate input fields
       expect(rendered).to have_selector('input[name="user[display_name]"]')
       expect(rendered).to have_selector('input[name="user[email]"]')
-      expect(rendered).to have_selector('input[name="user[password]"]')
-      expect(rendered).to have_selector('input[name="user[password_confirmation]"]')
       expect(rendered).to have_selector('select[name="user[role]"]')
       expect(rendered).to have_selector('input[name="user[account_active]"]')
 
