@@ -6,7 +6,6 @@ RSpec.describe Admin::UsersController, type: :controller do
   let(:user) { create(:user, role: 'admin') }
   let(:extra_user) { create(:user) }
 
-
   before do
     controller_login_as(user)
     controller_stub_authorization(user)
