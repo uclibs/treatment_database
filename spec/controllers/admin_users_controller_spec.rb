@@ -6,6 +6,7 @@ RSpec.describe Admin::UsersController, type: :controller do
   let(:user) { create(:user, role: 'admin') }
   let(:extra_user) { create(:user) }
 
+
   before do
     controller_login_as(user)
     controller_stub_authorization(user)
@@ -69,15 +70,47 @@ RSpec.describe Admin::UsersController, type: :controller do
       }
     end
 
-    it 'updates the user and redirects to the admin users index' do
-      put :update, params: { id: user.id, user: new_attributes }
-      user.reload
-      expect(response).to redirect_to(admin_users_path)
-      expect(flash[:notice]).to eq('Profile updated successfully.')
-      expect(user.display_name).to eq(new_attributes[:display_name])
-      expect(user.email).to eq(new_attributes[:email])
-      expect(user.role).to eq(new_attributes[:role])
-      expect(user.account_active).to be true
+    let(:invalid_attributes) do
+      {
+        email: nil, # Invalid because email is required
+        display_name: 'New Display Name',
+        role: 'standard',
+        account_active: true
+      }
+    end
+
+    context 'with valid attributes' do
+      it 'updates the user and redirects to the admin users index' do
+        put :update, params: { id: user.id, user: new_attributes }
+        user.reload
+        expect(response).to redirect_to(admin_users_path)
+        expect(flash[:notice]).to eq('Profile updated successfully.')
+        expect(user.display_name).to eq(new_attributes[:display_name])
+        expect(user.email).to eq(new_attributes[:email])
+        expect(user.role).to eq(new_attributes[:role])
+        expect(user.account_active).to be true
+      end
+    end
+    context 'with invalid attributes' do
+      before do
+        @original_display_name = user.display_name
+        @original_email = user.email
+        put :update, params: { id: user.id, user: invalid_attributes }
+        user.reload
+      end
+
+      it 'renders the edit template' do
+        expect(response).to render_template(:edit)
+      end
+
+      it 'sets a flash error message' do
+        expect(flash[:alert]).to eq('There was a problem editing the user. Please check the errors below.')
+      end
+
+      it 'does not update the user attributes' do
+        expect(user.display_name).to eq(@original_display_name)
+        expect(user.email).to eq(@original_email)
+      end
     end
   end
 

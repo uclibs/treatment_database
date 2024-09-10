@@ -34,6 +34,7 @@ module Admin
       if @user.update(user_params)
         redirect_to admin_users_path, notice: 'Profile updated successfully.'
       else
+        flash.now[:alert] = 'There was a problem editing the user. Please check the errors below.'
         render :edit
       end
     end
