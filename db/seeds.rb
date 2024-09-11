@@ -67,7 +67,8 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
   )
 
   if ENV['SEEDABLE'] == 'true'
-    puts '"SEEDABLE" is true. Performing user data and conservation record seeding.'
+    puts '"SEEDABLE" is true. Performing user data and conservation record seeding.' unless Rails.env.test?
+
     User.create(
       [{
          email: 'johngreen@example.com',
@@ -127,6 +128,6 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
       ]
     )
   else
-    puts 'Skipping user data and conservation record seeding.'
+    puts 'Skipping user data and conservation record seeding.' unless Rails.env.test?
   end
 end
