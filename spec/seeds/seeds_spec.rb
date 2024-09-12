@@ -30,9 +30,9 @@ RSpec.describe 'Database Seeding', type: :feature do
 
     it 'seeds the user data' do
       expect(User.count).to be > 0
-      expect(User.find_by(email: 'johngreen@example.com')).not_to be_nil
-      expect(User.find_by(email: 'jkrowling@example.com')).not_to be_nil
-      expect(User.find_by(email: 'chuck@chuck.codes')).not_to be_nil
+      expect(User.find_by(email: 'johngreen@uc.edu')).not_to be_nil
+      expect(User.find_by(email: 'jkrowling@uc.edu')).not_to be_nil
+      expect(User.find_by(email: 'chuck@uc.edu')).not_to be_nil
     end
 
     it 'seeds the conservation record data' do
