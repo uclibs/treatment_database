@@ -4,32 +4,32 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   it 'is valid when all required fields are provided' do
-    user = User.new(email: 'test@example.com', password: 'notapassword', display_name: 'Bobby Tables')
+    user = User.new(email: 'test@uc.edu', password: 'notapassword', display_name: 'Bobby Tables', username: 'test')
     expect(user).to be_valid
   end
 
   it 'is not valid without a display name' do
-    user = User.new(email: 'test@example.com', password: 'notapassword')
+    user = User.new(email: 'test@uc.edu', password: 'notapassword', username: 'test')
     expect(user).to_not be_valid
   end
 
   it 'is not valid without an email' do
-    user = User.new(password: 'notapassword', display_name: 'Bobby Tables')
+    user = User.new(password: 'notapassword', display_name: 'Bobby Tables', username: 'test')
     expect(user).to_not be_valid
   end
 
   it 'is not valid without a password' do
-    user = User.new(email: 'test@example.com', display_name: 'Bobby Tables')
+    user = User.new(email: 'test@uc.edu', display_name: 'Bobby Tables', username: 'test')
     expect(user).to_not be_valid
   end
 
   it 'activates new account on creation' do
-    user = User.new(email: 'test@example.com', display_name: 'Bobby Tables')
+    user = User.new(email: 'test@uc.edu', display_name: 'Bobby Tables', username: 'test')
     expect(user.account_active).to be true
   end
 
   it 'set default role for new users' do
-    user = User.create(email: 'test@example.com', display_name: 'Bobby Tables')
+    user = User.create(email: 'test@uc.edu', display_name: 'Bobby Tables', password: 'notapassword', username: 'test')
     expect(user.role).to eq 'read_only'
   end
 end
