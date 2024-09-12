@@ -15,10 +15,9 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
 
   it 'allows User to login and show Conservation Records' do
-    # Login
-    visit new_user_session_path
+    visit new_session_path
     fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
+    fill_in 'Password', with: user.password
     click_button 'Log in'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_content('Conservation Records')
@@ -60,7 +59,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_user_session_path
+    visit new_session_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
     click_button 'Log in'
@@ -111,6 +110,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     click_link(conservation_record.title, match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
+    expect(page).to have_button('Create In-House Repair Record')
     select('Chuck Greenman', from: 'in_house_performed_by_user_id', match: :first)
     select('Soft slipcase', from: 'in_house_repair_type', match: :first)
     fill_in('in_house_other_note', with: 'Some Other note for the in-house repair')
@@ -122,6 +122,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     # External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
+    expect(page).to have_button('Create External Repair Record')
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_type', match: :first)
     fill_in('external_other_note', with: 'Some Other note for the external repair')
@@ -203,7 +204,8 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_user_session_path
+    visit new_session_path
+    expect(page).to have_content('Please log in to continue')
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
     click_button 'Log in'
@@ -228,10 +230,11 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     click_on 'Users'
     expect(page).to have_content('Users')
     click_on 'Add New User'
+    expect(page).to have_content('Create New User')
     fill_in 'Display name', with: 'Beau Geste'
-    fill_in 'Email', with: 'beau.geste@mail.uc.edu'
-    fill_in 'Password', with: 'notapass'
-    fill_in 'Password confirmation', with: 'notapass'
+    fill_in 'Email', with: 'beau.geste@uc.edu'
+    fill_in 'User Password', with: 'notapassword'
+    fill_in 'User Password Confirmation', with: 'notapassword'
     select('Admin', from: 'Role')
     click_on 'Create User'
     expect(page).to have_content('Beau Geste')
@@ -244,7 +247,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
 
     expect(page).to have_content('Edit User')
     fill_in 'Display name', with: 'Haritha Vytla'
-    fill_in 'Email', with: 'vytlasa@mail.uc.edu'
+    fill_in 'Email', with: 'vytlasa@uc.edu'
     select('Admin', from: 'Role')
     click_on 'Update User'
     expect(page).to have_content('Haritha Vytla')
@@ -261,19 +264,21 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).to have_content('Controlled Vocabularies')
     click_link('New Controlled Vocabulary')
     expect(page).to have_content('New Controlled Vocabulary')
-    select 'repair_type', from: 'Vocabulary'
+    select 'repair_type', from: 'controlled_vocabulary_vocabulary'
     fill_in 'Key', with: 'key_string'
     check 'Active'
-    check 'Favorite'
     click_button 'Create Controlled vocabulary'
-
     expect(page).to have_content('Controlled vocabulary was successfully created')
 
     # Edit vocabulary
     visit controlled_vocabularies_path
-    click_on 'key_string'
+    expect(page).to have_content('Controlled Vocabularies')
+    first(:link, 'key_string').click
+    expect(page).to have_selector('h1', text: 'Vocabulary: repair_type')
     click_on 'Edit'
+    expect(page).to have_selector('h1', text: 'Editing Controlled Vocabulary')
     fill_in 'Key', with: 'updated_key_string'
+    check 'Favorite'
     click_on 'Update Controlled vocabulary'
     expect(page).to have_content('Controlled vocabulary was successfully updated.')
     expect(page).to have_content('updated_key_string')
@@ -324,6 +329,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     # Create External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
+    expect(page).to have_button('Create External Repair Record')
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_type', match: :first)
     fill_in('external_other_note', with: 'Some Other note for the external repair')

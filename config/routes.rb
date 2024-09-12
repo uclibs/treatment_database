@@ -1,11 +1,20 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  # Admin namespace for user management
+  namespace :admin do
+    resources :users # Admins can manage users (CRUD) via the admin/users namespace
+  end
+
+  # Routes for user management (excluding create, which is handled by admins)
+  resources :users, only: %i[edit update show]
+
+  # Session management
+  resources :sessions, only: %i[new create destroy]
+  delete 'logout', to: 'sessions#destroy', as: :logout
+
   resources :staff_codes, except: [:destroy]
-  post 'users', to: 'users#create_user'
   resources :reports
-  devise_for :users, controllers: { registrations: 'users/registrations' }
-  resources :users, controller: 'users', except: %i[create show]
   resources :controlled_vocabularies, except: [:destroy]
   resources :activity
 
@@ -28,5 +37,4 @@ Rails.application.routes.draw do
   get 'reports/download_csv'
 
   get 'auth/shibboleth/callback', to: 'callbacks#shibboleth', as: :shibboleth_callback
-  delete 'logout', to: 'sessions#destroy', as: :logout
 end

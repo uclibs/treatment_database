@@ -37,17 +37,7 @@ SimpleCov.at_exit do
   SimpleCov.result.format!
 end
 
-Coveralls.wear!('rails')
-
 require 'byebug'
-
-require 'devise'
-
-def sign_in(user)
-  post user_session_path \
-    'user[email]' => user.email,
-    'user[password]' => user.password
-end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here.

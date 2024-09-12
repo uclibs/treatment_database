@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class CallbacksController < ApplicationController
-  # Authenticate user not yet defined
-  # skip_before_action :authenticate_user!, only: [:shibboleth]
-
+  skip_before_action :authenticate_user!, only: [:shibboleth]
+  skip_before_action :check_user_active, only: [:shibboleth]
   def shibboleth
     # This is a placeholder for the Shibboleth callback.
     render plain: 'Shibboleth callback received'
