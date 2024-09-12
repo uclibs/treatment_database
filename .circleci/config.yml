@@ -17,7 +17,7 @@ orbs:
   coveralls: coveralls/coveralls@2.2.1
 
 jobs:
-  build_and_test:
+  build:
     executor: default-executor
     parallelism: 4
     working_directory: ~/treatment_database
@@ -109,4 +109,4 @@ workflows:
   version: 2
   ci:
     jobs:
-      - build_and_test
+      - build
