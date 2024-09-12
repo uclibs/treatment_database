@@ -2,17 +2,30 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Database Seeding' do
-  before do
-    # Stub the SEEDABLE environment variable as needed for each test
-    allow(ENV).to receive(:[]).and_call_original
+RSpec.describe 'Database Seeding', type: :feature do
+  # Use truncation to ensure a fully clean slate before each seeding test
+  before(:each) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  after(:each) do
+    DatabaseCleaner.clean # Clean up after each test
+  end
+
+  # Helper function to manage ENV variables
+  def with_seedable(value)
+    original_seedable = ENV.fetch('SEEDABLE', nil)
+    ENV['SEEDABLE'] = value
+    yield
+  ensure
+    ENV['SEEDABLE'] = original_seedable # Ensure ENV is reset to original value after each test
   end
 
   context 'when SEEDABLE is true' do
-    before do
-      DatabaseCleaner.clean # Ensure the database is clean before loading seeds
-      allow(ENV).to receive(:[]).with('SEEDABLE').and_return('true')
-      Rails.application.load_seed # Explicitly load seeds to simulate the environment
+    before(:each) do
+      with_seedable('true') do
+        Rails.application.load_seed # Explicitly load seeds
+      end
     end
 
     it 'seeds the user data' do
@@ -36,10 +49,10 @@ RSpec.describe 'Database Seeding' do
   end
 
   context 'when SEEDABLE is false' do
-    before do
-      DatabaseCleaner.clean # Ensure the database is clean before loading seeds
-      allow(ENV).to receive(:[]).with('SEEDABLE').and_return('false')
-      Rails.application.load_seed # Explicitly load seeds to simulate the environment
+    before(:each) do
+      with_seedable('false') do
+        Rails.application.load_seed # Explicitly load seeds
+      end
     end
 
     it 'does not seed the user data' do
@@ -60,10 +73,10 @@ RSpec.describe 'Database Seeding' do
   end
 
   context 'when SEEDABLE is not set' do
-    before do
-      DatabaseCleaner.clean # Ensure the database is clean before loading seeds
-      allow(ENV).to receive(:[]).with('SEEDABLE').and_return(nil)
-      Rails.application.load_seed # Explicitly load seeds to simulate the environment
+    before(:each) do
+      with_seedable(nil) do
+        Rails.application.load_seed # Explicitly load seeds
+      end
     end
 
     it 'does not seed the user data' do
