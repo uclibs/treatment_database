@@ -42,7 +42,6 @@ gem 'turbolinks', '~> 5' # Makes navigating your site faster by using AJAX to lo
 
 # Authentication and Authorization
 gem 'cancancan' # Authorization library for Ruby on Rails which restricts what resources a given user is allowed to access
-gem 'devise' # Flexible authentication solution for Rails with Warden
 
 # Additional Functionality
 gem 'nokogiri' # HTML, XML, SAX, and Reader parser
@@ -105,6 +104,7 @@ group :test do
   gem 'launchy' # Opens a given URL in a browser
   gem 'rack-test' # Small, simple testing API for Rack apps
   gem 'rspec-rails', '~> 6.0.0' # RSpec for Rails 6+
+  gem 'shoulda-matchers', '~> 5.0' # Provides RSpec with additional matchers
 end
 
 group :production do

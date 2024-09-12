@@ -38,11 +38,10 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <%= link_to "Edit account", edit_user_path(current_user), class: 'dropdown-item' %>
-              <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
+              <%= link_to('Logout', logout_path, method: :delete, class: 'dropdown-item') %>
             </div>
           </li>
         <% end %>
-
       </ul>
     </div>
   </div>

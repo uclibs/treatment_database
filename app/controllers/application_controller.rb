@@ -2,18 +2,25 @@
 
 class ApplicationController < ActionController::Base
   include Pagy::Backend
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  include Authentication
+
   before_action :set_paper_trail_whodunnit
 
   rescue_from CanCan::AccessDenied do |exception|
-    flash[:notice] = exception.message
+    flash[:alert] = exception.message
     redirect_to root_url
   end
 
-  protected
+  rescue_from ActiveRecord::RecordNotFound, with: :render404
 
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:display_name])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:role])
+  helper_method :current_user, :user_signed_in?, :authenticate_user!, :admin?
+
+  private
+
+  def render404
+    respond_to do |format|
+      format.html { render file: Rails.public_path.join('404.html'), status: :not_found, layout: false }
+      format.json { render json: { error: 'Not Found' }, status: :not_found }
+    end
   end
 end

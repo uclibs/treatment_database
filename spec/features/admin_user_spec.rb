@@ -11,7 +11,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
   it 'allows User to login and show Conservation Records and Staff Codes' do
     # Login
 
-    visit new_user_session_path
+    visit new_session_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
     click_button 'Log in'
@@ -78,7 +78,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true do
 
     expect(page).to have_content('Edit User')
     fill_in 'Display name', with: 'Haritha Vytla'
-    fill_in 'Email', with: 'vytlasa@mail.uc.edu'
+    fill_in 'Email', with: 'vytlasa@uc.edu'
     select('Admin', from: 'Role')
     click_on 'Update User'
     expect(page).to have_content('Haritha Vytla')

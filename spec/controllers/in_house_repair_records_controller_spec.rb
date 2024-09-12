@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe InHouseRepairRecordsController, type: :controller do
-  include Devise::Test::ControllerHelpers
+  let(:user) { create(:user, role: 'standard') }
   render_views
 
   before do
-    user = create(:user, role: 'standard')
-    sign_in user
+    controller_login_as(user)
+    controller_stub_authorization(user)
   end
 
   let(:conservation_record) { create(:conservation_record) }

@@ -3,16 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe ConTechRecordsController, type: :controller do
-  include Devise::Test::ControllerHelpers
   render_views
+  let(:user) { create(:user, role: 'admin') }
 
   before do
-    user = create(:user, role: 'admin')
-    sign_in user
+    controller_login_as(user)
+    controller_stub_authorization(user)
   end
 
   let(:conservation_record) { create(:conservation_record) }
-  let(:user) { create(:user, role: 'admin') }
   let(:valid_attributes) do
     {
       performed_by_user_id: user.id

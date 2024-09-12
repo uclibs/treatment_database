@@ -71,21 +71,21 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
 
     User.create(
       [{
-         email: 'johngreen@example.com',
+         email: 'johngreen@uc.edu',
          display_name: 'John Green',
          password: 'notapass',
          password_confirmation: 'notapass',
          role: 'read_only'
        },
        {
-         email: 'jkrowling@example.com',
+         email: 'jkrowling@uc.edu',
          display_name: 'JK Rowling',
          password: 'notapass',
          password_confirmation: 'notapass',
          role: 'standard'
        },
        {
-         email: 'chuck@chuck.codes',
+         email: 'chuck@uc.edu',
          display_name: 'Chuck Greenman',
          password: 'notapass',
          password_confirmation: 'notapass',

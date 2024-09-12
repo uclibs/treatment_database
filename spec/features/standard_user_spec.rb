@@ -10,7 +10,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
   it 'allows User to login and show Conservation Records' do
     # Login
 
-    visit new_user_session_path
+    visit new_session_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
     click_button 'Log in'
@@ -40,6 +40,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
     visit conservation_records_path
     click_on 'New Conservation Record'
     expect(page).to have_content('New Conservation Record')
+    expect(page).to have_content('ARB Library')
     select('ARB Library', from: 'Department', match: :first)
     fill_in 'Title', with: conservation_record.title
     fill_in 'Author', with: conservation_record.author
