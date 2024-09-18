@@ -3,9 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe 'staff_codes/index', type: :view do
-  include Devise::Test::ControllerHelpers
-
   before(:each) do
+    user = FactoryBot.create(:user, role: 'admin')
+    view_login_as(user)
+    view_stub_authorization(user)
     assign(:staff_codes, [
              StaffCode.create!(
                code: 'Code',

@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'conservation_records/show', type: :view do
-  include Devise::Test::ControllerHelpers
 
   before(:each) do
     assign(:version, [
@@ -30,7 +29,6 @@ RSpec.describe 'conservation_records/show', type: :view do
 
   it 'hides controls for read_only users' do
     @user = create(:user, role: 'read_only')
-    @request.env['devise.mapping'] = Devise.mappings[:user]
     sign_in @user
     render
     expect(rendered).not_to have_link('Activity')

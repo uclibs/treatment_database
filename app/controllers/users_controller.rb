@@ -1,45 +1,31 @@
 # frozen_string_literal: true
 
+# Manages user profile actions, allowing users to view and update their own profile.
 class UsersController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_user
+  skip_before_action :check_user_active, only: %i[show edit update]
+
   load_and_authorize_resource
 
-  def index
-    @users = User.all
-  end
-
-  def new
-    @user = User.new
-  end
-
-  def edit
-    @user = User.find(params[:id])
-  end
-
-  def create_user
-    @user = User.new(user_params)
-    if @user.save
-      if current_user.present? && current_user.role == 'admin'
-        redirect_to users_path
-      else
-        sign_in(@user)
-        redirect_to after_sign_in_path_for(@user)
-      end
-      flash.now[:notice] = 'Successfully created User.'
-    else
-      flash.now[:notice] = @user.errors.full_messages.first
-      redirect_back fallback_location: root_path
-    end
-  end
+  def show; end
+  def edit; end
 
   def update
-    user = User.find(params[:id])
-    user.update!(user_params)
-    redirect_to users_path
+    if @user.update(user_params)
+      redirect_to root_path, notice: 'Profile updated successfully.'
+    else
+      render :edit
+    end
   end
 
   private
 
+  def set_user
+    @user = current_user
+  end
+
   def user_params
-    params.require(:user).permit(:id, :display_name, :email, :role, :account_active, :password, :password_confirmation)
+    params.require(:user).permit(:display_name)
   end
 end
