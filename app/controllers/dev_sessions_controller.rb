@@ -7,10 +7,9 @@
 # are no routes for it.
 
 class DevSessionsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[new create destroy shibboleth_logout]
-  skip_before_action :check_user_active, only: %i[new create destroy shibboleth_logout]
+  skip_before_action :authenticate_user!, only: %i[new create destroy]
+  skip_before_action :check_user_active, only: %i[new create destroy]
 
-  SHIBBOLETH_LOGOUT_URL = ENV.fetch('SHIBBOLETH_LOGOUT_URL', nil).freeze
   def new; end
 
   def create
@@ -27,13 +26,6 @@ class DevSessionsController < ApplicationController
     redirect_to root_path, notice: 'Logged out successfully'
   end
 
-  def shibboleth_logout
-    Rails.logger.debug { "Logging out via Shibboleth for session ID: #{session[:user_id]}" }
-    reset_session_and_cookies
-    Rails.logger.debug { "Redirecting to #{SHIBBOLETH_LOGOUT_URL} (Shibboleth Test)" }
-    redirect_to "#{SHIBBOLETH_LOGOUT_URL}?return=#{root_url}", notice: 'Logged out successfully via Shibboleth'
-  end
-
   private
 
   def find_user
@@ -47,7 +39,7 @@ class DevSessionsController < ApplicationController
   def login_user(user)
     session[:user_id] = user.id
     if user.account_active
-      redirect_to root_path, notice: 'Signed in successfully'
+      redirect_to conservation_records_path, notice: 'Signed in successfully'
     else
       redirect_to root_path, alert: 'Your account is not active.'
     end

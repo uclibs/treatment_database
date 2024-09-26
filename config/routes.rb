@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Development and Test environment-specific routes
+  # Shibboleth authentication and sessions
+  resources :sessions, only: %i[new create destroy]
+  delete 'logout', to: 'sessions#destroy', as: :logout
+  get 'auth/shibboleth/callback', to: 'sessions#shibboleth_callback', as: :shibboleth_callback
+
+  # Development authentication and sessions
   if Rails.env.development? || Rails.env.test?
     resources :dev_sessions, only: %i[new create destroy]
-    delete 'logout', to: 'dev_sessions#destroy', as: :logout
-    delete 'shibboleth_logout', to: 'dev_sessions#shibboleth_logout', as: :shibboleth_logout
-  else
-    # In production, logout should point to SessionsController
-    delete 'logout', to: 'sessions#destroy', as: :logout
+    delete 'dev_logout', to: 'dev_sessions#destroy', as: :dev_logout
   end
 
   # Admin namespace for managing users
@@ -18,10 +19,6 @@ Rails.application.routes.draw do
 
   # User management (handled outside admin, excluding create)
   resources :users, only: %i[edit update show]
-
-  # Shibboleth authentication and sessions
-  resources :sessions, only: %i[new create destroy]
-  get 'auth/shibboleth/callback', to: 'sessions#shibboleth_callback', as: :shibboleth_callback
 
   # Resources that require detailed management and associations
   resources :conservation_records do

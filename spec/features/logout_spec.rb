@@ -19,7 +19,7 @@ RSpec.describe 'Logout button', type: :feature do
         find('.dropdown-toggle').click
 
         # Check for Logout button
-        expect(page).to have_link('Logout')
+        expect(page).to have_link('Logout', href: dev_logout_path)
 
         # Simulate clicking the logout button
         click_link 'Logout'
@@ -37,15 +37,18 @@ RSpec.describe 'Logout button', type: :feature do
         # Click on the dropdown to expose the logout options
         find('.dropdown-toggle').click
 
+        # Check for Dev logout button
+        expect(page).to have_link('Dev Logout', href: dev_logout_path)
+
         # Check for Shibboleth logout button
-        expect(page).to have_link('Log out via Shibboleth', href: shibboleth_logout_path)
+        expect(page).to have_link('Logout', href: logout_path)
 
         # Simulate clicking the logout via Shibboleth button
-        click_link 'Log out via Shibboleth'
+        click_link 'Logout'
 
         # Add your expectations for after the user logs out via Shibboleth
         expect(page).to have_current_path(root_path, ignore_query: true)
-        expect(page).to have_content('Logged out successfully via Shibboleth')
+        expect(page).to have_content('Logged out successfully')
       end
     end
   end
@@ -65,7 +68,7 @@ RSpec.describe 'Logout button', type: :feature do
         click_link 'Logout'
 
         # Expectations after standard logout
-        expect(page).to have_current_path(root_path) # Assuming redirection to root
+        expect(page).to have_current_path(root_path, ignore_query: true)
         expect(page).to have_content('Logged out successfully')
       end
     end

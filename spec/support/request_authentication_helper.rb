@@ -5,8 +5,4 @@ module RequestAuthenticationHelper
     post dev_sessions_path, params: { email: user.email, password: user.password }
     follow_redirect! if response.redirect?
   end
-
-  def request_logout
-    delete dev_session_path(:id)
-  end
 end

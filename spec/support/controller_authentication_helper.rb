@@ -6,10 +6,6 @@ module ControllerAuthenticationHelper
     controller.instance_variable_set(:@current_user, user)
   end
 
-  def controller_logout
-    allow(controller).to receive(:current_user).and_return(nil)
-  end
-
   def controller_stub_authorization(user)
     ability = Ability.new(user)
     allow(controller).to receive(:current_ability).and_return(ability)

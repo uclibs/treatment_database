@@ -3,25 +3,47 @@
 require 'rails_helper'
 
 RSpec.describe 'Dev Login Page', type: :feature do
-  context 'when in development' do
-    it 'displays both the Log in button and the Shibboleth login button' do
+  let(:active_user) { create(:user, account_active: true) }
+  let(:inactive_user) { create(:user, account_active: false) }
+
+  context 'when logging in with valid credentials' do
+    it 'allows active users to log in and redirects to conservation records page' do
       with_environment('development') do
-        visit new_dev_session_path
-
-        # Check for the presence of the Log in button
-        expect(page).to have_selector("input[type='submit'][name='commit'][value='Log in'][data-disable-with='Log in']")
-
-        # Check for the presence of the Shibboleth login link
-        expect(page).to have_link('Log in with Shibboleth Instead', href: '/sessions/new')
+        visit root_path
+        click_link 'Dev Log in'
+        fill_in 'Email', with: active_user.email
+        fill_in 'Password', with: active_user.password
+        click_button 'Log in'
+        expect(page).to have_content('Signed in successfully')
+        expect(page).to have_current_path(conservation_records_path)
       end
     end
+  end
 
-    it 'displays the Shibboleth button with correct styling' do
+  context 'when using invalid credentials' do
+    it 'shows an error message for incorrect email or password' do
       with_environment('development') do
-        visit new_dev_session_path
+        visit root_path
+        click_link 'Dev Log in'
+        fill_in 'Email', with: 'wrong_email@uc.edu'
+        fill_in 'Password', with: 'wrongpassword'
+        click_button 'Log in'
+        expect(page).to have_content('Invalid email or password')
+        expect(page).to have_current_path(dev_sessions_path) # Ensure it stays on the login page
+      end
+    end
+  end
 
-        shibboleth_button = find_link('Log in with Shibboleth Instead')
-        expect(shibboleth_button[:class]).to include('btn', 'btn-secondary')
+  context 'when account is inactive' do
+    it 'prevents login and shows an inactive account message' do
+      with_environment('development') do
+        visit root_path
+        click_link 'Dev Log in'
+        fill_in 'Email', with: inactive_user.email
+        fill_in 'Password', with: inactive_user.password
+        click_button 'Log in'
+        expect(page).to have_content('Your account is not active.')
+        expect(page).to have_current_path(root_path) # Redirected to root because the account is inactive
       end
     end
   end

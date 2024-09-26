@@ -7,9 +7,8 @@
       <div class="ms-auto">
         <% if Rails.env.development? || Rails.env.test? %>
           <%= link_to 'Dev Log in', new_dev_session_path, class: 'btn btn-secondary text-white' %>
-        <% else %>
-          <%= link_to 'Log in', new_session_path, class: 'btn btn-secondary text-white' %>
         <% end %>
+        <%= link_to 'Log in', new_session_path, class: 'btn btn-secondary text-white' %>
       </div>
     </div>
   </div>

@@ -15,10 +15,10 @@ RSpec.describe DevSessionsController, type: :controller do
 
   describe 'POST #create' do
     context 'with valid credentials' do
-      it 'logs in the user and redirects to root path' do
+      it 'logs in the user and redirects to conservation records path' do
         post :create, params: { email: user.email, password: 'notapassword' }
         expect(session[:user_id]).to eq(user.id)
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(conservation_records_path)
         expect(flash[:notice]).to eq('Signed in successfully')
       end
     end
@@ -50,21 +50,6 @@ RSpec.describe DevSessionsController, type: :controller do
       expect(session[:user_id]).to be_nil
       expect(response).to redirect_to(root_path)
       expect(flash[:notice]).to eq('Logged out successfully')
-    end
-  end
-
-  describe 'GET #shibboleth_logout' do
-    before { session[:user_id] = user.id }
-
-    it 'logs out the user, resets session, clears cookies, and redirects to Shibboleth logout URL' do
-      with_environment('development') do
-        expect(session[:user_id]).to eq(user.id)
-        get :shibboleth_logout
-        expect(session[:user_id]).to be_nil
-        expect(cookies.to_hash).to be_empty # Ensure cookies are cleared
-        expect(response).to redirect_to(/#{DevSessionsController::SHIBBOLETH_LOGOUT_URL}/)
-        expect(flash[:notice]).to eq('Logged out successfully via Shibboleth')
-      end
     end
   end
 
