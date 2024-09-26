@@ -12,12 +12,21 @@ module Authentication
     @current_user.role == 'admin'
   end
 
+  def reset_session_and_cookies
+    reset_session
+    cookies.clear
+  end
+
   private
 
   def authenticate_user!
     return if user_signed_in?
 
-    redirect_to new_session_path, alert: 'You need to sign in before continuing.'
+    if Rails.env.development? || Rails.env.test?
+      redirect_to new_dev_session_path, alert: 'You need to sign in before continuing.'
+    else
+      redirect_to new_session_path, alert: 'You need to sign in before continuing.'
+    end
   end
 
   def check_user_active

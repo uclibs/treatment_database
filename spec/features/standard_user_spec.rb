@@ -10,7 +10,7 @@ RSpec.describe 'Standard User Tests', type: :feature do
   it 'allows User to login and show Conservation Records' do
     # Login
 
-    visit new_session_path
+    visit new_dev_session_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
     click_button 'Log in'
