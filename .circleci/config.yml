@@ -99,8 +99,13 @@ jobs:
       - run:
           name: Run Tests with Split by Timing Data
           command: |
-            bundle exec rspec --format progress --format RspecJunitFormatter --out ~/treatment_database/test_results/rspec.xml \
-            $(circleci tests split --split-by=timings)
+            # Log the test files for visibility
+            echo "Running tests on node $(circleci env subst '${CIRCLE_NODE_INDEX}/${CIRCLE_NODE_TOTAL}')"
+            TEST_FILES=$(circleci tests split --split-by=timings)
+            echo "Test files for this node: $TEST_FILES"
+            
+            # Run RSpec with the split test files
+            bundle exec rspec --format progress --format RspecJunitFormatter --out ~/treatment_database/test_results/rspec.xml $TEST_FILES
 
       # Upload coverage results to Coveralls
       - coveralls/upload:
