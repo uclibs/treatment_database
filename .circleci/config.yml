@@ -97,9 +97,10 @@ jobs:
 
       # Run tests in parallel
       - run:
-          name: Run Tests with Parallelism
+          name: Run Tests with Split by Timing Data
           command: |
-            bundle exec rspec --profile --format progress --format RspecJunitFormatter --out ~/treatment_database/test_results/rspec.xml
+            bundle exec rspec --format progress --format RspecJunitFormatter --out ~/treatment_database/test_results/rspec.xml \
+            $(circleci tests split --split-by=timings)
 
       # Upload coverage results to Coveralls
       - coveralls/upload:
