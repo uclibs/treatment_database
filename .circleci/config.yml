@@ -97,15 +97,28 @@ jobs:
 
       # Run tests in parallel
       - run:
-          name: Run Tests with Split by Timing Data
+          name: Run Tests with Split by Name
           command: |
-            # Log the test files for visibility
-            echo "Running tests on node $(circleci env subst '${CIRCLE_NODE_INDEX}/${CIRCLE_NODE_TOTAL}')"
-            TEST_FILES=$(circleci tests split --split-by=timings)
+            TEST_FILES=$(find spec -type f -name "*_spec.rb" | circleci tests split --split-by=name)
             echo "Test files for this node: $TEST_FILES"
             
-            # Run RSpec with the split test files
             bundle exec rspec --format progress --format RspecJunitFormatter --out ~/treatment_database/test_results/rspec.xml $TEST_FILES
+
+
+#      # Run tests in parallel
+#      - run:
+#          name: Run Tests with Split by Timing Data
+#          command: |
+#            # Log the node index and total nodes
+#            echo "Running tests on node $(circleci env subst '${CIRCLE_NODE_INDEX}/${CIRCLE_NODE_TOTAL}')"
+#
+#            # List the test files and split them by timings
+#            TEST_FILES=$(find spec -type f -name "*_spec.rb" | circleci tests split --split-by=timings)
+#            echo "Test files for this node: $TEST_FILES"
+#
+#            # Run RSpec with the split test files
+#            bundle exec rspec --format progress --format RspecJunitFormatter --out ~/treatment_database/test_results/rspec.xml $TEST_FILES
+
 
       # Upload coverage results to Coveralls
       - coveralls/upload:
