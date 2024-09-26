@@ -109,6 +109,10 @@ jobs:
             # Run RSpec with the split test files
             bundle exec rspec --format progress --format RspecJunitFormatter --out ~/treatment_database/test_results/rspec.xml $TEST_FILES
 
+      # Store the test results (JUnit XML) for future runs
+      - store_test_results:
+          path: ~/treatment_database/test_results
+
       # Upload coverage results to Coveralls
       - coveralls/upload:
           parallel: true
