@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <%= link_to 'Treatment Database', root_path, class: 'navbar-brand' %>
+
+    <!-- Hamburger menu button -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ms-auto d-flex align-items-lg-center text-start text-lg-end">
+
+        <% # Get navigation links for the current user %>
+        <% nav_links_for_user.each_with_index do |link, index| %>
+          <li class="nav-item d-flex justify-content-center align-items-center"> <!-- Centering both horizontally and vertically -->
+            <%= link_to(link[:title], link[:path], class: 'nav-link text-center') %> <!-- Ensure the text is centered -->
+          </li>
+          <% if index < nav_links_for_user.size - 1 %>
+            <li class="nav-item nav-link justify-content-center align-items-center divider">|</li>
+          <% end %>
+        <% end %>
+
+        <!-- Search form -->
+        <li class="nav-item d-flex justify-content-center align-items-center m-2">
+          <form class="form-inline d-flex" action="/search" accept-charset="UTF-8" method="get">
+            <input id="search" placeholder="Search" class="form-control me-2" type="text" name="search">
+            <a class="search-help-icon align-self-center me-2" href="/search/help">(?)</a>
+            <button type="submit" class="btn btn-primary m-2">Search</button>
+          </form>
+        </li>
+
+        <!-- User Dropdown -->
+        <% if current_user.present? %>
+          <li class="nav-item dropdown d-flex justify-content-center align-items-center m-2">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= current_user.display_name %>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <%= link_to "Edit account", edit_user_path(current_user), class: 'dropdown-item' %>
+              <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
+            </div>
+          </li>
+        <% end %>
+
+      </ul>
+    </div>
+  </div>
+</nav>
