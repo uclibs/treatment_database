@@ -1,3 +1,22 @@
+# 1.2.0
+
+## What's Changed
+* LIBTREATDB-70 Update to bootstrap 5
+* LIBTREATDB-75 Fix Feature Test
+* LIBTREATDB-74 Update User Checkbox to Slider
+* LIBTREATDB-73 Improve menu responsiveness
+* Bump rexml from 3.3.4 to 3.3.6
+* Bundle Update
+* LIBTREATDB-77 Improve Seed File
+* LIBTREATDB-79 Clarify Ability Model
+* Bump webpack from 5.92.0 to 5.94.0
+* LIBTREATDB-78 Remove Login Logic from Nav Bar
+* LIBTREATDB-22 Add parellism to Circle CI
+* Update README.md
+* LIBTREATDB-66 Update Database Cleaner Strategies
+
+*** Full Changelog**: https://github.com/uclibs/treatment_database/compare/1.1.0...1.2.0
+
 # 1.1.0
 
 ## What's Changed
