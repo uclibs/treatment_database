@@ -12,15 +12,14 @@ import jQuery from 'jquery';
 window.jQuery = jQuery;
 window.$ = jQuery;
 
-// Import Popper
-import Popper from 'popper.js';
-window.Popper = Popper;
-
-// Import Bootstrap JavaScript
+// Import Bootstrap JavaScript and CSS
 import 'bootstrap';
 
 // Import custom CSS
 import './stylesheets/application.scss';
+
+// Import custom JavaScript
+import './custom/account_active_toggle_switch.js';
 
 // Import all the images in the images file:
 function importAll(r) {

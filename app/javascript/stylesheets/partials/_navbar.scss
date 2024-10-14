@@ -1,0 +1,17 @@
+.user-menu {
+  margin: .5rem; /* Aligns the user menu to the right */
+}
+
+@media (max-width: 992px) {
+  .divider {
+    display: none; /* Hide the navbar dividers on smaller screens */
+  }
+
+  .nav-item {
+    align-self: flex-start; /* Aligns the items to the start of the flex container */
+  }
+
+  .user-menu {
+    margin-left: 0; /* Removes the margin on the left side of the dropdown */
+  }
+}

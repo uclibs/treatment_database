@@ -17,24 +17,26 @@ class UsersController < ApplicationController
 
   def create_user
     @user = User.new(user_params)
+
     if @user.save
-      if current_user.present? && current_user.role == 'admin'
-        redirect_to users_path
-      else
-        sign_in(@user)
-        redirect_to after_sign_in_path_for(@user)
-      end
       flash[:notice] = 'Successfully created User.'
+      redirect_to users_path
     else
-      flash[:notice] = @user.errors.full_messages.first
+      flash.now[:notice] = @user.errors.full_messages.first
       redirect_back fallback_location: root_path
     end
   end
 
   def update
-    user = User.find(params[:id])
-    user.update!(user_params)
-    redirect_to users_path
+    @user = User.find(params[:id])
+
+    if @user.update(user_params)
+      flash[:notice] = 'User was successfully updated.'
+      redirect_to users_path
+    else
+      flash.now[:alert] = @user.errors.full_messages.first
+      render :edit
+    end
   end
 
   private

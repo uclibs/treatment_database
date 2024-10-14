@@ -31,10 +31,10 @@ gem 'syslog', '~> 0.1.2' # Provides a way to send messages to the system logger
 gem 'puma' # A fast, multithreaded, and highly concurrent web server for Ruby/Rack applications
 
 # Frontend and Styles
-gem 'bootstrap', '~> 4.3.1' # Front-end framework for developing responsive, mobile-first projects
-gem 'jbuilder', '~> 2.5' # Used for building JSON structures in a builder-style syntax
+gem 'bootstrap', '~> 5.3.3' # Front-end framework for developing responsive, mobile-first projects
 gem 'jquery-rails' # Provides jQuery and the jQuery UJS driver for Rails
 gem 'jsbundling-rails' # Manages JavaScript bundling with modern tools like Webpack or esbuild
+gem 'sassc-rails', '~> 2.1' # SASSC adapter for Rails, needed for Bootstrap 5
 gem 'turbolinks', '~> 5' # Makes navigating your site faster by using AJAX to load only the HTML needed
 
 # Authentication and Authorization
@@ -46,6 +46,7 @@ gem 'nokogiri' # HTML, XML, SAX, and Reader parser
 gem 'pagy' # Pagination library that is fast, lightweight, and flexible
 gem 'paper_trail' # Track changes to your models' data
 gem 'pdfkit' # Uses wkhtmltopdf to generate PDFs from HTML
+gem 'rexml', '>= 3.3.6' # XML processing library, now a direct dependency for security management
 gem 'wkhtmltopdf-binary', '>= 0.12.6.7' # Enables PDF generation from HTML
 
 # Windows specific timezone data
@@ -56,7 +57,6 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw] # Debugging tool for Ruby
 
   # Testing libraries
-  gem 'database_cleaner' # Strategies for cleaning databases in Ruby
   gem 'factory_bot_rails' # A fixtures replacement with a straightforward definition syntax
   gem 'rails-controller-testing' # Adds missing helper methods for controller tests in Rails 5
   gem 'rspec_junit_formatter' # Outputs RSpec results in JUnit format
@@ -95,6 +95,7 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15' # Integration testing tool for rack-based web applications
+  gem 'database_cleaner-active_record' # Strategies for cleaning databases in Ruby
   gem 'launchy' # Opens a given URL in a browser
 end
 

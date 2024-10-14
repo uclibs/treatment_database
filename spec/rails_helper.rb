@@ -1,54 +1,81 @@
 # frozen_string_literal: true
 
-# This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
 Rails.env = 'test'
+
+require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
-# Prevent database truncation if the environment is production
-abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'factory_bot'
 require 'rspec/rails'
 require 'paper_trail/frameworks/rspec'
 require 'capistrano-spec'
 
+# Prevent database truncation if the environment is production
+abort('The Rails environment is running in production mode!') if Rails.env.production?
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
-# Requires supporting ruby files with custom matchers and macros, etc, in
-# spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
-# run as spec files by default. This means that files in spec/support that end
-# in _spec.rb will both be required and run as specs, causing the specs to be
-# run twice. It is recommended that you do not name files matching this glob to
-# end with _spec.rb. You can configure this pattern with the --pattern
-# option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
-
 # Auto-require all Ruby files in the spec/support directory.
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Rails.root.glob('spec/support/**/*.rb').each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
-# If you are not using ActiveRecord, you can remove these lines.
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
 RSpec.configure do |config|
   config.include_context 'rake', type: :task
   config.include_context 'job', type: :job
+  config.include DownloadLinkHelper, type: :feature
+  config.include AxeHelper, type: :system
+  config.include WindowResizer, type: :system
+  config.include WindowResizer, type: :feature
 
-  # Load all Capistrano tasks before running any tests
   config.before(:suite) do
+    # Ensure the database is clean and fresh
+    DatabaseCleaner.clean_with(:truncation)
+
+    # Load all Capistrano tasks
     Rails.application.load_tasks
     Rails.root.glob('lib/capistrano/tasks/*.rake').each { |file| load file }
+  end
+
+  config.before(:each, type: :feature) do
+    Capybara.reset_sessions!
+  end
+
+  config.before(:each, type: :system) do |_example|
+    driven_by :selenium_chrome_headless_sandboxless
+    set_default_window_size
+  end
+
+  config.before(:each, type: :feature) do |_example|
+    # Only resize the window if the test is using a browser-based driver
+    set_default_window_size if page.driver.browser.respond_to?(:manage)
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = Rails.root.join('spec/fixtures').to_s
 
-  # If you're not using ActiveRecord, or you'd prefer not to run each of your
-  # examples within a transaction, remove the following line or assign false
-  # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
+
+  config.before do |example|
+    if example.metadata[:type] == :feature && Capybara.current_driver != :rack_test
+      DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.start
+    end
+
+    # Reload seeds before each test to ensure the seed data is available
+    Rails.application.load_seed
+  end
+
+  config.after do
+    DatabaseCleaner.clean
+  end
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -70,8 +97,6 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.include FactoryBot::Syntax::Methods
-
-  Rails.application.load_seed
 
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request

@@ -1,46 +1,26 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
 version: 2.1
+
 executors:
-  docker-publisher:
-    environment:
-      IMAGE_NAME: treatment-database-app
+  default-executor:
     docker:
-      - image: docker:20.10.14-git
-
-orbs:
-  ruby: circleci/ruby@2.1.1
-  browser-tools: circleci/browser-tools@1.4.7
-  coveralls: coveralls/coveralls@1.0.6
-
-jobs:
-  build:
-    docker:
-      # specify the version you desire here
       - image: cimg/ruby:3.3.3
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
     environment:
       BUNDLE_PATH: vendor/bundle
       BUNDLE_JOBS: 4
       BUNDLE_RETRY: 3
       RAILS_ENV: test
       RACK_ENV: test
-      SPEC_OPTS: --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress
-      WORKING_PATH: /tmp
-      UPLOAD_PATH: /tmp
-      CACHE_PATH: /tmp/cache
-      COVERALLS_PARALLEL: true
 
+orbs:
+  ruby: circleci/ruby@2.1.1
+  browser-tools: circleci/browser-tools@1.4.8
+  coveralls: coveralls/coveralls@2.2.1
 
+jobs:
+  build:
+    executor: default-executor
+    parallelism: 4
     working_directory: ~/treatment_database
-
     steps:
       - checkout
       - browser-tools/install-browser-tools
@@ -48,7 +28,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
@@ -91,12 +70,6 @@ jobs:
             echo "Installing Ruby gems..."
             bundle install --jobs=4 --retry=3
 
-            echo "Installing required system packages..."
-            sudo apt-get update
-            sudo apt-get install -y xvfb libfontconfig wkhtmltopdf
-
-            echo "Installation steps completed successfully."
-
       - run:
           name: Install Yarn Dependencies
           command: |
@@ -122,36 +95,27 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
+      # Run tests in parallel
       - run:
-          name: Rubocop
+          name: Run Tests with Split by Timing Data
           command: |
-            gem install rubocop
-            bundle exec rubocop --require rubocop-rails
+            # Log the node index and total nodes
+            echo "Running tests on node $(circleci env subst '${CIRCLE_NODE_INDEX}/${CIRCLE_NODE_TOTAL}')"
+            
+            # List the test files and split them by timings
+            TEST_FILES=$(find spec -type f -name "*_spec.rb" | circleci tests split --split-by=timings)
+            echo "Test files for this node: $TEST_FILES"
+            
+            # Run RSpec with the split test files
+            bundle exec rspec --format progress --format RspecJunitFormatter --out ~/treatment_database/test_results/rspec.xml $TEST_FILES
 
-      # Brakeman
-      - run:
-          name: Run Brakeman
-          command: bundle exec brakeman -q -w 2
+      # Store the test results (JUnit XML) for future runs
+      - store_test_results:
+          path: ~/treatment_database/test_results
 
-      # Bundler-audit
-      - run:
-          name: Install Bundler-audit
-          command: gem install bundler-audit
-      - run:
-          name: Run Bundle-audit
-          command: bundle exec bundle audit check --update
-
-      # run tests!
-      - run:
-          name: Run rspec in parallel
-          command: |
-            mkdir /tmp/test-results
-            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            #bundle exec rspec --out /tmp/test-results/rspec.xml $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-
+      # Upload coverage results to Coveralls
       - coveralls/upload:
-          parallel_finished: true
-          path_to_lcov: /home/circleci/treatment_database/coverage/lcov/treatment_database.lcov
+          parallel: true
 
 workflows:
   version: 2

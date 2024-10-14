@@ -38,21 +38,60 @@ yarn install # Installs the node modules
 yarn build # Builds the front-end assets
 ```
 
-## Preparing the database.
+## Preparing the Database
+Before you can run the application, you need to set up the database. Follow these steps to prepare the database:
 
-```bash
-rails db:migrate
-rails db:seed
-rails server
-rails db:seed # (Optional, for example works used in development)
+### Migrate the Database
+   Run the database migrations to set up the necessary tables:
 ```
+rails db:create
+rails db:migrate
+```
+### Seed the Database
+#### For Development and Test Environments:
+
+In development and test environments, running the seeds will create some default user accounts and sample conservation records. These are intended for testing and local development purposes.
+```
+rails db:seed
+```
+#### For Production Environments:
+
+In production, the default seed data is not automatically created to avoid adding test accounts and sample data. If you need to seed specific production data, you can manually add it to the db/seeds/production.rb file or run specific tasks designed for production.
+```
+# Example (only if necessary and defined in your seeds):
+RAILS_ENV=production rails db:seed
+Note: Be cautious when seeding in production to avoid inserting unintended data.
+```
+
+### Start the Server
+   Once the database is prepared, you can start the server:
+
+```
+rails server
+```
+
 ## Running the Tests
 
 The treatment database has a test suite built with rspec, running it is simple, just call the following in the project directory:
 
+### Automated Testing
 ```bash
+# If you haven't already done so, run:
+bundle instal
+yarn instal
+yarn build
+# and then run the tests with:
 bundle exec rspec
 ```
+
+### Manual Testing
+When you ran `rails db:seed`, you created three user accounts:
+- an admin account with the username `chuck@chuck.codes` and password `notapass`
+- a standard user account with the username `jkrowling@example.com` and password `notapass`
+- a read-only user account with the email `johngreen@example.com` and password `notapass`
+
+You can use these accounts to test the application. The admin account has full access to the application, the standard
+user account has access to most features, and the read-only user account can only view the data.
 
 ## Deploy Instructions
 Use Capistrano for deploying to QA and Production environments; local deploy not supported.
