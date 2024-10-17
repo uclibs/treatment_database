@@ -5,7 +5,6 @@ require 'rails_helper'
 # frozen_string_literal: true
 
 RSpec.describe 'Navigation Menu', type: :system do
-
   context 'when the user is logged out' do
     it 'displays the log in button on large screens' do
       resize_window_to(1024, 768)

@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Navigation Menu Accessibility', type: :system do
-
   context 'when the user is logged out' do
     it 'has no major accessibility violations on the navigation menu' do
       system_logout

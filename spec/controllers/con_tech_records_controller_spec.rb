@@ -61,27 +61,32 @@ RSpec.describe ConTechRecordsController, type: :controller do
     end
 
     context 'when the record does not exist' do
-      it 'raises an error and does not change the count' do
+      it 'does not change the count and renders a 404 page' do
         expect do
-          delete :destroy, params: { id: 'invalid_id', conservation_record_id: conservation_record.id }
-        end.to raise_error(ActiveRecord::RecordNotFound)
+          delete :destroy, params: { conservation_record_id: conservation_record.id, id: 'non-existent-id' }
+        end.not_to change(ConTechRecord, :count)
+
+        expect(response).to have_http_status(:not_found)
+        expect(response).to render_template('errors/not_found')
       end
     end
   end
 
   describe 'authentication' do
     context 'when not authenticated' do
-      before { sign_out user }
+      before do
+        controller_logout
+      end
 
       it 'redirects to the login page for create' do
         post :create, params: { con_tech_record: valid_attributes, conservation_record_id: conservation_record.id }
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_session_path)
       end
 
       it 'redirects to the login page for destroy' do
         con_tech_record = ConTechRecord.create!(valid_attributes.merge(conservation_record_id: conservation_record.id))
         delete :destroy, params: { id: con_tech_record.to_param, conservation_record_id: conservation_record.id }
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_session_path)
       end
     end
   end

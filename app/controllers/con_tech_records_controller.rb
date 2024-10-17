@@ -17,8 +17,8 @@ class ConTechRecordsController < ApplicationController
   end
 
   def destroy
-    @conservation_record = ConservationRecord.find(params[:conservation_record_id])
-    @con_tech_record = @conservation_record.con_tech_records.find(params[:id])
+    @conservation_record = ConservationRecord.find(delete_params[:conservation_record_id])
+    @con_tech_record = @conservation_record.con_tech_records.find(delete_params[:id])
     @con_tech_record.destroy
     redirect_to "#{conservation_record_path(@conservation_record)}#conservators-and-technicians"
   end
@@ -27,5 +27,9 @@ class ConTechRecordsController < ApplicationController
 
   def create_params
     params.require(:con_tech_record).permit(:performed_by_user_id)
+  end
+
+  def delete_params
+    params.permit(:id, :conservation_record_id)
   end
 end

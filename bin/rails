@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby
-<<<<<<< HEAD
 
-=======
->>>>>>> d0b924e (LIBTREATDB-56 Replace Devise with Custom Session Management - FEATURE BRANCH (#532))
 # frozen_string_literal: true
 
 begin
