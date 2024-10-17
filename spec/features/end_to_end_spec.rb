@@ -122,6 +122,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     # External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
+    expect(page).to have_text('Repaired By', wait: 5)
     expect(page).to have_button('Create External Repair Record')
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_type', match: :first)
@@ -329,6 +330,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     # Create External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
+    expect(page).to have_text('Repaired By', wait: 5)
     expect(page).to have_button('Create External Repair Record')
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_type', match: :first)
