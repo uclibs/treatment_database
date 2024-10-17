@@ -32,7 +32,7 @@ class Ability
     can :view_pdfs, ConservationRecord
     can :crud, [ConservationRecord, ExternalRepairRecord, InHouseRepairRecord, ConTechRecord, CostReturnReport]
     can :index, ConservationRecord
-    can %i[read update], User, id: user.id
+    can %i[read edit update], User, id: user.id
     cannot :index, User
   end
 
