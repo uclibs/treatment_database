@@ -2,6 +2,29 @@
   margin: .5rem; /* Aligns the user menu to the right */
 }
 
+.navbar-nav .nav-item {
+  flex-shrink: 1; /* Allow nav items to shrink */
+}
+
+.navbar-nav {
+  flex-shrink: 1; /* Allow the navbar to shrink */
+}
+
+//On medium screens, the menu was overflowing the screen.
+@media (max-width: 1200px) {
+  .nav-item {
+    margin: 0 !important; /* Remove margin from the nav items */
+  }
+  .divider {
+    display: none !important; /* Hide the navbar dividers on smaller screens */
+  }
+
+  button {
+    padding: 0.25rem 0.5rem !important; /* Add padding to the buttons */
+  }
+}
+
+//On smaller screens, use a hamburger menu
 @media (max-width: 992px) {
   .divider {
     display: none; /* Hide the navbar dividers on smaller screens */
