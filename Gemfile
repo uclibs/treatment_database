@@ -9,9 +9,12 @@ ruby '3.3.3'
 gem 'dotenv-rails' # Loads environment variables from .env
 
 # Core Rails gems
+gem 'actionmailer', '~>6.1.7.9' # Email composition, delivery, and receiving with Action Mailer
+gem 'actionpack', '~>6.1.7.9' # Handles web requests and responses with Action Controller and Action Dispatch
+gem 'actiontext', '~>6.1.7.9' # Rich text content and editing with Action Text
 gem 'activestorage' # Handles file uploads in Rails applications
 gem 'mutex_m' # Being removed from Ruby soon, required for activestorage
-gem 'rails', '~> 6.1' # The Rails framework
+gem 'rails', '~> 6.1.7.9' # The Rails framework
 gem 'sprockets-rails', '~> 3.4' # Sprockets adapter for Rails, needed for deploy:assets:precompile steps
 gem 'sqlite3', '~> 1.4' # SQLite3 database adapter for ActiveRecord
 
