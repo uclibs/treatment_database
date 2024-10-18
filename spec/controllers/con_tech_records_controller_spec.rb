@@ -78,15 +78,15 @@ RSpec.describe ConTechRecordsController, type: :controller do
         controller_logout
       end
 
-      it 'redirects to the login page for create' do
+      it 'redirects to the root page for create' do
         post :create, params: { con_tech_record: valid_attributes, conservation_record_id: conservation_record.id }
-        expect(response).to redirect_to(new_session_path)
+        expect(response).to redirect_to(root_path)
       end
 
       it 'redirects to the login page for destroy' do
         con_tech_record = ConTechRecord.create!(valid_attributes.merge(conservation_record_id: conservation_record.id))
         delete :destroy, params: { id: con_tech_record.to_param, conservation_record_id: conservation_record.id }
-        expect(response).to redirect_to(new_session_path)
+        expect(response).to redirect_to(root_path)
       end
     end
   end

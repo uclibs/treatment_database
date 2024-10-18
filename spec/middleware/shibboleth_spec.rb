@@ -24,4 +24,22 @@ RSpec.describe Middleware::Shibboleth do
     expect(last_request.env['Shib-Attributes'][:first_name]).to eq('Test')
     expect(last_request.env['Shib-Attributes'][:last_name]).to eq('User')
   end
+
+  it 'sets Shib-Error if any required Shibboleth attribute is missing' do
+    # Simulate a request with missing Shibboleth attributes (no username)
+    env = { 'mail' => 'test@example.com', 'givenName' => 'Test', 'sn' => 'User' }
+    get '/', {}, env
+
+    expect(last_request.env['Shib-Error']).to eq('Sign in failed: Required Shibboleth attributes missing')
+    expect(last_request.env['Shib-Attributes']).to be_nil
+  end
+
+  it 'sets Shib-Error if no Shibboleth attributes are provided' do
+    # Simulate a request with no Shibboleth attributes
+    env = {}
+    get '/', {}, env
+
+    expect(last_request.env['Shib-Error']).to eq('Sign in failed: Required Shibboleth attributes missing')
+    expect(last_request.env['Shib-Attributes']).to be_nil
+  end
 end

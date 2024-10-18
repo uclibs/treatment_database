@@ -8,6 +8,7 @@ require 'rspec/rails'
 require 'factory_bot'
 require 'paper_trail/frameworks/rspec'
 require 'capistrano-spec'
+require 'show_me_the_cookies'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -36,6 +37,8 @@ RSpec.configure do |config|
   config.include RequestAuthenticationHelper, type: :request
   config.include SystemAuthenticationHelper, type: :system
   config.include ControllerAuthenticationHelper, type: :controller
+  config.include AuthenticationHelpers, type: :feature
+  config.include TestEnvironmentHelper
 
   config.include FactoryBot::Syntax::Methods
 
@@ -80,4 +83,6 @@ RSpec.configure do |config|
   config.fixture_path = Rails.root.join('spec/fixtures').to_s
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
+
+  config.include FactoryBot::Syntax::Methods
 end

@@ -8,6 +8,7 @@ class Ability
 
     alias_action :create, :read, :update, :destroy, to: :crud
     alias_action :treatment_report, :abbreviated_treatment_report, :conservation_worksheet, to: :view_pdfs
+
     case user.role
     when 'admin'
       admin_permissions

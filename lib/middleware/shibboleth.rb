@@ -8,19 +8,30 @@ module Middleware
 
     def call(env)
       request = Rack::Request.new(env)
+      shib_attributes = extract_shibboleth_attributes(request)
 
-      # Extract Shibboleth attributes from the request environment
-      shib_attributes = {
+      if missing_attributes?(shib_attributes)
+        env['Shib-Error'] = 'Sign in failed: Required Shibboleth attributes missing'
+      else
+        env['Shib-Attributes'] = shib_attributes
+      end
+
+      @app.call(env)
+    end
+
+    private
+
+    def extract_shibboleth_attributes(request)
+      {
         email: request.env['mail'],
         username: request.env['uid'],
         first_name: request.env['givenName'],
         last_name: request.env['sn']
       }
+    end
 
-      # Store Shibboleth attributes in the environment
-      env['Shib-Attributes'] = shib_attributes
-
-      @app.call(env)
+    def missing_attributes?(shib_attributes)
+      shib_attributes.values.any?(&:nil?)
     end
   end
 end
