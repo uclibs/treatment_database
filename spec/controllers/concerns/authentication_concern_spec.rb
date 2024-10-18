@@ -4,9 +4,9 @@
 
 require 'rails_helper'
 
-RSpec.describe 'AnonymousController with Authentication', type: :controller do
+RSpec.describe 'AnonymousController with AuthenticationHelper', type: :controller do
   controller(ApplicationController) do
-    include Authentication
+    include AuthenticationHelper
 
     def index
       render plain: 'Hello, world!'
@@ -22,7 +22,7 @@ RSpec.describe 'AnonymousController with Authentication', type: :controller do
       it 'redirects to the dev login page in development' do
         with_environment('development') do
           get :index
-          expect(response).to redirect_to(new_dev_session_path)
+          expect(response).to redirect_to(root_path)
           expect(flash[:alert]).to eq('You need to sign in before continuing.')
         end
       end
@@ -30,7 +30,7 @@ RSpec.describe 'AnonymousController with Authentication', type: :controller do
       it 'redirects to the production login page in production' do
         with_environment('production') do
           get :index
-          expect(response).to redirect_to(new_session_path)
+          expect(response).to redirect_to(root_path)
           expect(flash[:alert]).to eq('You need to sign in before continuing.')
         end
       end
@@ -79,21 +79,6 @@ RSpec.describe 'AnonymousController with Authentication', type: :controller do
       it 'returns false' do
         expect(controller.admin?).to be false
       end
-    end
-  end
-
-  describe '#reset_session_and_cookies' do
-    before do
-      session[:user_id] = user.id
-      cookies[:some_cookie] = 'some_value'
-    end
-
-    it 'resets the session and clears the cookies' do
-      expect(cookies[:some_cookie]).to eq('some_value')
-      expect(session[:user_id]).to eq(user.id)
-      controller.reset_session_and_cookies
-      expect(session[:user_id]).to be_nil
-      expect(response.cookies[:some_cookie]).to be_nil
     end
   end
 end

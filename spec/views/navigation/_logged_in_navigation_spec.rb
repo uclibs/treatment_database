@@ -13,7 +13,7 @@ RSpec.describe 'navigation/_logged_in_navigation.html.erb', type: :view do
 
   shared_examples 'common links for logged-in users' do
     it 'displays navigation links common to all users' do
-      expect(rendered).not_to have_link('Log in')
+      expect(rendered).not_to have_link('Sign In')
       expect(rendered).to have_link('Treatment Database', href: root_path)
       expect(rendered).to have_button('Search')
 

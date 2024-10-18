@@ -49,7 +49,7 @@ describe ApplicationController, type: :controller do
         expect(response).to redirect_to(root_path)
 
         # Check for session expired flash message
-        expect(flash[:alert]).to eq('Your session has expired. Please log in again.')
+        expect(flash[:alert]).to eq('Your session has expired. Please sign in again.')
       end
     end
   end

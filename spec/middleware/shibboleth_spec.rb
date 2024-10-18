@@ -30,7 +30,7 @@ RSpec.describe Middleware::Shibboleth do
     env = { 'mail' => 'test@example.com', 'givenName' => 'Test', 'sn' => 'User' }
     get '/', {}, env
 
-    expect(last_request.env['Shib-Error']).to eq('Login failed: Required Shibboleth attributes missing')
+    expect(last_request.env['Shib-Error']).to eq('Sign in failed: Required Shibboleth attributes missing')
     expect(last_request.env['Shib-Attributes']).to be_nil
   end
 
@@ -39,7 +39,7 @@ RSpec.describe Middleware::Shibboleth do
     env = {}
     get '/', {}, env
 
-    expect(last_request.env['Shib-Error']).to eq('Login failed: Required Shibboleth attributes missing')
+    expect(last_request.env['Shib-Error']).to eq('Sign in failed: Required Shibboleth attributes missing')
     expect(last_request.env['Shib-Attributes']).to be_nil
   end
 end

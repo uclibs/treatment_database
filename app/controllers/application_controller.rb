@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::Base
   include Pagy::Backend
-  include Authentication
+  include AuthenticationHelper
 
   before_action :set_paper_trail_whodunnit
 
@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
   def handle_invalid_auth_token
     # Redirect to a safe page like the homepage and show a flash message
-    redirect_to root_path, alert: 'Your session has expired. Please log in again.'
+    redirect_to root_path, alert: 'Your session has expired. Please sign in again.'
   end
 
   def render404

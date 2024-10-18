@@ -55,8 +55,12 @@ RSpec.describe SessionsController, type: :controller do
       allow(controller).to receive(:shibboleth_callback_url).and_return('http://test.host/shibboleth_callback')
 
       with_environment('production') do
+        ENV['SHIBBOLETH_LOGIN_URL'] = 'http://test.host/login'
+
         get :new
-        expect(response).to redirect_to("#{SessionsController::SHIBBOLETH_LOGIN_URL}?target=#{shibboleth_callback_url}")
+        expected_url = "#{ENV.fetch('SHIBBOLETH_LOGIN_URL', nil)}?target=#{CGI.escape('http://test.host/shibboleth_callback')}"
+
+        expect(response).to redirect_to(expected_url)
       end
     end
   end
@@ -106,12 +110,12 @@ RSpec.describe SessionsController, type: :controller do
 
       context 'user not found in app user list' do
         before { request.env.merge!(shib_attributes_invalid_user) }
-        include_examples 'failed login due to', 'Login failed: Username not found'
+        include_examples 'failed login due to', 'Sign in failed: Username not found'
       end
 
       context 'missing username in Shibboleth attributes' do
         before { request.env.merge!(shib_attributes_missing_username) }
-        include_examples 'failed login due to', 'Login failed: Username not found'
+        include_examples 'failed login due to', 'Sign in failed: Username not found'
       end
 
       context 'Shibboleth error present' do
@@ -120,14 +124,14 @@ RSpec.describe SessionsController, type: :controller do
       end
 
       context 'missing Shibboleth attributes' do
-        before { request.env.merge!('Shib-Error' => 'Login failed: Required Shibboleth attributes missing') }
+        before { request.env.merge!('Shib-Error' => 'Sign in failed: Required Shibboleth attributes missing') }
 
         it 'clears the session and cookies and redirects' do
           get :shibboleth_callback
           expect(session[:user_id]).to be_nil
           expect(cookies.to_hash).to be_empty
           expect(response).to redirect_to(root_path)
-          expect(flash[:alert]).to eq('Login failed: Required Shibboleth attributes missing')
+          expect(flash[:alert]).to eq('Sign in failed: Required Shibboleth attributes missing')
         end
       end
     end
@@ -142,12 +146,21 @@ RSpec.describe SessionsController, type: :controller do
 
       it 'logs out the user, resets session, clears cookies, and redirects to Shibboleth logout URL' do
         with_environment('production') do
+          ENV['SHIBBOLETH_LOGOUT_URL'] = 'http://test.host/logout'
+
+          allow(controller).to receive(:root_url).and_return('http://test.host/')
+
           expect(session[:user_id]).to eq(user.id)
+
           delete :destroy
+
           expect(session[:user_id]).to be_nil
-          expect(cookies.to_hash).to be_empty # Ensure cookies are cleared
-          expect(response).to redirect_to(SessionsController::SHIBBOLETH_LOGOUT_URL.to_s)
-          expect(flash[:notice]).to eq('Logged out successfully')
+          expect(cookies.to_hash).to be_empty
+
+          expected_redirect_url = "http://test.host/logout?target=#{CGI.escape('http://test.host/')}"
+
+          expect(response).to redirect_to(expected_redirect_url)
+          expect(flash[:notice]).to eq('Signed out successfully')
         end
       end
     end
@@ -158,11 +171,16 @@ RSpec.describe SessionsController, type: :controller do
         session[:user_id] = inactive_user.id
       end
 
-      it 'logs out the user and redirects to root path' do
-        expect(session[:user_id]).to eq(inactive_user.id)
+      it 'logs out the user and redirects to Shibboleth logout URL' do
+        ENV['SHIBBOLETH_LOGOUT_URL'] = 'http://test.host/logout'
+        allow(controller).to receive(:root_url).and_return('http://test.host/')
+
         delete :destroy
+
+        expected_redirect_url = "http://test.host/logout?target=#{CGI.escape('http://test.host/')}"
+
         expect(session[:user_id]).to be_nil
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(expected_redirect_url)
       end
     end
   end

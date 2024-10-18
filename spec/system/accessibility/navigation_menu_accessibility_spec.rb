@@ -10,19 +10,21 @@ RSpec.describe 'Navigation Menu Accessibility', type: :system do
       check_accessibility_within('.navbar')
     end
 
-    it 'allows the user to click Log in' do
-      resize_window_to(768, 1024)
-      system_logout
-      visit root_path
+    it 'allows the user to click Dev Sign In' do
+      with_environment('development') do
+        resize_window_to(768, 1024)
+        system_logout
+        visit root_path
 
-      # Ensure the 'Dev Log in' button is visible (in the testing environment)
-      expect(page).to have_css('.btn-secondary', text: 'Dev Log in', visible: true)
+        # Ensure the 'Dev Sign in' button is visible (in the testing environment)
+        expect(page).to have_button('Dev Sign In', class: 'btn btn-secondary', visible: true)
 
-      # Click the 'Log in' button
-      find('.btn-secondary', text: 'Dev Log in').click
+        # Click the 'Dev Sign in' button
+        click_button 'Dev Sign In'
 
-      # Check that the user is directed to the login page
-      expect(page).to have_current_path(new_dev_session_path)
+        # Check that the user is directed to the login page
+        expect(page).to have_current_path(dev_login_path)
+      end
     end
   end
 

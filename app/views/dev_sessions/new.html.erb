@@ -1,17 +1,16 @@
 <h1>Welcome Back</h1>
-<h2>Please log in to continue</h2>
+<h2>Please sign in to continue</h2>
 
-<%= form_with(url: dev_sessions_path, local: true) do |form| %>
-  <div>
-    <%= form.label :email %>
-    <%= form.text_field :email %>
+<%= form_with url: dev_login_path, method: :post, local: true do |f| %>
+  <div class="field">
+    <%= f.label :email %>
+    <%= f.text_field :email %>
   </div>
-  <div>
-    <%= form.label :password %>
-    <%= form.password_field :password %>
+  <div class="field">
+    <%= f.label :password %>
+    <%= f.password_field :password %>
   </div>
-  <br/>
-  <div>
-    <%= form.submit 'Log in' %>
+  <div class="actions">
+    <%= f.submit 'Submit' %>
   </div>
 <% end %>

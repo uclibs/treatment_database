@@ -1,26 +1,28 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Shibboleth authentication and sessions
-  resources :sessions, only: %i[new create destroy]
-  delete 'logout', to: 'sessions#destroy', as: :logout
+  # AuthenticationHelper and Sessions
+  ## Production Login (Shibboleth)
+  get 'login', to: 'sessions#new', as: :login
   get 'auth/shibboleth/callback', to: 'sessions#shibboleth_callback', as: :shibboleth_callback
+  delete 'logout', to: 'sessions#destroy', as: :logout
 
-  # Development authentication and sessions
+  ## Development Login (Username/Password)
   if Rails.env.development? || Rails.env.test?
-    resources :dev_sessions, only: %i[new create destroy]
+    get 'dev_login', to: 'dev_sessions#new', as: :dev_login
+    post 'dev_login', to: 'dev_sessions#create'
     delete 'dev_logout', to: 'dev_sessions#destroy', as: :dev_logout
   end
 
-  # Admin namespace for managing users
+  # Admin Namespace for Managing Users
   namespace :admin do
     resources :users # Admins can manage users (CRUD)
   end
 
-  # User management (handled outside admin, excluding create)
+  # User Management (Outside Admin, Excluding Create)
   resources :users, only: %i[edit update show]
 
-  # Resources that require detailed management and associations
+  # Conservation Records and Nested Resources
   resources :conservation_records do
     resources :in_house_repair_records
     resources :external_repair_records
@@ -28,26 +30,28 @@ Rails.application.routes.draw do
     resources :treatment_reports
     resources :abbreviated_treatment_reports
     resources :cost_return_reports
+
+    # Conservation Records-Specific Actions
+    member do
+      get 'conservation_worksheet'
+      get 'treatment_report'
+      get 'abbreviated_treatment_report'
+    end
   end
 
-  # Miscellaneous resource routes
+  # Miscellaneous Resource Routes
   resources :staff_codes, except: [:destroy]
+  resources :controlled_vocabularies, except: [:destroy]
+  resources :activity
   resources :reports do
     get 'download_csv', on: :collection
   end
-  resources :controlled_vocabularies, except: [:destroy]
-  resources :activity
 
-  # Search routes
-  get 'search/help'
-  get 'search', to: 'search#results', as: 'search'
+  # Search Routes
+  get 'search/help', to: 'search#help', as: :search_help
+  get 'search', to: 'search#results', as: :search
 
-  # Root and front routes
+  # Root and Front Routes
   root 'front#index'
-  get 'front/index'
-
-  # Conservation records-specific actions
-  get 'conservation_records/:id/conservation_worksheet', to: 'conservation_records#conservation_worksheet', as: 'conservation_worksheet'
-  get 'conservation_records/:id/treatment_report', to: 'conservation_records#treatment_report', as: 'treatment_report'
-  get 'conservation_records/:id/abbreviated_treatment_report', to: 'conservation_records#abbreviated_treatment_report', as: 'abbreviated_treatment_report'
+  get 'front/index', to: 'front#index'
 end

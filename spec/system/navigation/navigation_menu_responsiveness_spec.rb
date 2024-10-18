@@ -14,8 +14,8 @@ RSpec.describe 'Navigation Menu', type: :system do
       # Ensure the navbar is visible
       expect(page).to have_css('.navbar', visible: true)
 
-      # Ensure the 'Log in' button is visible on large screens
-      expect(page).to have_css('a.btn.btn-secondary', text: 'Log in', visible: true)
+      # Ensure the 'Sign in' button is visible on large screens
+      expect(page).to have_button('Sign In', class: 'btn btn-secondary', visible: true)
 
       # Ensure the navbar-toggler is not visible
       expect(page).to have_no_css('.navbar-toggler', visible: true)
@@ -27,7 +27,7 @@ RSpec.describe 'Navigation Menu', type: :system do
       visit root_path
 
       # Ensure the 'Log in' button is visible on small screens
-      expect(page).to have_css('a.btn.btn-secondary', text: 'Log in', visible: true)
+      expect(page).to have_button('Sign In', class: 'btn btn-secondary', visible: true)
 
       # Ensure the navbar-toggler is not visible since it's not used for logged-out users
       expect(page).to have_no_css('.navbar-toggler', visible: true)

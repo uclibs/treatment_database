@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
     visit root_path
-    expect(page).to have_link('Log in')
-    expect(page).not_to have_link('Sign up')
+    expect(page).to have_button('Sign In')
+    expect(page).not_to have_button('Sign up')
   end
 end
 
@@ -15,10 +15,10 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
 
   it 'allows User to login and show Conservation Records' do
-    visit new_dev_session_path
+    visit dev_login_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
-    click_button 'Log in'
+    click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_content('Conservation Records')
     expect(page).to have_link('Conservation Records')
@@ -59,10 +59,10 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_dev_session_path
+    visit dev_login_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
+    click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
     expect(page).to have_no_link('Users')
@@ -205,11 +205,11 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_dev_session_path
-    expect(page).to have_content('Please log in to continue')
+    visit dev_login_path
+    expect(page).to have_content('Please sign in to continue')
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
+    click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
 

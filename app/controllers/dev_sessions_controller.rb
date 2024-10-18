@@ -1,51 +1,37 @@
 # frozen_string_literal: true
 
-# This dev_sessions controller handles login through the development pathway.
-# Logging in through the Shibboleth SSO system will be handled through
-# the SessionsController. This controller is only available in development
-# and test environments, and is not accessible in production because there
-# are no routes for it.
-
+# app/controllers/dev_sessions_controller.rb
 class DevSessionsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[new create destroy]
-  skip_before_action :check_user_active, only: %i[new create destroy]
+  skip_before_action :authenticate_user!
+  skip_before_action :check_user_active
 
-  def new; end
+  def new
+    # Render the development login form
+  end
 
   def create
-    user = find_user
-    if user_authenticated?(user)
-      login_user(user)
+    user = authenticate_user
+
+    if user
+      handle_successful_login(user, 'Signed in successfully (Development).')
     else
-      handle_invalid_credentials
+      handle_failed_login
     end
   end
 
   def destroy
-    session[:user_id] = nil
-    redirect_to root_path, notice: 'Logged out successfully'
+    reset_session_and_cookies
+    redirect_to root_path, notice: 'Signed out successfully (Development).'
   end
 
   private
 
-  def find_user
-    User.find_by(email: params[:email])
+  def authenticate_user
+    user = User.find_by(email: params[:email])
+    user if user&.authenticate(params[:password])
   end
 
-  def user_authenticated?(user)
-    user&.authenticate(params[:password])
-  end
-
-  def login_user(user)
-    session[:user_id] = user.id
-    if user.account_active
-      redirect_to conservation_records_path, notice: 'Signed in successfully'
-    else
-      redirect_to root_path, alert: 'Your account is not active.'
-    end
-  end
-
-  def handle_invalid_credentials
+  def handle_failed_login
     flash.now[:alert] = 'Invalid email or password'
     render :new
   end

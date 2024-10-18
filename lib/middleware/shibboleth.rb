@@ -11,7 +11,7 @@ module Middleware
       shib_attributes = extract_shibboleth_attributes(request)
 
       if missing_attributes?(shib_attributes)
-        env['Shib-Error'] = 'Login failed: Required Shibboleth attributes missing'
+        env['Shib-Error'] = 'Sign in failed: Required Shibboleth attributes missing'
       else
         env['Shib-Attributes'] = shib_attributes
       end

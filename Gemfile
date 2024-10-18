@@ -40,7 +40,7 @@ gem 'jsbundling-rails' # Manages JavaScript bundling with modern tools like Webp
 gem 'sassc-rails', '~> 2.1' # SASSC adapter for Rails, needed for Bootstrap 5
 gem 'turbolinks', '~> 5' # Makes navigating your site faster by using AJAX to load only the HTML needed
 
-# Authentication and Authorization
+# AuthenticationHelper and Authorization
 gem 'bcrypt', '~> 3.1.7' # A Ruby binding for the OpenBSD bcrypt() password hashing algorithm
 gem 'cancancan' # Authorization library for Ruby on Rails which restricts what resources a given user is allowed to access
 
