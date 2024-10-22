@@ -2,10 +2,10 @@
   <div class="container-fluid">
     <div class="d-flex align-items-center w-100">
       <div class="me-auto">
-        <a class="navbar-brand" href="/">Treatment Database</a>
+        <%= link_to 'Treatment Database', root_path, class: 'navbar-brand' %>
       </div>
       <div class="ms-auto">
-        <a class="btn btn-secondary text-white" href="/users/sign_in">Log in</a>
+        <%= link_to "Log in", new_user_session_path, {:class => "btn btn-secondary text-white"} %>
       </div>
     </div>
   </div>
