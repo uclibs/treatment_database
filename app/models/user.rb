@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_secure_password
+  has_secure_password # This is a Rails macro that adds methods to set and authenticate against a BCrypt password.
 
   ROLES = %w[admin standard read_only].freeze
 

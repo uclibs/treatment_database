@@ -1,0 +1,16 @@
+<h1>Welcome Back</h1>
+<h2>Please sign in to continue</h2>
+
+<%= form_with url: dev_login_path, method: :post, local: true do |f| %>
+  <div class="field">
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Submit' %>
+  </div>
+<% end %>

@@ -12,7 +12,7 @@
   <% end %>
 
   <div class="field form-group">
-    <%= form.label :display_name %>
+    <%= form.label :display_name, 'Display Name' %>
     <%= form.text_field :display_name, class: 'form-control' %>
   </div>
 
@@ -36,9 +36,9 @@
     <%= form.collection_select(:role, User::ROLES, :to_s, lambda{|i| i.to_s.humanize}, {}, {:class=>'form-control'}) %>
   </div>
 
-  <div class="field form-check">
-    <%= form.check_box :account_active, class: 'form-check-input' %>
-    <%= form.label :account_active, class: 'form-check-label' %>
+  <div class="field form-check form-switch d-flex align-items-center mb-3">
+    <%= form.check_box :account_active, class: 'form-check-input', id: 'accountActiveSwitch' %>
+    <%= form.label :account_active, 'Account Active', class: 'form-check-label ms-2', id: 'accountActiveLabel', for: 'accountActiveSwitch' %>
   </div>
 
   <div class="actions">

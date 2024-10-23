@@ -109,9 +109,9 @@ RSpec.describe 'ConservationRecords', type: :request do
     end
 
     context 'when user is not logged in' do
-      it 'redirects to login page' do
+      it 'redirects to root page' do
         get controlled_vocabularies_path
-        expect(response).to redirect_to(new_session_path)
+        expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq('You need to sign in before continuing.')
       end
     end
@@ -314,10 +314,9 @@ RSpec.describe 'ConservationRecords', type: :request do
     end
 
     context 'when user is not logged in' do
-      it 'redirects to login page' do
-        request_logout
+      it 'redirects to root page' do
         get conservation_record_path(conservation_record)
-        expect(response).to redirect_to(new_session_path)
+        expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq('You need to sign in before continuing.')
       end
     end

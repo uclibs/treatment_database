@@ -13,8 +13,8 @@
 
         <% # Get navigation links for the current user %>
         <% nav_links_for_user.each_with_index do |link, index| %>
-          <li class="nav-item d-flex justify-content-center align-items-center"> <!-- Centering both horizontally and vertically -->
-            <%= link_to(link[:title], link[:path], class: 'nav-link text-center') %> <!-- Ensure the text is centered -->
+          <li class="nav-item d-flex justify-content-center align-items-center">
+            <%= link_to(link[:title], link[:path], class: 'nav-link text-center') %>
           </li>
           <% if index < nav_links_for_user.size - 1 %>
             <li class="nav-item nav-link justify-content-center align-items-center divider">|</li>
@@ -38,7 +38,10 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <%= link_to "Edit account", edit_user_path(current_user), class: 'dropdown-item' %>
-              <%= link_to('Logout', logout_path, method: :delete, class: 'dropdown-item') %>
+              <% if Rails.env.development? || Rails.env.test? %>
+                <%= link_to 'Dev Sign Out', dev_logout_path, method: :delete, class: 'dropdown-item' %>
+              <% end %>
+              <%= link_to('Sign Out', logout_path, method: :delete, class: 'dropdown-item') %>
             </div>
           </li>
         <% end %>

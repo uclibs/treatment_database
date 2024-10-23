@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
     visit root_path
-    expect(page).to have_link('Log in')
-    expect(page).not_to have_link('Sign up')
+    expect(page).to have_button('Sign In')
+    expect(page).not_to have_button('Sign up')
   end
 end
 
@@ -15,10 +15,10 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
 
   it 'allows User to login and show Conservation Records' do
-    visit new_session_path
+    visit dev_login_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
-    click_button 'Log in'
+    click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_content('Conservation Records')
     expect(page).to have_link('Conservation Records')
@@ -59,10 +59,10 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_session_path
+    visit dev_login_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
+    click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
     expect(page).to have_no_link('Users')
@@ -124,6 +124,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     click_button('Add External Repair')
     expect(page).to have_text('Repaired By', wait: 5)
     expect(page).to have_button('Create External Repair Record')
+    expect(page).to have_select('performed_by_vendor_id', visible: true, wait: 5)
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_type', match: :first)
     fill_in('external_other_note', with: 'Some Other note for the external repair')
@@ -189,7 +190,8 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
 
     # Delete conservation record
     visit conservation_records_path
-    accept_confirm do
+    expect(page).to have_selector("a[id='delete_conservation_record_#{conservation_record.id}']")
+    accept_confirm(wait: 5) do
       find("a[id='delete_conservation_record_#{conservation_record.id}']").click
     end
     expect(page).to have_content('Conservation record was successfully destroyed.')
@@ -205,11 +207,11 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_session_path
-    expect(page).to have_content('Please log in to continue')
+    visit dev_login_path
+    expect(page).to have_content('Please sign in to continue')
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
+    click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
 
@@ -232,7 +234,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).to have_content('Users')
     click_on 'Add New User'
     expect(page).to have_content('Create New User')
-    fill_in 'Display name', with: 'Beau Geste'
+    fill_in 'Display Name', with: 'Beau Geste'
     fill_in 'Email', with: 'beau.geste@uc.edu'
     fill_in 'User Password', with: 'notapassword'
     fill_in 'User Password Confirmation', with: 'notapassword'
@@ -322,16 +324,18 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).to have_content('Mend paper performed by Haritha Vytla in 2 minutes. Other note: Some Other note for the in-house repair')
 
     # Delete In-house repair
-    accept_confirm do
+    expect(page).to have_selector("a[id='delete_in_house_repair_record_1']")
+    accept_confirm(wait: 5) do
       find("a[id='delete_in_house_repair_record_1']").click
     end
-    expect(page).not_to have_content('Mend paper performed by Haritha Vytla')
+    expect(page).not_to have_content('Mend paper performed by Haritha Vytla', wait: 5)
 
     # Create External Repair
     expect(page).to have_button('Add External Repair')
     click_button('Add External Repair')
     expect(page).to have_text('Repaired By', wait: 5)
     expect(page).to have_button('Create External Repair Record')
+    expect(page).to have_select('performed_by_vendor_id', visible: true, wait: 5)
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_type', match: :first)
     fill_in('external_other_note', with: 'Some Other note for the external repair')
@@ -339,10 +343,11 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).to have_content('Wash performed by Amanda Buck. Other note: Some Other note for the external repair')
 
     # Delete external repair
-    accept_confirm do
+    expect(page).to have_selector("a[id='delete_external_repair_record_1']")
+    accept_confirm(wait: 5) do
       find("a[id='delete_external_repair_record_1']").click
     end
-    expect(page).not_to have_content('Wash performed by Amanda Buck')
+    expect(page).not_to have_content('Wash performed by Amanda Buck', wait: 5)
 
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
