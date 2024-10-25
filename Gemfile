@@ -57,7 +57,8 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby] # Timezone data fo
 
 gem 'show_me_the_cookies' # Cookie inspection for tests
 
-gem 'omniauth-shibboleth' # Provides Shibboleth-based SSO authentication
+gem 'ruby-saml', '~> 1.17.0' # A Ruby implementation of the SAML protocol
+
 
 group :development, :test do
   # Debugging tools
