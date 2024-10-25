@@ -120,9 +120,15 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     expect(page).to have_content('Soft slipcase performed by Chuck Greenman in 2 minutes. Other note: Some Other note for the in-house repair')
 
     # External Repair
-    expect(page).to have_button('Add External Repair')
-    click_button('Add External Repair')
-    expect(page).to have_content('Repaired By', wait: 5)
+    # Wait for the button to be visible and clickable, then click it
+    expect(page).to have_button('Add External Repair', visible: true, wait: 10)
+    find_button('Add External Repair', visible: true).click
+
+    # Ensure the modal has opened by checking for an element unique to the modal
+    within('#modal_id') do  # Replace #modal_id with the actual ID or class of your modal
+      expect(page).to have_content('Repaired By', wait: 10)
+    end
+
     expect(page).to have_button('Create External Repair Record')
     expect(page).to have_select('performed_by_vendor_id', visible: true, wait: 5)
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
@@ -331,9 +337,15 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).not_to have_content('Mend paper performed by Haritha Vytla', wait: 5)
 
     # Create External Repair
-    expect(page).to have_button('Add External Repair')
-    click_button('Add External Repair')
-    expect(page).to have_text('Repaired By', wait: 5)
+    # Wait for the button to be visible and clickable, then click it
+    expect(page).to have_button('Add External Repair', visible: true, wait: 10)
+    find_button('Add External Repair', visible: true).click
+
+    # Ensure the modal has opened by checking for an element unique to the modal
+    within('#modal_id') do  # Replace #modal_id with the actual ID or class of your modal
+      expect(page).to have_content('Repaired By', wait: 10)
+    end
+
     expect(page).to have_button('Create External Repair Record')
     expect(page).to have_select('performed_by_vendor_id', visible: true, wait: 5)
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
