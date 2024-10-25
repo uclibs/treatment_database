@@ -125,7 +125,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     find_button('Add External Repair', visible: true).click
 
     # Ensure the modal has opened by checking for an element unique to the modal
-    within('#modal_id') do  # Replace #modal_id with the actual ID or class of your modal
+    within('#externalRepairModal') do
       expect(page).to have_content('Repaired By', wait: 10)
     end
 
@@ -330,11 +330,17 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).to have_content('Mend paper performed by Haritha Vytla in 2 minutes. Other note: Some Other note for the in-house repair')
 
     # Delete In-house repair
-    expect(page).to have_selector("a[id='delete_in_house_repair_record_1']")
-    accept_confirm(wait: 5) do
-      find("a[id='delete_in_house_repair_record_1']").click
+    # Ensure the delete link is present and visible
+    expect(page).to have_selector("a[id='delete_in_house_repair_record_1']", visible: true, wait: 10)
+    delete_link = find("a[id='delete_in_house_repair_record_1']", visible: true)
+
+    # Click the delete link within a confirmation dialog
+    accept_confirm do
+      delete_link.click
     end
-    expect(page).not_to have_content('Mend paper performed by Haritha Vytla', wait: 5)
+
+    # Verify the content has been removed
+    expect(page).not_to have_content('Mend paper performed by Haritha Vytla', wait: 10)
 
     # Create External Repair
     # Wait for the button to be visible and clickable, then click it
@@ -342,7 +348,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     find_button('Add External Repair', visible: true).click
 
     # Ensure the modal has opened by checking for an element unique to the modal
-    within('#modal_id') do  # Replace #modal_id with the actual ID or class of your modal
+    within('#externalRepairModal') do
       expect(page).to have_content('Repaired By', wait: 10)
     end
 
