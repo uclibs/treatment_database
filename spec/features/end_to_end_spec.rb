@@ -140,6 +140,8 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
     click_button('Add Conservators and Technicians')
+    # Ensure the dropdown is visible and enabled before interacting with it
+    expect(page).to have_select('cons_tech_performed_by_user_id', visible: true, wait: 10)
     select('John Green', from: 'cons_tech_performed_by_user_id', match: :first)
     click_button('Create Conservators and Technicians Record')
     expect(page).to have_content('John Green')
@@ -335,8 +337,15 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     delete_link = find("a[id='delete_in_house_repair_record_1']", visible: true)
 
     # Click the delete link within a confirmation dialog
-    accept_confirm do
-      delete_link.click
+    retries = 3
+    begin
+      accept_confirm do
+        find("a[id='delete_in_house_repair_record_1']").click
+      end
+    rescue Capybara::ModalNotFound
+      retries -= 1
+      retry if retries.positive?
+      raise
     end
 
     # Verify the content has been removed
@@ -370,6 +379,8 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
     click_button('Add Conservators and Technicians')
+    # Ensure the dropdown is visible and enabled before interacting with it
+    expect(page).to have_select('cons_tech_performed_by_user_id', visible: true, wait: 10)
     select('Haritha Vytla', from: 'cons_tech_performed_by_user_id', match: :first)
     click_button('Create Conservators and Technicians Record')
     expect(page).to have_content('Haritha Vytla')
