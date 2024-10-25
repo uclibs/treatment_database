@@ -13,6 +13,7 @@ gem 'actionmailer', '~>6.1.7.9' # Email composition, delivery, and receiving wit
 gem 'actionpack', '~>6.1.7.9' # Handles web requests and responses with Action Controller and Action Dispatch
 gem 'actiontext', '~>6.1.7.9' # Rich text content and editing with Action Text
 gem 'activestorage' # Handles file uploads in Rails applications
+gem 'builder' # Provides a simple way to create XML markup and data structures
 gem 'mutex_m' # Being removed from Ruby soon, required for activestorage
 gem 'rails', '~> 6.1.7.9' # The Rails framework
 gem 'sprockets-rails', '~> 3.4' # Sprockets adapter for Rails, needed for deploy:assets:precompile steps
