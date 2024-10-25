@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   ## Production Login (Shibboleth)
   get 'login', to: 'sessions#new', as: :login
   get 'auth/shibboleth/callback', to: 'sessions#shibboleth_callback', as: :shibboleth_callback
+  get 'saml/metadata', to: 'sessions#metadata', as: :saml_metadata
   delete 'logout', to: 'sessions#destroy', as: :logout
 
   ## Development Login (Username/Password)
@@ -12,6 +13,12 @@ Rails.application.routes.draw do
     get 'dev_login', to: 'dev_sessions#new', as: :dev_login
     post 'dev_login', to: 'dev_sessions#create'
     delete 'dev_logout', to: 'dev_sessions#destroy', as: :dev_logout
+  end
+
+  # handle external logout in test environment
+  if Rails.env.development? || Rails.env.test?
+    # Match the Shibboleth logout URL path
+    get '/idp/profile/Logout', to: 'test_shibboleth#logout', as: :test_shibboleth_logout
   end
 
   # Admin Namespace for Managing Users

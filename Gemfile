@@ -59,7 +59,6 @@ gem 'show_me_the_cookies' # Cookie inspection for tests
 
 gem 'ruby-saml', '~> 1.17.0' # A Ruby implementation of the SAML protocol
 
-
 group :development, :test do
   # Debugging tools
   gem 'byebug', platforms: %i[mri mingw x64_mingw] # Debugging tool for Ruby

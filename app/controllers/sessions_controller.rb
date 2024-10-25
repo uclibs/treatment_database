@@ -2,8 +2,10 @@
 
 class SessionsController < ApplicationController
   include AuthenticationHelper
-  skip_before_action :authenticate_user!, only: %i[new shibboleth_callback destroy]
-  skip_before_action :check_user_active, only: %i[new shibboleth_callback destroy]
+  include SamlHelper
+
+  skip_before_action :authenticate_user!, only: %i[new shibboleth_callback destroy metadata]
+  skip_before_action :check_user_active, only: %i[new shibboleth_callback destroy metadata]
 
   def new
     reset_session_and_cookies
@@ -22,19 +24,11 @@ class SessionsController < ApplicationController
     redirect_to shibboleth_logout_url, notice: 'Signed out successfully'
   end
 
+  def metadata
+    render template: 'sessions/metadata', formats: [:xml]
+  end
+
   private
-
-  def shibboleth_login_url
-    target_url = shibboleth_callback_url
-    shibboleth_login_url = ENV.fetch('SHIBBOLETH_LOGIN_URL', nil)
-    "#{shibboleth_login_url}?target=#{CGI.escape(target_url)}"
-  end
-
-  def shibboleth_logout_url
-    return_url = root_url
-    shibboleth_logout_url = ENV.fetch('SHIBBOLETH_LOGOUT_URL', nil)
-    "#{shibboleth_logout_url}?target=#{CGI.escape(return_url)}"
-  end
 
   def handle_shibboleth_callback_errors(env)
     if env['Shib-Error']

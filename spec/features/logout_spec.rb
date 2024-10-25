@@ -4,6 +4,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Logout button', type: :feature do
+  include SamlHelper
+
   let(:admin_user) { create(:user, role: 'admin') }
 
   before do
@@ -36,28 +38,26 @@ RSpec.describe 'Logout button', type: :feature do
     it 'logs out via Shibboleth when the button is clicked' do
       with_environment('development') do
         visit root_path
-
-        # Click on the dropdown to expose the logout options
         find('.dropdown-toggle').click
 
-        # Check for Dev logout button
         expect(page).to have_link('Dev Sign Out', href: dev_logout_path)
-
-        # Check for Shibboleth logout button
         expect(page).to have_link('Sign Out', href: logout_path)
-
-        # Simulate clicking the logout via Shibboleth button
         click_link 'Sign Out'
 
-        # Add your expectations for after the user logs out via Shibboleth
         expect(page).to have_current_path(root_path, ignore_query: true)
-        expect(page).to have_content('Signed out successfully')
+        expect(page).to have_content('Test Shibboleth logout simulated.')
       end
     end
   end
 
   context 'in production environment' do
-    it 'logs out via standard method when the button is clicked' do
+    # Capybara cannot follow external redirects, so clicking the Sign Out
+    # link will not work. Instead, we will check that the correct logout
+    # options are displayed.
+    # Further testing of the logging out can be found at
+    # spec/controllers/sessions_controller_spec.rb
+
+    it 'displays the correct logout options' do
       with_environment('production') do
         visit root_path
 
@@ -69,13 +69,6 @@ RSpec.describe 'Logout button', type: :feature do
 
         # Check for Production logout button
         expect(page).to have_link('Sign Out', href: logout_path)
-
-        # Standard logout
-        click_link 'Sign Out'
-
-        # Expectations after standard logout
-        expect(page).to have_current_path(root_path, ignore_query: true)
-        expect(page).to have_content('Signed out successfully')
       end
     end
   end

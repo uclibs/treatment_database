@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
+  include SamlHelper
+
   let(:user) { create(:user) }
   let(:another_user) { create(:user) }
   let(:inactive_user) { create(:user, account_active: false) }
@@ -194,6 +196,19 @@ RSpec.describe SessionsController, type: :controller do
         expect(session[:user_id]).to be_nil
         expect(response).to redirect_to(expected_redirect_url)
       end
+    end
+  end
+
+  describe 'GET #metadata' do
+    # More extensive testing of the metadata template is done in the view spec
+    # at: spec/views/authentication/metadata.xml.erb_spec.rb
+    # and the SamlHelper spec at: spec/helpers/saml_helper_spec.rb
+    it 'renders the metadata template with XML content type' do
+      get :metadata, format: :xml
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to render_template('sessions/metadata')
+      expect(response.content_type).to include('xml')
     end
   end
 end

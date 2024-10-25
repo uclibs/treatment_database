@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
   include AuthenticationHelper
+  include SamlHelper
 
   before_action :set_paper_trail_whodunnit
 
