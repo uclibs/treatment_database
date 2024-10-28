@@ -334,7 +334,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     # Delete In-house repair
     # Ensure the delete link is present and visible
     expect(page).to have_selector("a[id='delete_in_house_repair_record_1']", visible: true, wait: 10)
-    delete_link = find("a[id='delete_in_house_repair_record_1']", visible: true)
+    find("a[id='delete_in_house_repair_record_1']", visible: true)
 
     # Click the delete link within a confirmation dialog
     retries = 3

@@ -28,7 +28,7 @@ module SamlHelper
   def configure_sp_settings(settings)
     settings.assertion_consumer_service_url = shibboleth_callback_url
     settings.sp_entity_id = ENV.fetch('SP_ENTITY_ID', nil)
-    settings.single_logout_service_url = shibboleth_logout_url
+    settings.single_logout_service_url = root_url # This is the URL to which the IdP will redirect logout requests
   end
 
   def configure_idp_settings(settings)
