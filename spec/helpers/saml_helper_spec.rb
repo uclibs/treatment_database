@@ -51,7 +51,7 @@ RSpec.describe SamlHelper, type: :helper do
 
   describe '#shibboleth_login_url' do
     before do
-      allow(ENV).to receive(:fetch).with('SHIBBOLETH_LOGIN_URL', nil).and_return('https://idp.example.com/sso')
+      allow(ENV).to receive(:fetch).with('SHIBBOLETH_LOGIN_URL').and_return('https://idp.example.com/sso')
       allow(helper).to receive(:shibboleth_callback_url).and_return('https://libappstest.libraries.uc.edu/treatment_database/auth/shibboleth/callback')
     end
 
@@ -63,7 +63,7 @@ RSpec.describe SamlHelper, type: :helper do
 
   describe '#shibboleth_logout_url' do
     before do
-      allow(ENV).to receive(:fetch).with('SHIBBOLETH_LOGOUT_URL', nil).and_return('https://idp.example.com/slo')
+      allow(ENV).to receive(:fetch).with('SHIBBOLETH_LOGOUT_URL').and_return('https://idp.example.com/slo')
       allow(helper).to receive(:root_url).and_return('https://libappstest.libraries.uc.edu/')
     end
 

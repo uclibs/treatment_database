@@ -24,7 +24,13 @@ module AuthenticationHelper
   def handle_successful_login(user, notice_message)
     session[:user_id] = user.id
     session[:last_seen] = Time.current
+    Rails.logger.info "User #{user.username} logged in successfully."
     redirect_user_based_on_status(user, notice_message)
+  end
+
+  def handle_user_not_found
+    reset_session_and_cookies
+    redirect_to root_path, alert: 'Sign in failed: User not found'
   end
 
   def redirect_user_based_on_status(user, notice_message)

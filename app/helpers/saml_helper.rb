@@ -11,15 +11,31 @@ module SamlHelper
     settings
   end
 
+  # Extract attributes without validation
+  def extract_shibboleth_attributes(request)
+    shib_attributes = request.env['Shib-Attributes']
+
+    {
+      username: shib_attributes&.dig(:uid),
+      first_name: shib_attributes&.dig(:givenName),
+      last_name: shib_attributes&.dig(:sn)
+    }
+  end
+
+  # Check presence of required attributes
+  def username_present?(attributes)
+    attributes[:username].present?
+  end
+
   def shibboleth_login_url
     target_url = shibboleth_callback_url
-    shibboleth_login_url = ENV.fetch('SHIBBOLETH_LOGIN_URL', nil)
+    shibboleth_login_url = ENV.fetch('SHIBBOLETH_LOGIN_URL') { raise 'SHIBBOLETH_LOGIN_URL is not set' }
     "#{shibboleth_login_url}?target=#{CGI.escape(target_url)}"
   end
 
   def shibboleth_logout_url
     return_url = root_url
-    shibboleth_logout_url = ENV.fetch('SHIBBOLETH_LOGOUT_URL', nil)
+    shibboleth_logout_url = ENV.fetch('SHIBBOLETH_LOGOUT_URL') { raise 'SHIBBOLETH_LOGOUT_URL is not set' }
     "#{shibboleth_logout_url}?target=#{CGI.escape(return_url)}"
   end
 

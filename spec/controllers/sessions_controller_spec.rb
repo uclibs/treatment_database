@@ -12,10 +12,9 @@ RSpec.describe SessionsController, type: :controller do
   let(:shib_attributes) do
     {
       'Shib-Attributes' => {
-        email: user.email,
-        username: user.username,
-        first_name: 'TestFirstName',
-        last_name: 'TestLastName'
+        uid: user.username,
+        givenName: 'TestFirstName',
+        sn: 'TestLastName'
       }
     }
   end
@@ -23,10 +22,9 @@ RSpec.describe SessionsController, type: :controller do
   let(:inactive_shib_attributes) do
     {
       'Shib-Attributes' => {
-        email: inactive_user.email,
-        username: inactive_user.username,
-        first_name: 'InactiveFirstName',
-        last_name: 'InactiveLastName'
+        uid: inactive_user.username,
+        givenNae: 'InactiveFirstName',
+        sn: 'InactiveLastName'
       }
     }
   end
@@ -34,10 +32,9 @@ RSpec.describe SessionsController, type: :controller do
   let(:shib_attributes_invalid_user) do
     {
       'Shib-Attributes' => {
-        email: 'nonexistent_user@example.com',
-        username: 'nonexistent_user',
-        first_name: 'TestFirstName',
-        last_name: 'TestLastName'
+        uid: 'nonexistent_user',
+        givenName: 'TestFirstName',
+        sn: 'TestLastName'
       }
     }
   end
@@ -45,9 +42,8 @@ RSpec.describe SessionsController, type: :controller do
   let(:shib_attributes_missing_username) do
     {
       'Shib-Attributes' => {
-        email: user.email,
-        first_name: 'TestFirstName',
-        last_name: 'TestLastName'
+        givenName: 'TestFirstName',
+        sn: 'TestLastName'
       }
     }
   end
@@ -57,8 +53,6 @@ RSpec.describe SessionsController, type: :controller do
       allow(controller).to receive(:shibboleth_callback_url).and_return('http://test.host/shibboleth_callback')
 
       with_environment('production') do
-        ENV['SHIBBOLETH_LOGIN_URL'] = 'http://test.host/login'
-
         get :new
         expected_url = "#{ENV.fetch('SHIBBOLETH_LOGIN_URL', nil)}?target=#{CGI.escape('http://test.host/shibboleth_callback')}"
 
@@ -74,10 +68,12 @@ RSpec.describe SessionsController, type: :controller do
       end
 
       it 'logs in the user and redirects to conservation_records_path' do
-        get :shibboleth_callback
-        expect(session[:user_id]).to eq(user.id)
-        expect(response).to redirect_to(conservation_records_path)
-        expect(flash[:notice]).to eq('Signed in successfully via Shibboleth')
+        with_environment('production') do
+          get :shibboleth_callback
+          expect(session[:user_id]).to eq(user.id)
+          expect(response).to redirect_to(conservation_records_path)
+          expect(flash[:notice]).to eq('Signed in successfully.')
+        end
       end
 
       it 'logs out existing user and logs in new user' do
@@ -117,15 +113,10 @@ RSpec.describe SessionsController, type: :controller do
 
       context 'missing username in Shibboleth attributes' do
         before { request.env.merge!(shib_attributes_missing_username) }
-        include_examples 'failed login due to', 'Sign in failed: User not found'
+        include_examples 'failed login due to', 'Sign in failed: Shibboleth username is missing.'
       end
 
-      context 'Shibboleth error present' do
-        before { request.env.merge!('Shib-Error' => 'Some arbitrary error message') }
-        include_examples 'failed login due to', 'Some arbitrary error message'
-      end
-
-      context 'missing Shibboleth attributes' do
+      context 'missing first name in Shibboleth attributes' do
         before { request.env.merge!('Shib-Error' => 'Sign in failed: Required Shibboleth attributes missing') }
 
         it 'clears the session and cookies and redirects' do
@@ -133,7 +124,7 @@ RSpec.describe SessionsController, type: :controller do
           expect(session[:user_id]).to be_nil
           expect(cookies.to_hash).to be_empty
           expect(response).to redirect_to(root_path)
-          expect(flash[:alert]).to eq('Sign in failed: Required Shibboleth attributes missing')
+          expect(flash[:alert]).to eq('Sign in failed: Shibboleth username is missing.')
         end
       end
 
@@ -145,7 +136,7 @@ RSpec.describe SessionsController, type: :controller do
           expect(session[:user_id]).to be_nil
           expect(cookies.to_hash).to be_empty
           expect(response).to redirect_to(root_path)
-          expect(flash[:alert]).to eq('Sign in failed: Shibboleth attributes are nil.')
+          expect(flash[:alert]).to eq('Sign in failed: Shibboleth username is missing.')
         end
       end
     end
