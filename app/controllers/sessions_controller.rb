@@ -8,7 +8,6 @@ class SessionsController < ApplicationController
   skip_before_action :check_user_active, only: %i[new destroy]
 
   def new
-    reset_session_and_cookies
     # Redirect to a protected URL to trigger Shibboleth authentication
     redirect_to shibboleth_login_url
   end
