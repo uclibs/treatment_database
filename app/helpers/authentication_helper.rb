@@ -85,6 +85,13 @@ module AuthenticationHelper
       Rails.logger.error "#{key}: #{request.env[key]}"
     end
 
+    headers_to_log = %w[HTTP_UID HTTP_EPPN HTTP_MAIL HTTP_DISPLAYNAME]
+    Rails.logger.error "Shibboleth Headers:"
+    headers_to_log.each do |header|
+      Rails.logger.error "#{header}: #{request.headers[header]}" if request.headers[header].present?
+    end
+    Rails.logger.error "Completed login attempt."
+
     attribute_names = %w[uid eppn REMOTE_USER]
     attribute_names.any? { |attr| request.env[attr].present? || request.env["HTTP_#{attr.upcase}"].present? }
   end
