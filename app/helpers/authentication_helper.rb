@@ -33,6 +33,7 @@ module AuthenticationHelper
 
   def reset_session_and_cookies
     reset_session
+    # Preserve Shibboleth-SP cookies to avoid disrupting the authentication process
     shibboleth_cookies = ['_shibsession_', '_shibstate_']
     cookies_to_preserve = cookies.keys.select do |key|
       shibboleth_cookies.any? { |shib_cookie| key.start_with?(shib_cookie) }
