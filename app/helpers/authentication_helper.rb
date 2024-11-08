@@ -89,7 +89,6 @@ module AuthenticationHelper
     attribute_names.any? { |attr| request.env[attr].present? || request.env["HTTP_#{attr.upcase}"].present? }
   end
 
-
   def process_shibboleth_login
     # Define the potential Shibboleth attributes for username
     attribute_names = %w[uid eppn REMOTE_USER]
