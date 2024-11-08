@@ -77,12 +77,12 @@ module AuthenticationHelper
 
   def shibboleth_attributes_present?
     # Log the available request.env keys
-    Rails.error.info "Available request.env keys: #{request.env.keys.inspect}"
+    Rails.logger.error "Available request.env keys: #{request.env.keys.inspect}"
 
     # Optionally, log specific Shibboleth-related keys
     shibboleth_keys = request.env.keys.select { |k| k =~ /uid|mail|displayName|eppn|REMOTE_USER/i }
     shibboleth_keys.each do |key|
-      Rails.error.info "#{key}: #{request.env[key]}"
+      Rails.logger.error "#{key}: #{request.env[key]}"
     end
 
     attribute_names = %w[uid eppn REMOTE_USER]
