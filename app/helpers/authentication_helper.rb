@@ -70,22 +70,46 @@ module AuthenticationHelper
     if shibboleth_attributes_present?
       process_shibboleth_login
     else
-      redirect_to login_path
+      Rails.logger.error 'Shibboleth attributes not present. Cannot authenticate user.'
+      redirect_to root_path, alert: 'Authentication failed: Shibboleth attributes not present.'
     end
   end
 
   def shibboleth_attributes_present?
-    request.env['uid'].present?
+    # Log the available request.env keys
+    Rails.error.info "Available request.env keys: #{request.env.keys.inspect}"
+
+    # Optionally, log specific Shibboleth-related keys
+    shibboleth_keys = request.env.keys.select { |k| k =~ /uid|mail|displayName|eppn|REMOTE_USER/i }
+    shibboleth_keys.each do |key|
+      Rails.error.info "#{key}: #{request.env[key]}"
+    end
+
+    attribute_names = %w[uid eppn REMOTE_USER]
+    attribute_names.any? { |attr| request.env[attr].present? || request.env["HTTP_#{attr.upcase}"].present? }
   end
 
-  def process_shibboleth_login
-    username = request.env['uid']
-    user = User.find_by(username: username)
 
-    if user
-      handle_successful_login(user, 'Signed in successfully.')
+  def process_shibboleth_login
+    # Define the potential Shibboleth attributes for username
+    attribute_names = %w[uid eppn REMOTE_USER]
+
+    # Find the first attribute that is present in request.env and use it as the username
+    username = attribute_names.map { |attr| request.env[attr] || request.env["HTTP_#{attr.upcase}"] }.compact.first
+
+    if username.present?
+      # Find the user in the database by the identified username
+      user = User.find_by(username: username)
+
+      if user
+        handle_successful_login(user, 'Signed in successfully.')
+      else
+        handle_user_not_found
+      end
     else
-      handle_user_not_found
+      # Log an error if none of the expected attributes are present
+      Rails.logger.error 'Shibboleth username attribute not present in request.env.'
+      redirect_to root_path, alert: 'Authentication failed: Username attribute not present.'
     end
   end
 
