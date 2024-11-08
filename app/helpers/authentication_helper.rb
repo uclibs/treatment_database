@@ -3,25 +3,43 @@
 module AuthenticationHelper
   extend ActiveSupport::Concern
 
-  included do
-    before_action :authenticate_user!
-    before_action :check_user_active, if: :user_signed_in?
-  end
-
   def admin?
-    @current_user.role == 'admin'
+    current_user&.role == 'admin'
   end
 
   private
 
+  def validate_session_timeout
+    session_timeout_duration = 10.hours
+
+    if session_expired?(session_timeout_duration)
+      expire_session
+    else
+      session[:last_seen] = Time.current
+    end
+  end
+
+  def session_expired?(timeout_duration)
+    return true unless session[:last_seen]
+
+    # Calculate whether the last_seen time is older than the allowed timeout duration
+    session[:last_seen] < Time.current - timeout_duration
+  end
+
+  def expire_session
+    reset_session
+    redirect_to root_path, alert: 'Your session has expired. Please sign in again.'
+  end
+
   def reset_session_and_cookies
     reset_session
     cookies.to_hash.each_key do |key|
-      cookies.delete(key)
+      cookies.delete(key, domain: :all)
     end
   end
 
   def handle_successful_login(user, notice_message)
+    reset_session
     session[:user_id] = user.id
     session[:last_seen] = Time.current
     Rails.logger.info "User #{user.username} logged in successfully."
@@ -44,7 +62,26 @@ module AuthenticationHelper
   def authenticate_user!
     return if user_signed_in?
 
-    redirect_to root_path, alert: 'You need to sign in before continuing.'
+    if shibboleth_attributes_present?
+      process_shibboleth_login
+    else
+      redirect_to new_session_path
+    end
+  end
+
+  def shibboleth_attributes_present?
+    request.env['uid'].present?
+  end
+
+  def process_shibboleth_login
+    username = request.env['uid']
+    user = User.find_by(username: username)
+
+    if user
+      handle_successful_login(user, 'Signed in successfully.')
+    else
+      handle_user_not_found
+    end
   end
 
   def check_user_active

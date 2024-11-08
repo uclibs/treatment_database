@@ -34,7 +34,7 @@ class SessionsController < ApplicationController
   def shibboleth_login_url
     # Redirect to a protected path to initiate Shibboleth authentication
     shibboleth_login_url = ENV.fetch('SHIBBOLETH_LOGIN_URL') { raise 'SHIBBOLETH_LOGIN_URL is not set' }
-    "#{shibboleth_login_url}?target=#{CGI.escape(root_url)}"
+    "#{shibboleth_login_url}?target=#{CGI.escape(conservation_records_path)}"
   end
 
   def shibboleth_logout_url

@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Pagy::Backend
   include AuthenticationHelper
+  include Pagy::Backend
+
+  before_action :authenticate_user!
+  before_action :check_user_active, if: :user_signed_in?
+  before_action :validate_session_timeout, if: :user_signed_in?
+
+  protect_from_forgery with: :exception
   # include SamlHelper
 
   before_action :set_paper_trail_whodunnit
@@ -15,8 +21,6 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::InvalidAuthenticityToken, with: :handle_invalid_auth_token
 
   rescue_from ActiveRecord::RecordNotFound, with: :render404
-
-  helper_method :current_user, :user_signed_in?, :authenticate_user!, :admin?
 
   private
 
