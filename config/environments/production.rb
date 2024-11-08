@@ -36,6 +36,7 @@ Rails.application.configure do
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
   config.log_level = ENV.fetch('TREATMENT_DATABASE_LOG_LEVEL', 'debug').to_sym
+  config.logger = ActiveSupport::Logger.new(Rails.root.join('log', 'production.log'))
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
