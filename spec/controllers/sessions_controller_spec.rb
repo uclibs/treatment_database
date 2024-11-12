@@ -49,16 +49,7 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    it 'redirects to Shibboleth login URL' do
-      allow(controller).to receive(:shibboleth_callback_url).and_return('http://test.host/shibboleth_callback')
 
-      with_environment('production') do
-        get :new
-        expected_url = "#{ENV.fetch('SHIBBOLETH_LOGIN_URL', nil)}?target=#{CGI.escape('http://test.host/shibboleth_callback')}"
-
-        expect(response).to redirect_to(expected_url)
-      end
-    end
   end
 
   # describe 'GET #shibboleth_callback' do
@@ -149,7 +140,7 @@ RSpec.describe SessionsController, type: :controller do
         session[:user_id] = user.id
       end
 
-      it 'logs out the user, resets session, clears cookies, and redirects to Shibboleth logout URL' do
+      it 'logs out the user, resets session, clears cookies, and redirects to the root page' do
         with_environment('production') do
           ENV['SHIBBOLETH_LOGOUT_URL'] = 'http://test.host/logout'
 

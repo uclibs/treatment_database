@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include AuthenticationHelper
+  include AuthenticationConcern
   include Pagy::Backend
+
+  # Makes the current_user method in the user_concern available in views.
+  helper_method :current_user
 
   before_action :authenticate_user!
   before_action :check_user_active, if: :user_signed_in?

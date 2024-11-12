@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # AuthenticationHelper and Sessions
+  # AuthenticationConcern and Sessions
   ## Production Login (Shibboleth)
   get 'login', to: 'sessions#new', as: :login
   delete 'logout', to: 'sessions#destroy', as: :logout

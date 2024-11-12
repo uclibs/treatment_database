@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  include AuthenticationHelper
+  include AuthenticationConcern
   # include SamlHelper
 
   skip_before_action :authenticate_user!, only: %i[new destroy]
   skip_before_action :check_user_active, only: %i[new destroy]
+  skip_before_action :validate_session_timeout, only: %i[new destroy]
 
   def new
     # Redirect to a protected URL to trigger Shibboleth authentication
