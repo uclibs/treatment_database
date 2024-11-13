@@ -34,8 +34,10 @@ module SessionManagementConcern
   def preserve_shibboleth_cookies
     shibboleth_cookies = %w[_shibsession_ _shibstate_]
 
-    cookies.each_key do |key|
-      cookies.delete(key) unless shibboleth_cookies.any? { |shib_cookie| key.start_with?(shib_cookie) }
+    keys_to_delete = cookies.to_hash.keys.reject do |key|
+      shibboleth_cookies.any? { |shib_cookie| key.start_with?(shib_cookie) }
     end
+
+    keys_to_delete.each { |key| cookies.delete(key) }
   end
 end
