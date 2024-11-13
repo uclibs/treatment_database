@@ -36,11 +36,13 @@ class SessionsController < ApplicationController
       Rails.logger.debug 'Shibboleth attributes are present.'
       username = request.headers['X-Shib-User']
       email = request.headers['X-Shib-Email']
+      uid = request.headers['X-Shib-Uid']
 
       Rails.logger.debug "Received username: #{username}"
       Rails.logger.debug "Received email: #{email}"
+      Rails.logger.debug "Received uid: #{uid}"
 
-      user = User.find_by(username: username)
+      user = User.find_by(username: uid)
 
       if user
         handle_successful_login(user)
