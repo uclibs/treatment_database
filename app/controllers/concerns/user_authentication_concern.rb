@@ -6,12 +6,16 @@ module UserAuthenticationConcern
   # **Authentication Methods**
 
   def authenticate_user!
-    return if user_signed_in?
-
-    if Rails.env.development? || Rails.env.test?
-      redirect_to dev_login_path(target: request.fullpath)
+    if user_signed_in?
+      Rails.logger.debug "User is signed in: #{current_user.username}"
+      return
     else
-      redirect_to login_path(target: request.fullpath)
+      Rails.logger.debug "User not signed in. Redirecting to login path."
+      if Rails.env.development? || Rails.env.test?
+        redirect_to dev_login_path(target: request.fullpath)
+      else
+        redirect_to login_path(target: request.fullpath)
+      end
     end
   end
 
