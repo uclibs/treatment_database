@@ -34,19 +34,19 @@ class SessionsController < ApplicationController
   def process_shibboleth_login
     if shibboleth_attributes_present?
       Rails.logger.debug 'Shibboleth attributes are present.'
-      username = request.headers['X-Shib-User']
-      email = request.headers['X-Shib-Email']
-      uid = request.headers['X-Shib-Uid']
 
-      Rails.logger.debug "Received username: #{username}"
-      Rails.logger.debug "Received email: #{email}"
-      Rails.logger.debug "Received uid: #{uid}"
+      # Extract the portion before the '@' sign
+      full_username = request.headers['X-Shib-User']
+      match = full_username.match(/^([^@]+)/)
+      username = match[1] if match
 
-      user = User.find_by(username: uid)
+      Rails.logger.debug "Extracted username: #{username}"
+
+      user = User.find_by(username: username)
 
       if user
         handle_successful_login(user)
-        redirect_to params[:target] || conservation_records_path
+        redirect_to params[:target] || conservation_records_path, info: "Welcome back, #{user.display_name}"
       else
         Rails.logger.error "User with username #{username} not found."
         redirect_to root_path, alert: 'Sign in failed: User not found.'
