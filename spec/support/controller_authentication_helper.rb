@@ -3,6 +3,7 @@
 module ControllerAuthenticationHelper
   def controller_login_as(user)
     allow(controller).to receive(:current_user).and_return(user)
+    session[:last_seen] = Time.current
     controller.instance_variable_set(:@current_user, user)
   end
 

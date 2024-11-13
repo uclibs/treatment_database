@@ -68,6 +68,6 @@ class SessionsController < ApplicationController
     reset_session_and_cookies
     session[:user_id] = user.id
     session[:last_seen] = Time.current
-    Rails.logger.info "User #{user.username} logged in successfully."
+    Rails.logger.error "User #{user.username} logged in successfully."
   end
 end

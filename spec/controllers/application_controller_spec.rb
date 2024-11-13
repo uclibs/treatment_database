@@ -47,9 +47,7 @@ RSpec.describe ApplicationController, type: :controller do
       let(:user) { create(:user, account_active: true) }
 
       before do
-        allow(controller).to receive(:current_user).and_return(user)
-        allow(controller).to receive(:user_signed_in?).and_return(true)
-        session[:last_seen] = Time.current
+        controller_login_as(user)
       end
 
       it 'allows access to the action' do
@@ -63,8 +61,7 @@ RSpec.describe ApplicationController, type: :controller do
       let(:user) { create(:user, account_active: false) }
 
       before do
-        allow(controller).to receive(:current_user).and_return(user)
-        allow(controller).to receive(:user_signed_in?).and_return(true)
+        controller_login_as(user)
       end
 
       it 'redirects to root path with an alert about inactive account' do
@@ -78,8 +75,7 @@ RSpec.describe ApplicationController, type: :controller do
       let(:user) { create(:user, account_active: true) }
 
       before do
-        allow(controller).to receive(:current_user).and_return(user)
-        allow(controller).to receive(:user_signed_in?).and_return(true)
+        controller_login_as(user)
         session[:last_seen] = 11.hours.ago
       end
 
@@ -133,9 +129,7 @@ RSpec.describe ApplicationController, type: :controller do
     let(:user) { create(:user, account_active: true) }
 
     before do
-      # Log in the user for these tests
-      allow(controller).to receive(:current_user).and_return(user)
-      allow(controller).to receive(:user_signed_in?).and_return(true)
+      controller_login_as(user)
     end
 
     context 'when CanCan::AccessDenied is raised' do

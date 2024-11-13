@@ -39,7 +39,7 @@ class DevSessionsController < ApplicationController
     reset_session_and_cookies
     session[:user_id] = user.id
     session[:last_seen] = Time.current
-    Rails.logger.info "User #{user.email} logged in successfully (Development)."
+    Rails.logger.error "User #{user.email} logged in successfully (Development)."
     redirect_to params[:target] || root_path, notice: 'Signed in successfully (Development).'
   end
 

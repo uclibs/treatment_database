@@ -5,6 +5,7 @@ module ViewAuthenticationHelper
   def view_login_as(user)
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
     allow_any_instance_of(ApplicationController).to receive(:user_signed_in?).and_return(true)
+    session[:last_seen] = Time.current
   end
 
   def view_logout

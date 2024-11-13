@@ -17,6 +17,7 @@ RSpec.describe SearchController, type: :controller do
 
   it 'can search for documents by database id' do
     get :results, params: { search: ConservationRecord.first.id }
+    puts response.body
     expect(response).to redirect_to(conservation_record_path(ConservationRecord.first.id))
   end
 
