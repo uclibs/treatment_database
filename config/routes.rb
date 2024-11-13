@@ -2,9 +2,8 @@
 
 Rails.application.routes.draw do
 
-  # Shibboleth authentication routes
+  # Authentication routes
   get 'login', to: 'sessions#new', as: :login
-  get '/auth/shibboleth/callback', to: 'sessions#shibboleth_callback', as: :shibboleth_callback
   delete 'logout', to: 'sessions#destroy', as: :logout
 
   # Development authentication routes
