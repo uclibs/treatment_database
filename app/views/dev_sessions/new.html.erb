@@ -1,18 +1,19 @@
-<h1>Welcome Back</h1>
+<h1>Development Login</h1>
+<h2>Welcome Back</h2>
 <h2>Please sign in to continue</h2>
 
-<%= form_with url: dev_login_path, method: :post, local: true do |f| %>
+<%= form_with url: dev_login_path, method: :post do |form| %>
+  <div>
+    <%= form.label :email %><br>
+    <%= form.email_field :email %>
+  </div>
 
-  hehehehehehehehehe
-  <div class="field">
-    <%= f.label :email %>
-    <%= f.text_field :email %>
+  <div>
+    <%= form.label :password %><br>
+    <%= form.password_field :password %>
   </div>
-  <div class="field">
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-  </div>
-  <div class="actions">
-    <%= f.submit 'Submit' %>
+
+  <div>
+    <%= form.submit 'Sign In' %>
   </div>
 <% end %>

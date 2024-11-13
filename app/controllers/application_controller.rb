@@ -1,18 +1,15 @@
-# frozen_string_literal: true
-
+# app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
-  include AuthenticationConcern
   include Pagy::Backend
+  include AuthenticationConcern
 
-  # Makes the current_user method in the user_concern available in views.
-  helper_method :current_user
+  helper_method :current_user, :user_signed_in?
 
   before_action :authenticate_user!
   before_action :check_user_active, if: :user_signed_in?
   before_action :validate_session_timeout, if: :user_signed_in?
 
   protect_from_forgery with: :exception
-  # include SamlHelper
 
   before_action :set_paper_trail_whodunnit
 
@@ -22,13 +19,11 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ActionController::InvalidAuthenticityToken, with: :handle_invalid_auth_token
-
   rescue_from ActiveRecord::RecordNotFound, with: :render404
 
   private
 
   def handle_invalid_auth_token
-    # Redirect to a safe page like the homepage and show a flash message
     redirect_to root_path, alert: 'Your session has expired. Please sign in again.'
   end
 

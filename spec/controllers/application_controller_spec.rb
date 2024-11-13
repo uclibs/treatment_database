@@ -21,9 +21,8 @@ RSpec.describe ApplicationController, type: :controller do
   before do
     # Include helper modules
     @controller.class.include(AuthenticationConcern)
-    @controller.class.include(UserConcern)
+    @controller.class.include(UserAuthenticationConcern)
     @controller.class.include(SessionManagementConcern)
-    @controller.class.include(ShibbolethAuthenticationConcern)
 
     # Set up before_action callbacks as in ApplicationController
     @controller.class.before_action :authenticate_user!

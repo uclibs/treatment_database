@@ -6,9 +6,8 @@ RSpec.describe AuthenticationConcern, type: :controller do
   # Create an anonymous controller that includes the AuthenticationConcern
   controller(ApplicationController) do
     include AuthenticationConcern
-    include UserConcern
+    include UserAuthenticationConcern
     include SessionManagementConcern
-    include ShibbolethAuthenticationConcern
 
     # Set up the before_action callback
     before_action :authenticate_user!

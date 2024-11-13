@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe 'UserConcern', type: :controller do
+RSpec.describe 'UserAuthenticationConcern', type: :controller do
 
   # Create an anonymous controller that inherits from ApplicationController
   controller(ApplicationController) do
-    include UserConcern
+    include UserAuthenticationConcern
 
     def index
       render plain: 'Success'

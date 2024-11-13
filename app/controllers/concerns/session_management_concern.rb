@@ -2,8 +2,8 @@
 
 module SessionManagementConcern
   extend ActiveSupport::Concern
-
-  private
+  
+  # **Session Management Methods**
 
   def validate_session_timeout
     session_timeout_duration = 10.hours
@@ -22,23 +22,20 @@ module SessionManagementConcern
   end
 
   def expire_session
-    reset_session
+    reset_session_and_cookies
     redirect_to root_path, alert: 'Your session has expired. Please sign in again.'
   end
 
   def reset_session_and_cookies
     reset_session
-    preserve_shibboleth_cookies
+    preserve_shibboleth_cookies unless Rails.env.development? || Rails.env.test?
   end
 
   def preserve_shibboleth_cookies
     shibboleth_cookies = %w[_shibsession_ _shibstate_]
 
-    # Iterate over each known cookie key and delete if it doesn’t start with Shibboleth prefixes
-    cookies.to_hash.each_key do |key|
+    cookies.each_key do |key|
       cookies.delete(key) unless shibboleth_cookies.any? { |shib_cookie| key.start_with?(shib_cookie) }
     end
   end
-
-
 end

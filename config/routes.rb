@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # AuthenticationConcern and Sessions
-  ## Production Login (Shibboleth)
+
+  # Shibboleth authentication routes
   get 'login', to: 'sessions#new', as: :login
+  get '/auth/shibboleth/callback', to: 'sessions#shibboleth_callback', as: :shibboleth_callback
   delete 'logout', to: 'sessions#destroy', as: :logout
 
-  ## Development Login (Username/Password)
+  # Development authentication routes
   if Rails.env.development? || Rails.env.test?
     get 'dev_login', to: 'dev_sessions#new', as: :dev_login
     post 'dev_login', to: 'dev_sessions#create'
