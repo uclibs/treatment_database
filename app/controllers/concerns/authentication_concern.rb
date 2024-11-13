@@ -11,6 +11,7 @@ module AuthenticationConcern
   def authenticate_user!
     return if user_signed_in?
 
+
     if shibboleth_attributes_present?
       process_shibboleth_login
     else
@@ -31,9 +32,9 @@ module AuthenticationConcern
           Rails.logger.error header_item
         end
       else
-        Rails.logger.error "No attributes found in request.headers or it is not iterable."
+        Rails.logger.error "No attributes found in request.headers or it is not iterable.   This message originates from authenticate_user!"
       end
-      redirect_to root_path, alert: 'Authentication failed: Shibboleth attributes not present.'
+      redirect_to root_path, alert: 'Authentication failed: Shibboleth attributes not present.  This message originates from authenticate_user!'
     end
   end
 end
