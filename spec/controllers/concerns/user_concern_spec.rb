@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'UserAuthenticationConcern', type: :controller do
-
   # Create an anonymous controller that inherits from ApplicationController
   controller(ApplicationController) do
     include UserAuthenticationConcern

@@ -93,7 +93,5 @@ RSpec.describe AuthenticationConcern, type: :controller do
         end
       end
     end
-
-
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/controllers/sessions_controller.rb
 class SessionsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[new destroy]
@@ -6,57 +8,61 @@ class SessionsController < ApplicationController
 
   def new
     if user_signed_in?
-      Rails.logger.debug "User is already signed in: #{current_user.username}"
       redirect_to params[:target] || root_path
     else
-      Rails.logger.debug 'User not signed in. Attempting to process Shibboleth login.'
       process_shibboleth_login
     end
   end
 
-
   def destroy
     reset_session_and_cookies
-    redirect_to shibboleth_logout_url, notice: 'Signed out successfully'
+    redirect_to root_path, notice: 'Signed out successfully'
   end
 
   private
 
-  def shibboleth_logout_url
-    shib_logout_url = ENV.fetch('SHIBBOLETH_LOGOUT_URL') { raise 'SHIBBOLETH_LOGOUT_URL is not set' }
-    "#{shib_logout_url}?return=#{CGI.escape(root_url)}"
+  def process_shibboleth_login
+    if shibboleth_attributes_present?
+      username = extract_username_from_shibboleth
+
+      if username && (user = find_user_by_username(username))
+        successful_login(user)
+      else
+        handle_user_not_found(username)
+      end
+    else
+      handle_missing_shibboleth_attributes
+    end
   end
 
   def shibboleth_attributes_present?
     request.headers['X-Shib-User'].present?
   end
 
-  def process_shibboleth_login
-    if shibboleth_attributes_present?
-      Rails.logger.debug 'Shibboleth attributes are present.'
-
-      # Extract the portion before the '@' sign
-      full_username = request.headers['X-Shib-User']
-      match = full_username.match(/^([^@]+)/)
-      username = match[1] if match
-
-      Rails.logger.debug "Extracted username: #{username}"
-
-      user = User.find_by(username: username)
-
-      if user
-        handle_successful_login(user)
-        redirect_to params[:target] || conservation_records_path, info: "Welcome back, #{user.display_name}"
-      else
-        Rails.logger.error "User with username #{username} not found."
-        redirect_to root_path, alert: 'Sign in failed: User not found.'
-      end
-    else
-      Rails.logger.error 'Shibboleth attributes not present. Cannot authenticate user.'
-      redirect_to root_path, alert: 'Authentication failed: Shibboleth attributes not present.'
-    end
+  def extract_username_from_shibboleth
+    full_username = request.headers['X-Shib-User']
+    match = full_username.match(/^([^@]+)/)
+    match[1] if match
   end
 
+  def find_user_by_username(username)
+    User.find_by(username: username)
+  end
+
+  def successful_login(user)
+    handle_successful_login(user)
+    redirect_to params[:target] || conservation_records_path, info: "Welcome back, #{user.display_name}"
+  end
+
+  def handle_user_not_found(username)
+    Rails.logger.error "User with username #{username} not found."
+    redirect_to root_path, alert: 'Sign in failed: User not found.'
+  end
+
+  def handle_missing_shibboleth_attributes
+    Rails.logger.error 'Shibboleth attributes not present. Cannot authenticate user.'
+    redirect_to root_path, alert: 'Authentication failed: Shibboleth attributes not present.'
+  end
 
   def handle_successful_login(user)
     reset_session_and_cookies

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module AuthenticationHelpers
-
   # Log the user in in a feature test
   def dev_log_in_user(user)
     visit dev_login_path

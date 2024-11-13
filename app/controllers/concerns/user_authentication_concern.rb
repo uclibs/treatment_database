@@ -6,17 +6,9 @@ module UserAuthenticationConcern
   # **Authentication Methods**
 
   def authenticate_user!
-    if user_signed_in?
-      Rails.logger.debug "User is signed in: #{current_user.username}"
-      return
-    else
-      Rails.logger.debug "User not signed in. Redirecting to login path."
-      if Rails.env.development? || Rails.env.test?
-        redirect_to dev_login_path(target: request.fullpath)
-      else
-        redirect_to login_path(target: request.fullpath)
-      end
-    end
+    return if user_signed_in?
+
+    redirect_to root_path, alert: 'Please sign in to access this page.'
   end
 
   def current_user
@@ -37,20 +29,4 @@ module UserAuthenticationConcern
   def admin?
     current_user&.role == 'admin'
   end
-
-  # def handle_successful_login(user, notice_message)
-  #   reset_session
-  #   session[:user_id] = user.id
-  #   session[:last_seen] = Time.current
-  #   Rails.logger.info "User #{user.username} logged in successfully."
-  #   redirect_user_based_on_status(user, notice_message)
-  # end
-  #
-  # def redirect_user_based_on_status(user, notice_message)
-  #   if user.account_active
-  #     redirect_to conservation_records_path, notice: notice_message
-  #   else
-  #     redirect_to root_path, alert: 'Your account is not active.'
-  #   end
-  # end
 end

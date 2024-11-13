@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 # spec/requests/session_management_spec.rb
 
 require 'rails_helper'
 
 RSpec.describe 'Session Management', type: :request do
-  include ActiveSupport::Testing::TimeHelpers  # For manipulating time
+  include ActiveSupport::Testing::TimeHelpers # For manipulating time
 
   let(:user) { create(:user) }
 

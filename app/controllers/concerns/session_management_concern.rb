@@ -2,7 +2,7 @@
 
 module SessionManagementConcern
   extend ActiveSupport::Concern
-  
+
   # **Session Management Methods**
 
   def validate_session_timeout
@@ -28,10 +28,10 @@ module SessionManagementConcern
 
   def reset_session_and_cookies
     reset_session
-    preserve_shibboleth_cookies unless Rails.env.development? || Rails.env.test?
+    delete_non_shibboleth_cookies
   end
 
-  def preserve_shibboleth_cookies
+  def delete_non_shibboleth_cookies
     shibboleth_cookies = %w[_shibsession_ _shibstate_]
 
     keys_to_delete = cookies.to_hash.keys.reject do |key|

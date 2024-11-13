@@ -4,6 +4,4 @@ module AuthenticationConcern
   extend ActiveSupport::Concern
   include SessionManagementConcern
   include UserAuthenticationConcern
-
 end
-
