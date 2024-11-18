@@ -140,11 +140,10 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
     click_button('Add Conservators and Technicians')
-    # Ensure the dropdown is visible and enabled before interacting with it
-    expect(page).to have_select('cons_tech_performed_by_user_id', visible: true, wait: 10)
-    select('John Green', from: 'cons_tech_performed_by_user_id', match: :first)
+    dropdown = find('#cons_tech_performed_by_user_id', visible: true, wait: 10)
+    dropdown.find('option', text: 'John Green').select_option
     click_button('Create Conservators and Technicians Record')
-    expect(page).to have_content('John Green')
+    expect(page).to have_content('John Green', wait: 10)
 
     # Save Treatment Report
     expect(page).to have_content('Treatment Report')
