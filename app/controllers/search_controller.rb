@@ -3,6 +3,8 @@
 class SearchController < ApplicationController
   before_action :authenticate_user!
 
+  def help; end
+
   def results
     @search_string = params[:search]
     @records = case @search_string
