@@ -10,7 +10,7 @@ RSpec.describe 'navigation/_logged_out_navigation.html.erb', type: :view do
     end
 
     it 'displays login link and hides user-specific links' do
-      expect(rendered).to have_link('Log in')
+      expect(rendered).to have_button('Sign In')
       expect(rendered).to have_link('Treatment Database', href: root_path)
       expect(rendered).not_to have_link('Conservation Records', href: conservation_records_path)
       expect(rendered).not_to have_link('Vocabularies', href: controlled_vocabularies_path)

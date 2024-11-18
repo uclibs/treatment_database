@@ -9,11 +9,10 @@ RSpec.describe 'Standard User Tests', type: :feature do
 
   it 'allows User to login and show Conservation Records' do
     # Login
-
-    visit new_session_path
+    visit dev_login_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
+    click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
     expect(page).to have_no_link('Users')

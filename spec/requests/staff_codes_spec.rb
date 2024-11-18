@@ -54,7 +54,7 @@ RSpec.describe 'StaffCodes', type: :request do
     context 'when user is not logged in' do
       it 'redirects to login page' do
         get staff_codes_path
-        expect(response).to redirect_to(new_session_path)
+        expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq('You need to sign in before continuing.')
       end
     end
@@ -129,9 +129,8 @@ RSpec.describe 'StaffCodes', type: :request do
 
     context 'when user is not logged in' do
       it 'redirects to login page' do
-        request_logout
         get staff_code_path(staff_code)
-        expect(response).to redirect_to(new_session_path)
+        expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq('You need to sign in before continuing.')
       end
     end
