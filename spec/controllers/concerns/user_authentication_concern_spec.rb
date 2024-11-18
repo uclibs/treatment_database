@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# spec/requests/user_authentication_spec.rb
 require 'rails_helper'
 
 RSpec.describe 'User Authentication', type: :request do

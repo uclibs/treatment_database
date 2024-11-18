@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# spec/requests/shibboleth_authentication_spec.rb
-
 require 'rails_helper'
 
 RSpec.describe 'Shibboleth Authentication', type: :request do

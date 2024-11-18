@@ -25,8 +25,8 @@ module ShibbolethAuthenticationConcern
 
   def extract_username_from_shibboleth
     full_username = request.headers['X-Shib-User']
-    match = full_username.match(/^([^@]+)/)
-    match[1] if match
+    match = full_username.match(/^([^@]+)/) # Take the "6+2" at the front of the uc id provided.
+    match[1] if match # Return only the "6+2" as a username
   end
 
   def find_user_by_username(username)

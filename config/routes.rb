@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Authentication routes
+  # Production authentication routes
   get 'login', to: 'sessions#new', as: :login
   delete 'logout', to: 'sessions#destroy', as: :logout
 
-  # Development authentication routes
+  # Development and testing authentication routes
   if Rails.env.development? || Rails.env.test?
     get 'dev_login', to: 'dev_sessions#new', as: :dev_login
     post 'dev_login', to: 'dev_sessions#create'

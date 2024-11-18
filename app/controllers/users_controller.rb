@@ -3,7 +3,6 @@
 # Manages user profile actions, allowing users to view and update their own profile.
 class UsersController < ApplicationController
   before_action :set_user
-  skip_before_action :check_user_active, only: %i[show edit update]
 
   load_and_authorize_resource
 
