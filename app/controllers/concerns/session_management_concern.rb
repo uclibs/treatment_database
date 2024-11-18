@@ -3,7 +3,7 @@
 module SessionManagementConcern
   extend ActiveSupport::Concern
 
-  # **Session Management Methods**
+  private
 
   def validate_session_timeout
     session_timeout_duration = 10.hours

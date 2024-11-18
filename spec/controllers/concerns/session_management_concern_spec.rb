@@ -9,7 +9,7 @@ RSpec.describe 'Session Management', type: :request do
 
   let(:user) { create(:user) }
 
-  describe 'Session Timeout' do
+  describe 'validate_session_timeout' do
     context 'when session has not expired' do
       it 'allows access and updates session[:last_seen]' do
         request_login_as(user)
@@ -22,6 +22,10 @@ RSpec.describe 'Session Management', type: :request do
 
         # Expect successful access
         expect(response).to have_http_status(:ok)
+
+        # Verify that session[:last_seen] is updated
+        last_seen = Time.parse(response.headers['X-Last-Seen'])
+        expect(last_seen).to be_within(1.second).of(Time.current)
 
         # Clean up time travel
         travel_back
@@ -51,7 +55,7 @@ RSpec.describe 'Session Management', type: :request do
     end
 
     context 'when session[:last_seen] is not set' do
-      it 'considers session expired, resets the session, and asks the user to log in again' do
+      it 'considers session expired, resets the session, and prompts the user to log in again' do
         request_login_as(user)
 
         # Stub `session[:last_seen]` to return nil when checked in `session_expired?`
@@ -62,12 +66,12 @@ RSpec.describe 'Session Management', type: :request do
         follow_redirect!
 
         # Check for the alert message in the response body
-        expect(response.body).to include('Please sign in to access this page.')
+        expect(response.body).to include('You must be signed in to access this page.')
       end
     end
   end
 
-  describe 'Session Expiration' do
+  describe 'session_expired?' do
     it 'resets the session and redirects when expire_session is called' do
       request_login_as(user)
 
@@ -88,7 +92,7 @@ RSpec.describe 'Session Management', type: :request do
     end
   end
 
-  describe 'Reset Session and Cookies' do
+  describe 'reset_session_and_cookies' do
     before do
       # Set cookies before the request
       cookies['some_cookie'] = 'value'

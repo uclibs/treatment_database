@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :check_user_active, if: :user_signed_in?
   before_action :validate_session_timeout, if: :user_signed_in?
+  after_action :expose_last_seen_for_tests, if: -> { Rails.env.test? }
 
   protect_from_forgery with: :exception
 
@@ -34,5 +35,9 @@ class ApplicationController < ActionController::Base
       format.html { render template: 'errors/not_found', status: :not_found }
       format.json { render json: { error: 'Not Found' }, status: :not_found }
     end
+  end
+
+  def expose_last_seen_for_tests
+    response.headers['X-Last-Seen'] = session[:last_seen].to_s if session[:last_seen]
   end
 end

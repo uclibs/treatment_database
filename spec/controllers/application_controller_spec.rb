@@ -21,8 +21,6 @@ RSpec.describe ApplicationController, type: :controller do
   before do
     # Include helper modules
     @controller.class.include(AuthenticationConcern)
-    @controller.class.include(UserAuthenticationConcern)
-    @controller.class.include(SessionManagementConcern)
 
     # Set up before_action callbacks as in ApplicationController
     @controller.class.before_action :authenticate_user!
@@ -93,18 +91,16 @@ RSpec.describe ApplicationController, type: :controller do
       before do
         allow(controller).to receive(:user_signed_in?).and_return(false)
         allow(controller).to receive(:shibboleth_attributes_present?).and_return(true)
-        allow(controller).to receive(:process_shibboleth_login) do
-          allow(controller).to receive(:current_user).and_return(user)
-          allow(controller).to receive(:user_signed_in?).and_return(true)
-          session[:last_seen] = Time.current
-        end
       end
 
-      it 'processes Shibboleth login and allows access' do
-        expect(controller).to receive(:process_shibboleth_login)
+      it 'considers the user as logged out, redirects to the root page, prompting login' do
         get :show
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to eq('This is a test')
+
+        # Verify redirection to the root page
+        expect(response).to redirect_to(root_path)
+
+        # Verify the flash message prompting login
+        expect(flash[:alert]).to eq('You must be signed in to access this page.')
       end
     end
 
@@ -114,11 +110,11 @@ RSpec.describe ApplicationController, type: :controller do
         allow(controller).to receive(:shibboleth_attributes_present?).and_return(false)
       end
 
-      it 'redirects to root_path with an alert' do
-        expect(Rails.logger).to receive(:error).with('Shibboleth attributes not present. Cannot authenticate user.')
+      it 'redirects to root_path with an alert to sign in' do
         get :show
+
         expect(response).to redirect_to(root_path)
-        expect(flash[:alert]).to eq('Authentication failed: Shibboleth attributes not present.')
+        expect(flash[:alert]).to eq('You must be signed in to access this page.')
       end
     end
   end
