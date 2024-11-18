@@ -160,7 +160,7 @@ RSpec.describe 'ConservationRecords', type: :request do
 
     context 'when user is standard' do
       before do
-        request_login_as(standard_user, target:conservation_record_path(conservation_record))
+        request_login_as(standard_user, target: conservation_record_path(conservation_record))
       end
 
       it 'shows the conservation record with appropriate permissions' do

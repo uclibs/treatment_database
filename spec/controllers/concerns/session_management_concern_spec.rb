@@ -24,7 +24,7 @@ RSpec.describe 'Session Management', type: :request do
         expect(response).to have_http_status(:ok)
 
         # Verify that session[:last_seen] is updated
-        last_seen = Time.parse(response.headers['X-Last-Seen'])
+        last_seen = Time.zone.parse(response.headers['X-Last-Seen'])
         expect(last_seen).to be_within(1.second).of(Time.current)
 
         # Clean up time travel

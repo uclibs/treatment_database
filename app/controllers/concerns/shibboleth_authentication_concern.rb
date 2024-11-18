@@ -1,4 +1,5 @@
-# app/controllers/concerns/shibboleth_authentication.rb
+# frozen_string_literal: true
+
 module ShibbolethAuthenticationConcern
   extend ActiveSupport::Concern
 

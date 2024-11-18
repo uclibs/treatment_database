@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/support/controllers/test_user_authentication_controller.rb
 class TestUserAuthenticationController < ApplicationController
   include UserAuthenticationConcern

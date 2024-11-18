@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/controllers/test_authentication_controller.rb
 
 class TestAuthenticationController < ApplicationController
