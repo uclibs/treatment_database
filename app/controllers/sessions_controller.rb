@@ -12,6 +12,9 @@ class SessionsController < ApplicationController
     else
       process_shibboleth_login
     end
+
+    # Explicitly prevent rendering a view
+    head :ok unless performed?
   end
 
   def destroy
