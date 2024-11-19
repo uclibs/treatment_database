@@ -29,14 +29,6 @@ class DevSessionsController < ApplicationController
     User.find_by(email: email)
   end
 
-  def authenticate_dev_user(user, password)
-    if user
-      user.authenticate(password)
-    else
-      false
-    end
-  end
-
   def handle_successful_login(user)
     reset_session_and_cookies
     session[:user_id] = user.id
