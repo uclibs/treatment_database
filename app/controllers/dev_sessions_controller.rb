@@ -1,34 +1,39 @@
 # frozen_string_literal: true
 
-# app/controllers/dev_sessions_controller.rb
 class DevSessionsController < ApplicationController
-  skip_before_action :authenticate_user!
-  skip_before_action :check_user_active
+  skip_before_action :authenticate_user!, only: %i[new create destroy]
+  skip_before_action :check_user_active, only: %i[new create destroy]
+  skip_before_action :validate_session_timeout, only: %i[new create destroy]
 
   def new
-    # Render the development login form
+    redirect_to params[:target] || root_path if user_signed_in?
   end
 
   def create
-    user = authenticate_user
+    email = params[:email].strip.downcase
+    user = find_user_by_email(email)
 
-    if user
-      handle_successful_login(user, 'Signed in successfully (Development).')
-    else
-      handle_failed_login
-    end
+    return handle_failed_login unless user&.authenticate(params[:password])
+
+    handle_successful_login(user)
   end
 
   def destroy
     reset_session_and_cookies
-    redirect_to root_path, notice: 'Signed out successfully (Development).'
+    redirect_to root_path, notice: 'Signed out successfully. (Development)'
   end
 
   private
 
-  def authenticate_user
-    user = User.find_by(email: params[:email])
-    user if user&.authenticate(params[:password])
+  def find_user_by_email(email)
+    User.find_by(email: email)
+  end
+
+  def handle_successful_login(user)
+    reset_session_and_cookies
+    session[:user_id] = user.id
+    session[:last_seen] = Time.current
+    redirect_to params[:target] || conservation_records_path, notice: 'Signed in successfully. (Development)'
   end
 
   def handle_failed_login

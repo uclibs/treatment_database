@@ -55,17 +55,16 @@ RSpec.describe 'StaffCodes', type: :request do
       it 'redirects to login page' do
         get staff_codes_path
         expect(response).to redirect_to(root_path)
-        expect(flash[:alert]).to eq('You need to sign in before continuing.')
+        expect(flash[:alert]).to eq('You must be signed in to access this page.')
       end
     end
 
     context 'when user is inactive' do
       before do
-        request_login_as(inactive_user)
+        request_login_as(inactive_user, target: staff_codes_path)
       end
 
       it 'shows an alert' do
-        get staff_codes_path
         expect(response).to redirect_to root_path
         expect(flash[:alert]).to eq('Your account is not active.')
       end
@@ -131,17 +130,16 @@ RSpec.describe 'StaffCodes', type: :request do
       it 'redirects to login page' do
         get staff_code_path(staff_code)
         expect(response).to redirect_to(root_path)
-        expect(flash[:alert]).to eq('You need to sign in before continuing.')
+        expect(flash[:alert]).to eq('You must be signed in to access this page.')
       end
     end
 
     context 'when user is inactive' do
       before do
-        request_login_as(inactive_user)
+        request_login_as(inactive_user, target: staff_code_path(staff_code))
       end
 
       it 'redirects to root path with alert' do
-        get staff_code_path(staff_code)
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq('Your account is not active.')
       end

@@ -3,25 +3,128 @@
 require 'rails_helper'
 require 'cancan'
 
-describe ApplicationController, type: :controller do
+RSpec.describe ApplicationController, type: :controller do
+  # Create an anonymous controller for testing
   controller do
     def index
+      # For testing CanCan::AccessDenied exception
       raise CanCan::AccessDenied
     end
 
     def show
+      # For testing successful access
       render plain: 'This is a test'
     end
   end
 
+  # Include necessary modules and set up before actions
+  before do
+    # Include helper modules
+    @controller.class.include(AuthenticationConcern)
+
+    # Set up before_action callbacks as in ApplicationController
+    @controller.class.before_action :authenticate_user!
+    @controller.class.before_action :check_user_active, if: :user_signed_in?
+    @controller.class.before_action :validate_session_timeout, if: :user_signed_in?
+
+    # Stub logger methods to prevent actual logging during tests
+    allow(Rails.logger).to receive(:error)
+    allow(Rails.logger).to receive(:info)
+
+    # Define routes for the anonymous controller
+    routes.draw do
+      get 'index' => 'anonymous#index'
+      get 'show' => 'anonymous#show'
+    end
+  end
+
+  ## **1. Testing Before Action Callbacks**
+
+  describe 'before_action callbacks' do
+    context 'when the user is already signed in and active' do
+      let(:user) { create(:user, account_active: true) }
+
+      before do
+        controller_login_as(user)
+      end
+
+      it 'allows access to the action' do
+        get :show
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to eq('This is a test')
+      end
+    end
+
+    context 'when the user is signed in but account is inactive' do
+      let(:user) { create(:user, account_active: false) }
+
+      before do
+        controller_login_as(user)
+      end
+
+      it 'redirects to root path with an alert about inactive account' do
+        get :show
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to eq('Your account is not active.')
+      end
+    end
+
+    context 'when the user is signed in but session is expired' do
+      let(:user) { create(:user, account_active: true) }
+
+      before do
+        controller_login_as(user)
+        session[:last_seen] = 11.hours.ago
+      end
+
+      it 'expires the session and redirects to root path with an alert' do
+        get :show
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to eq('Your session has expired. Please sign in again.')
+        expect(session[:user_id]).to be_nil
+      end
+    end
+
+    context 'when the user is not signed in and Shibboleth attributes are present' do
+      let(:user) { create(:user, account_active: true) }
+
+      before do
+        allow(controller).to receive(:user_signed_in?).and_return(false)
+        allow(controller).to receive(:shibboleth_attributes_present?).and_return(true)
+      end
+
+      it 'considers the user as logged out, redirects to the root page, prompting login' do
+        get :show
+
+        # Verify redirection to the root page
+        expect(response).to redirect_to(root_path)
+
+        # Verify the flash message prompting login
+        expect(flash[:alert]).to eq('You must be signed in to access this page.')
+      end
+    end
+
+    context 'when the user is not signed in and Shibboleth attributes are not present' do
+      before do
+        allow(controller).to receive(:user_signed_in?).and_return(false)
+        allow(controller).to receive(:shibboleth_attributes_present?).and_return(false)
+      end
+
+      it 'redirects to root_path with an alert to sign in' do
+        get :show
+
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to eq('You must be signed in to access this page.')
+      end
+    end
+  end
+
+  ## **2. Testing Exception Handling**
+
   describe 'handling exceptions' do
-    let(:user) { create(:user) }
+    let(:user) { create(:user, account_active: true) }
 
     before do
-      routes.draw do
-        get 'index' => 'anonymous#index'
-        get 'show' => 'anonymous#show'
-      end
       controller_login_as(user)
     end
 
@@ -33,23 +136,29 @@ describe ApplicationController, type: :controller do
       end
     end
 
-    context 'when InvalidAuthenticityToken is raised' do
+    context 'when ActionController::InvalidAuthenticityToken is raised' do
       before do
-        # Temporarily override the index action to not raise AccessDenied
+        # Simulate InvalidAuthenticityToken error
         allow_any_instance_of(controller.class).to receive(:show).and_raise(ActionController::InvalidAuthenticityToken)
       end
-      it 'raises InvalidAuthenticityToken error and redirects to root path with a session expired message' do
-        # Simulate the request by going to `show`, and manually raise the InvalidAuthenticityToken error
-        expect do
-          get :show
-          raise ActionController::InvalidAuthenticityToken
-        end.to raise_error(ActionController::InvalidAuthenticityToken)
 
-        # Expect redirection to root path
+      it 'handles the exception and redirects with a session expired message' do
+        get :show
         expect(response).to redirect_to(root_path)
-
-        # Check for session expired flash message
         expect(flash[:alert]).to eq('Your session has expired. Please sign in again.')
+      end
+    end
+
+    context 'when ActiveRecord::RecordNotFound is raised' do
+      before do
+        # Simulate RecordNotFound error
+        allow_any_instance_of(controller.class).to receive(:show).and_raise(ActiveRecord::RecordNotFound)
+      end
+
+      it 'renders the 404 page' do
+        get :show
+        expect(response).to have_http_status(:not_found)
+        expect(response).to render_template('errors/not_found')
       end
     end
   end

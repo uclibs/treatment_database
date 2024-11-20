@@ -59,6 +59,7 @@ RSpec.describe 'Navigation Menu', type: :system do
       visit root_path
 
       # Ensure the navbar-toggler (hamburger menu) is visible
+      expect(page).to have_current_path(root_path)
       expect(page).to have_css('.navbar-toggler', visible: true)
 
       # Ensure the navbar is collapsed by default
