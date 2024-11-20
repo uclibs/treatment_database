@@ -18,7 +18,7 @@ RSpec.describe DevSessionsController, type: :controller do
         post :create, params: { email: user.email, password: 'notapassword' } # Password is set in the factory
         expect(session[:user_id]).to eq(user.id)
         expect(response).to redirect_to(conservation_records_path)
-        expect(flash[:notice]).to eq('Signed in successfully (Development).')
+        expect(flash[:notice]).to eq('Signed in successfully. (Development)')
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe DevSessionsController, type: :controller do
 
       expect(session[:user_id]).to be_nil
       expect(response).to redirect_to(root_path)
-      expect(flash[:notice]).to eq('Signed out successfully (Development).')
+      expect(flash[:notice]).to eq('Signed out successfully. (Development)')
     end
   end
 end

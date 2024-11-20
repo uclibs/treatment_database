@@ -54,17 +54,16 @@ RSpec.describe 'ControlledVocabularies', type: :request do
       it 'redirects to the root path with an error message' do
         get controlled_vocabularies_path
         expect(response).to redirect_to(root_path)
-        expect(flash[:alert]).to eq('You need to sign in before continuing.')
+        expect(flash[:alert]).to eq('You must be signed in to access this page.')
       end
     end
 
     context 'when user is inactive' do
       before do
-        request_login_as(inactive_user)
+        request_login_as(inactive_user, target: controlled_vocabularies_path)
       end
 
       it 'shows an alert' do
-        get controlled_vocabularies_path
         expect(response).to redirect_to root_path
         expect(flash[:alert]).to eq('Your account is not active.')
       end
@@ -122,17 +121,16 @@ RSpec.describe 'ControlledVocabularies', type: :request do
       it 'redirects to the root path with an alert' do
         get controlled_vocabulary_path(controlled_vocabulary)
         expect(response).to redirect_to(root_path)
-        expect(flash[:alert]).to eq('You need to sign in before continuing.')
+        expect(flash[:alert]).to eq('You must be signed in to access this page.')
       end
     end
 
     context 'when user is inactive' do
       before do
-        request_login_as(inactive_user)
+        request_login_as(inactive_user, target: controlled_vocabulary_path(controlled_vocabulary))
       end
 
       it 'redirects to root path with alert' do
-        get controlled_vocabulary_path(controlled_vocabulary)
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq('Your account is not active.')
       end

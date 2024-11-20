@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ConTechRecordsController < ApplicationController
-  before_action :authenticate_user!
-
   load_and_authorize_resource
 
   def create

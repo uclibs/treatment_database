@@ -92,6 +92,46 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
          password_confirmation: 'notapass',
          role: 'admin',
          username: 'chuck'
+       },
+       {
+         email: 'dibbinrm@ucmail.uc.edu',
+         display_name: 'Rondi Dibbini',
+         password: 'notapass',
+         password_confirmation: 'notapass',
+         role: 'admin',
+         username: 'dibbinrm'
+       },
+       {
+         email: 'huyckjl@ucmail.uc.edu',
+         display_name: 'Janell Huyck',
+         password: 'notapass',
+         password_confirmation: 'notapass',
+         role: 'admin',
+         username: 'huyckjl'
+       },
+       {
+         email: 'hortongn@ucmail.uc.edu',
+         display_name: 'Glen Horton',
+         password: 'notapass',
+         password_confirmation: 'notapass',
+         role: 'admin',
+         username: 'hortongn'
+       },
+       {
+         email: 'haitzlm@ucmail.uc.edu',
+         display_name: 'Lisa Haitz',
+         password: 'notapass',
+         password_confirmation: 'notapass',
+         role: 'admin',
+         username: 'haitzlm'
+       },
+       {
+         email: 'scherztc@ucmail.uc.edu',
+         display_name: 'Thomas Scherz',
+         password: 'notapass',
+         password_confirmation: 'notapass',
+         role: 'admin',
+         username: 'scherztc'
        }]
     )
 

@@ -13,11 +13,10 @@ RSpec.describe 'ConservationRecords', type: :request do
   describe 'GET /conservation_records' do
     context 'when user is read_only' do
       before do
-        request_login_as(read_only_user)
+        request_login_as(read_only_user, target: conservation_records_path)
       end
 
       it 'shows the conservation records page with appropriate content for the user' do
-        get conservation_records_path
         expect(response).to have_http_status(200)
 
         # Parse the response body as HTML
@@ -46,11 +45,10 @@ RSpec.describe 'ConservationRecords', type: :request do
 
     context 'when user is standard' do
       before do
-        request_login_as(standard_user)
+        request_login_as(standard_user, target: conservation_records_path)
       end
 
       it 'shows the conservation records page with appropriate content for the user' do
-        get conservation_records_path
         expect(response).to have_http_status(200)
         # Parse the response body as HTML
         parsed_body = Nokogiri::HTML(response.body)
@@ -78,11 +76,10 @@ RSpec.describe 'ConservationRecords', type: :request do
 
     context 'when user is admin' do
       before do
-        request_login_as(admin_user)
+        request_login_as(admin_user, target: conservation_records_path)
       end
 
       it 'shows the conservation records page with appropriate content for the user' do
-        get conservation_records_path
         expect(response).to have_http_status(200)
         # Parse the response body as HTML
         parsed_body = Nokogiri::HTML(response.body)
@@ -112,17 +109,16 @@ RSpec.describe 'ConservationRecords', type: :request do
       it 'redirects to root page' do
         get controlled_vocabularies_path
         expect(response).to redirect_to(root_path)
-        expect(flash[:alert]).to eq('You need to sign in before continuing.')
+        expect(flash[:alert]).to eq('You must be signed in to access this page.')
       end
     end
 
     context 'when user is inactive' do
       before do
-        request_login_as(inactive_user)
+        request_login_as(inactive_user, target: controlled_vocabularies_path)
       end
 
       it 'shows an alert' do
-        get controlled_vocabularies_path
         expect(response).to redirect_to root_path
         expect(flash[:alert]).to eq('Your account is not active.')
       end
@@ -132,11 +128,10 @@ RSpec.describe 'ConservationRecords', type: :request do
   describe 'GET /conservation_records/:id' do
     context 'when user is read_only' do
       before do
-        request_login_as(read_only_user)
+        request_login_as(read_only_user, target: conservation_record_path(conservation_record))
       end
 
       it 'shows the conservation record with appropriate permissions' do
-        get conservation_record_path(conservation_record)
         expect(response).to have_http_status(200)
 
         # Parse the response body as HTML
@@ -165,11 +160,10 @@ RSpec.describe 'ConservationRecords', type: :request do
 
     context 'when user is standard' do
       before do
-        request_login_as(standard_user)
+        request_login_as(standard_user, target: conservation_record_path(conservation_record))
       end
 
       it 'shows the conservation record with appropriate permissions' do
-        get conservation_record_path(conservation_record)
         expect(response).to have_http_status(200)
         # Parse the response body as HTML
         parsed_body = Nokogiri::HTML(response.body)
@@ -238,11 +232,10 @@ RSpec.describe 'ConservationRecords', type: :request do
 
     context 'when user is admin' do
       before do
-        request_login_as(admin_user)
+        request_login_as(admin_user, target: conservation_record_path(conservation_record))
       end
 
       it 'shows the conservation record with appropriate permissions' do
-        get conservation_record_path(conservation_record)
         expect(response).to have_http_status(200)
         # Parse the response body as HTML
         parsed_body = Nokogiri::HTML(response.body)
@@ -317,17 +310,16 @@ RSpec.describe 'ConservationRecords', type: :request do
       it 'redirects to root page' do
         get conservation_record_path(conservation_record)
         expect(response).to redirect_to(root_path)
-        expect(flash[:alert]).to eq('You need to sign in before continuing.')
+        expect(flash[:alert]).to eq('You must be signed in to access this page.')
       end
     end
 
     context 'when user is inactive' do
       before do
-        request_login_as(inactive_user)
+        request_login_as(inactive_user, target: conservation_record_path(conservation_record))
       end
 
       it 'redirects to root path with alert' do
-        get conservation_record_path(conservation_record)
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq('Your account is not active.')
       end

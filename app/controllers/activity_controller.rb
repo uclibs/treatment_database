@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ActivityController < ApplicationController
-  before_action :authenticate_user!
   authorize_resource class: false
 
   def index

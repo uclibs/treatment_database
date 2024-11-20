@@ -1,16 +1,20 @@
-<h1>Welcome Back</h1>
+<h1>Development Login</h1>
+<h2>Welcome Back</h2>
 <h2>Please sign in to continue</h2>
 
-<%= form_with url: dev_login_path, method: :post, local: true do |f| %>
-  <div class="field">
-    <%= f.label :email %>
-    <%= f.text_field :email %>
+<%= form_with url: dev_login_path, method: :post, local: true do |form| %>
+  <div>
+    <%= form.label :email %><br>
+    <%= form.email_field :email, autocomplete: 'off' %>
   </div>
-  <div class="field">
-    <%= f.label :password %>
-    <%= f.password_field :password %>
+
+  <div>
+    <%= form.label :password %><br>
+    <%= form.password_field :password, autocomplete: 'off' %>
   </div>
-  <div class="actions">
-    <%= f.submit 'Submit' %>
+
+  <div>
+    <br/>
+    <%= form.submit 'Submit' %>
   </div>
 <% end %>

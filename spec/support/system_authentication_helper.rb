@@ -6,6 +6,7 @@ module SystemAuthenticationHelper
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
     click_button 'Submit'
+    expect(page).to have_css('.alert', text: 'Signed in successfully. (Development)')
   end
 
   def system_logout
