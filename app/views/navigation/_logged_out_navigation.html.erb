@@ -4,8 +4,13 @@
       <div class="me-auto">
         <%= link_to 'Treatment Database', root_path, class: 'navbar-brand' %>
       </div>
-      <div class="ms-auto">
-        <%= link_to "Log in", new_user_session_path, {:class => "btn btn-secondary text-white"} %>
+      <div>
+        <% if Rails.env.development? || Rails.env.test? %>
+          <%= button_to 'Dev Sign In', dev_login_path, method: :get, class: 'btn btn-secondary me-2' %>
+        <% end %>
+      </div>
+      <div>
+        <%= button_to 'Sign In', login_path, target: conservation_records_path, method: :get, class: 'btn btn-secondary' %>
       </div>
     </div>
   </div>

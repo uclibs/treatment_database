@@ -9,12 +9,13 @@ ruby '3.3.3'
 gem 'dotenv-rails' # Loads environment variables from .env
 
 # Core Rails gems
-gem 'actionmailer', '~>6.1.7.9' # Email composition, delivery, and receiving with Action Mailer
-gem 'actionpack', '~>6.1.7.9' # Handles web requests and responses with Action Controller and Action Dispatch
-gem 'actiontext', '~>6.1.7.9' # Rich text content and editing with Action Text
+gem 'actionmailer', '~>6.1.7.10' # Email composition, delivery, and receiving with Action Mailer
+gem 'actionpack', '~>6.1.7.10' # Handles web requests and responses with Action Controller and Action Dispatch
+gem 'actiontext', '~>6.1.7.10' # Rich text content and editing with Action Text
 gem 'activestorage' # Handles file uploads in Rails applications
+gem 'builder' # Provides a simple way to create XML markup and data structures
 gem 'mutex_m' # Being removed from Ruby soon, required for activestorage
-gem 'rails', '~> 6.1.7.9' # The Rails framework
+gem 'rails', '~> 6.1.7.10' # The Rails framework
 gem 'sprockets-rails', '~> 3.4' # Sprockets adapter for Rails, needed for deploy:assets:precompile steps
 gem 'sqlite3', '~> 1.4' # SQLite3 database adapter for ActiveRecord
 
@@ -41,12 +42,12 @@ gem 'sassc-rails', '~> 2.1' # SASSC adapter for Rails, needed for Bootstrap 5
 gem 'turbolinks', '~> 5' # Makes navigating your site faster by using AJAX to load only the HTML needed
 
 # Authentication and Authorization
+gem 'bcrypt', '~> 3.1.7' # A Ruby binding for the OpenBSD bcrypt() password hashing algorithm
 gem 'cancancan' # Authorization library for Ruby on Rails which restricts what resources a given user is allowed to access
-gem 'devise' # Flexible authentication solution for Rails with Warden
 
 # Additional Functionality
 gem 'nokogiri' # HTML, XML, SAX, and Reader parser
-gem 'pagy' # Pagination library that is fast, lightweight, and flexible
+gem 'pagy', '~> 9.0' # Pagination library that is fast, lightweight, and flexible
 gem 'paper_trail' # Track changes to your models' data
 gem 'pdfkit' # Uses wkhtmltopdf to generate PDFs from HTML
 gem 'rexml', '>= 3.3.6' # XML processing library, now a direct dependency for security management
@@ -54,6 +55,8 @@ gem 'wkhtmltopdf-binary', '>= 0.12.6.7' # Enables PDF generation from HTML
 
 # Windows specific timezone data
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby] # Timezone data for Windows
+
+gem 'show_me_the_cookies' # Cookie inspection for tests
 
 group :development, :test do
   # Debugging tools
@@ -63,7 +66,6 @@ group :development, :test do
   gem 'factory_bot_rails' # A fixtures replacement with a straightforward definition syntax
   gem 'rails-controller-testing' # Adds missing helper methods for controller tests in Rails 5
   gem 'rspec_junit_formatter' # Outputs RSpec results in JUnit format
-  gem 'rspec-rails', '~> 6.0.0' # RSpec for Rails 6+
   gem 'selenium-webdriver', '~> 4.18.1' # WebDriver for testing web applications
 
   # Coverage and code analysis
@@ -100,6 +102,9 @@ group :test do
   gem 'capybara', '>= 2.15' # Integration testing tool for rack-based web applications
   gem 'database_cleaner-active_record' # Strategies for cleaning databases in Ruby
   gem 'launchy' # Opens a given URL in a browser
+  gem 'rack-test' # Small, simple testing API for Rack apps
+  gem 'rspec-rails', '~> 6.0.0' # RSpec for Rails 6+
+  gem 'shoulda-matchers', '~> 5.0' # Provides RSpec with additional matchers
 end
 
 group :production do

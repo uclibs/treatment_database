@@ -3,12 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe ActivityController, type: :controller do
-  include Devise::Test::ControllerHelpers
+  let(:user) { create(:user, role: 'admin') }
   render_views
 
   before do
-    user = create(:user, role: 'admin')
-    sign_in_user(user)
+    controller_login_as(user)
   end
 
   let(:valid_attributes) do
@@ -19,10 +18,6 @@ RSpec.describe ActivityController, type: :controller do
       whodunnit: 1,
       created_at: Date.new
     }
-  end
-
-  def sign_in_user(user)
-    sign_in user
   end
 
   describe 'GET #index' do

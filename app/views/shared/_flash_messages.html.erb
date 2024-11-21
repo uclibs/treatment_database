@@ -1,12 +1,10 @@
-<% if alert %>
-  <div class="alert alert-danger">
-    <%= alert %>
+<% flash.each do |key, message| %>
+  <% css_class = case key
+                 when 'alert' then 'alert-danger'
+                 when 'notice' then 'alert-success'
+                 else 'alert-primary'
+                 end %>
+  <div class="alert <%= css_class %>">
+    <%= message %>
   </div>
 <% end %>
-
-<% if notice %>
-  <div class="alert alert-primary">
-    <%= notice %>
-  </div>
-<% end %>
-      

@@ -1,0 +1,20 @@
+<h1>Development Login</h1>
+<h2>Welcome Back</h2>
+<h2>Please sign in to continue</h2>
+
+<%= form_with url: dev_login_path, method: :post, local: true do |form| %>
+  <div>
+    <%= form.label :email %><br>
+    <%= form.email_field :email, autocomplete: 'off' %>
+  </div>
+
+  <div>
+    <%= form.label :password %><br>
+    <%= form.password_field :password, autocomplete: 'off' %>
+  </div>
+
+  <div>
+    <br/>
+    <%= form.submit 'Submit' %>
+  </div>
+<% end %>

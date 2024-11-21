@@ -1,15 +1,28 @@
 # frozen_string_literal: true
 
-require 'byebug'
-require 'devise'
+require 'simplecov'
+require 'simplecov-lcov'
+require 'coveralls'
 
-require_relative '../.simplecov_setup'
-
-def sign_in(user)
-  post user_session_path \
-    'user[email]' => user.email,
-    'user[password]' => user.password
+SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
+SimpleCov.start 'rails' do
+  add_filter '/spec/' # Exclude all files in the spec directory
+  add_filter '/lib/tasks/' # Exclude all files in the lib/tasks directory
+  add_filter '/lib/capistrano/' # Exclude all files in the lib/capistrano directory
 end
+
+SimpleCov.at_exit do
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
+    [
+      SimpleCov::Formatter::HTMLFormatter,
+      SimpleCov::Formatter::LcovFormatter,
+      Coveralls::SimpleCov::Formatter
+    ]
+  )
+  SimpleCov.result.format!
+end
+
+require 'byebug'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here.
@@ -31,7 +44,7 @@ RSpec.configure do |config|
     # Prevents you from mocking or stubbing a method that does not exist on
     # a real object. This is generally recommended, and will default to
     # `true` in RSpec 4.
-    mocks.verify_partial_doubles = true
+    mocks.verify_partial_doubles = true # We may need to set this to false
   end
 
   # This option will default to `:apply_to_host_groups` in RSpec 4 (and will

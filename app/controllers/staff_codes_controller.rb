@@ -2,7 +2,6 @@
 
 class StaffCodesController < ApplicationController
   before_action :set_staff_code, only: %i[show edit update]
-  before_action :authenticate_user!
   load_and_authorize_resource
 
   # GET /staff_codes or /staff_codes.json
