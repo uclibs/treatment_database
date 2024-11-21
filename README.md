@@ -7,7 +7,7 @@ This is a web application originally developed for the Preservation Lab at the U
 - Node >= 20.14.0
 - Yarn >= 1.22.17
 - Ruby 3.3.3
-- Rails ~> 6.1.7
+- Rails ~> 6.1.7.10
 
 ### Notes:
 
