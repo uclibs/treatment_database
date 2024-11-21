@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# spec/requests/sessions_controller_spec.rb
-
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :request do

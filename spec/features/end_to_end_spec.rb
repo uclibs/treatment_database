@@ -6,7 +6,7 @@ RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
     visit root_path
     expect(page).to have_button('Sign In')
-    expect(page).not_to have_button('Sign up')
+    expect(page).not_to have_content('Sign up')
   end
 end
 
@@ -215,7 +215,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
   it 'allows User to login and show Conservation Records' do
     # Login
     visit dev_login_path
-    expect(page).to have_content('Please sign in to continue')
+    expect(page).to have_content('Please sign in to continue') # Prompt only visible on Dev login page
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'notapassword'
     click_button 'Submit'
