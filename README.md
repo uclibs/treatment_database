@@ -96,9 +96,9 @@ bundle exec rspec
 
 ### Manual Testing
 When you ran `rails db:seed`, you created three user accounts:
-- an admin account with the username `chuck@uc.edu` and password `notapassword`
-- a standard user account with the username `jkrowling@uc.edu` and password `notapassword`
-- a read-only user account with the email `johngreen@uc.edu` and password `notapassword`
+- an admin account with the username `chuck@uc.edu` and password `notapass`
+- a standard user account with the username `jkrowling@uc.edu` and password `notapass`
+- a read-only user account with the email `johngreen@uc.edu` and password `notapass`
 
 You can use these accounts to test the application. The admin account has full access to the application, the standard
 user account has access to most features, and the read-only user account can only view the data.

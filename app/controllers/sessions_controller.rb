@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# app/controllers/sessions_controller.rb
 class SessionsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[new destroy]
   skip_before_action :check_user_active, only: %i[new destroy]
