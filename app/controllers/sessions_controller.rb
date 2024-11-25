@@ -18,6 +18,12 @@ class SessionsController < ApplicationController
 
   def destroy
     reset_session_and_cookies
-    redirect_to root_path, notice: 'Signed out successfully'
+    redirect_to logout_url
+    # redirect_to root_path, notice: 'Signed out successfully'
   end
+
+  # def shibboleth_sp_logout_url
+  #   "#{ENV['SHIBBOLETH_LOGOUT_URL']}?RelayState=#{root_url}" || '/Shibboleth.sso/Logout'
+  #
+  # end
 end

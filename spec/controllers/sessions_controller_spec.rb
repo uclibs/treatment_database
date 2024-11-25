@@ -45,6 +45,8 @@ RSpec.describe SessionsController, type: :request do
   end
 
   describe 'DELETE #destroy' do
+    let(:shibboleth_sp_logout_url) { '/logout' }
+
     context 'when the user is logged in' do
       before do
         request_login_as(user)
@@ -55,10 +57,10 @@ RSpec.describe SessionsController, type: :request do
         delete logout_path
       end
 
-      it 'redirects to the root path' do
+      it 'redirects to the shibboleth logout url' do
         delete logout_path
 
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(shibboleth_sp_logout_url)
       end
     end
     context 'when the user is not logged in' do
@@ -71,10 +73,10 @@ RSpec.describe SessionsController, type: :request do
         delete logout_path
       end
 
-      it 'redirects to the root path' do
+      it 'redirects to the shibboleth_sp_logout_url' do
         delete logout_path
 
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(shibboleth_sp_logout_url)
       end
     end
   end
