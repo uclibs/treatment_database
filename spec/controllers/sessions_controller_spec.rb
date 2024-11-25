@@ -45,7 +45,7 @@ RSpec.describe SessionsController, type: :request do
   end
 
   describe 'DELETE #destroy' do
-    let(:shibboleth_sp_logout_url) { '/logout' }
+    let(:shibboleth_sp_logout_url) { '/shibboleth_logout' }
 
     context 'when the user is logged in' do
       before do

@@ -2,7 +2,7 @@
 
 set :rails_env, :production
 set :bundle_without, %w[development test].join(' ')
-set :branch, 'qa'
+set :branch, 'LIBTREATDB-100-logging-out-of-app-should-log-out-of-shibboleth-for-sso'
 set :default_env, path: '$PATH:/usr/local/bin'
 set :bundle_path, -> { shared_path.join('vendor/bundle') }
 append :linked_dirs, '.bundle', 'tmp', 'log'

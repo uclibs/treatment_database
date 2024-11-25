@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   # Production authentication routes
   get 'login', to: 'sessions#new', as: :login
   delete 'logout', to: 'sessions#destroy', as: :logout
+  get 'shibboleth_logout', to: redirect('/treatment_database/logout')
 
   # Development and testing authentication routes
   if Rails.env.development? || Rails.env.test?
