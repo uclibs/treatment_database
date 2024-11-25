@@ -20,4 +20,10 @@ class SessionsController < ApplicationController
     reset_session_and_cookies
     redirect_to shibboleth_logout_url
   end
+
+  private
+
+  def shibboleth_logout_url
+    "/Shibboleth.sso/Logout?return=#{root_url}"
+  end
 end
