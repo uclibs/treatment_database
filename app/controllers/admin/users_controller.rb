@@ -30,7 +30,8 @@ module Admin
     end
 
     def update
-      if @user.update(user_params)
+      sanitized_params = user_params.except(:email)
+      if @user.update(sanitized_params)
         redirect_to admin_users_path, notice: 'Profile updated successfully.'
       else
         flash.now[:alert] = 'There was a problem editing the user. Please check the errors below.'
