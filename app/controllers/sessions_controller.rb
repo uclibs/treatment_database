@@ -24,6 +24,6 @@ class SessionsController < ApplicationController
   private
 
   def shibboleth_logout_url
-    "/Shibboleth.sso/Logout?return=#{root_url}"
+    "/Shibboleth.sso/Logout?return=#{CGI.escape(root_url)}"
   end
 end
