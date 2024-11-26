@@ -17,26 +17,32 @@ document.addEventListener('turbolinks:load', () => {
             fetch(logoutUrl, {
                 method: 'DELETE',
                 headers: {
-                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
                 }
             })
                 .then(response => {
-                    console.log('Response status:', response.status);
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Shibboleth Logout URL:', data.shibboleth_logout_url);
-                    // Send GET request to Shibboleth logout URL in the background
-                    fetch(data.shibboleth_logout_url, { method: 'GET', mode: 'no-cors' })
-                        .catch(error => {
-                            console.error('Shibboleth logout failed:', error);
-                        });
+                    // Create an invisible iframe to load the Shibboleth logout URL
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = data.shibboleth_logout_url;
+                    document.body.appendChild(iframe);
 
-                    // Redirect the user to the home page
-                    window.location.href = '/treatment_database';
+                    // Optional: Remove the iframe after a delay
+                    setTimeout(() => {
+                        document.body.removeChild(iframe);
+                    }, 5000);
+
+                    // Redirect the user back to your app after a delay
+                    setTimeout(() => {
+                        window.location.href = '/treatment_database';
+                    }, 1000);
                 })
                 .catch(error => {
                     console.error('Logout request failed:', error);
