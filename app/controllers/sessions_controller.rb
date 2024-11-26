@@ -18,7 +18,8 @@ class SessionsController < ApplicationController
 
   def destroy
     reset_session_and_cookies
-    redirect_to shibboleth_logout_url
+    # Respond with JSON to provide the Shibboleth logout URL to the frontend
+    render json: { shibboleth_logout_url: shibboleth_logout_url }, status: :ok
   end
 
   private
