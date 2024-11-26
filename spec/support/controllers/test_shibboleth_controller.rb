@@ -9,4 +9,6 @@ class TestShibbolethController < ApplicationController
   def login
     process_shibboleth_login
   end
+
+
 end

@@ -25,6 +25,6 @@ class SessionsController < ApplicationController
   private
 
   def shibboleth_logout_url
-    "https://libappstest.libraries.uc.edu/Shibboleth.sso/Logout"
+    'https://libappstest.libraries.uc.edu/Shibboleth.sso/Logout'
   end
 end

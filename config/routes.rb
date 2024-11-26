@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get 'dev_login', to: 'dev_sessions#new', as: :dev_login
     post 'dev_login', to: 'dev_sessions#create'
     delete 'dev_logout', to: 'dev_sessions#destroy', as: :dev_logout
-    get 'shibboleth_login', to: 'test_shibboleth#login'
+    get 'shibboleth_login_simulation', to: 'test_shibboleth#login'
     get '/test_user_auth', to: 'test_user_authentication#index'
     get '/admin_area', to: 'test_user_authentication#admin_area'
   end

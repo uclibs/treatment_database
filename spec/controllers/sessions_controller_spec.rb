@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe SessionsController, type: :request do
   let(:user) { create(:user) }
+  let(:shibboleth_logout_url) { 'https://libappstest.libraries.uc.edu/Shibboleth.sso/Logout' }
 
   describe 'GET #new' do
     context 'when the user is already signed in' do
@@ -45,7 +46,9 @@ RSpec.describe SessionsController, type: :request do
   end
 
   describe 'DELETE #destroy' do
-    let(:shibboleth_sp_logout_url) { '/shibboleth_logout' }
+    before do
+      allow_any_instance_of(SessionsController).to receive(:shibboleth_logout_url).and_return(shibboleth_logout_url)
+    end
 
     context 'when the user is logged in' do
       before do
@@ -54,29 +57,32 @@ RSpec.describe SessionsController, type: :request do
 
       it 'resets the session and cookies' do
         expect_any_instance_of(SessionsController).to receive(:reset_session_and_cookies)
-        delete logout_path
+        delete logout_path, headers: { 'ACCEPT' => 'application/json' }
       end
 
-      it 'redirects to the shibboleth logout url' do
-        delete logout_path
+      it 'responds with the Shibboleth logout URL in JSON' do
+        delete logout_path, headers: { 'ACCEPT' => 'application/json' }
 
-        expect(response).to redirect_to(shibboleth_sp_logout_url)
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to include('application/json')
+        json_response = response.parsed_body
+        expect(json_response['shibboleth_logout_url']).to eq(shibboleth_logout_url)
       end
     end
-    context 'when the user is not logged in' do
-      before do
-        request_logout
-      end
 
+    context 'when the user is not logged in' do
       it 'resets the session and cookies' do
         expect_any_instance_of(SessionsController).to receive(:reset_session_and_cookies)
-        delete logout_path
+        delete logout_path, headers: { 'ACCEPT' => 'application/json' }
       end
 
-      it 'redirects to the shibboleth_sp_logout_url' do
-        delete logout_path
+      it 'responds with the Shibboleth logout URL in JSON' do
+        delete logout_path, headers: { 'ACCEPT' => 'application/json' }
 
-        expect(response).to redirect_to(shibboleth_sp_logout_url)
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to include('application/json')
+        json_response = response.parsed_body
+        expect(json_response['shibboleth_logout_url']).to eq(shibboleth_logout_url)
       end
     end
   end

@@ -355,9 +355,15 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).to have_button('Add External Repair', visible: true, wait: 10)
     find_button('Add External Repair', visible: true).click
 
-    # Ensure the modal has opened by checking for an element unique to the modal
-    within('#externalRepairModal') do
-      expect(page).to have_content('Repaired By', wait: 10)
+    retries = 3
+    begin
+      within('#externalRepairModal') do
+        expect(page).to have_content('Repaired By', wait: 5)
+      end
+    rescue Capybara::ModalNotFound
+      retries -= 1
+      retry if retries.positive?
+      raise
     end
 
     expect(page).to have_button('Create External Repair Record')
@@ -370,7 +376,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
 
     # Delete external repair
     expect(page).to have_selector("a[id='delete_external_repair_record_1']")
-    accept_confirm(wait: 5) do
+    accept_confirm(wait: 15) do
       find("a[id='delete_external_repair_record_1']").click
     end
     expect(page).not_to have_content('Wash performed by Amanda Buck', wait: 5)

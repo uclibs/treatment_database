@@ -18,7 +18,7 @@ RSpec.describe 'Shibboleth Authentication', type: :request do
           user
 
           # Simulate the Shibboleth header
-          get '/shibboleth_login', headers: { 'X-Shib-User' => @shib_header }
+          get '/shibboleth_login_simulation', headers: { 'X-Shib-User' => @shib_header }
 
           # expect(response).to redirect_to(conservation_records_path)
           follow_redirect!
@@ -33,7 +33,7 @@ RSpec.describe 'Shibboleth Authentication', type: :request do
           # Ensure no user exists with the given username
           User.where(username: @username).destroy_all
 
-          get shibboleth_login_path, headers: { 'X-Shib-User' => @shib_header }
+          get shibboleth_login_simulation_path, headers: { 'X-Shib-User' => @shib_header }
 
           expect(response).to redirect_to(root_path)
           follow_redirect!
@@ -49,7 +49,7 @@ RSpec.describe 'Shibboleth Authentication', type: :request do
         end
 
         it 'redirects to root_path with an alert' do
-          get shibboleth_login_path, headers: { 'X-Shib-User' => @shib_header }
+          get shibboleth_login_simulation_path, headers: { 'X-Shib-User' => @shib_header }
 
           expect(response).to redirect_to(root_path)
           follow_redirect!
@@ -62,7 +62,7 @@ RSpec.describe 'Shibboleth Authentication', type: :request do
 
     context 'when Shibboleth attributes are missing' do
       it 'redirects to root_path with an alert' do
-        get shibboleth_login_path
+        get shibboleth_login_simulation_path
 
         expect(response).to redirect_to(root_path)
         follow_redirect!
@@ -76,7 +76,7 @@ RSpec.describe 'Shibboleth Authentication', type: :request do
   describe 'Edge Cases' do
     context 'when the Shibboleth header is present but empty' do
       it 'handles missing username gracefully' do
-        get shibboleth_login_path, headers: { 'X-Shib-User' => '' }
+        get shibboleth_login_simulation_path, headers: { 'X-Shib-User' => '' }
 
         expect(response).to redirect_to(root_path)
         follow_redirect!
@@ -88,7 +88,7 @@ RSpec.describe 'Shibboleth Authentication', type: :request do
 
     context 'when the Shibboleth header has no username before the @ symbol' do
       it 'handles invalid username format' do
-        get shibboleth_login_path, headers: { 'X-Shib-User' => '@example.com' }
+        get shibboleth_login_simulation_path, headers: { 'X-Shib-User' => '@example.com' }
 
         expect(response).to redirect_to(root_path)
         follow_redirect!
@@ -106,7 +106,7 @@ RSpec.describe 'Shibboleth Authentication', type: :request do
 
         create(:user, username: username)
 
-        get shibboleth_login_path, headers: { 'X-Shib-User' => shib_header }
+        get shibboleth_login_simulation_path, headers: { 'X-Shib-User' => shib_header }
 
         expect(response).to redirect_to(conservation_records_path)
         follow_redirect!
@@ -121,7 +121,7 @@ RSpec.describe 'Shibboleth Authentication', type: :request do
 
         target_path = admin_users_path
 
-        get shibboleth_login_path, headers: { 'X-Shib-User' => 'jdoe@example.com' }, params: { target: target_path }
+        get shibboleth_login_simulation_path, headers: { 'X-Shib-User' => 'jdoe@example.com' }, params: { target: target_path }
 
         expect(response).to redirect_to(target_path)
       end
