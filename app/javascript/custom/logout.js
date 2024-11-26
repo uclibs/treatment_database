@@ -21,12 +21,14 @@ document.addEventListener('turbolinks:load', () => {
                 }
             })
                 .then(response => {
+                    console.log('Response status:', response.status);
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
                     return response.json();
                 })
                 .then(data => {
+                    console.log('Shibboleth Logout URL:', data.shibboleth_logout_url);
                     // Send GET request to Shibboleth logout URL in the background
                     fetch(data.shibboleth_logout_url, { method: 'GET', mode: 'no-cors' })
                         .catch(error => {
@@ -34,7 +36,7 @@ document.addEventListener('turbolinks:load', () => {
                         });
 
                     // Redirect the user to the home page
-                    window.location.href = '/';
+                    window.location.href = '/treatment_database';
                 })
                 .catch(error => {
                     console.error('Logout request failed:', error);
