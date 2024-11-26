@@ -10,6 +10,7 @@
  */
 
 document.addEventListener('turbolinks:load', () => {
+    console.log('logout.js loaded');
     const logoutButton = document.getElementById('logout-button');
     if (logoutButton) {
         logoutButton.addEventListener('click', (event) => {

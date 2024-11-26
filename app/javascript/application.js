@@ -20,8 +20,8 @@ import './stylesheets/application.scss';
 
 // Import custom JavaScript
 import './custom/account_active_toggle_switch.js';
-import './custom/logout.js'
-import './custom/front.js'
+import './custom/logout.js';
+import './custom/front.js';
 
 // Import all the images in the images file:
 function importAll(r) {
