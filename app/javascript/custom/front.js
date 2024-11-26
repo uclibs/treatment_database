@@ -9,7 +9,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('front.js loaded');
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('logged_out')) {
         // Remove the query parameter from the URL
