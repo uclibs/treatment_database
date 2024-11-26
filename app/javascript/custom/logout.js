@@ -45,11 +45,6 @@ document.addEventListener('turbolinks:load', () => {
                     iframe.src = data.shibboleth_logout_url;
                     document.body.appendChild(iframe);
 
-                    // Optional: Remove the iframe after a delay
-                    setTimeout(() => {
-                        document.body.removeChild(iframe);
-                    }, 5000);
-
                     // Redirect the user back to your app after a delay
                     setTimeout(() => {
                         window.location.href = '/treatment_database?logged_out=true';
