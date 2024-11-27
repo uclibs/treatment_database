@@ -66,9 +66,7 @@ RSpec.describe 'Account Active Slider', type: :feature, js: true do
 
       # Fill in required fields
       fill_in 'Display Name', with: 'Test User'
-      fill_in 'Email', with: 'testuser@uc.edu'
-      fill_in 'User Password', with: 'password123'
-      fill_in 'User Password Confirmation', with: 'password123'
+      fill_in 'Username', with: 'testuser'
 
       click_button 'Create User'
       expect(page).to have_content('User created successfully.')

@@ -11,8 +11,7 @@ RSpec.describe 'Dev Login Page', type: :feature do
       with_environment('development') do
         visit root_path
         click_button 'Dev Sign In'
-        fill_in 'Email', with: active_user.email
-        fill_in 'Password', with: active_user.password
+        fill_in 'Username', with: active_user.username
         click_button 'Submit'
         expect(page).to have_content('Signed in successfully')
         expect(page).to have_current_path(conservation_records_path)
@@ -21,14 +20,13 @@ RSpec.describe 'Dev Login Page', type: :feature do
   end
 
   context 'when using invalid credentials' do
-    it 'shows an error message for incorrect email or password' do
+    it 'shows an error message for incorrect username' do
       with_environment('development') do
         visit root_path
         click_button 'Dev Sign In'
-        fill_in 'Email', with: 'wrong_email@uc.edu'
-        fill_in 'Password', with: 'wrongpassword'
+        fill_in 'Username', with: 'wrong_username'
         click_button 'Submit'
-        expect(page).to have_content('Invalid email or password')
+        expect(page).to have_content('Invalid username')
         expect(page).to have_current_path(dev_login_path) # Ensure it stays on the login page
       end
     end
@@ -39,8 +37,7 @@ RSpec.describe 'Dev Login Page', type: :feature do
       with_environment('development') do
         visit root_path
         click_button 'Dev Sign In'
-        fill_in 'Email', with: inactive_user.email
-        fill_in 'Password', with: inactive_user.password
+        fill_in 'Username', with: inactive_user.username
         click_button 'Submit'
         expect(page).to have_content('Your account is not active.')
         expect(page).to have_current_path(root_path) # Redirected to root because the account is inactive

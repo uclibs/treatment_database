@@ -38,9 +38,7 @@ RSpec.describe UsersController, type: :controller do
   describe 'PUT #update' do
     let(:new_attributes) do
       {
-        display_name: 'New Display Name',
-        password: 'newpassword',
-        password_confirmation: 'newpassword'
+        display_name: 'New Display Name'
       }
     end
 
