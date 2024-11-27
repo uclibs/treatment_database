@@ -3,8 +3,7 @@
 module SystemAuthenticationHelper
   def system_login_as(user)
     visit dev_login_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
+    fill_in 'Username', with: user.username
     click_button 'Submit'
     expect(page).to have_css('.alert', text: 'Signed in successfully. (Development)')
   end
