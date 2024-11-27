@@ -187,13 +187,14 @@ GEM
     matrix (0.4.2)
     method_source (1.1.0)
     mini_mime (1.1.5)
-    minitest (5.25.1)
+    minitest (5.25.2)
     mutex_m (0.3.0)
     mysql2 (0.5.6)
     net-imap (0.5.1)
       date
       net-protocol
     net-pop (0.1.2)
+      net-protocol
     net-protocol (0.2.2)
       timeout
     net-scp (4.0.0)
@@ -231,7 +232,7 @@ GEM
     pdfkit (0.8.7.3)
     popper_js (2.11.8)
     public_suffix (6.0.1)
-    puma (6.4.3)
+    puma (6.5.0)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (2.2.10)
@@ -308,17 +309,17 @@ GEM
     rspec-support (3.13.1)
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (1.68.0)
+    rubocop (1.69.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 2.4, < 3.0)
-      rubocop-ast (>= 1.32.2, < 2.0)
+      rubocop-ast (>= 1.36.1, < 2.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.36.1)
+      unicode-display_width (>= 2.4.0, < 4.0)
+    rubocop-ast (1.36.2)
       parser (>= 3.3.1.0)
     rubocop-rails (2.27.0)
       activesupport (>= 4.2.0)
@@ -385,7 +386,9 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (2.6.0)
+    unicode-display_width (3.1.2)
+      unicode-emoji (~> 4.0, >= 4.0.4)
+    unicode-emoji (4.0.4)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.1)
@@ -483,7 +486,7 @@ DEPENDENCIES
   wkhtmltopdf-binary (>= 0.12.6.7)
 
 RUBY VERSION
-   ruby 3.3.3p89
+   ruby 3.3.6p108
 
 BUNDLED WITH
-   2.5.16
+   2.5.22
