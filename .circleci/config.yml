@@ -3,7 +3,7 @@ version: 2.1
 executors:
   default-executor:
     docker:
-      - image: cimg/ruby:3.3.3
+      - image: cimg/ruby:3.3.6
     environment:
       BUNDLE_PATH: vendor/bundle
       BUNDLE_JOBS: 4
