@@ -37,11 +37,11 @@
               <%= current_user.display_name %>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <%= link_to "Edit account", edit_user_path(current_user), class: 'dropdown-item' %>
+              <%= link_to "Edit Account", edit_user_path(current_user), class: 'dropdown-item' %>
               <% if Rails.env.development? || Rails.env.test? %>
                 <%= link_to 'Dev Sign Out', dev_logout_path, method: :delete, class: 'dropdown-item' %>
               <% end %>
-              <%= link_to('Sign Out', logout_path, method: :delete, class: 'dropdown-item') %>
+              <%= link_to 'Sign Out', '#', class: 'dropdown-item', id: 'logout-button', data: { logout_url: logout_path } %>
             </div>
           </li>
         <% end %>
