@@ -14,9 +14,6 @@ RSpec.describe Admin::UsersController, type: :controller do
   let(:valid_attributes) do
     {
       display_name: 'Test User',
-      password: 'notapassword',
-      password_confirmation: 'notapassword',
-      email: 'testuser123@uc.edu',
       role: 'standard',
       account_active: user.account_active,
       username: 'testuser123'
@@ -51,7 +48,7 @@ RSpec.describe Admin::UsersController, type: :controller do
     context 'with invalid params' do
       it 'does not create a new User and re-renders the new template' do
         expect do
-          post :create, params: { user: valid_attributes.except(:email) }
+          post :create, params: { user: valid_attributes.except(:username) }
         end.not_to change(User, :count)
         expect(response).to render_template(:new)
         expect(flash[:alert]).to be_present
@@ -62,53 +59,32 @@ RSpec.describe Admin::UsersController, type: :controller do
   describe 'PUT #update' do
     let(:new_attributes) do
       {
-        email: 'newemail@uc.edu',
-        display_name: 'New Display Name',
-        role: 'standard',
+        display_name: 'Updated Display Name',
+        role: 'read_only',
         account_active: true
       }
     end
 
-    let(:invalid_attributes) do
-      {
-        email: nil, # Invalid because email is required
-        display_name: 'New Display Name',
-        role: 'standard',
-        account_active: true
-      }
-    end
-
-    context 'with valid attributes' do
-      it 'updates the user and redirects to the admin users index' do
+    context 'when updating with valid attributes' do
+      it 'updates the user' do
         put :update, params: { id: user.id, user: new_attributes }
         user.reload
         expect(response).to redirect_to(admin_users_path)
         expect(flash[:notice]).to eq('Profile updated successfully.')
         expect(user.display_name).to eq(new_attributes[:display_name])
-        expect(user.email).to eq(new_attributes[:email])
         expect(user.role).to eq(new_attributes[:role])
-        expect(user.account_active).to be true
+        expect(user.account_active).to eq(new_attributes[:account_active])
       end
     end
-    context 'with invalid attributes' do
-      before do
-        @original_display_name = user.display_name
-        @original_email = user.email
+
+    context 'when attributes are invalid' do
+      let(:invalid_attributes) { { display_name: '', role: 'standard', account_active: true } }
+
+      it 'does not update the user and re-renders the edit page' do
         put :update, params: { id: user.id, user: invalid_attributes }
         user.reload
-      end
-
-      it 'renders the edit template' do
         expect(response).to render_template(:edit)
-      end
-
-      it 'sets a flash error message' do
-        expect(flash[:alert]).to eq('There was a problem editing the user. Please check the errors below.')
-      end
-
-      it 'does not update the user attributes' do
-        expect(user.display_name).to eq(@original_display_name)
-        expect(user.email).to eq(@original_email)
+        expect(user.display_name).not_to eq(invalid_attributes[:display_name])
       end
     end
   end

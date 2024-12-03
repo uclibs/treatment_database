@@ -13,7 +13,7 @@ RSpec.describe 'users/edit.html.erb', type: :view do
     assert_select 'h1', text: 'Edit User'
     assert_select 'form[action=?][method=?]', user_path(@user), 'post' do
       assert_select 'input[name=?]', 'user[display_name]'
-      assert_select 'input[name=?]', 'user[email]'
+      assert_select 'input[name=?][disabled]', 'user[username]'
       assert_select 'select[name=?]', 'user[role]'
       expect(rendered).to have_button('Update User')
     end
