@@ -1,0 +1,15 @@
+name: Update PR with Jira Issue
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  update-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update PR with Jira Issue
+        uses: uclibs/jira-pr-updater-action@v1
+        with:
+          jira-base-url: 'https://ucdts.atlassian.net'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
