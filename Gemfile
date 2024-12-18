@@ -51,10 +51,6 @@ gem 'pdfkit' # Uses wkhtmltopdf to generate PDFs from HTML
 gem 'rexml', '>= 3.3.6' # XML processing library, now a direct dependency for security management
 gem 'wkhtmltopdf-binary', '>= 0.12.6.7' # Enables PDF generation from HTML
 
-# Security dependencies
-gem 'ed25519' # Ed25519 elliptic curve public-key signature system
-gem 'bcrypt_pbkdf'
-
 # Windows specific timezone data
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby] # Timezone data for Windows
 
@@ -77,6 +73,9 @@ group :development, :test do
   gem 'rubocop-rails' # A RuboCop extension focused on enforcing Rails best practices
   gem 'simplecov', require: false # Code coverage analysis tool for Ruby
   gem 'simplecov-lcov', require: false # Formatter for SimpleCov that generates LCOV reports
+
+  # Security dependencies
+  gem 'ed25519' # Ed25519 elliptic curve public-key signature system
 end
 
 group :development do
