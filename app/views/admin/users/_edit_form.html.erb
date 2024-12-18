@@ -2,11 +2,10 @@
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
       <ul>
-      <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
@@ -17,13 +16,13 @@
   </div>
 
   <div class="field form-group">
-    <%= form.label :email %>
-    <%= form.text_field :email, class: 'form-control', disabled: true %>
+    <%= form.label :username %>
+    <%= form.text_field :username, class: 'form-control', disabled: true %>
   </div>
 
   <div class="field form-group">
     <%= form.label :role %>
-		<%= form.collection_select(:role, User::ROLES, :to_s, lambda{|i| i.to_s.humanize}, {}, {:class=>'form-control'}) %>
+    <%= form.collection_select(:role, User::ROLES, :to_s, lambda{|i| i.to_s.humanize}, {}, {:class=>'form-control'}) %>
   </div>
 
   <div class="field form-check form-switch d-flex align-items-center mb-3">

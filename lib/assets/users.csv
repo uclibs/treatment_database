@@ -1,3 +1,3 @@
-Name,Email
-Sean Crowe,sean.crowe@example.com,admin
-Temporary User,temporary.user@example.com,read_only
+Name,Username,Role
+Sean Crowe,sean,admin
+Temporary User,temporary.user,read_only

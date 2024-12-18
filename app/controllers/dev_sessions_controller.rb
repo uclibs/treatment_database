@@ -10,10 +10,10 @@ class DevSessionsController < ApplicationController
   end
 
   def create
-    email = params[:email].strip.downcase
-    user = find_user_by_email(email)
+    username = params[:username].strip.downcase
+    user = User.find_by(username: username)
 
-    return handle_failed_login unless user&.authenticate(params[:password])
+    return handle_failed_login unless user
 
     handle_successful_login(user)
   end
@@ -25,10 +25,6 @@ class DevSessionsController < ApplicationController
 
   private
 
-  def find_user_by_email(email)
-    User.find_by(email: email)
-  end
-
   def handle_successful_login(user)
     reset_session_and_cookies
     session[:user_id] = user.id
@@ -37,7 +33,7 @@ class DevSessionsController < ApplicationController
   end
 
   def handle_failed_login
-    flash.now[:alert] = 'Invalid email or password'
+    flash.now[:alert] = 'Invalid username'
     render :new
   end
 end

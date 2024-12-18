@@ -19,7 +19,6 @@ module Admin
 
     def create
       @user = User.new(user_params)
-      assign_username
 
       if @user.save
         redirect_to admin_users_path, notice: 'User created successfully.'
@@ -30,8 +29,7 @@ module Admin
     end
 
     def update
-      sanitized_params = user_params.except(:email)
-      if @user.update(sanitized_params)
+      if @user.update(user_params)
         redirect_to admin_users_path, notice: 'Profile updated successfully.'
       else
         flash.now[:alert] = 'There was a problem editing the user. Please check the errors below.'
@@ -45,10 +43,6 @@ module Admin
 
     private
 
-    def assign_username
-      @user.username ||= @user.email.split('@').first if @user.email.present?
-    end
-
     def set_user
       @user = User.find(params[:id])
     end
@@ -58,7 +52,7 @@ module Admin
     end
 
     def user_params
-      permitted_attributes = %i[email password password_confirmation display_name]
+      permitted_attributes = %i[username display_name]
       permitted_attributes += %i[role account_active] if admin?
       params.require(:user).permit(permitted_attributes)
     end

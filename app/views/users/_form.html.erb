@@ -17,17 +17,15 @@
   </div>
 
   <div class="field form-group">
-    <%= form.label :email %>
-    <%= form.text_field :email, readonly: true, class: 'form-control', disabled: true %>
+    <%= form.label :username %>
+    <%= form.text_field :username, class: 'form-control', disabled: true %>
   </div>
 
   <div class="field form-group">
     <%= form.label :role %>
     <%= form.collection_select(:role, User::ROLES, :to_s, lambda { |i| i.to_s.humanize }, { selected: @user.role }, class: 'form-control', disabled: true) %>
   </div>
-
   <br/>
-
   <div class="actions">
     <%= form.submit class: 'btn btn-primary'%>
   </div>

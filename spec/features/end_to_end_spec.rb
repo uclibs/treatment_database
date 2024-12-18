@@ -16,8 +16,7 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
 
   it 'allows User to login and show Conservation Records' do
     visit dev_login_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
+    fill_in 'Username', with: user.username
     click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_content('Conservation Records')
@@ -60,8 +59,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
   it 'allows User to login and show Conservation Records' do
     # Login
     visit dev_login_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
+    fill_in 'Username', with: user.username
     click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
@@ -215,9 +213,8 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
   it 'allows User to login and show Conservation Records' do
     # Login
     visit dev_login_path
-    expect(page).to have_content('Please sign in to continue') # Prompt only visible on Dev login page
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
+    expect(page).to have_content('Please sign in with your UC') # Prompt only visible on Dev login page
+    fill_in 'Username', with: user.username
     click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
@@ -242,9 +239,7 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     click_on 'Add New User'
     expect(page).to have_content('Create New User')
     fill_in 'Display Name', with: 'Beau Geste'
-    fill_in 'Email', with: 'beau.geste@uc.edu'
-    fill_in 'User Password', with: 'notapassword'
-    fill_in 'User Password Confirmation', with: 'notapassword'
+    fill_in 'Username', with: 'beau'
     select('Admin', from: 'Role')
     click_on 'Create User'
     expect(page).to have_content('Beau Geste')

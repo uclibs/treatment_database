@@ -14,9 +14,6 @@ RSpec.describe Admin::UsersController, type: :controller do
   let(:valid_attributes) do
     {
       display_name: 'Test User',
-      password: 'notapassword',
-      password_confirmation: 'notapassword',
-      email: 'testuser123@uc.edu',
       role: 'standard',
       account_active: user.account_active,
       username: 'testuser123'
@@ -51,7 +48,7 @@ RSpec.describe Admin::UsersController, type: :controller do
     context 'with invalid params' do
       it 'does not create a new User and re-renders the new template' do
         expect do
-          post :create, params: { user: valid_attributes.except(:email) }
+          post :create, params: { user: valid_attributes.except(:username) }
         end.not_to change(User, :count)
         expect(response).to render_template(:new)
         expect(flash[:alert]).to be_present
@@ -68,10 +65,8 @@ RSpec.describe Admin::UsersController, type: :controller do
       }
     end
 
-    let(:unchanged_email) { user.email }
-
-    context 'when updating non-email attributes' do
-      it 'updates the user and keeps the email unchanged' do
+    context 'when updating with valid attributes' do
+      it 'updates the user' do
         put :update, params: { id: user.id, user: new_attributes }
         user.reload
         expect(response).to redirect_to(admin_users_path)
@@ -79,22 +74,6 @@ RSpec.describe Admin::UsersController, type: :controller do
         expect(user.display_name).to eq(new_attributes[:display_name])
         expect(user.role).to eq(new_attributes[:role])
         expect(user.account_active).to eq(new_attributes[:account_active])
-        expect(user.email).to eq(unchanged_email) # Ensure email is unchanged
-      end
-    end
-
-    context 'when attempting to update the email' do
-      let(:new_email) { 'new_email@example.com' }
-
-      it 'ignores the email update' do
-        put :update, params: { id: user.id, user: new_attributes.merge(email: new_email) }
-        user.reload
-        expect(response).to redirect_to(admin_users_path)
-        expect(flash[:notice]).to eq('Profile updated successfully.')
-        expect(user.display_name).to eq(new_attributes[:display_name])
-        expect(user.role).to eq(new_attributes[:role])
-        expect(user.account_active).to eq(new_attributes[:account_active])
-        expect(user.email).to eq(unchanged_email) # Email remains unchanged
       end
     end
 
