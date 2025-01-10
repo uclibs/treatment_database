@@ -222,7 +222,7 @@ namespace :batch do
   task load_users: :environment do
     file = ENV['CSV_LOCATION'].presence || 'lib/assets/users.csv'
     CSV.foreach(file, headers: true, return_headers: false) do |i|
-      user = User.create(display_name: i[0], email: i[1], role: i[2])
+      user = User.create(display_name: i[0], username: i[1], role: i[2])
       user.save(validate: false)
       puts "Account created: #{user.display_name}"
     end

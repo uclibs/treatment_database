@@ -6,9 +6,7 @@ RSpec.describe 'admin/users/index.html.erb', type: :view do
   let(:admin_user) do
     User.create!(
       display_name: 'Admin User',
-      email: 'admin_user@uc.edu',
       role: 'admin',
-      password: 'testpassword',
       username: 'admin_user'
     )
   end
@@ -16,9 +14,7 @@ RSpec.describe 'admin/users/index.html.erb', type: :view do
   let(:read_only_user) do
     User.create!(
       display_name: 'Test User 1',
-      email: 'test_user1@uc.edu',
       role: 'read_only',
-      password: 'testpassword',
       username: 'test_user1'
     )
   end
@@ -26,9 +22,7 @@ RSpec.describe 'admin/users/index.html.erb', type: :view do
   let(:standard_user) do
     User.create!(
       display_name: 'Test User 2',
-      email: 'test_user2@uc.edu',
       role: 'standard',
-      password: 'testpassword',
       username: 'test_user2'
     )
   end

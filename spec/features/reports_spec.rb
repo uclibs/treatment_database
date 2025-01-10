@@ -7,8 +7,7 @@ RSpec.describe 'Report Generation', type: :feature, js: true do
 
   it 'executes data export task on button click' do
     visit dev_login_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
+    fill_in 'Username', with: user.username
     click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
 

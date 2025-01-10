@@ -72,12 +72,12 @@ rails server
 
 ## Local Deployment and Development
 In production, the app uses SSO with Shibboleth for authentication. For local development, 
-a simple username and password is used to streamline the setup.
+a simple username is used to streamline the setup.
 
 Key Differences:
 - Production: SSO with Shibboleth.
-- Local: Username and password.
-- Most tests use the local username/password setup.
+- Local: Username only.
+- Most tests use the local username setup.
 - SSO-specific tests simulate the production environment using mock data.
 
 ## Running the Tests
@@ -96,9 +96,9 @@ bundle exec rspec
 
 ### Manual Testing
 When you ran `rails db:seed`, you created three user accounts:
-- an admin account with the username `chuck@uc.edu` and password `notapass`
-- a standard user account with the username `jkrowling@uc.edu` and password `notapass`
-- a read-only user account with the email `johngreen@uc.edu` and password `notapass`
+- an admin account with the username `chuck`
+- a standard user account with the username `jkrowling`
+- a read-only user account with the username `johngreen`
 
 You can use these accounts to test the application. The admin account has full access to the application, the standard
 user account has access to most features, and the read-only user account can only view the data.
