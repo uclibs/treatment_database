@@ -3,7 +3,12 @@
 module ActivityHelper
   def version_summarizer(version)
     display_name = 'Someone'
-    display_name = User.find(version.whodunnit).display_name unless version.whodunnit.nil?
+
+    if version.whodunnit.present?
+      user = User.find_by(id: version.whodunnit)
+      display_name = user.display_name if user
+    end
+
     "#{display_name} #{event_to_summary(version.event)} the #{item_type_to_summary(version.item_type)}: #{name_to_summary(version)}"
   end
 
@@ -56,7 +61,12 @@ module ActivityHelper
         'Record has been deleted'
       end
     when 'User'
-      User.find(version.item_id).display_name
+      user = User.find_by(id: version.item_id)
+      if user
+        user.display_name
+      else
+        'User has been deleted'
+      end
     when 'InHouseRepairRecord'
       if InHouseRepairRecord.exists?(id: version.item_id)
         in_house_repair_id = InHouseRepairRecord.find(version.item_id).conservation_record.id

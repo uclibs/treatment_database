@@ -9,7 +9,6 @@ ruby '3.3.6'
 gem 'dotenv-rails' # Loads environment variables from .env
 
 # Core Rails gems
-gem 'actionmailer', '~>6.1.7.10' # Email composition, delivery, and receiving with Action Mailer
 gem 'actionpack', '~>6.1.7.10' # Handles web requests and responses with Action Controller and Action Dispatch
 gem 'actiontext', '~>6.1.7.10' # Rich text content and editing with Action Text
 gem 'activestorage' # Handles file uploads in Rails applications
@@ -76,7 +75,6 @@ group :development, :test do
   gem 'simplecov-lcov', require: false # Formatter for SimpleCov that generates LCOV reports
 
   # Security dependencies
-  gem 'bcrypt_pbkdf' # A key derivation function for safely storing passwords
   gem 'ed25519' # Ed25519 elliptic curve public-key signature system
 end
 

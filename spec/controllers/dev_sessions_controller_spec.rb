@@ -15,7 +15,7 @@ RSpec.describe DevSessionsController, type: :controller do
 
     context 'with valid credentials' do
       it 'logs in the user and redirects to the appropriate path' do
-        post :create, params: { email: user.email, password: 'notapassword' } # Password is set in the factory
+        post :create, params: { username: user.username }
         expect(session[:user_id]).to eq(user.id)
         expect(response).to redirect_to(conservation_records_path)
         expect(flash[:notice]).to eq('Signed in successfully. (Development)')
@@ -24,10 +24,10 @@ RSpec.describe DevSessionsController, type: :controller do
 
     context 'with invalid credentials' do
       it 're-renders the login form with an alert' do
-        post :create, params: { email: user.email, password: 'wrongpassword' }
+        post :create, params: { username: 'not_a_real_user' }
         expect(session[:user_id]).to be_nil
         expect(response).to render_template(:new)
-        expect(flash[:alert]).to eq('Invalid email or password')
+        expect(flash[:alert]).to eq('Invalid username')
       end
     end
   end

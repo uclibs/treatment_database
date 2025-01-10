@@ -20,9 +20,7 @@ RSpec.describe 'admin/users/new.html.erb', type: :view do
     expect(rendered).to have_selector("form[action='#{admin_users_path}'][method='post']") do
       # Check that the form contains the appropriate input fields
       expect(rendered).to have_selector('input[name="user[display_name]"]')
-      expect(rendered).to have_selector('input[name="user[email]"]')
-      expect(rendered).to have_selector('input[name="user[password]"]')
-      expect(rendered).to have_selector('input[name="user[password_confirmation]"]')
+      expect(rendered).to have_selector('input[name="user[username]"]')
       expect(rendered).to have_selector('select[name="user[role]"]')
       expect(rendered).to have_selector('input[name="user[account_active]"]')
 

@@ -2,7 +2,7 @@
 
 module RequestAuthenticationHelper
   def request_login_as(user, target: nil)
-    post dev_login_path, params: { email: user.email, password: user.password, target: target }
+    post dev_login_path, params: { username: user.username, target: target }
     follow_redirect! if response.redirect?
   end
 

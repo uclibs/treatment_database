@@ -40,12 +40,6 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
-  config.action_mailer.perform_caching = false
-  config.action_mailer.default_options = { from: ENV.fetch('TREATMENT_PRODUCTION_MAILER_FROM', nil) }
-
-  # Set the base URL and protocol for Action Mailer, used to generate full URLs in email contents.
-  config.action_mailer.default_url_options = { host: ENV.fetch('TREATMENT_PRODUCTION_MAILER_URL', nil), protocol: 'https' }
-
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
@@ -64,8 +58,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  # Configure SMTP settings for email. STARTTLS is disabled (set to false) as required
-  # by the mail server configuration or policy.
-  config.action_mailer.smtp_settings = { enable_starttls_auto: false }
 end
