@@ -16,7 +16,7 @@ gem 'builder' # Provides a simple way to create XML markup and data structures
 gem 'mutex_m' # Being removed from Ruby soon, required for activestorage
 gem 'rails', '~> 6.1.7.10' # The Rails framework
 gem 'sprockets-rails', '~> 3.4' # Sprockets adapter for Rails, needed for deploy:assets:precompile steps
-gem 'sqlite3', '~> 1.4' # SQLite3 database adapter for ActiveRecord
+gem 'sqlite3', '~> 1.7.3', platforms: [:ruby] # SQLite3 database adapter for ActiveRecord
 
 # Standard Library Enhancements
 gem 'abbrev', '~> 0.1.2' # Provides abbreviations for strings, useful for command-line apps
@@ -44,7 +44,7 @@ gem 'turbolinks', '~> 5' # Makes navigating your site faster by using AJAX to lo
 gem 'cancancan' # Authorization library for Ruby on Rails which restricts what resources a given user is allowed to access
 
 # Additional Functionality
-gem 'nokogiri' # HTML, XML, SAX, and Reader parser
+gem 'nokogiri', '1.18.1', platforms: [:ruby] # Force to rebuild during deployment. HTML, XML, SAX, and Reader parser
 gem 'pagy', '~> 9.0' # Pagination library that is fast, lightweight, and flexible
 gem 'paper_trail' # Track changes to your models' data
 gem 'pdfkit' # Uses wkhtmltopdf to generate PDFs from HTML

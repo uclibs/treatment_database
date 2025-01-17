@@ -137,6 +137,7 @@ GEM
     factory_bot_rails (6.4.4)
       factory_bot (~> 6.5)
       railties (>= 5.0.0)
+    ffi (1.17.1)
     ffi (1.17.1-aarch64-linux-gnu)
     ffi (1.17.1-aarch64-linux-musl)
     ffi (1.17.1-arm-linux-gnu)
@@ -360,6 +361,8 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
+    sqlite3 (1.7.3)
+      mini_portile2 (~> 2.8.0)
     sqlite3 (1.7.3-aarch64-linux)
     sqlite3 (1.7.3-arm-linux)
     sqlite3 (1.7.3-arm64-darwin)
@@ -413,6 +416,7 @@ PLATFORMS
   arm-linux-gnu
   arm-linux-musl
   arm64-darwin
+  ruby
   x86-linux
   x86-linux-gnu
   x86-linux-musl
@@ -453,7 +457,7 @@ DEPENDENCIES
   mutex_m
   mysql2
   nkf (~> 0.2.0)
-  nokogiri
+  nokogiri (= 1.18.1)
   observer (~> 0.1.2)
   pagy (~> 9.0)
   paper_trail
@@ -480,7 +484,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sprockets-rails (~> 3.4)
-  sqlite3 (~> 1.4)
+  sqlite3 (~> 1.7.3)
   syslog (~> 0.1.2)
   turbolinks (~> 5)
   tzinfo-data
