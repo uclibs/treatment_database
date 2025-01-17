@@ -69,6 +69,9 @@ GEM
     autoprefixer-rails (10.4.19.0)
       execjs (~> 2)
     base64 (0.2.0)
+    bcrypt_pbkdf (1.1.1)
+    bcrypt_pbkdf (1.1.1-arm64-darwin)
+    bcrypt_pbkdf (1.1.1-x86_64-darwin)
     bigdecimal (3.1.8)
     bindex (0.8.1)
     bootstrap (5.3.3)
@@ -139,6 +142,8 @@ GEM
     ffi (1.17.1-arm-linux-gnu)
     ffi (1.17.1-arm-linux-musl)
     ffi (1.17.1-arm64-darwin)
+    ffi (1.17.1-x86-linux-gnu)
+    ffi (1.17.1-x86-linux-musl)
     ffi (1.17.1-x86_64-darwin)
     ffi (1.17.1-x86_64-linux-gnu)
     ffi (1.17.1-x86_64-linux-musl)
@@ -175,6 +180,7 @@ GEM
     matrix (0.4.2)
     method_source (1.1.0)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.8)
     minitest (5.25.4)
     mutex_m (0.3.0)
     mysql2 (0.5.6)
@@ -194,6 +200,9 @@ GEM
     net-ssh (7.3.0)
     nio4r (2.7.4)
     nkf (0.2.0)
+    nokogiri (1.18.1)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.18.1-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.18.1-aarch64-linux-musl)
@@ -351,7 +360,10 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
+    sqlite3 (1.7.3-aarch64-linux)
+    sqlite3 (1.7.3-arm-linux)
     sqlite3 (1.7.3-arm64-darwin)
+    sqlite3 (1.7.3-x86-linux)
     sqlite3 (1.7.3-x86_64-darwin)
     sqlite3 (1.7.3-x86_64-linux)
     sshkit (1.23.2)
@@ -415,6 +427,7 @@ DEPENDENCIES
   actiontext (~> 6.1.7.10)
   activestorage
   base64 (~> 0.2.0)
+  bcrypt_pbkdf (~> 1.0)
   bootstrap (~> 5.3.3)
   brakeman (~> 5.1, >= 5.1.1)
   builder
@@ -432,7 +445,7 @@ DEPENDENCIES
   database_cleaner-active_record
   dotenv-rails
   drb (~> 2.2)
-  ed25519
+  ed25519 (~> 1.2)
   factory_bot_rails
   jquery-rails
   jsbundling-rails

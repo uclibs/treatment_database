@@ -73,9 +73,6 @@ group :development, :test do
   gem 'rubocop-rails' # A RuboCop extension focused on enforcing Rails best practices
   gem 'simplecov', require: false # Code coverage analysis tool for Ruby
   gem 'simplecov-lcov', require: false # Formatter for SimpleCov that generates LCOV reports
-
-  # Security dependencies
-  gem 'ed25519' # Ed25519 elliptic curve public-key signature system
 end
 
 group :development do
@@ -93,6 +90,10 @@ group :development do
   gem 'spring' # Preloads your application for faster testing and Rake task runs
   gem 'spring-watcher-listen', '~> 2.0.0' # Listens to file system events for Spring
   gem 'web-console', '>= 3.3.0' # An interactive console for Rails
+
+  # Required for net-ssh with ed25519 key support
+  gem 'ed25519', '~> 1.2'
+  gem 'bcrypt_pbkdf', '~> 1.0'
 end
 
 group :test do
