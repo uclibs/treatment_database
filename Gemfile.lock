@@ -411,7 +411,6 @@ PLATFORMS
 
 DEPENDENCIES
   abbrev (~> 0.1.2)
-  actionmailer (~> 6.1.7.10)
   actionpack (~> 6.1.7.10)
   actiontext (~> 6.1.7.10)
   activestorage

@@ -12,12 +12,32 @@ This is a web application originally developed for the Preservation Lab at the U
 ### Notes:
 
 #### Ruby Version Management
-With rbenv and homebrew:
+#### With rbenv and homebrew:
 ```
 brew upgrade ruby-build # Latest version of ruby-build is needed to install Ruby 3.3.6
 rbenv install 3.3.6
 ```
-
+---
+#### With rvm and homebrew:
+```
+brew install openssl@3.0
+brew --prefix openssl@3.0
+```
+Take the path that it spits out for that second command and use it here (adjust as necessary):
+```angular2html
+export LDFLAGS="-L/usr/local/opt/openssl@3.0/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl@3.0/include"
+export PKG_CONFIG_PATH="/usr/local/opt/openssl@3.0/lib/pkgconfig"
+```
+If necessary, install packages:
+```angular2html
+brew install readline libyaml gdbm
+```
+Then install Ruby 3.3.6 with rvm:
+```angular2html
+rvm reinstall 3.3.6 --with-openssl-dir=$(brew --prefix openssl@3.0)
+```
+---
 #### Node Version Management
 
 This project uses nvm (Node Version Manager) to manage Node.js versions. The `.nvmrc` file is configured to use the
