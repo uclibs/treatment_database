@@ -44,7 +44,7 @@ gem 'turbolinks', '~> 5' # Makes navigating your site faster by using AJAX to lo
 gem 'cancancan' # Authorization library for Ruby on Rails which restricts what resources a given user is allowed to access
 
 # Additional Functionality
-gem 'nokogiri' # HTML, XML, SAX, and Reader parser
+gem 'nokogiri', '1.16.7' # HTML, XML, SAX, and Reader parser
 gem 'pagy', '~> 9.0' # Pagination library that is fast, lightweight, and flexible
 gem 'paper_trail' # Track changes to your models' data
 gem 'pdfkit' # Uses wkhtmltopdf to generate PDFs from HTML
