@@ -13,6 +13,7 @@ gem 'actionmailer', '~>6.1.7.10' # Email composition, delivery, and receiving wi
 gem 'actionpack', '~>6.1.7.10' # Handles web requests and responses with Action Controller and Action Dispatch
 gem 'actiontext', '~>6.1.7.10' # Rich text content and editing with Action Text
 gem 'activestorage' # Handles file uploads in Rails applications
+gem 'concurrent-ruby', '1.3.4' # Needs to be pinned because of Logger error
 gem 'mutex_m' # Being removed from Ruby soon, required for activestorage
 gem 'rails', '~> 6.1.7.10' # The Rails framework
 gem 'sprockets-rails', '~> 3.4' # Sprockets adapter for Rails, needed for deploy:assets:precompile steps
