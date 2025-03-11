@@ -3,7 +3,7 @@ version: 2.1
 executors:
   default-executor:
     docker:
-      - image: cimg/ruby:3.3.3
+      - image: cimg/ruby:3.3.6
     environment:
       BUNDLE_PATH: vendor/bundle
       BUNDLE_JOBS: 4
@@ -13,7 +13,7 @@ executors:
 
 orbs:
   ruby: circleci/ruby@2.1.1
-  browser-tools: circleci/browser-tools@1.4.8
+  browser-tools: circleci/browser-tools@1.5.0
   coveralls: coveralls/coveralls@2.2.1
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
     working_directory: ~/treatment_database
     steps:
       - checkout
-      - browser-tools/install-browser-tools
+      - browser-tools/install-chrome
 
       - restore_cache:
           keys:
@@ -92,8 +92,9 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       # Database setup
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+      - run: bundle exec rails db:create
+      - run: bundle exec rails db:schema:load
+      - run: bundle exec rails db:seed
 
       # Run tests in parallel
       - run:

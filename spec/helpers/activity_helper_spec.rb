@@ -135,10 +135,12 @@ RSpec.describe ActivityHelper, type: :helper do
                                   digitization: true,
                                   department: 1502)
       end
+
       before do
         allow(version).to receive('item_id').and_return(conservation_record.id)
         allow(version).to receive('item_type').and_return('ConservationRecord')
       end
+
       it 'defines item_type as conservation record' do
         return_value = helper.name_to_summary(version)
         expect(return_value).to eq("<a href=\"/conservation_records/#{conservation_record.id}\">This is a Test</a>")
@@ -149,6 +151,7 @@ RSpec.describe ActivityHelper, type: :helper do
         allow(version).to receive('item_type').and_return('ConservationRecord')
         allow(version).to receive('object').and_return('test\ntitle: This is a Test')
       end
+
       it 'defines item_type as conservation record' do
         return_value = helper.name_to_summary(version)
         expect(return_value).to eq('This is a Test')
@@ -203,6 +206,7 @@ RSpec.describe ActivityHelper, type: :helper do
         allow(version).to receive('item_id').and_return(treatment_report.id)
         allow(version).to receive('item_type').and_return('TreatmentReport')
       end
+
       it 'defines item_type as treatment report' do
         return_value = helper.name_to_summary(version)
         expect(return_value).to eq("<a href=\"/conservation_records/#{TreatmentReport.find(treatment_report.id).conservation_record.id}\">This is a Test</a>")
@@ -213,6 +217,7 @@ RSpec.describe ActivityHelper, type: :helper do
         allow(version).to receive('item_type').and_return('TreatmentReport')
         allow(version).to receive('object').and_return('Record has been deleted')
       end
+
       it 'defines item_type as treatment report' do
         return_value = helper.name_to_summary(version)
         expect(return_value).to eq('Record has been deleted')
@@ -247,6 +252,7 @@ RSpec.describe ActivityHelper, type: :helper do
         allow(version).to receive('item_id').and_return(in_house_repair_record.id)
         allow(version).to receive('item_type').and_return('InHouseRepairRecord')
       end
+
       it 'defines item_type as in house repair record' do
         return_value = helper.name_to_summary(version)
         expect(return_value).to eq("<a href=\"/conservation_records/#{InHouseRepairRecord.find(in_house_repair_record.id).conservation_record.id}\">This is a Test</a>")
@@ -258,6 +264,7 @@ RSpec.describe ActivityHelper, type: :helper do
         allow(version).to receive('item_type').and_return('InHouseRepairRecord')
         allow(version).to receive('object').and_return('Record has been deleted')
       end
+
       it 'defines item_type as in house repair record' do
         return_value = helper.name_to_summary(version)
         expect(return_value).to eq('Record has been deleted')
@@ -288,6 +295,7 @@ RSpec.describe ActivityHelper, type: :helper do
         allow(version).to receive('item_id').and_return(external_repair_record.id)
         allow(version).to receive('item_type').and_return('ExternalRepairRecord')
       end
+
       it 'defines item_type as external repair record' do
         return_value = helper.name_to_summary(version)
         expect(return_value).to eq("<a href=\"/conservation_records/#{ExternalRepairRecord.find(external_repair_record.id).conservation_record.id}\">This is a Test</a>")
@@ -299,6 +307,7 @@ RSpec.describe ActivityHelper, type: :helper do
         allow(version).to receive('item_type').and_return('ExternalRepairRecord')
         allow(version).to receive('object').and_return('Record has been deleted')
       end
+
       it 'defines item_type as external repair record' do
         return_value = helper.name_to_summary(version)
         expect(return_value).to eq('Record has been deleted')
@@ -334,6 +343,7 @@ RSpec.describe ActivityHelper, type: :helper do
         allow(version).to receive('item_id').and_return(cost_return_report.id)
         allow(version).to receive('item_type').and_return('CostReturnReport')
       end
+
       it 'defines item_type as cost return report' do
         return_value = helper.name_to_summary(version)
         expect(return_value).to eq("<a href=\"/conservation_records/#{CostReturnReport.find(cost_return_report.id).conservation_record.id}\">This is a Test</a>")
@@ -344,6 +354,7 @@ RSpec.describe ActivityHelper, type: :helper do
         allow(version).to receive('item_type').and_return('CostReturnReport')
         allow(version).to receive('object').and_return('Record has been deleted')
       end
+
       it 'defines item_type as cost return report' do
         return_value = helper.name_to_summary(version)
         expect(return_value).to eq('Record has been deleted')

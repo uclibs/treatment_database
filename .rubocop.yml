@@ -14,10 +14,6 @@ Metrics/ClassLength:
   Exclude:
     - 'app/controllers/conservation_records_controller.rb'
 
-Rails/LexicallyScopedActionFilter:
-  Exclude:
-    - 'app/controllers/users/registrations_controller.rb'
-
 Metrics/AbcSize:
   Exclude:
     - 'app/helpers/in_house_repair_records_helper.rb'

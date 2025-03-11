@@ -4,7 +4,7 @@ module NavigationHelper
   AVAILABLE_LINKS = [
     { title: 'Conservation Records', path: :conservation_records_path, permission: [:read, ConservationRecord] },
     { title: 'Vocabularies', path: :controlled_vocabularies_path, permission: [:read, ControlledVocabulary] },
-    { title: 'Users', path: :users_path, permission: [:manage, User] },
+    { title: 'Users', path: :admin_users_path, permission: [:manage, User] },
     { title: 'Activity', path: :activity_index_path, permission: [:read, PaperTrail::Version] },
     { title: 'Reports', path: :reports_path, permission: [:manage, Report] },
     { title: 'Staff Codes', path: :staff_codes_path, permission: [:read, StaffCode] }

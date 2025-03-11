@@ -14,23 +14,23 @@ require 'csv'
 # open csv files to load input vocab with ids
 
 CSV.foreach('lib/assets/departments.csv', headers: true, return_headers: false) do |i|
-  @departments[(i[0])] = i[1]
+  @departments[i[0]] = i[1]
 end
 
 CSV.foreach('lib/assets/types_of_repairs.csv', headers: true, return_headers: false) do |i|
-  @repair_type[(i[0])] = i[1]
+  @repair_type[i[0]] = i[1]
 end
 
 CSV.foreach('lib/assets/contract_conservators.csv', headers: true, return_headers: false) do |i|
-  @vendor[(i[0])] = i[1]
+  @vendor[i[0]] = i[1]
 end
 
 CSV.foreach('lib/assets/housing.csv', headers: true, return_headers: false) do |i|
-  @housing[(i[0])] = i[1]
+  @housing[i[0]] = i[1]
 end
 
 CSV.foreach('lib/assets/performed_treatment_time.csv', headers: false) do |i|
-  @treatment_time[(i[0])] = i[1]
+  @treatment_time[i[0]] = i[1]
 end
 
 def open_input_csv
@@ -222,7 +222,7 @@ namespace :batch do
   task load_users: :environment do
     file = ENV['CSV_LOCATION'].presence || 'lib/assets/users.csv'
     CSV.foreach(file, headers: true, return_headers: false) do |i|
-      user = User.create(display_name: i[0], email: i[1], role: i[2])
+      user = User.create(display_name: i[0], username: i[1], role: i[2])
       user.save(validate: false)
       puts "Account created: #{user.display_name}"
     end

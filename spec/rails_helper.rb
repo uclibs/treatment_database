@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
-Rails.env = 'test'
-
 require 'spec_helper'
+ENV['RAILS_ENV'] = 'test'
 require File.expand_path('../config/environment', __dir__)
-require 'factory_bot'
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
+require 'factory_bot'
 require 'paper_trail/frameworks/rspec'
 require 'capistrano-spec'
-
-# Prevent database truncation if the environment is production
-abort('The Rails environment is running in production mode!') if Rails.env.production?
+require 'show_me_the_cookies'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -18,6 +16,7 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 Rails.root.glob('spec/support/**/*.rb').each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
+# If you are not using ActiveRecord, you can remove these lines.
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -28,32 +27,35 @@ end
 RSpec.configure do |config|
   config.include_context 'rake', type: :task
   config.include_context 'job', type: :job
+
   config.include DownloadLinkHelper, type: :feature
   config.include AxeHelper, type: :system
   config.include WindowResizer, type: :system
   config.include WindowResizer, type: :feature
+  config.include ShowMeTheCookies, type: :feature
+  config.include ViewAuthenticationHelper, type: :view
+  config.include RequestAuthenticationHelper, type: :request
+  config.include SystemAuthenticationHelper, type: :system
+  config.include ControllerAuthenticationHelper, type: :controller
+  config.include AuthenticationHelpers, type: :feature
+  config.include TestEnvironmentHelper
+
+  config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
-    # Ensure the database is clean and fresh
-    DatabaseCleaner.clean_with(:truncation)
-
-    # Load all Capistrano tasks
     Rails.application.load_tasks
     Rails.root.glob('lib/capistrano/tasks/*.rake').each { |file| load file }
   end
 
   config.before(:each, type: :feature) do
     Capybara.reset_sessions!
+    # Only resize the window if the test is using a browser-based driver
+    set_default_window_size if page.driver.browser.respond_to?(:manage)
   end
 
   config.before(:each, type: :system) do |_example|
     driven_by :selenium_chrome_headless_sandboxless
     set_default_window_size
-  end
-
-  config.before(:each, type: :feature) do |_example|
-    # Only resize the window if the test is using a browser-based driver
-    set_default_window_size if page.driver.browser.respond_to?(:manage)
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -62,42 +64,25 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before do |example|
-    if example.metadata[:type] == :feature && Capybara.current_driver != :rack_test
-      DatabaseCleaner.strategy = :truncation
-    else
-      DatabaseCleaner.strategy = :transaction
-      DatabaseCleaner.start
-    end
+    DatabaseCleaner.strategy = if example.metadata[:type] == :system || (example.metadata[:type] == :feature && Capybara.current_driver != :rack_test)
+                                 :truncation
+                               else
+                                 :transaction
+                               end
 
-    # Reload seeds before each test to ensure the seed data is available
+    DatabaseCleaner.start
     Rails.application.load_seed
   end
 
   config.after do
+    Capybara.reset_sessions!
+    RSpec::Mocks.space.reset_all
     DatabaseCleaner.clean
   end
 
-  # RSpec Rails can automatically mix in different behaviours to your tests
-  # based on their file location, for example enabling you to call `get` and
-  # `post` in specs under `spec/controllers`.
-  #
-  # You can disable this behaviour by removing the line below, and instead
-  # explicitly tag your specs with their type, e.g.:
-  #
-  #     RSpec.describe UsersController, :type => :controller do
-  #       # ...
-  #     end
-  #
-  # The different available types are documented in the features, such as in
-  # https://relishapp.com/rspec/rspec-rails/docs
+  config.fixture_path = Rails.root.join('spec/fixtures').to_s
   config.infer_spec_type_from_file_location!
-
-  # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
-  # arbitrary gems may also be filtered via:
-  # config.filter_gems_from_backtrace("gem name")
-  config.include FactoryBot::Syntax::Methods
 
-  config.include Devise::Test::ControllerHelpers, type: :controller
-  config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include FactoryBot::Syntax::Methods
 end

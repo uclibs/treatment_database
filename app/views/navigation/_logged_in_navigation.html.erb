@@ -13,8 +13,8 @@
 
         <% # Get navigation links for the current user %>
         <% nav_links_for_user.each_with_index do |link, index| %>
-          <li class="nav-item d-flex justify-content-center align-items-center"> <!-- Centering both horizontally and vertically -->
-            <%= link_to(link[:title], link[:path], class: 'nav-link text-center') %> <!-- Ensure the text is centered -->
+          <li class="nav-item d-flex justify-content-center align-items-center">
+            <%= link_to(link[:title], link[:path], class: 'nav-link text-center') %>
           </li>
           <% if index < nav_links_for_user.size - 1 %>
             <li class="nav-item nav-link justify-content-center align-items-center divider">|</li>
@@ -25,7 +25,7 @@
         <li class="nav-item d-flex justify-content-center align-items-center m-2">
           <form class="form-inline d-flex" action="<%= search_path %>" accept-charset="UTF-8" method="get">
             <input id="search" placeholder="Search" class="form-control me-2" type="text" name="search">
-            <%= link_to "(?)", url_for(controller: 'search', action: 'help'), {:class => "search-help-icon align-self-center me-2"} %>
+            <%= link_to "(?)", search_help_path, class: "search-help-icon align-self-center me-2" %>
             <button type="submit" class="btn btn-primary m-2">Search</button>
           </form>
         </li>
@@ -37,12 +37,14 @@
               <%= current_user.display_name %>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <%= link_to "Edit account", edit_user_path(current_user), class: 'dropdown-item' %>
-              <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
+              <%= link_to "Edit Account", edit_user_path(current_user), class: 'dropdown-item' %>
+              <% if Rails.env.development? || Rails.env.test? %>
+                <%= link_to 'Dev Sign Out', dev_logout_path, method: :delete, class: 'dropdown-item' %>
+              <% end %>
+              <%= link_to 'Sign Out', '#', class: 'dropdown-item', id: 'logout-button', data: { logout_url: logout_path } %>
             </div>
           </li>
         <% end %>
-
       </ul>
     </div>
   </div>

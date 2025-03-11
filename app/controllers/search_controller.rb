@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SearchController < ApplicationController
-  before_action :authenticate_user!
+  def help; end
 
   def results
     @search_string = params[:search]

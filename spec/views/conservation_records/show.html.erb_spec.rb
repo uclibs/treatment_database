@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'conservation_records/show', type: :view do
-  include Devise::Test::ControllerHelpers
-
   before(:each) do
     @conservation_record = assign(:conservation_record, ConservationRecord.create!(
                                                           date_received_in_preservation_services: Date.new,
@@ -30,6 +28,8 @@ RSpec.describe 'conservation_records/show', type: :view do
   end
 
   it 'shows the table with all metadata' do
+    user = FactoryBot.create(:user, role: 'admin')
+    view_stub_authorization(user)
     render
     expect(rendered).to match(/Database ID/)
     expect(rendered).to match(/Date Received/)
@@ -43,14 +43,15 @@ RSpec.describe 'conservation_records/show', type: :view do
   end
 
   it 'has a link to download the conservation worksheet' do
+    user = FactoryBot.create(:user, role: 'admin')
+    view_stub_authorization(user)
     render
     expect(rendered).to have_link('Download Conservation Worksheet')
   end
 
   it 'hides controls for read_only users' do
-    @user = create(:user, role: 'read_only')
-    @request.env['devise.mapping'] = Devise.mappings[:user]
-    sign_in @user
+    user = FactoryBot.create(:user, role: 'read_only')
+    view_stub_authorization(user)
     render
     expect(rendered).not_to have_link('Edit Conservation Record')
     expect(rendered).not_to have_button('Add In-House Repairs')

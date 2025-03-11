@@ -8,7 +8,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 class AddSeedObjects < ActiveRecord::Migration[5.1]
-
   File.readlines('db/types_of_repairs.txt').each do |line|
     ControlledVocabulary.create(
       vocabulary: 'repair_type',
@@ -71,25 +70,44 @@ class AddSeedObjects < ActiveRecord::Migration[5.1]
 
     User.create(
       [{
-         email: 'johngreen@example.com',
          display_name: 'John Green',
-         password: 'notapass',
-         password_confirmation: 'notapass',
-         role: 'read_only'
+         role: 'read_only',
+         username: 'johngreen'
        },
        {
-         email: 'jkrowling@example.com',
          display_name: 'JK Rowling',
-         password: 'notapass',
-         password_confirmation: 'notapass',
-         role: 'standard'
+         role: 'standard',
+         username: 'jkrowling'
        },
        {
-         email: 'chuck@chuck.codes',
          display_name: 'Chuck Greenman',
-         password: 'notapass',
-         password_confirmation: 'notapass',
-         role: 'admin'
+         role: 'admin',
+         username: 'chuck'
+       },
+       {
+         display_name: 'Rondi Dibbini',
+         role: 'admin',
+         username: 'dibbinrm'
+       },
+       {
+         display_name: 'Janell Huyck',
+         role: 'admin',
+         username: 'huyckjl'
+       },
+       {
+         display_name: 'Glen Horton',
+         role: 'admin',
+         username: 'hortongn'
+       },
+       {
+         display_name: 'Lisa Haitz',
+         role: 'admin',
+         username: 'haitzlm'
+       },
+       {
+         display_name: 'Thomas Scherz',
+         role: 'admin',
+         username: 'scherztc'
        }]
     )
 

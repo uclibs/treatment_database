@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-  before_action :authenticate_user!
-
   load_and_authorize_resource
 
   def index

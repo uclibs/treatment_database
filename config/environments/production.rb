@@ -13,7 +13,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
@@ -35,15 +35,10 @@ Rails.application.configure do
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
   config.log_level = ENV.fetch('TREATMENT_DATABASE_LOG_LEVEL', 'debug').to_sym
+  config.logger = ActiveSupport::Logger.new(Rails.root.join('log/production.log'))
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
-
-  config.action_mailer.perform_caching = false
-  config.action_mailer.default_options = { from: ENV.fetch('TREATMENT_PRODUCTION_MAILER_FROM', nil) }
-
-  # Set the base URL and protocol for Action Mailer, used to generate full URLs in email contents.
-  config.action_mailer.default_url_options = { host: ENV.fetch('TREATMENT_PRODUCTION_MAILER_URL', nil), protocol: 'https' }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -63,8 +58,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  # Configure SMTP settings for email. STARTTLS is disabled (set to false) as required
-  # by the mail server configuration or policy.
-  config.action_mailer.smtp_settings = { enable_starttls_auto: false }
 end

@@ -5,7 +5,6 @@
     <div class="card" style="width: 18rem;">
       <div class="card-body">
         <h5 class="card-title">No Diff Information to Show</h5>
-        <h6 class="card-subtitle mb-2 text-muted"></h6>
         <p class="card-text">This version was logged right after it was created, so there is nothing to compare against.</p>
       </div>
     </div>
@@ -13,40 +12,41 @@
 <% else %>
   <table class="table">
     <thead>
+    <tr>
       <th>Field</th>
       <th>Was</th>
       <th>Is</th>
+    </tr>
     </thead>
-
     <tbody>
-      <% @version.changeset.each do |change| %>
-        <tr>
-          <td><%= change[0] %></td>
-          <td><%= change[1][0] %></td>
-          <td><%= change[1][1] %></td>
-        </tr>
-      <% end %>
+    <% @changeset.each do |field, values| %>
+      <tr>
+        <td><%= field.humanize %></td>
+        <td><%= values[0].presence || 'nil' %></td>
+        <td><%= values[1].presence || 'nil' %></td>
+      </tr>
+    <% end %>
     </tbody>
   </table>
 <% end %>
-  
 
 <h3>Other Activity on this Record</h3>
 
 <table class="table">
   <thead>
+  <tr>
     <th>Action</th>
     <th>When</th>
     <th>Detail</th>
+  </tr>
   </thead>
-
   <tbody>
-    <% @other_versions.all.each do |version| %>
-      <tr>
-        <td><%= version_summarizer(version).html_safe %></td>
-        <td><%= version.created_at.in_time_zone("America/New_York").strftime("%-m/%-d/%y: %H:%M %Z") %>
-        <td><%= link_to "Details", activity_path(version) %></td>
-      </tr>
-    <% end %>
+  <% @other_versions.each do |version| %>
+    <tr>
+      <td><%= version_summarizer(version).html_safe %></td>
+      <td><%= version.created_at.in_time_zone("America/New_York").strftime("%-m/%-d/%y: %H:%M %Z") %></td>
+      <td><%= link_to "Details", activity_path(version) %></td>
+    </tr>
+  <% end %>
   </tbody>
 </table>

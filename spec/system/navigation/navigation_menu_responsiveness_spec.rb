@@ -5,18 +5,17 @@ require 'rails_helper'
 # frozen_string_literal: true
 
 RSpec.describe 'Navigation Menu', type: :system do
-  include Devise::Test::IntegrationHelpers
-
   context 'when the user is logged out' do
     it 'displays the log in button on large screens' do
       resize_window_to(1024, 768)
+      system_logout
       visit root_path
 
       # Ensure the navbar is visible
       expect(page).to have_css('.navbar', visible: true)
 
-      # Ensure the 'Log in' button is visible on large screens
-      expect(page).to have_css('a.btn.btn-secondary', text: 'Log in', visible: true)
+      # Ensure the 'Sign in' button is visible on large screens
+      expect(page).to have_button('Sign In', class: 'btn btn-secondary', visible: true)
 
       # Ensure the navbar-toggler is not visible
       expect(page).to have_no_css('.navbar-toggler', visible: true)
@@ -24,10 +23,11 @@ RSpec.describe 'Navigation Menu', type: :system do
 
     it 'displays the log in button on small screens' do
       resize_window_to(375, 667)
+      system_logout
       visit root_path
 
       # Ensure the 'Log in' button is visible on small screens
-      expect(page).to have_css('a.btn.btn-secondary', text: 'Log in', visible: true)
+      expect(page).to have_button('Sign In', class: 'btn btn-secondary', visible: true)
 
       # Ensure the navbar-toggler is not visible since it's not used for logged-out users
       expect(page).to have_no_css('.navbar-toggler', visible: true)
@@ -38,9 +38,9 @@ RSpec.describe 'Navigation Menu', type: :system do
     let(:user) { create(:user) }
 
     it 'displays the full menu on large screens' do
-      sign_in user
-      visit root_path
       resize_window_to(1024, 768)
+      system_login_as user
+      visit root_path
 
       # Ensure the navbar is expanded and visible
       expect(page).to have_css('.navbar', visible: true)
@@ -54,11 +54,12 @@ RSpec.describe 'Navigation Menu', type: :system do
     end
 
     it 'displays the hamburger menu on small screens' do
-      sign_in user
-      visit root_path
       resize_window_to(375, 667)
+      system_login_as user
+      visit root_path
 
       # Ensure the navbar-toggler (hamburger menu) is visible
+      expect(page).to have_current_path(root_path)
       expect(page).to have_css('.navbar-toggler', visible: true)
 
       # Ensure the navbar is collapsed by default

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# The clear_assets task is currently located at the bottom of the lib/capistrano/tasks/deploy.rake
+# file.  This task is responsible for removing old assets from the server before deploying new assets.
+
 require 'rails_helper'
 require 'capistrano/all'
 require 'capistrano/setup'
@@ -7,6 +10,7 @@ require 'capistrano/setup'
 RSpec.describe 'deploy tasks', type: :task do
   describe 'deploy:clear_assets' do
     include SSHKit::DSL
+
     before do
       Capistrano::Configuration.env.set(:release_path, Pathname.new('/var/www/myapp/releases/20200625'))
     end
