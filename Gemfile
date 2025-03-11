@@ -8,6 +8,9 @@ ruby '3.3.6'
 # Load environment variables from .env
 gem 'dotenv-rails' # Loads environment variables from .env
 
+# Pin rack for security update.
+gem 'rack', '>= 2.2.13'
+
 # Core Rails gems
 gem 'actionpack', '~>6.1.7.10' # Handles web requests and responses with Action Controller and Action Dispatch
 gem 'actiontext', '~>6.1.7.10' # Rich text content and editing with Action Text

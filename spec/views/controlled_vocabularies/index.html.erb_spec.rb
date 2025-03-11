@@ -25,8 +25,8 @@ RSpec.describe 'controlled_vocabularies/index', type: :view do
 
   it 'renders a list of controlled_vocabularies' do
     render
-    assert_select 'tr>td', text: 'Pigeon'.to_s, count: 2
-    assert_select 'tr>td', text: 'Bucket'.to_s, count: 2
+    assert_select 'tr>td', text: 'Pigeon', count: 2
+    assert_select 'tr>td', text: 'Bucket', count: 2
     assert_select 'tr>td', text: false.to_s, count: 2
     assert_select 'tr>td', text: true.to_s, count: 2
     expect(rendered).to have_link('Bucket')
