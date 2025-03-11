@@ -12,7 +12,6 @@ gem 'dotenv-rails' # Loads environment variables from .env
 gem 'rack', '>= 2.2.13'
 
 # Core Rails gems
-gem 'actionmailer', '~>6.1.7.10' # Email composition, delivery, and receiving with Action Mailer
 gem 'actionpack', '~>6.1.7.10' # Handles web requests and responses with Action Controller and Action Dispatch
 gem 'actiontext', '~>6.1.7.10' # Rich text content and editing with Action Text
 gem 'activestorage' # Handles file uploads in Rails applications
