@@ -6,7 +6,7 @@
   <% end %>
 </div>
 
-<%= link_to 'Download Conservation Worksheet', conservation_worksheet_path(@conservation_record), target: "_blank" %>
+<%= link_to 'Download Conservation Worksheet', conservation_worksheet_conservation_record_path(@conservation_record), target: "_blank" %>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
@@ -177,7 +177,7 @@
   </div>
 
   <div class="header">
-    <%= link_to 'Download Abbreviated Treatment Report', abbreviated_treatment_report_path(@conservation_record), target: '_blank' %>
+    <%= link_to 'Download Abbreviated Treatment Report', abbreviated_treatment_report_conservation_record_path(@conservation_record), target: '_blank' %>
   </div>
 
   <br>
@@ -228,7 +228,7 @@
 </div>
 <br />
 
-<div class="modal fade" id="inHouseRepairModal" tabindex="-1" role="dialog" aria-labelledby="inHouseRepairModal" aria-hidden="true">
+<div class="modal fade" id="inHouseRepairModal" tabindex="-1" role="dialog" aria-labelledby="inHouseRepairModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -267,7 +267,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="externalRepairModal" tabindex="-1" role="dialog" aria-labelledby="externalRepairModal" aria-hidden="true">
+<div class="modal fade" id="externalRepairModal" tabindex="-1" role="dialog" aria-labelledby="externalRepairModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -298,7 +298,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="ConservatorsTechniciansModal" tabindex="-1" role="dialog" aria-labelledby="ConservatorsTechniciansModal" aria-hidden="true">
+<div class="modal fade" id="ConservatorsTechniciansModal" tabindex="-1" role="dialog" aria-labelledby="ConservatorsTechniciansModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

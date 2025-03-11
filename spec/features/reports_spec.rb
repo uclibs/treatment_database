@@ -4,11 +4,11 @@ require 'rails_helper'
 
 RSpec.describe 'Report Generation', type: :feature, js: true do
   let(:user) { create(:user, role: 'admin') }
+
   it 'executes data export task on button click' do
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
+    visit dev_login_path
+    fill_in 'Username', with: user.username
+    click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
 
     visit reports_path

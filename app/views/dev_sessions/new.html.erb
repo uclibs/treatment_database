@@ -1,0 +1,15 @@
+<h1>Development Login</h1>
+<h2>Welcome Back</h2>
+<h3>Please sign in with your UC "6+2" User Id to continue:</h3>
+
+<%= form_with url: dev_login_path, method: :post, local: true do |form| %>
+  <div>
+    <%= form.label :username %><br>
+    <%= form.text_field :username, autocomplete: 'off' %>
+  </div>
+
+  <div>
+    <br/>
+    <%= form.submit 'Submit' %>
+  </div>
+<% end %>

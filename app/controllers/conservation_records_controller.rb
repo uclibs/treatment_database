@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ConservationRecordsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_treatment_report, only: %i[show edit update destroy]
   before_action :set_cost_return_report, only: %i[show edit update destroy]
   before_action :set_departments

@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe 'Non-Authenticated User Tests', type: :feature do
   it 'asks user to login to view Conservation Records' do
     visit root_path
-    expect(page).to have_link('Log in')
-    expect(page).not_to have_link('Sign up')
+    expect(page).to have_button('Sign In')
+    expect(page).not_to have_content('Sign up')
   end
 end
 
@@ -15,11 +15,9 @@ RSpec.describe 'Read Only User Tests', type: :feature, js: true do
   let(:conservation_record) { create(:conservation_record, title: 'Farewell to Arms') }
 
   it 'allows User to login and show Conservation Records' do
-    # Login
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
+    visit dev_login_path
+    fill_in 'Username', with: user.username
+    click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_content('Conservation Records')
     expect(page).to have_link('Conservation Records')
@@ -60,10 +58,9 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
+    visit dev_login_path
+    fill_in 'Username', with: user.username
+    click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
     expect(page).to have_no_link('Users')
@@ -111,6 +108,7 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     click_link(conservation_record.title, match: :prefer_exact)
     expect(page).to have_button('Add In-House Repairs')
     click_button('Add In-House Repairs')
+    expect(page).to have_button('Create In-House Repair Record')
     select('Chuck Greenman', from: 'in_house_performed_by_user_id', match: :first)
     select('Soft slipcase', from: 'in_house_repair_type', match: :first)
     fill_in('in_house_other_note', with: 'Some Other note for the in-house repair')
@@ -120,8 +118,17 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     expect(page).to have_content('Soft slipcase performed by Chuck Greenman in 2 minutes. Other note: Some Other note for the in-house repair')
 
     # External Repair
-    expect(page).to have_button('Add External Repair')
-    click_button('Add External Repair')
+    # Wait for the button to be visible and clickable, then click it
+    expect(page).to have_button('Add External Repair', visible: true, wait: 10)
+    find_button('Add External Repair', visible: true).click
+
+    # Ensure the modal has opened by checking for an element unique to the modal
+    within('#externalRepairModal') do
+      expect(page).to have_content('Repaired By', wait: 10)
+    end
+
+    expect(page).to have_button('Create External Repair Record')
+    expect(page).to have_select('performed_by_vendor_id', visible: true, wait: 5)
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_type', match: :first)
     fill_in('external_other_note', with: 'Some Other note for the external repair')
@@ -131,9 +138,10 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
     click_button('Add Conservators and Technicians')
-    select('John Green', from: 'cons_tech_performed_by_user_id', match: :first)
+    dropdown = find('#cons_tech_performed_by_user_id', visible: true, wait: 15)
+    dropdown.find('option', text: 'John Green').select_option
     click_button('Create Conservators and Technicians Record')
-    expect(page).to have_content('John Green')
+    expect(page).to have_content('John Green', wait: 15)
 
     # Save Treatment Report
     expect(page).to have_content('Treatment Report')
@@ -187,7 +195,8 @@ RSpec.describe 'Standard User Tests', type: :feature, versioning: true, js: true
 
     # Delete conservation record
     visit conservation_records_path
-    accept_confirm do
+    expect(page).to have_selector("a[id='delete_conservation_record_#{conservation_record.id}']")
+    accept_confirm(wait: 5) do
       find("a[id='delete_conservation_record_#{conservation_record.id}']").click
     end
     expect(page).to have_content('Conservation record was successfully destroyed.')
@@ -203,10 +212,10 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
 
   it 'allows User to login and show Conservation Records' do
     # Login
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'notapassword'
-    click_button 'Log in'
+    visit dev_login_path
+    expect(page).to have_content('Please sign in with your UC') # Prompt only visible on Dev login page
+    fill_in 'Username', with: user.username
+    click_button 'Submit'
     expect(page).to have_content('Signed in successfully')
     expect(page).to have_link('Conservation Records')
 
@@ -228,10 +237,9 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     click_on 'Users'
     expect(page).to have_content('Users')
     click_on 'Add New User'
-    fill_in 'Display name', with: 'Beau Geste'
-    fill_in 'Email', with: 'beau.geste@mail.uc.edu'
-    fill_in 'Password', with: 'notapass'
-    fill_in 'Password confirmation', with: 'notapass'
+    expect(page).to have_content('Create New User')
+    fill_in 'Display Name', with: 'Beau Geste'
+    fill_in 'Username', with: 'beau'
     select('Admin', from: 'Role')
     click_on 'Create User'
     expect(page).to have_content('Beau Geste')
@@ -244,7 +252,6 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
 
     expect(page).to have_content('Edit User')
     fill_in 'Display name', with: 'Haritha Vytla'
-    fill_in 'Email', with: 'vytlasa@mail.uc.edu'
     select('Admin', from: 'Role')
     click_on 'Update User'
     expect(page).to have_content('Haritha Vytla')
@@ -261,19 +268,21 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).to have_content('Controlled Vocabularies')
     click_link('New Controlled Vocabulary')
     expect(page).to have_content('New Controlled Vocabulary')
-    select 'repair_type', from: 'Vocabulary'
+    select 'repair_type', from: 'controlled_vocabulary_vocabulary'
     fill_in 'Key', with: 'key_string'
     check 'Active'
-    check 'Favorite'
     click_button 'Create Controlled vocabulary'
-
     expect(page).to have_content('Controlled vocabulary was successfully created')
 
     # Edit vocabulary
     visit controlled_vocabularies_path
-    click_on 'key_string'
+    expect(page).to have_content('Controlled Vocabularies')
+    first(:link, 'key_string').click
+    expect(page).to have_selector('h1', text: 'Vocabulary: repair_type')
     click_on 'Edit'
+    expect(page).to have_selector('h1', text: 'Editing Controlled Vocabulary')
     fill_in 'Key', with: 'updated_key_string'
+    check 'Favorite'
     click_on 'Update Controlled vocabulary'
     expect(page).to have_content('Controlled vocabulary was successfully updated.')
     expect(page).to have_content('updated_key_string')
@@ -316,14 +325,43 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).to have_content('Mend paper performed by Haritha Vytla in 2 minutes. Other note: Some Other note for the in-house repair')
 
     # Delete In-house repair
-    accept_confirm do
-      find("a[id='delete_in_house_repair_record_1']").click
+    # Ensure the delete link is present and visible
+    expect(page).to have_selector("a[id='delete_in_house_repair_record_1']", visible: true, wait: 10)
+    find("a[id='delete_in_house_repair_record_1']", visible: true)
+
+    # Click the delete link within a confirmation dialog
+    retries = 3
+    begin
+      accept_confirm do
+        find("a[id='delete_in_house_repair_record_1']").click
+      end
+    rescue Capybara::ModalNotFound
+      retries -= 1
+      retry if retries.positive?
+      raise
     end
-    expect(page).not_to have_content('Mend paper performed by Haritha Vytla')
+
+    # Verify the content has been removed
+    expect(page).not_to have_content('Mend paper performed by Haritha Vytla', wait: 10)
 
     # Create External Repair
-    expect(page).to have_button('Add External Repair')
-    click_button('Add External Repair')
+    # Wait for the button to be visible and clickable, then click it
+    expect(page).to have_button('Add External Repair', visible: true, wait: 10)
+    find_button('Add External Repair', visible: true).click
+
+    retries = 3
+    begin
+      within('#externalRepairModal') do
+        expect(page).to have_content('Repaired By', wait: 5)
+      end
+    rescue Capybara::ModalNotFound
+      retries -= 1
+      retry if retries.positive?
+      raise
+    end
+
+    expect(page).to have_button('Create External Repair Record')
+    expect(page).to have_select('performed_by_vendor_id', visible: true, wait: 5)
     select('Amanda Buck', from: 'performed_by_vendor_id', match: :first)
     select('Wash', from: 'external_repair_type', match: :first)
     fill_in('external_other_note', with: 'Some Other note for the external repair')
@@ -331,14 +369,17 @@ RSpec.describe 'Admin User Tests', type: :feature, versioning: true, js: true do
     expect(page).to have_content('Wash performed by Amanda Buck. Other note: Some Other note for the external repair')
 
     # Delete external repair
-    accept_confirm do
+    expect(page).to have_selector("a[id='delete_external_repair_record_1']")
+    accept_confirm(wait: 15) do
       find("a[id='delete_external_repair_record_1']").click
     end
-    expect(page).not_to have_content('Wash performed by Amanda Buck')
+    expect(page).not_to have_content('Wash performed by Amanda Buck', wait: 5)
 
     # Conservators and Technicians
     expect(page).to have_button('Add Conservators and Technicians')
     click_button('Add Conservators and Technicians')
+    # Ensure the dropdown is visible and enabled before interacting with it
+    expect(page).to have_select('cons_tech_performed_by_user_id', visible: true, wait: 10)
     select('Haritha Vytla', from: 'cons_tech_performed_by_user_id', match: :first)
     click_button('Create Conservators and Technicians Record')
     expect(page).to have_content('Haritha Vytla')

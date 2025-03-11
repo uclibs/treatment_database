@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_07_145522) do
+ActiveRecord::Schema.define(version: 2024_11_27_132627) do
 
   create_table "abbreviated_treatment_reports", force: :cascade do |t|
     t.integer "conservation_record_id"
@@ -160,18 +160,14 @@ ActiveRecord::Schema.define(version: 2024_03_07_145522) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "display_name"
-    t.string "role"
-    t.boolean "account_active"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.string "display_name", null: false
+    t.string "role", default: "read_only", null: false
+    t.boolean "account_active", default: true, null: false
+    t.string "username", null: false
+    t.index ["display_name"], name: "index_users_on_display_name", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   create_table "versions", force: :cascade do |t|
