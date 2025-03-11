@@ -13,6 +13,7 @@ executors:
 
 orbs:
   ruby: circleci/ruby@2.1.1
+  browser-tools: circleci/browser-tools@1.5.0
   coveralls: coveralls/coveralls@2.2.1
 
 jobs:
@@ -22,11 +23,7 @@ jobs:
     working_directory: ~/treatment_database
     steps:
       - checkout
-
-      - run:
-          name: List available Chrome versions
-          command: apt-cache madison google-chrome-stable
-
+      - browser-tools/install-chrome
 
       - restore_cache:
           keys:
@@ -103,14 +100,21 @@ jobs:
       - run:
           name: Run Tests with Split by Timing Data
           command: |
+            # Log the node index and total nodes
             echo "Running tests on node $(circleci env subst '${CIRCLE_NODE_INDEX}/${CIRCLE_NODE_TOTAL}')"
+            
+            # List the test files and split them by timings
             TEST_FILES=$(find spec -type f -name "*_spec.rb" | circleci tests split --split-by=timings)
             echo "Test files for this node: $TEST_FILES"
+            
+            # Run RSpec with the split test files
             bundle exec rspec --format progress --format RspecJunitFormatter --out ~/treatment_database/test_results/rspec.xml $TEST_FILES
 
+      # Store the test results (JUnit XML) for future runs
       - store_test_results:
           path: ~/treatment_database/test_results
 
+      # Upload coverage results to Coveralls
       - coveralls/upload:
           parallel: true
 
