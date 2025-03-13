@@ -35,8 +35,10 @@ RSpec.describe 'Account Active Slider', skip: 'Temporarily skipping due to Chrom
       # Toggle to active first
       find('#accountActiveSwitch').set(true)
       click_button 'Update User'
+
       # Ensure the flash message is displayed
       expect(page).to have_content('Profile updated successfully.')
+
       # Ensure the user is now active
       expect(inactive_user.reload.account_active).to be true
 
