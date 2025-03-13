@@ -392,7 +392,6 @@ RSpec.describe 'Admin User Tests', skip: 'Temporarily skipping due to Chrome upd
             with: 'Reattached the front board with a usu-mino thin kozo fiber hinge. The back board was reinforced with the same paper'
     select 'Portfolio', from: 'treatment_report_treatment_proposal_housing_provided_id', match: :first
     fill_in 'treatment_report_treatment_proposal_total_treatment_time', with: 10
-    save_and_open_page
     find('input[type="submit"][value="Save Treatment Report"]', wait: 10).click
     page.execute_script('window.scrollTo(0, 0)')
     expect(page).to have_text('Treatment Record updated successfully!', wait: 10)
